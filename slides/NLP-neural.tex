@@ -1,0 +1,415 @@
+
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
+
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont}
+\usepackage{graphics}
+\usepackage{cases}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{multirow}	
+\usepackage{amstext}
+\usepackage[ruled,vlined,lined]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{fontenc}
+\usepackage{framed,color}
+\usepackage{palatino, url, multicol}
+%\algsetup{indent=2em}
+\newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+\vspace{-0.5cm}
+\title{Natural Language Processing \\ Neural Networks}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Introduction to Neural Networks}
+\begin{scriptsize}
+\begin{itemize}
+\item Very popular machine learning models formed by units called \textbf{neurons}.
+\item A neuron is a computational unit that has scalar inputs and outputs. 
+\item  Each input has an associated weight $w$.
+ \item The neuron multiplies each input by its weight, and then sums them (other functions such as \textbf{max} are also possible). 
+\item It applies an activation function $g$ (usually non-linear) to the result, and passes it to its output.
+\item Multiple layers can be stacked.
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Activation Functions}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The nonlinear activation function $g$ has a crucial role in the network's ability to represent complex functions. 
+\item Without the nonlinearity in g, the neural network can only represent linear transformations of the input.
+\end{itemize}
+
+
+\end{scriptsize}
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.24]{pics/activations.png}
+\end{figure}
+
+\footnotetext{Source:\cite{goldberg2016primer}}
+
+\end{frame}
+
+
+\begin{frame}{Feedforward Network with two Layers}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.38]{pics/NN-example.png}
+\end{figure}
+
+\footnotetext{Source:\cite{goldberg2016primer}}
+
+\end{frame}
+
+
+
+\begin{frame}{Brief Introduction to Neural Networks}
+\begin{scriptsize}
+\begin{itemize}
+\item The feedforward network from the picture is a stack of linear models separated by nonlinear functions.
+\item The values of each row of neurons in the network can be thought of as a vector. 
+
+\item The input layer is a 4-dimensional vector $(\vec{x})$, and the layer above it is a 6-dimensional vector $(\vec{h}^1)$.
+\item The fully connected layer can be thought of as a linear transformation from 4 dimensions to 6 dimensions. 
+\item A fully connected layer implements a vector-matrix multiplication, $\vec{h}=\vec{x}W$.
+\item The weight of the connection from the $i$-th neuron in the input row to the $j$-th neuron in the output row is $W_{[i,j]}$.
+\item The values of $\vec{h}$ are transformed by a nonlinear function $g$ that is applied to each value before being passed on as input to the next layer.
+
+\end{itemize}
+
+\footnotetext{Vectors are assumed to be row vectors and superscript indices correspond to network layers.}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Brief Introduction to Neural Networks}
+\begin{scriptsize}
+\begin{itemize}
+\item The Multilayer Perceptron (MLP) from the figure can be written as the following mathematical function:
+\begin{center}
+\begin{equation}
+\begin{split}
+NN_{MLP2}(\vec{x}) & =  \vec{y}  \\
+\vec{h}^{1} &  = g^{1}(\vec{x}W^{1}+\vec{b}^{1}) \\
+\vec{h}^{2} &  = g^{2}(\vec{h}^{1}W^{2}+\vec{b}^{2}) \\
+\vec{y} &  = \vec{h}^{2}W^{3}\\
+\vec{y} &  = (g^2(g^1(\vec{x}W^{1}+\vec{b}^{1})W^2+\vec{b}^2))W^3.\\
+\end{split}
+\end{equation}
+\end{center}
+%NN_{MLP2(x)}  =  y \\
+%h^{1} = g^{1}(xW^{1}+b{1}) \\
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Network Training}
+\begin{scriptsize}
+\begin{itemize}
+\item  When training a neural network one defines a loss function $L(\hat{y}, y)$, stating the loss of predicting $\hat{y}$ when the true output is y.
+
+\item The training objective is then to minimize the loss across the different training examples. 
+
+\item Networks are trained using  gradient-based methods.
+
+\item They work by repeatedly computing an estimate of the loss $L$ over the training set.
+
+\item They compute gradients of the parameters with respect to the loss estimate, and moving the parameters in the opposite directions of the gradient. 
+
+\item Different optimization methods differ in how the error estimate is computed, and how moving in the opposite direction of the gradient is defined.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Gradient Descent}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.15]{pics/sgd.png}
+\end{figure}
+
+\footnotetext{Source: \url{https://sebastianraschka.com/images/faq/closed-form-vs-gd/ball.png}}
+
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Online Stochastic Gradient Descent}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.3]{pics/Online-SGD.png}
+\end{figure}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The learning rate can either be fixed throughout the
+training process, or decay as a function of the time step $t$.
+\item  The error calculated in line 3 is based on a single training example, and is thus just a rough estimate of the corpus-wide loss $L$ that we are aiming to minimize. 
+\item The noise in the loss computation may result in inaccurate gradients (single examples may provide noisy information).
+
+\end{itemize}
+
+
+\end{scriptsize}
+
+\footnotetext{Source:\cite{goldberg2016primer}}
+
+\end{frame}
+
+
+\begin{frame}{Mini-batch Stochastic Gradient Descent}
+
+
+\begin{scriptsize}
+\begin{itemize}
+\item A common way of reducing this noise is
+to estimate the error and the gradients based on a sample of $m$ examples.
+\item This gives rise to the minibatch SGD algorithm
+
+
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/minibatch-SGD.png}
+\end{figure}
+
+\item Higher values of $m$ provide better estimates of the corpus-wide gradients, while smaller values allow more updates and in turn faster convergence.
+
+\item For modest sizes of $m$ , some computing architectures (i.e., GPUs) allow an efficient parallel implementation of the computation in lines 3-6.
+
+\end{itemize}
+\end{scriptsize}
+
+\footnotetext{Source:\cite{goldberg2016primer}}
+
+\end{frame}
+
+
+
+\begin{frame}{Some Loss Functions}
+\begin{scriptsize}
+\begin{itemize}
+ \item Hinge (or SVM loss):  for binary classification problems, the classifier's output is a single scalar $\tilde{y}$ and the intended output y is in $\{+1,-1\}$.  The classification rule is $\hat{y} = sign(\tilde{y})$, and a classification is considered correct if $y \cdot \tilde{y} > 0$.  
+ \begin{displaymath}
+  L_{\text{hinge}(\text{binary})}(\tilde{y},y) = \max(0,1-y \cdot \tilde{y})  
+ \end{displaymath}
+
+ \item Binary cross entropy (or logistic loss): is used in binary classification with conditional probability outputs. The classifier's output $\tilde{y}$ is transformed using the sigmoid function to the range $[0,1]$ , and is interpreted as the conditional probability $P(y=1|x)$.
+  \begin{displaymath}
+  L_{\text{logistic}}(\hat{y},y) = -y \log \hat{y} - (1-y) \log(1-\hat{y})  
+ \end{displaymath}
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Some Loss Functions}
+\begin{scriptsize}
+\begin{itemize}
+
+ \item Categorical cross-entropy loss:  is used when a probabilistic interpretation of multi-class scores is desired. It measures the dissimilarity between the true label distribution $y$ and the predicted label distribution $\tilde{y}$. 
+   \begin{displaymath}
+  L_{\text{cross-entropy}}(\hat{y},y) = - \sum_{i} y_{[i]} \log(\hat{y}_{[i]})   
+ \end{displaymath}
+\item The predicted label distribution of the categorical cross-entropy loss ($\hat{y}$) is obtained by applying the softmax function the last layer of the network $\tilde{y}$:
+    \begin{displaymath}
+\hat{y}_{[i]} = \text{softmax}(\tilde{y})_{[i]} =  \frac{e^{\tilde{y}_{[i]}}}{\sum_{j}e^{\tilde{y}_{[j]}}}   
+ \end{displaymath}
+ 
+\item The softmax function squashes the $k$-dimensional output to values in the range (0,1) with all entries adding up to 1. Hence, $\hat{y}_{[i]} = P( y = i |x)$ represent the class membership conditional distribution.
+ 
+\end{itemize}
+\end{scriptsize}
+
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
+\item  One can compute the gradients of the various parameters of a network by hand and implement them in code.
+
+\item This procedure is cumbersome and error prone.
+
+\item For most purposes, it is preferable to use automatic tools for gradient computation [Bengio, 2012].
+
+\item A computation graph is a representation of an arbitrary mathematical computation (e.g., a neural network) as a graph.
+
+\item Consider for example a graph for the computation of $(a*b+1)*(a*b+2)$:
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/compGraph.png}
+\end{figure}
+
+\item The computation of $a*b$ is shared.
+
+\item The graph structure defines the order of the computation in terms of the dependencies between the different components.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
+
+\item  Te computation graph abstraction allows us to:
+
+
+\begin{enumerate}
+\begin{scriptsize}
+ \item Easily construct arbitrary networks.
+ \item Evaluate their predictions for given inputs (forward pass)
+ 
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/forwardPass.png}
+\end{figure}
+
+ 
+ 
+ \item Compute gradients for their parameters with respect to arbitrary scalar losses (backward pass or backpropagation).
+ 
+ 
+  
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/backwardPass.png}
+\end{figure}
+ 
+\end{scriptsize}
+ \end{enumerate}
+  
+  
+  
+  
+ \item The backpropagation algorithm (backward pass) is essentially following the chain-rule of differentiation\footnote{A comprehensive tutorial on the backpropagation algorithm over the computational graph abstraction: \url{https://colah.github.io/posts/2015-08-Backprop/}}.
+ 
+  
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Deep Learning Frameworks}
+Several software packages implement the computation-graph model. All these packages support all the essential components (node types) for defining a wide range of neural network architectures.
+\begin{scriptsize}
+\begin{itemize}
+\item TensorFlow (\url{https://www.tensorflow.org/}): an open source software library for numerical computation using data-flow graphs originally developed by the Google Brain Team. 
+
+\item Keras: High-level neural network API that runs on top of Tensorflow as well as other backends (\url{https://keras.io/}). 
+
+\item PyTorch: open source machine learning library for Python, based on Torch, developed by Facebook's artificial-intelligence research group. It supports dynamic graph construction, a different computation graph is created from scratch for each training sample. (\url{https://pytorch.org/})
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Questions?}
+%\vspace{1.5cm}
+\begin{center}\LARGE Thanks for your Attention!\\ \end{center}
+
+
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]\scriptsize
+\frametitle{References}
+\bibliography{bio}
+\bibliographystyle{apalike}
+%\bibliographystyle{flexbib}
+\end{frame}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

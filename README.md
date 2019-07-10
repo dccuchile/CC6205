@@ -1,5 +1,6 @@
 # CC6205 - Natural Language Processing
 This is a short course on natural language processing.
+[Course Program](https://drive.google.com/file/d/19LxtgPakwSo_eAp-gQ7dhySfiI3roVNO/view)
 
 The material is based on the book from Yoav Goldberg: 
 [Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037)

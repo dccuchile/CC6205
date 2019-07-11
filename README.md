@@ -12,6 +12,7 @@ This is a course on natural language processing.
 ## Slides
 
 1. [Introduction to Natural Language Processing](slides/NLP-introduction.pdf) | ([tex source file](slides/NLP-introduction.tex))
+1. [Vector Space Model and Information Retrieval](slides/NLP-IR.pdf) | ([tex source file](slides/NLP-IR.tex))
 2. [Language Models](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/lmslides.pdf) (slides by Michael Collins)
 2. [Text Classification and Naive Bayes](https://web.stanford.edu/~jurafsky/slp3/slides/7_NB.pdf) (slides by Dan Jurafsky)
 2. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex))

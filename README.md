@@ -1,9 +1,11 @@
 # CC6205 - Natural Language Processing
-This is a short course on natural language processing.
-[Course Program](https://drive.google.com/file/d/19LxtgPakwSo_eAp-gQ7dhySfiI3roVNO/view)
+This is a course on natural language processing.
 
-The material is based on the book from Yoav Goldberg: 
+[Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing)
+
+* The neural network-related topics of the course are taken from the book of Yoav Goldberg: 
 [Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037)
+* Theh non-nueral network topics (e.g., grammars, HMMS) are taken from the course of [Michael Collins](http://www.cs.columbia.edu/~mcollins/). 
 
 
 

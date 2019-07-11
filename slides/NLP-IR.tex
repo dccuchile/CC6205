@@ -1,10 +1,21 @@
-\documentclass[mathserif]{beamer}
 
-\usetheme{Warsaw}
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
 
-\usepackage[utf8x]{inputenc} 
-\usepackage[spanish]{babel} %idioma
-\usepackage{ucs}
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath, amssymb}
 \usepackage{dsfont}
 \usepackage{graphics}
@@ -13,11 +24,14 @@
 \usepackage{pgf}
 \usepackage{epsfig}
 \usepackage{amssymb}
+\usepackage{multirow}	
 \usepackage{amstext}
 \usepackage[ruled,vlined,lined]{algorithm2e}
 \usepackage{amsmath}
 \usepackage{epic}
+\usepackage{epsfig}
 \usepackage{fontenc}
+\usepackage{framed,color}
 \usepackage{palatino, url, multicol}
 %\algsetup{indent=2em}
 \newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
@@ -25,47 +39,51 @@
 {\raise-0.22em\hbox{\huge $#1$}}%
 {\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
 \newcommand{\bigtimes}{\BIGOP{\times}}
-
 \vspace{-0.5cm}
+\title{Natural Language Processing \\ Vectors Space Model and Information Retrieval}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
 \date{\today}
-\logo{\includegraphics[height=1cm]{pics/logo-fcfm.jpg}}
-\title{Procesamiento de Texto y Modelo Vectorial}
-\author[F.Bravo-Marquez]{Felipe Bravo Márquez}
 
 \begin{document}
 \begin{frame}
 \titlepage
+
+
 \end{frame}
 
-\begin{frame}\frametitle{Motivación}
+\begin{frame}\frametitle{Motivation}
 
 
   \begin{itemize}
-   \item ¿Cómo recupera un buscador como Google o Yahoo! documentos relevantes a partir de una consulta enviada?
-   \item ¿Cómo puede procesar una empresa los reclamos que le dejan sus usuarios en sus portales Web?
-   \item ¿Cómo podemos agrupar los comentarios emitidos en un foro y analizar las opiniones de la gente?
+   \item How does a search engine such as Duckduckgo or Google retrieve relevant documents from a given query?
+   \item How can a company process the claims left by its users on its Web portals?
   \end{itemize}
 
-
-
-Para resolver esos problemas, hay que estudiar las siguientes áreas del conocimiento:
+The following areas of knowledge study these problems:
 
 \begin{itemize}
- \item \emph{Recuperación de Información}: Ciencia encargada de la búsqueda de información en documentos.
- \item \emph{Text Mining}: Extracción de conocimiento a partir del texto.
+ \item \emph{Information Retrieval}:  science of searching for information in a documents.
+ \item \emph{Text Mining}: Extraction of knowledge from text.
 \end{itemize}
 
-
+Both of them are closely related to NLP! (the borders between these fields are unclear)
 
 \end{frame}
 
-\begin{frame}\frametitle{Tokens y Tipos}
+\begin{frame}\frametitle{Tokens and Types}
 {\footnotesize
-Dado un documento $d$, se llama como \emph{tokenización} a la tarea de separar el texto por palabras llamados \emph{tokens}, además se pueden borrar caracteres especiales, como la puntación y convertir los caracteres a minúsculas~\cite{manning2008}. 
+Tokenization: The task of splitting a sentence or document into \emph{tokens}. \\
+Additional transformations can be employed such as the removal of special characters (e.g., punctuation), lowercasing, etc. ~\cite{manning2008}. 
 
-\begin{block}{Ejemplo}
-Input: Además de inscribir Web Mining, inscribí Data Mining.\\
-Tokens: [además] [de] [inscribir] [web] [mining] [inscribí] [data] [mining]
+\begin{block}{Example}
+Input: I like human languages and programming languages.\\
+Tokens: [I] [like] [human] [languages] [and] [programming] [languages]
 \end{block}
 
 Se define como un \emph{tipo} como una clase de \emph{token} que contiene una única secuencia de caracteres.
@@ -279,20 +297,20 @@ t4 & web \\
 \begin{frame}\frametitle{Term Frecuency - Inverted Document Frecuency [2]}
 \footnotesize{ 
 \begin{itemize}
- \item Sea $Q$ el número de documentos en la colección y $n_{i}$ el número de documentos donde aparece el término $t_{i}$, se define el $idf$ del término $t_{i}$ como: 
+ \item Sea $N$ el número de documentos en la colección y $n_{i}$ el número de documentos donde aparece el término $t_{i}$, se define el $idf$ del término $t_{i}$ como: 
  \begin{displaymath}
-  idf_{t_{i}}= log_{10}(\frac{Q}{n_{i}})
+  idf_{t_{i}}= log_{10}(\frac{N}{n_{i}})
  \end{displaymath}
 \item Un término que aparece en todos los documentos tendría $idf=0$ y uno que aparece en el $10\%$ de la colección tendría $idf=1$.
 
 \item El modelo de score $Tf-idf$ combina ambos modelos, quedando el peso $w$ de un término sobre un documento como:
 \begin{displaymath}
-w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{Q}{n_{i}}) 
+w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}}) 
 \end{displaymath}
 
 \item Las consultas a un motor de búsqueda también pueden modelarse como vectores, pero las consultas tienen en promedio entre $2$ y $3$ términos. Para evitar tener tantas dimensiones nulas, se usa un factor de suavizamiento en el vector:
 \begin{displaymath}
- w(t_{i},d_{j})=(0.5+0.5\times Tf_{i,j})log_{10}(\frac{Q}{n_{i}}) 
+ w(t_{i},d_{j})=(0.5+0.5\times Tf_{i,j})log_{10}(\frac{N}{n_{i}}) 
 \end{displaymath}
 
 
@@ -374,7 +392,7 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
  \item ¿Qué pasa si queremos agrupar los documentos de contenidos similares?
  \item Agrupamos los documentos en conjuntos, donde todos los elementos sean similares entre sí. 
  \item A cada conjunto se le llama  \emph{cluster}. 
- \item El problema de clusterizar, se basa en identificar grupos que maximicen la similitud interna dentro de un cluster y minimicen la similitud entre documentos  pertenecientes a distintos clusters ~\cite{adaptivewebsites}.
+ \item El problema de clusterizar, se basa en identificar grupos que maximicen la similitud interna dentro de un cluster y minimicen la similitud entre documentos  pertenecientes a distintos clusters.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.6]{pics/cluster.png}

@@ -17,6 +17,7 @@ This is a course on natural language processing.
 2. [Text Classification and Naive Bayes](https://web.stanford.edu/~jurafsky/slp3/slides/7_NB.pdf) (slides by Dan Jurafsky)
 2. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex))
 3. [Word Vectors](slides/NLP-wordvectors.pdf) | ([tex source file](slides/NLP-wordvectors.tex))
+2. [Tagging, and Hidden Markov Models ](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf) (slides by Michael Collins)
 4. [Convolutional Neural Networks](slides/NLP-CNN.pdf) | ([tex source file](slides/NLP-CNN.tex))
 5. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex))
 6. [Sequence to Sequence Models](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex))

@@ -273,19 +273,19 @@ t3 & program\\
 
 \end{frame}
 
-\begin{frame}\frametitle{Vector Space Models}
+\begin{frame}\frametitle{The Vector Space Model}
 \footnotesize{
 \begin{itemize}
- \item Para poder rankear las consultas, o medir la similitud entre dos documentos necesitamos una métrica de similitud.
- \item Representamos los documentos como vectores de términos, donde cada término es una dimensión.
- \item A este tipos de modelos se le llame \emph{Bag of Words}. Perdemos el orden de las palabras. 
- \item El valor de cada dimensión, es un peso que representa la relevancia del término $t_{i}$ en el documento $d$.
+ \item In order to rank queries, or measure the similarity between two documents we need a similarity metric.
+ \item Documents can be represented as vectors of terms, where each term is a vector dimension \cite{salton1975vector}. 
+ \item These types of representations are called \emph{Bag of Words}. Word order and linguistic structure is loss. 
+ \item Idea: the value of each dimension is a weight that represents the relevance of the term $t_{i}$ in the document $d$.
 
 \begin{equation}
  d_{j} \rightarrow \overrightarrow{d_{j}}=(w(t_{1},d_{j}),...,w(t_{|V|},d_{j}))
 \end{equation}
 
-\item ¿Cómo podemos modelar el aporte de información de un término en un documento?
+\item How can we model how informative is a term to a document?
  
 \end{itemize}
 
@@ -296,15 +296,15 @@ t3 & program\\
 \begin{frame}\frametitle{Term Frequency - Inverted Document Frequency [1]}
 \footnotesize{
 \begin{itemize}
- \item Se define $Tf_{i,j}$, como la frecuencia del término $t_{i}$ en el documento $d_{j}$.
- \item Un término que aparece $10$ veces debiese aportar mayor información que uno aparece una vez.
- \item ¿Qué pasa cuando tenemos documentos muchos más largos que otros?
- \item Podemos normalizar por la frecuencia máxima de término en el documento. 
+ \item Let $Tf_{i,j}$ be the frequency of term $t_{i}$ in document $d_{j}$.
+ \item A term that appears $10$ times should provide more information than one that appears once.
+ \item  What happens when we have documents that are much longer than the others?
+ \item We can normalize by the maximum term frequency in the document. 
 \begin{displaymath}
  Tf_{i,j}=\frac{f_{i,j}}{max \ f_{i,j}}
 \end{displaymath}
-\item ¿Un término que aparece en muy pocos documentos aporta más o menos información que uno que aparece varias veces?
-\item Por ejemplo, el documento \emph{El señor alcalde de Malloco}. El término \emph{Malloco} aparece en menos documentos que \emph{alcalde}, por lo que debiese ser más descriptivo. 
+\item  Does a term that appears in very few documents provide more or less information than one that appears several times?
+\item For example, the document \emph{The respected major of Pelotillehue}. The term \emph{Pelotillehue} appears in fewer documents than \emph{major}, so it should be more descriptive. 
 \end{itemize}
 
 
@@ -314,18 +314,18 @@ t3 & program\\
 \begin{frame}\frametitle{Term Frequency - Inverted Document Frequency [2]}
 \footnotesize{ 
 \begin{itemize}
- \item Sea $N$ el número de documentos en la colección y $n_{i}$ el número de documentos donde aparece el término $t_{i}$, se define el $idf$ del término $t_{i}$ como: 
+ \item Let $N$ be the number of documents in the collection and $n_{i}$ the number of documents containing term $t_{i}$, we define $idf$ of $t_{i}$ as follows: 
  \begin{displaymath}
   idf_{t_{i}}= log_{10}(\frac{N}{n_{i}})
  \end{displaymath}
-\item Un término que aparece en todos los documentos tendría $idf=0$ y uno que aparece en el $10\%$ de la colección tendría $idf=1$.
+\item A term that appears in all documents would have $idf=0$ and one that appears in $10\%$ of the documents would have $idf=1$.
 
-\item El modelo de score $Tf-idf$ combina ambos modelos, quedando el peso $w$ de un término sobre un documento como:
+\item The $Tf$-$idf$ scoring model combines $Tf$ and $idf$ scores, resulting in the following weights $w$ for a term in a document:
 \begin{displaymath}
 w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}}) 
 \end{displaymath}
 
-\item Las consultas a un motor de búsqueda también pueden modelarse como vectores, pero las consultas tienen en promedio entre $2$ y $3$ términos. Para evitar tener tantas dimensiones nulas, se usa un factor de suavizamiento en el vector:
+\item Search engine queries can also be modeled as vectors too. However, queries have  between $2$ and $3$ terms in average. To avoid having too many null dimensions, query vectors can be smoothed as follows:
 \begin{displaymath}
  w(t_{i},d_{j})=(0.5+0.5\times Tf_{i,j})log_{10}(\frac{N}{n_{i}}) 
 \end{displaymath}
@@ -343,17 +343,17 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
 \begin{frame}\frametitle{Similarity between Vectors}
 \footnotesize{
 \begin{itemize}
- \item Una vez representados, los documentos y consultas como vectores, podemos medir su similitud.
- \item Una alternativa sería usar la distancia euclidiana, pero la variabilidad de largo entre documentos afectaría a la métrica.
- \item Lo más usado es usar el coseno del ángulo entre los vectores como medida de similitud.
- \item Si los documentos son iguales, el ángulo vale $0$ y el coseno $1$. En cambio si son ortogonales el coseno vale $0$.
- \item Los vectores, deben ser normalizados por su norma euclidiana $||d||_{2}$, la similitud de calcula de la siguiente manera:  
+ \item Representing queries and documents as vectors allows calculating their similarity.
+ \item One approach would be using the euclidean distance.
+ 
+ \item The common approach is to calculate the cosine of the angle between the two vectors.
+ \item If both documents are the same, the angle would be $0$ and its cosine would be $1$. On the other hand, if they are orthogonal  the cosine is $0$.
+ \item The vectors are normalized by its euclidean norm $||d||_{2}$.
+ \item The cosine similarity is calculated as follows:
  \begin{displaymath}
  cos(d_{1},d_{2})= \frac{d_{1}\cdot d_{2}}{|d_{1}|\times|d_{2}|} = \frac{\sum_{i=1}^{|V|}(w(t_{i},d_{1})\times w(t_{i},d_{1}))}{\sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{1})^2}\times \sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{2})^2}}
 \end{displaymath}
-\item Erróneamente se llama \emph{distancia coseno}, realmente es una medida de similitud.
-
-
+\item This is wrongly called \emph{cosine distance}. It is actually a similarity metric.
 \end{itemize}
 
 
@@ -372,16 +372,16 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
 
 \begin{frame}{Exercise}
 \begin{itemize}
- \item Supongamos que tenemos $3$ documentos, los cuales se forman a partir de las siguientes secuencias de términos: \\
+ \item Suppose we have $3$ documents formed from the following sequences of terms: \\
  $d_{1}\rightarrow t_{4}t_{3}t_{1}t_{4}$ \\
  $d_{2}\rightarrow t_{5}t_{4}t_{2}t_{3}t_{5}$ \\
  $d_{3}\rightarrow t_{2}t_{1}t_{4}t_{4}$ \\
 
-\item Construya una matriz término-documento de dimensión $5 \times 3$ usando los pesos $Tf-idf$ simples (sin normalización).
-\item Le recomendamos construir primero una lista con la cantidad de documentos en los que aparece cada término (para el idf) 
-\item Calcule luego  el $idf$ de cada término.
-\item Llene las celdas con los valores $Tf-idf$
-\item ¿ A qué documento está más cercano $d_{1}$?
+\item Build a term-document matrix of $5\times3$ dimensions using simple $Tf$-$idf$ weights (without normalization).
+\item  We recommend you first build a list with the number of documents in which each term appears (useful for calculating $idf$ scores) 
+\item Then calculate the $idf$ scores of each term.
+\item Fill up the cells of the matrix the $Tf$-$idf$ values.
+\item Which is the closest document to $d_{1}$?
 \end{itemize}
 
 
@@ -403,17 +403,17 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
 
 \end{frame}
 
-\begin{frame}{Clustering de Documentos [1]}
+\begin{frame}{Document Clustering [1]}
 \footnotesize{
 \begin{itemize}
- \item ¿Qué pasa si queremos agrupar los documentos de contenidos similares?
- \item Agrupamos los documentos en conjuntos, donde todos los elementos sean similares entre sí. 
- \item A cada conjunto se le llama  \emph{cluster}. 
- \item El problema de clusterizar, se basa en identificar grupos que maximicen la similitud interna dentro de un cluster y minimicen la similitud entre documentos  pertenecientes a distintos clusters.
+ \item How can we group documents that are similar with each other?
+ \item Clustering is the process of grouping documents that are similar with each other.
+ \item Each group of documents is called a \emph{cluster}. 
+ \item In clustering we try to identify groups of documents in which the similarity between documents in the same cluster is maximized and the similarity of documents in different clusters is minimized.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.6]{pics/cluster.png}
-	\caption{ Conjunto de documentos donde se identifica claramente cada cluster}
+	\caption{ Set of documents where the clusters can be clearly identified.}
 \end{figure}
  
 \end{itemize}
@@ -426,19 +426,30 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
 \begin{frame}{Document Clustering [2]}
 \footnotesize{
 \begin{itemize}
- \item Permite identificar grupos de opiniones similares, o reducir el espacio de búsqueda para una consulta en un buscador. 
- \item K-medias es un algoritmo simple de clustering que requiere la cantidad $k$ de clusters a construir como parámetro.
-    \begin{enumerate}
-    \footnotesize{
-    \item Primero, se identifican aleatoriamente $k$ elementos. Los valores de los atributos de éstos elementos se copian en nuevos elementos llamados centroides de la misma dimensión que éstos. Cada centroide representará un cluster.
-    \item Luego se calcula la distancia de todos los $n$ elementos a los $k$ centroides y  se asigna  cada elemento al cluster del centroide más cercano.
-    \item Luego se recalcula el valor de los centroides promediando el valor de los atributos de todos los elementos pertenecientes al cluster.
-    \item Repite el proceso de calcular las distancias, agrupar los más cercanos y recalcular los centroides hasta que éstos dejen de cambiar. }
-    \end{enumerate}
+ \item Document clustering allows identifying topics in a corpus and reducing the search space in a search engine i.e., the inverted index is organized according to the clusters. 
+ \item K-medias is a simple clustering algorithm that receives the number of clusters $k$ as a parameter.
+ \item The algorithm relies on the idea of \emph{centroid}, which is the average vector of documents belonging to the same cluster.
+ \item Let $S$ be a set of $2$-dimensional vectors $\{3,6\}, \{1,2\}, \{5,1\}$, the centroid of $S$ is $\{(3+1+5)/3,(6+2+1)/3\} = \{3,3\}$.
 
 \end{itemize}
 }
 \end{frame}
+
+
+\begin{frame}{K-Means}
+\footnotesize{
+    \begin{enumerate}
+    \footnotesize{
+    \item We start with $k$ random centroids.
+    \item We calculate the similarity between each document and each centroid.
+    \item We assign each document to its closest centroid forming a cluster.
+    \item The centroids are recalculated according to the documents assigned to them.
+    \item This process is repeated until convergence.}
+    \end{enumerate}
+
+}
+\end{frame}
+
 
 \begin{frame}{K-means}
 \begin{figure}[h!]
@@ -447,14 +458,22 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
 	\caption{ K-means algorithm}
 \end{figure}
 
-
- 
-
-
-
  
 \end{frame}
 
+\begin{frame}\frametitle{Conclusions and Additional Concepts}
+\footnotesize{
+\begin{itemize}
+ \item Representing documents as vectors is essential for calculating similarities between document pairs.
+ \item Bag of words vectors lack linguistic structure.
+ \item Bag of words vectors are high-dimensional and sparse. 
+ \item Word n-grams can help capturing multi word-expressions (e.g., New York $=>$ new\_york)
+ \item Modern information retrieval systems go beyond vector similarity (PageRank, Relevance Feedback, Machine Learning).
+\end{itemize}
+
+
+}
+\end{frame}
 
 
 

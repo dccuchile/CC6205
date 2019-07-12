@@ -86,12 +86,12 @@ Input: I like human languages and programming languages.\\
 Tokens: [I] [like] [human] [languages] [and] [programming] [languages]
 \end{block}
 
-Se define como un \emph{tipo} como una clase de \emph{token} que contiene una única secuencia de caracteres.
-Se obtienen identificando los tokens iguales dentro del documento.
+A \emph{type} is a class of \emph{token} containing a single sequence of characters.
+They are obtained by identifying unique tokens within the document.
 
-\begin{block}{Tipos}
-Tipos: [además] [data] [de] [inscribí] [inscribir] [mining] [web]   \\
-\center{\textit{El token \emph{mining} estaba repetido}}
+\begin{block}{Types}
+Tipos: [I] [like] [human] [languages] [and] [programming]  \\
+\center{\textit{The token \emph{languages} was repeated in the sentece}}
 \end{block}
 
 
@@ -99,43 +99,42 @@ Tipos: [además] [data] [de] [inscribí] [inscribir] [mining] [web]   \\
  }
 \end{frame}
 
-\begin{frame}\frametitle{Extracción del Vocabulario de términos [1]}
+\begin{frame}\frametitle{Vocabulary Extraction }
 \footnotesize{
-
-Un \emph{término} es un \emph{tipo} normalizado. Se llama vocabulario $V$, al conjunto de términos de una colección de documentos $D$.
+A  \emph{term} is a normalized \emph{type}. The vocabulary $V$, is the set of terms (normalized unique tokens) within a collection of documents or corpus $D$.
  
-\begin{block}{Borrado de Stopwords}
-Para reducir la dimensión del vocabulario y eliminar términos que no aportan información, se eliminan los términos que aparecen
-con mucha frecuencia en la mayoría de los documentos(stopwords). Como artículos, pronombres,  preposiciones y conjunciones. \\
-Ejemplo: [el, la , ellos, ellas,  nosotros, un, una , de, con , a , además, ya, y, muy, otro, cuando, cuanto ]. 
+\begin{block}{Stopwords removal}
+\begin{itemize}
+ \item In order to reduce the size of the vocabulary and eliminate terms that do not provide much information, terms that occur with high frequency are in the corpus are elminated. 
+ \item These terms are called \emph{stopwords} and include  articles, pronouns, prepositions and conjunctions. \\
+Example: [a, an, and, any, has, do, don't, did, the, on].\footnote{Related concepts: function words, closed-class words.}
+\end{itemize}
+
+The removal of stopwords can be inconvenient in many NLP tasks!! 
+\\ Example: I don't like pizza $=>$ pizza  ( ``I'', ``don't'', and ``like'' were removed)
+
 \end{block}
 
-\begin{block}{Stemming}
-Proceso donde se transforman los términos a su raíz para reducir la dimensión del vocabulario. Se realiza en base a un conjunto de reglas de reducción de palabras. Ejemplo: Algoritmo de Porter.
+
+}
+ 
+\end{frame}
+
+
+\begin{frame}\frametitle{Stemming}
+\footnotesize{
+A process in which terms are transformed to their root in order to reduce the size of the vocabulary. It is carried out on the basis of a set of word reduction rules. \\ Example: Porter's Algorithm.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.45]{pics/porter.png}
 \end{figure}
 
+ Example: $d$ = I like human languages and programming languages $=>$
+I like human languag and program languag \footnote{\url{http://9ol.es/porter_js_demo.html}}
 
-\end{block}
-}
- 
-\end{frame}
+The vocabulary of document $d$ after removing stopwords and performing stemming:
 
-\begin{frame}\frametitle{Extracción del Vocabulario de términos [2]}
-\footnotesize{
- 
-\begin{block}{Lematización}
-\begin{itemize}
- \item Es otra estrategia para llevar las palabras a su raíz. Realiza un análisis morfológico por medio de diccionarios de referencia para crear clases de equivalencia entre \emph{tipos}. 
-\item Por ejemplo para el token \emph{saw}, una regla de stemming podría construir un término \emph{s}, mientras que mediante lematización un diccionario nos entregaría \emph{see}. 
-
-\end{itemize}
-\end{block}
-
-Eliminando las stopwords y haciendo uso de stemming, el vocabulario del documento $d$ queda de la siguiente forma:
 
 \begin{table}
 \centering
@@ -143,31 +142,51 @@ Eliminando las stopwords y haciendo uso de stemming, el vocabulario del document
 \hline
 termId & value \\ 
 \hline
-t1 & data \\ 
-t2 & inscrib \\ 
-t3 & mining \\ 
-t4 & web \\ 
+t1 & human \\ 
+t2 & languag \\ 
+t3 & program\\ 
 \hline
 \end{tabular}
 \end{table}
 
 }
+ 
+\end{frame}
+
+
+\begin{frame}\frametitle{Lemmatization}
+\footnotesize{
+
+\begin{itemize}
+ \item Another strategy to transform words to their root. It performs a morphological analysis using reference dictionaries (lookup tables) to create equivalence classes between \emph{types}.
+\item For example for the token \emph{saw}, a stemming rule could return the term \emph{s}, while through lemmatization a dictionary would give us \emph{see}. 
+
+\end{itemize}
+
+
+
+
+
+}
 \end{frame}
 
 
 
-\begin{frame}\frametitle{Ley de Zipf [1]}
+\begin{frame}\frametitle{Zipf's law [1]}
 \footnotesize{
 \begin{itemize}
- \item La ley de Zipf, propuesta por \emph{George Kingsley Zipf} en \cite{zipf1935}, se usa para el análisis de frecuencia de aparición de términos dentro de una colección de documentos. 
-\item Dice que la frecuencia $f$ de aparición de un término en una colección es inversamente proporcional a su ranking $r$ en una tabla ordenada de frecuencias.
+\item The Zipf's law, proposed by \emph{George Kingsley Zipf} in \cite{zipf1935}, is an empirical law about the frequency of terms within a collection of documents (corpus). 
+\item It states that the frequency $f$ of a term in a corpus is inversely proportional to its $r$ ranking in a sorted frequency table:
 \begin{equation}
 	f = \frac{cf}{r^{\beta}}
 \end{equation}
-\item Donde $cf$ es una constante dependiente de la colección  y $\beta > 0$ modela la razón de decaimiento.
-\item Si $\beta = 1$, entonces $f$ sigue exactamente la ley de Zipf, si no se dice que sigue una distribución Zipf-like. A mayor $\beta$ menor es la calidad del lenguaje en los documentos. 
+\item Where $cf$ is a constant dependent on the collection and $\beta > 0$ is a decay factor.
+\item If $\beta = 1$, then $f$ follows exactly Zipf's law, otherwise it follows a Zipf-like distribution. 
 
-\item La ley se relaciona con el principio de mínimo esfuerzo. Usamos muchas veces unas pocas palabras para escribir las ideas.
+\item The law relates to the principle of minimum effort. We often use a few words to write ideas.
+
+\item The Zipf law is a type of power law distribution (long tail distributions)
+
 
 \end{itemize}
 
@@ -177,17 +196,17 @@ t4 & web \\
 \end{frame}
 
 
-\begin{frame}\frametitle{Ley de Zipf [2]}
+\begin{frame}\frametitle{Zipf's law [2]}
 \footnotesize{
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{pics/zipf1.png}
-	\caption{Ley de Zipf}
+	\caption{Zipf's law}
 \end{figure}
 \begin{itemize}
- \item Si se realiza un gráfico $log-log$, se obtiene una recta de pendiente  $-\beta^{-1}$.
- \item Los términos más frecuentes se pueden usar para crear la lista de \emph{stopwords}. 
+ \item If we plot a $log-log$ graph, we obtain a straight line with slope  $-\beta^{-1}$.
+ \item Most frequent words can be used to buil a \emph{stopwords} list. 
 \end{itemize}
 }
 
@@ -196,12 +215,12 @@ t4 & web \\
  
 \end{frame}
 
-\begin{frame}\frametitle{Lista de Posteo e Índice Invertido}
-{\footnotesize Sea $D$ una colección de documentos y $V$ el vocabulario de todos los términos extraídos de la colección:
+\begin{frame}\frametitle{Posting List and Inverted Index}
+{\footnotesize Let $D$ be a collection of documents  and $V$ the vocabulary of all terms extracted from the collection:
 
 \begin{itemize}
- \item La lista de posteo de un término, es la lista de todos los documentos en los que aparece al menos una vez.
- \item Un índice invertido en una estructura de datos de diccionario que mapea cada término $t_{i} \in V$ a su lista de posteo. 
+ \item The posting list of a term is the list of all documents where the term appears at least once.
+ \item An inverted index is a dictionary-type data structure mapping terms $t_{i} \in V$ into their corresponding posting lists.  ddf
  \begin{displaymath}
   <term> \rightarrow <docId>^*
  \end{displaymath}
@@ -211,7 +230,7 @@ t4 & web \\
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.6]{pics/invFile.png}
-	\caption{ Índice Invertido}
+	\caption{Inverted Index}
 \end{figure}
 
 
@@ -221,23 +240,21 @@ t4 & web \\
 
 
 
-\begin{frame}\frametitle{Motor de Búsqueda [1]}
+\begin{frame}\frametitle{Web Search Engines [1]}
 
 
 {\footnotesize
-  Un motor de búsqueda es un sistema de recuperación de información diseñado para la búsqueda de información en la Web \cite{libroweb2008}. Sus componentes básicos son:
-
+  A search engine is an information retrieval system designed for searching information on the Web (solving information needs) \cite{manning2008}. Its basic components are:  
 
 \begin{block}
 
 
 \begin{itemize}
-\item Crawler: Un robot que navega  la Web según una estrategia definida. Generalmente comienza navegando por un conjunto de páginas semilla (seeds) y continua navegando por sus hipervínculos.
-\item Indexador: Encargado de mantener un índice invertido con el contenido de las páginas recorridas por el Crawler.
-\item Máquina de consultas: Encargado de procesar las  consultas y buscar en el índice los documentos  con mayor similitud a ella.
-\item Función de ranking: Es la función que tiene la máquina de consulta para rankear los documentos indexados en la colección por relevancia para una consulta.
-\item Interfaz: Interactúa con el usuario, recibe la consulta como entrada y retorna los documentos rankeados por similitud.
- 
+\item Crawler: a robot that navigates the Web according to a defined strategy. It usually starts by browsing a set of seed websites and continues to browse their hyperlinks.
+\item Indexer: in charge of maintaining an inverted index with the content of the pages traversed by the Crawler.
+\item Query processor: in charge of processing user queries and searching the index for the documents most relevant to a query.
+\item Ranking function: the function used by the query processor to rank documents indexed in the collection by relevance according to a query.
+\item User interface: receives the query as input and returns the documents ranked by relevancy.
 \end{itemize}
 
 \end{block}
@@ -246,17 +263,17 @@ t4 & web \\
 \end{frame}
 
 
-\begin{frame}\frametitle{Motor de Búsqueda [2]}
+\begin{frame}\frametitle{Web Search Engines [2]}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.11]{pics/searchengine.png}
-	\caption{ Diagrama Motor de Búsqueda ~\cite{libroweb2008}.}
+	\includegraphics[scale=0.25]{pics/searchengine.png}
+	\caption{ The various components of a web search engine~\cite{manning2008}.}
 \end{figure}
 
 \end{frame}
 
-\begin{frame}\frametitle{Modelo Vectorial}
+\begin{frame}\frametitle{Vector Space Models}
 \footnotesize{
 \begin{itemize}
  \item Para poder rankear las consultas, o medir la similitud entre dos documentos necesitamos una métrica de similitud.
@@ -276,7 +293,7 @@ t4 & web \\
  
 \end{frame}
 
-\begin{frame}\frametitle{Term Frecuency - Inverted Document Frecuency [1]}
+\begin{frame}\frametitle{Term Frequency - Inverted Document Frequency [1]}
 \footnotesize{
 \begin{itemize}
  \item Se define $Tf_{i,j}$, como la frecuencia del término $t_{i}$ en el documento $d_{j}$.
@@ -294,7 +311,7 @@ t4 & web \\
 } 
 \end{frame}
 
-\begin{frame}\frametitle{Term Frecuency - Inverted Document Frecuency [2]}
+\begin{frame}\frametitle{Term Frequency - Inverted Document Frequency [2]}
 \footnotesize{ 
 \begin{itemize}
  \item Sea $N$ el número de documentos en la colección y $n_{i}$ el número de documentos donde aparece el término $t_{i}$, se define el $idf$ del término $t_{i}$ como: 
@@ -323,7 +340,7 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
 
 \end{frame}
 
-\begin{frame}\frametitle{Similitud entre Vectores}
+\begin{frame}\frametitle{Similarity between Vectors}
 \footnotesize{
 \begin{itemize}
  \item Una vez representados, los documentos y consultas como vectores, podemos medir su similitud.
@@ -343,17 +360,17 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
 }
 \end{frame}
 
-\begin{frame}{Similitud Coseno}
+\begin{frame}{Cosine Similarity}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{pics/cos.png}
-	\caption{ Similitud coseno.}
+	\caption{ Cosine Similarity.}
 \end{figure}
 
 \end{frame}
 
-\begin{frame}{Ejercicio}
+\begin{frame}{Exercise}
 \begin{itemize}
  \item Supongamos que tenemos $3$ documentos, los cuales se forman a partir de las siguientes secuencias de términos: \\
  $d_{1}\rightarrow t_{4}t_{3}t_{1}t_{4}$ \\
@@ -370,9 +387,9 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
 
 \end{frame}
 
-\begin{frame}{Resultado}
+\begin{frame}{Result}
  \begin{table}[htbp]
-\caption{Matriz Tf-idf}
+\caption{Tf-idf Matrix}
 \begin{tabular}{|l|r|r|r|}
 \hline
  & \multicolumn{1}{l|}{d1} & \multicolumn{1}{l|}{d2} & \multicolumn{1}{l|}{d3} \\ \hline
@@ -406,7 +423,7 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
  
 \end{frame}
 
-\begin{frame}{Clustering de Documentos [2]}
+\begin{frame}{Document Clustering [2]}
 \footnotesize{
 \begin{itemize}
  \item Permite identificar grupos de opiniones similares, o reducir el espacio de búsqueda para una consulta en un buscador. 
@@ -423,11 +440,11 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
 }
 \end{frame}
 
-\begin{frame}{K-medias}
+\begin{frame}{K-means}
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.6]{pics/kmeans.png}
-	\caption{ Algoritmo K-medias}
+	\caption{ K-means algorithm}
 \end{figure}
 
 

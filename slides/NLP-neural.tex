@@ -40,7 +40,7 @@
 {\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
 \newcommand{\bigtimes}{\BIGOP{\times}}
 \vspace{-0.5cm}
-\title{Natural Language Processing \\ Neural Networks}
+\title{Natural Language Processing \\ Linear Models and Neural Networks}
 \vspace{-0.5cm}
 \author[Felipe Bravo Márquez]{\footnotesize
 %\author{\footnotesize  
@@ -58,6 +58,79 @@
 \end{frame}
 
 
+
+\begin{frame}{Supervised Learning}
+\begin{scriptsize}
+\begin{itemize}
+\item The essence of supervised machine learning is the creation of mechanisms that can look at examples and produce generalizations. \cite{goldberg2017neural}
+\item We design an algorithm whose input is a set of labeled examples, and
+its output is a function (or a program) that receives an instance and produces the desired label.
+\item Example: if the task is to distinguish from spam and not-spam email, the labeled examples are emails labeled as spam and emails labeled as not-spam.
+\item It is expected that the resulting function will produce correct label
+predictions also for instances it has not seen during training.
+\item This approach differs from designing an algorithm to perform the task (e.g., manually designed rule-based systems).
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Parameterized Functions}
+\begin{scriptsize}
+\begin{itemize}
+\item Searching over the set of all possible functions is a very hard (and rather ill-defined) problem. \cite{goldberg2017neural}
+\item We often restrict ourselves to search over specific families of functions.
+\item Example: the space of all linear functions with $d_{in}$ inputs and $d_{out}$ outputs, 
+\item Such families of functions are called \textbf{hypothesis classes}. 
+\item By restricting ourselves to a specific hypothesis class, we are injecting the learner with \textbf{inductive bias}.
+\item Inductive bias: a set of assumptions about the form of the desired solution.
+\item Some hypothesis classes facilitate efficient procedures for searching for the solution. \cite{goldberg2017neural}
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Linear Models}
+\begin{scriptsize}
+\begin{itemize}
+\item One common hypothesis class is that of high-dimensional linear function:
+\begin{equation}
+\begin{split}
+f(x) = \vec{x} \cdot W + \vec{b}\\
+\vec{x} \in  \mathcal{R}^{d_{in}} & \quad W \in  \mathcal{R}^{d_{in}\times d_{out}} \quad \vec{b} \in  \mathcal{R}^{d_{out}}
+\end{split}
+\end{equation}
+\item The vector $\vec{x}$ is the input to the function.
+\item The matrix $W$ and the vector $\vec{b}$ are the parameters.
+
+\item The goal of the learner is to set the values of the parameters $W$ and $\vec{b}$ such that the function behaves as intended on a collection of input values $\vec{x}_{1:k} = \vec{x}_1,\dots,\vec{x}_k$ and the corresponding desired outputs $\vec{y}_{1:k} = \vec{y}_1,\dots,\vec{y}_k$
+
+\item The task of searching over the space of functions is thus reduced to one of searching over the space of parameters. \cite{goldberg2017neural}
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Example: Language Detection}
+\begin{scriptsize}
+\begin{itemize}
+\item Consider the task of distinguishing documents written in English from documents written in German.
+\item This is a binary classifcation problem ( $d_{out}=1$)
+\item Letter frequencies make for quite good predictors (features) for this task.
+\item Even more informative are counts of letter bigrams , i.e., pairs of consecutive letters.
+\item We assume we have an alphabet of 28 letters (a–z, space, and a special symbol for all other characters including digits, punctuations, etc.)
+\item Documents are represented as $28\times28$ dimensional vectors $\vec{x} \in \mathcal{R}^{784}$.
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{Introduction to Neural Networks}
@@ -368,6 +441,55 @@ to estimate the error and the gradients based on a sample of $m$ examples.
  
   
 \end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Train, Test, and Validation Sets}
+\begin{scriptsize}
+\begin{itemize}
+\item Neural networks are prone to overfit the data.
+\item Hence, performance on training data can be misleading.
+\item Held-out set: split training set into training and testing subsets (80\% and 20\% splits). Train on training and compute accuracy on testing.
+\item Problem: in practice you often train several models, compare their quality, and select the best one. 
+\item Selecting the best model according to the held-out set's accuracy will result in an overly optimistic estimate of the model's quality.
+\item You don't know if the chosen settings of the final classifier are good in general, or are just good for the particular examples in the held-out sets.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Train, Test, and Validation Sets}
+\begin{scriptsize}
+\begin{itemize}
+\item The accepted methodology is to use a three-way split of the data into train, validation (also called development ), and test sets \footnote{An alternative approach is cross-validation, but it doesn't scale well for training deep neural networks.}. 
+\item This gives you two held-out sets: a validation set (also called development set ), and a test set.
+\item All the experiments, tweaks, error analysis, and model selection should be performed based on the validation set. 
+\item Then, a single run of the final model over the test set will give a good estimate of its expected quality on unseen examples. 
+\item It is important to keep the test set as pristine as possible, running as few experiments as possible on it. 
+\item Some even advocate that you should not even look at the examples in the test
+set, so as to not bias the way you design your model.
+
+
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Train, Test, and Validation Sets}
+\begin{scriptsize}
+
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.55]{pics/validation.png}
+\end{figure}
+
+\footnotetext{source: \url{https://www.codeproject.com/KB/AI/1146582/validation.PNG}}
+
 \end{scriptsize}
 \end{frame}
 

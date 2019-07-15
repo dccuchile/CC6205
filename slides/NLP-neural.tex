@@ -121,16 +121,56 @@ f(x) = \vec{x} \cdot W + \vec{b}\\
 \begin{scriptsize}
 \begin{itemize}
 \item Consider the task of distinguishing documents written in English from documents written in German.
-\item This is a binary classifcation problem ( $d_{out}=1$)
-\item Letter frequencies make for quite good predictors (features) for this task.
-\item Even more informative are counts of letter bigrams , i.e., pairs of consecutive letters.
-\item We assume we have an alphabet of 28 letters (a–z, space, and a special symbol for all other characters including digits, punctuations, etc.)
-\item Documents are represented as $28\times28$ dimensional vectors $\vec{x} \in \mathcal{R}^{784}$.
+\item This is a binary classifcation problem 
+\begin{equation}
+\begin{split}
+f(x) = \vec{x} \cdot w + b\\
+\end{split}
+\end{equation}
+ $d_{out}=1$, $w$ is a vector, and $b$ is a scalar. 
+
+ \item The range of the linear function in is $[-\infty,\infty]$.
+ \item In order to use it for binary classification, it is common to pass the output of $f(x)$ through the $sign$ function, mapping negative values to -1 (the negative class) and non-negative values to +1 (the positive class).
 \end{itemize}
 
 
 \end{scriptsize}
 \end{frame}
+
+
+\begin{frame}{Example: Language Detection}
+\begin{scriptsize}
+\begin{itemize}
+
+\item Letter frequencies make for quite good predictors (features) for this task.
+\item Even more informative are counts of letter bigrams , i.e., pairs of consecutive letters.
+\item We assume we have an alphabet of 28 letters (a–z, space, and a special symbol for all other characters including digits, punctuations, etc.)
+\item Documents are represented as $28\times28$ dimensional vectors $\vec{x} \in \mathcal{R}^{784}$.
+\item Each entry $\vec{x}_{[i]}$  represents a count of a particular letter combination in the document, normalized by the document's length.
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Example: Language Detection}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.27]{pics/langbigrams.png}
+	 \caption{Character-bigram histograms for documents in English (left, blue) and German(right,green). Underscores denote spaces. }
+\end{figure}
+
+\footnotetext{Source:\cite{goldberg2016primer}}
+
+\end{frame}
+
+
+
+
 
 
 \begin{frame}{Introduction to Neural Networks}

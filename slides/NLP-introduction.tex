@@ -77,17 +77,32 @@
 \begin{scriptsize}
 \begin{itemize}
 
-\item The amount of digitalized textual data being generated every day is huge (e.g, the Web, social media, medicar records, digitalized books).
+\item The amount of digitalized textual data being generated every day is huge (e.g, the Web, social media, medical records, digitalized books).
 
 \item So does the need for translating, analyzing, and managing this flood of words and text.
 
 \item Natural language processing (NLP) is the field of designing methods and algorithms that take as input or produce as output unstructured, \textbf{natural language data}. \cite{goldberg2017neural}
 
+\item Natural language processing is focused on the design and analysis of computational algorithms and representations for processing natural human language \cite{jacobbook}
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Natural Language Processing}
+\begin{scriptsize}
+\begin{itemize}
+\item Example of NLP task: Named Entity Recognition (NER):
+
+
      \begin{figure}[h]
         	\includegraphics[scale = 0.4]{pics/NER.png}
-        	\caption{Example: Named Entity Recognition}
+        	\caption{Named Entity Recognition}
         \end{figure}
 
+        
 \item Human language is highly ambiguous: \emph{I ate pizza with friends} vs. \emph{I ate pizza with olives}.
 
 \item It is also ever changing and evolving (e.g, Hashtags in Twitter). 
@@ -99,7 +114,8 @@
 
 \begin{frame}{Natural Language Processing and Computational Linguistics}
 \begin{scriptsize}
-Natural language processing (NLP) develops methods for solving practical problems involving language \cite{JohnsonMLSS}.
+Natural language processing (NLP) develops methods for solving practical problems involving language \cite{JohnsonMLSS}. \\
+
 
 \begin{itemize}
 \item Automatic speech recognition.
@@ -119,6 +135,22 @@ Similiar methods and models are used in NLP and CL
 \end{scriptsize}
 \end{frame}
 
+
+\begin{frame}{Natural Language Processing and Computational Linguistics}
+\begin{scriptsize}
+\begin{itemize}
+ \item Most of the meetings and journals that host natural language processing research bear the name ``computational linguistics'' (e.g., ACL, NACL). \cite{jacobbook}
+ \item NLP and CL may be thought of as essentially synonymous.
+ \item While there is substantial overlap, there is an important difference in focus.
+ \item CL is essentially linguistics supported by computational methods (similar to computational biology, computational astronomy).
+ \item In linguistics, language is the object of study.
+ \item NLP focuses on solving well-defined tasks involving human language (e.g., translation, query answering, holding conversations).
+ \item Fundamental linguistic insights may be crucial for accomplishing these tasks, but success is ultimately measured by whether and how well the job gets done (according to an evaluation metric) \cite{jacobbook} .
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{Linguistics levels of description}
@@ -242,7 +274,7 @@ understanding a sentence.
 \end{frame}
 
 
-\begin{frame}{Natural Language Processing}
+\begin{frame}{Natural Language Processing and Machine Learning}
 \begin{scriptsize}
 \begin{itemize}
 
@@ -524,9 +556,15 @@ these intermediate representations (or equivalent, or better ones) on its own \c
 
 \begin{frame}{History}
 \begin{scriptsize}
+NLP progress can be divided into three main waves: 1) rationalism, 2) empiricism, and 3) deep learning \cite{deng2018deep}.
 \begin{itemize}
-\item NLP progress can be divided into three main waves: 1) rationalism, 2) empiricism, and 3) deep learning \cite{deng2018deep}.
+\item [1950 - 1990] Rationalism: approaches endeavored to design hand-crafted rules to incorporate knowledge and reasoning mechanisms into intelligent NLP systems (e.g,  ELIZA for simulating a Rogerian psychotherapist, MARGIE for structuring real-world information into concept ontologies).
+\item [1991 - 2009] Empiricism: characterized by the exploitation of data corpora and
+of (shallow) machine learning and statistical models (e.g., Naive Bayes, HMMs, IBM translation models).
+\item [2010 - ] Deep Learning: tackle the bottleneck of feature engineering with represeation learning and/or deep neural networks (e.g., \url{https://www.deepl.com/translator})
 \end{itemize}
+
+\footnotetext{Dates are approximated.}
 \end{scriptsize}
 \end{frame}
 
@@ -557,8 +595,9 @@ In this course we will introduce modern concepts in natural language processing 
 
 \begin{scriptsize}
 \begin{enumerate}
-\item \url{http://nlpprogress.com/}
-\item \url{https://allennlp.org/}
+\item Repository to track the progress in Natural Language Processing (NLP), including the datasets and the current state-of-the-art for the most common NLP task: \url{http://nlpprogress.com/}
+\item An open-source NLP research library, built on PyTorch: \url{https://allennlp.org/}
+\item The course's Website: \url{https://github.com/dccuchile/CC6205/}
 \end{enumerate} 
 \end{scriptsize}
 \end{frame}

@@ -5,7 +5,7 @@ This is a course on natural language processing.
 
 * The neural network-related topics of the course are taken from the book of Yoav Goldberg: 
 [Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037)
-* The non-nueral network topics (e.g., grammars, HMMS) are taken from the course of [Michael Collins](http://www.cs.columbia.edu/~mcollins/). 
+* The non-neural network topics (e.g., grammars, HMMS) are taken from the course of [Michael Collins](http://www.cs.columbia.edu/~mcollins/). 
 
 
 
@@ -21,7 +21,7 @@ This is a course on natural language processing.
 4. [Convolutional Neural Networks](slides/NLP-CNN.pdf) | ([tex source file](slides/NLP-CNN.tex))
 5. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex))
 6. [Sequence to Sequence Models](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex))
-2. Constituency Parsing [slides 1](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing1.pdf), [slides 2](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.pdf), [slides 3](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.2.pdf),[slides 4](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing3.pdf)    (slides by Michael Collins)
+2. Constituency Parsing [slides 1](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing1.pdf), [slides 2](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.pdf), [slides 3](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.2.pdf), [slides 4](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing3.pdf)    (slides by Michael Collins)
 7. [Recursive Networks and Paragraph Vectors](slides/NLP-recursive.pdf) | ([tex source file](slides/NLP-recursive.tex))
 
 

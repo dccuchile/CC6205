@@ -46,6 +46,7 @@ This is a course on natural language processing.
 14. [Better Language Models
     and Their Implications OpenAI Blog](https://openai.com/blog/better-language-models/)
 15. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
+16. [RNN effectiveness](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
 
 ##  
 
@@ -59,4 +60,4 @@ This is a course on natural language processing.
 2. [Natural Language Processing MOOC videos by Michael Collins, 2013](https://www.youtube.com/channel/UCB_JX4jH3QQmp69rmkWpl1A/playlists?shelf_id=3&view=50&sort=dd)
 3. [Natural Language Processing with Deep Learning by Chris Manning and Richard Socher, 2017](https://www.youtube.com/playlist?list=PL3FW7Lu3i5Jsnh1rnUwq_TcylNr7EkRe6)
 4. [CS224N: Natural Language Processing with Deep Learning | Winter 2019](https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z)
-
+5. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)

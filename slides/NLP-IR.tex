@@ -215,12 +215,12 @@ t3 & program\\
  
 \end{frame}
 
-\begin{frame}\frametitle{Posting List and Inverted Index}
+\begin{frame}\frametitle{Posting Lists and the Inverted Index}
 {\footnotesize Let $D$ be a collection of documents  and $V$ the vocabulary of all terms extracted from the collection:
 
 \begin{itemize}
- \item The posting list of a term is the list of all documents where the term appears at least once.
- \item An inverted index is a dictionary-type data structure mapping terms $t_{i} \in V$ into their corresponding posting lists.  ddf
+ \item The posting list of a term is the list of all documents where the term appears at least once. Documents are identified by their ids.
+ \item An inverted index is a dictionary-type data structure mapping terms $t_{i} \in V$ into their corresponding posting lists.  
  \begin{displaymath}
   <term> \rightarrow <docId>^*
  \end{displaymath}
@@ -468,8 +468,8 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
  \item Bag of words vectors lack linguistic structure.
  \item Bag of words vectors are high-dimensional and sparse. 
  \item Word n-grams can help capturing multi word-expressions (e.g., New York $=>$ new\_york)
- \item Modern information retrieval systems go beyond vector similarity (PageRank, Relevance Feedback, Machine Learning).
- \item Information retrieval and text mining are less concerned with linguistic structure, and more interested in fast, scalable algorithms \cite{jacobbook}. 
+ \item Modern information retrieval systems go beyond vector similarity (PageRank, Relevance Feedback, Query log mining,  Machine Learning).
+ \item Information retrieval and text mining are less concerned with linguistic structure, and more interested in producing fast and scalable algorithms \cite{jacobbook}. 
 \end{itemize}
 
 

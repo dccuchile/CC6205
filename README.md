@@ -1,7 +1,12 @@
 # CC6205 - Natural Language Processing
 This is a course on natural language processing.
 
-[Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing)
+* Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
+* TAs: TBA
+
+* Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00
+
+* [Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing) (in Spanish)
 
 * The neural network-related topics of the course are taken from the book of Yoav Goldberg: 
 [Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037)

@@ -8,9 +8,10 @@ This is a course on natural language processing.
 
 * [Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing) (in Spanish)
 
-* The neural network-related topics of the course are taken from the book of Yoav Goldberg: 
-[Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037)
-* The non-neural network topics (e.g., grammars, HMMS) are taken from the course of [Michael Collins](http://www.cs.columbia.edu/~mcollins/). 
+
+### Info
+The neural network-related topics of the course are taken from the book of Yoav Goldberg: 
+[Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037). The non-neural network topics (e.g., grammars, HMMS) are taken from the course of [Michael Collins](http://www.cs.columbia.edu/~mcollins/). 
 
 
 

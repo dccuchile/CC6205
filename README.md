@@ -10,6 +10,8 @@ This is a course on natural language processing.
 
 * [Course Calendar](https://calendar.google.com/calendar?cid=MXJtNGcwMmc4OTNoZTBvdnAwczhkNGUzMWtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
 
+<iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FSantiago&amp;src=MXJtNGcwMmc4OTNoZTBvdnAwczhkNGUzMWtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=Y29uc3RhbnphLmxsZWRvQGdtYWlsLmNvbQ&amp;src=a3FraGVic3NwdGkwMjg5NGgwMHBiNGQzZm9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=Z2k5MzgwOGI3cTc4bTJoNGxzcnJjbnYwbmtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZmVsaXBlYnJhdm9jZWxAZ21haWwuY29t&amp;src=ZXMuY2wjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%23E4C441&amp;color=%23E4C441&amp;color=%23B39DDB&amp;color=%23616161&amp;color=%23C0CA33&amp;color=%237986CB" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
 
 ### Info
 The neural network-related topics of the course are taken from the book of Yoav Goldberg: 

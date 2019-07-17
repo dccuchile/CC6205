@@ -1,0 +1,496 @@
+
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
+
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont}
+\usepackage{graphics}
+\usepackage{cases}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{multirow}	
+\usepackage{amstext}
+\usepackage[ruled,vlined,lined]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{fontenc}
+\usepackage{framed,color}
+\usepackage{palatino, url, multicol}
+%\algsetup{indent=2em}
+\newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+\vspace{-0.5cm}
+\title{Natural Language Processing \\ Linear Models}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+
+
+\end{frame}
+
+
+
+\begin{frame}{Supervised Learning}
+\begin{scriptsize}
+\begin{itemize}
+\item The essence of supervised machine learning is the creation of mechanisms that can look at examples and produce generalizations. \cite{goldberg2017neural}
+\item We design an algorithm whose input is a set of labeled examples, and
+its output is a function (or a program) that receives an instance and produces the desired label.
+\item Example: if the task is to distinguish from spam and not-spam email, the labeled examples are emails labeled as spam and emails labeled as not-spam.
+\item It is expected that the resulting function will produce correct label
+predictions also for instances it has not seen during training.
+\item This approach differs from designing an algorithm to perform the task (e.g., manually designed rule-based systems).
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Parameterized Functions}
+\begin{scriptsize}
+\begin{itemize}
+\item Searching over the set of all possible functions is a very hard (and rather ill-defined) problem. \cite{goldberg2017neural}
+\item We often restrict ourselves to search over specific families of functions.
+\item Example: the space of all linear functions with $d_{in}$ inputs and $d_{out}$ outputs, 
+\item Such families of functions are called \textbf{hypothesis classes}. 
+\item By restricting ourselves to a specific hypothesis class, we are injecting the learner with \textbf{inductive bias}.
+\item Inductive bias: a set of assumptions about the form of the desired solution.
+\item Some hypothesis classes facilitate efficient procedures for searching for the solution. \cite{goldberg2017neural}
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Linear Models}
+\begin{scriptsize}
+\begin{itemize}
+\item One common hypothesis class is that of high-dimensional linear function:
+\begin{equation}
+\begin{split}
+f(x) = \vec{x} \cdot W + \vec{b}\\
+\vec{x} \in  \mathcal{R}^{d_{in}} & \quad W \in  \mathcal{R}^{d_{in}\times d_{out}} \quad \vec{b} \in  \mathcal{R}^{d_{out}}
+\end{split}
+\end{equation}
+\item The vector $\vec{x}$ is the input to the function.
+\item The matrix $W$ and the vector $\vec{b}$ are the parameters.
+
+\item The goal of the learner is to set the values of the parameters $W$ and $\vec{b}$ such that the function behaves as intended on a collection of input values $\vec{x}_{1:k} = \vec{x}_1,\dots,\vec{x}_k$ and the corresponding desired outputs $\vec{y}_{1:k} = \vec{y}_1,\dots,\vec{y}_k$
+
+\item The task of searching over the space of functions is thus reduced to one of searching over the space of parameters. \cite{goldberg2017neural}
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Example: Language Detection}
+\begin{scriptsize}
+\begin{itemize}
+\item Consider the task of distinguishing documents written in English from documents written in German.
+\item This is a binary classifcation problem 
+\begin{equation}
+\begin{split}
+f(x) = \vec{x} \cdot \vec{w} + b\\
+\end{split}
+\end{equation}
+ $d_{out}=1$, $\vec{w}$ is a vector, and $b$ is a scalar. 
+
+ \item The range of the linear function in is $[-\infty,\infty]$.
+ \item In order to use it for binary classification, it is common to pass the output of $f(x)$ through the $sign$ function, mapping negative values to -1 (the negative class) and non-negative values to +1 (the positive class).
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Example: Language Detection}
+\begin{scriptsize}
+\begin{itemize}
+
+\item Letter frequencies make for quite good predictors (features) for this task.
+\item Even more informative are counts of letter bigrams, i.e., pairs of consecutive letters.
+\item One may think that words will also be good predictors i.e., using a bag of word representation of documents.
+\item Letters, or letter-bigrams are far more robust.
+\item We are likely to encounter a new document without any of the words we observed in the training set.
+\item While a document without any of the distinctive letter-bigrams is significantly less likely. \cite{goldberg2017neural}
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Example: Language Detection}
+\begin{scriptsize}
+\begin{itemize}
+\item We assume we have an alphabet of 28 letters (a–z, space, and a special symbol for all other characters including digits, punctuations, etc.)
+\item Documents are represented as $28\times28$ dimensional vectors $\vec{x} \in \mathcal{R}^{784}$.
+\item Each entry $\vec{x}_{[i]}$  represents a count of a particular letter combination in the document, normalized by the document's length.
+\item For example, denoting by $\vec{x}_{ab}$ the entry of $\vec{x}$ corresponding to the letter bigram $ab$:
+\begin{equation}
+ x_{ab}= \frac{\#ab}{|D|}
+\end{equation}
+where $\#ab$ is the number of times the bigram $ab$ appears in the document, and $|D|$ is the total number of bigrams in the document (the document’s length).
+
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Example: Language Detection}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.27]{pics/langbigrams.png}
+\end{figure}
+
+\scriptsize{Character-bigram histograms for documents in English (left, blue) and German(right,green). Underscores denote spaces. Only the top frequent character-bigrams are showed.}
+
+\footnotetext{Source:\cite{goldberg2017neural}}
+
+\end{frame}
+
+
+\begin{frame}{Example: Language Detection}
+\begin{scriptsize}
+\begin{itemize}
+\item Previous figure showed clear patterns in the data, and, given a new item, such as:
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.4]{pics/langbigramstest.png}
+\end{figure}
+
+\item We could probably tell that it is more similar to the German group than to the English one (observe the frequency of ``th'' and ``ie'').
+
+\item We can't use a single definite rule such as ``if it has th its English'' or ``if it has ie its German''.
+\item While German texts have considerably less ``th'' than English, the ``th'' may and does occur in German texts, and similarly the ``ie'' combination does occur in English.
+
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Example: Language Detection}
+\begin{scriptsize}
+\begin{itemize}
+\item The decision requires weighting different factors relative to each other.
+\item We can formalize the problem in a machine-learning setup using a linear model:
+\begin{equation}
+\begin{split}
+\hat{y} \quad = sign(f(\vec{x})) & = sign(\vec{x}\cdot \vec{w} + b) \\ 
+& = sign(\vec{x}_{aa}\times \vec{w}_{aa}+ \vec{x}_{ab}\times \vec{w}_{ab}+ \vec{x}_{ac}\times \vec{w}_{ac} \dots +b)
+\end{split}
+\end{equation}
+\item A document will be considered English if $f(\vec{x}) \geq 0$  and as German otherwise.
+\end{itemize}
+
+\begin{block}{Intuition}
+\begin{enumerate}
+\item Learning should assign large positive values to $\vec{w}$ entries associated with letter pairs that are much more common in English than in German (i.e., ``th'').
+\item It should also assign negative values to letter pairs that are much more common in German than in English (``ie'', ``en'').
+\item Finally, it should assign  values around zero to letter pairs that are either common or rare in both languages.
+\end{enumerate}
+\end{block}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Log-linear Binary classifcation}
+\begin{scriptsize}
+\begin{itemize}
+\item The output $f(\vec{x})$ is in the range $[-\infty,\infty]$ , and we map it to one of two classes $\{-1,+1\}$ using the $sign$ function.
+\item This is a good fit if all we care about is the assigned class.
+\item We may be interested also in the confidence of the decision, or the probability that the classifier assigns to the class.
+\item An alternative that facilitates this is to map instead to the range $[0,1]$, by pushing the output through a squashing function such as the sigmoid $\sigma(x)$:
+\begin{equation}
+\sigma(x) = \frac{1}{1+e^{-x}}  
+\end{equation}
+resulting in: 
+\begin{equation}
+\hat{y}=\sigma(f(\vec{x})) = \frac{1}{1+e^{-\vec{x}\cdot \vec{w}+b}}  
+\end{equation}
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{The Sigmoid function}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.3]{pics/sigmoid.png}
+\end{figure}
+\begin{scriptsize}
+\begin{itemize}
+\item The output $f(\vec{x})$ is in the range $[-\infty,\infty]$ , and we map it to one of two classes $\{-1,+1\}$ using the $sign$ function.
+\item This is a good fit if all we care about is the assigned class.
+\item We may be interested also in the confidence of the decision, or the probability that the classifier assigns to the class.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Training}
+\begin{scriptsize}
+\begin{itemize}
+\item  When training a parameterized function (e.g., a linear model, a neural network) one defines a loss function $L(\hat{y}, y)$, stating the loss of predicting $\hat{y}$ when the true output is y.
+
+\item The training objective is then to minimize the loss across the different training examples. 
+
+\item Functions are trained using  gradient-based methods.
+
+\item They work by repeatedly computing an estimate of the loss $L$ over the training set.
+
+\item They compute gradients of the parameters with respect to the loss estimate, and moving the parameters in the opposite directions of the gradient. 
+
+\item Different optimization methods differ in how the error estimate is computed, and how moving in the opposite direction of the gradient is defined.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Gradient Descent}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.15]{pics/sgd.png}
+\end{figure}
+
+\footnotetext{Source: \url{https://sebastianraschka.com/images/faq/closed-form-vs-gd/ball.png}}
+
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Online Stochastic Gradient Descent}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.3]{pics/Online-SGD.png}
+\end{figure}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The learning rate can either be fixed throughout the
+training process, or decay as a function of the time step $t$.
+\item  The error calculated in line 3 is based on a single training example, and is thus just a rough estimate of the corpus-wide loss $L$ that we are aiming to minimize. 
+\item The noise in the loss computation may result in inaccurate gradients (single examples may provide noisy information).
+
+\end{itemize}
+
+
+\end{scriptsize}
+
+\footnotetext{Source:\cite{goldberg2017neural}}
+
+\end{frame}
+
+
+\begin{frame}{Mini-batch Stochastic Gradient Descent}
+
+
+\begin{scriptsize}
+\begin{itemize}
+\item A common way of reducing this noise is
+to estimate the error and the gradients based on a sample of $m$ examples.
+\item This gives rise to the minibatch SGD algorithm
+
+
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/minibatch-SGD.png}
+\end{figure}
+
+\item Higher values of $m$ provide better estimates of the corpus-wide gradients, while smaller values allow more updates and in turn faster convergence.
+
+\item For modest sizes of $m$ , some computing architectures (i.e., GPUs) allow an efficient parallel implementation of the computation in lines 3-6.
+
+\end{itemize}
+\end{scriptsize}
+
+\footnotetext{Source:\cite{goldberg2017neural}}
+
+\end{frame}
+
+
+
+\begin{frame}{Some Loss Functions}
+\begin{scriptsize}
+\begin{itemize}
+ \item Hinge (or SVM loss):  for binary classification problems, the classifier's output is a single scalar $\tilde{y}$ and the intended output y is in $\{+1,-1\}$.  The classification rule is $\hat{y} = sign(\tilde{y})$, and a classification is considered correct if $y \cdot \tilde{y} > 0$.  
+ \begin{displaymath}
+  L_{\text{hinge}(\text{binary})}(\tilde{y},y) = \max(0,1-y \cdot \tilde{y})  
+ \end{displaymath}
+
+ \item Binary cross entropy (or logistic loss): is used in binary classification with conditional probability outputs. The classifier's output $\tilde{y}$ is transformed using the sigmoid function to the range $[0,1]$ , and is interpreted as the conditional probability $P(y=1|x)$.
+  \begin{displaymath}
+  L_{\text{logistic}}(\hat{y},y) = -y \log \hat{y} - (1-y) \log(1-\hat{y})  
+ \end{displaymath}
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Some Loss Functions}
+\begin{scriptsize}
+\begin{itemize}
+
+ \item Categorical cross-entropy loss:  is used when a probabilistic interpretation of multi-class scores is desired. It measures the dissimilarity between the true label distribution $y$ and the predicted label distribution $\tilde{y}$. 
+   \begin{displaymath}
+  L_{\text{cross-entropy}}(\hat{y},y) = - \sum_{i} y_{[i]} \log(\hat{y}_{[i]})   
+ \end{displaymath}
+\item The predicted label distribution of the categorical cross-entropy loss ($\hat{y}$) is obtained by applying the softmax function the last layer of the network $\tilde{y}$:
+    \begin{displaymath}
+\hat{y}_{[i]} = \text{softmax}(\tilde{y})_{[i]} =  \frac{e^{\tilde{y}_{[i]}}}{\sum_{j}e^{\tilde{y}_{[j]}}}   
+ \end{displaymath}
+ 
+\item The softmax function squashes the $k$-dimensional output to values in the range (0,1) with all entries adding up to 1. Hence, $\hat{y}_{[i]} = P( y = i |x)$ represent the class membership conditional distribution.
+ 
+\end{itemize}
+\end{scriptsize}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Train, Test, and Validation Sets}
+\begin{scriptsize}
+\begin{itemize}
+\item Parameterized function are prone to overfit the data.
+\item Hence, performance on training data can be misleading.
+\item Held-out set: split training set into training and testing subsets (80\% and 20\% splits). Train on training and compute accuracy on testing.
+\item Problem: in practice you often train several models, compare their quality, and select the best one. 
+\item Selecting the best model according to the held-out set's accuracy will result in an overly optimistic estimate of the model's quality.
+\item You don't know if the chosen settings of the final classifier are good in general, or are just good for the particular examples in the held-out sets.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Train, Test, and Validation Sets}
+\begin{scriptsize}
+\begin{itemize}
+\item The accepted methodology is to use a three-way split of the data into train, validation (also called development ), and test sets \footnote{An alternative approach is cross-validation, but it doesn't scale well for training deep neural networks.}. 
+\item This gives you two held-out sets: a validation set (also called development set ), and a test set.
+\item All the experiments, tweaks, error analysis, and model selection should be performed based on the validation set. 
+\item Then, a single run of the final model over the test set will give a good estimate of its expected quality on unseen examples. 
+\item It is important to keep the test set as pristine as possible, running as few experiments as possible on it. 
+\item Some even advocate that you should not even look at the examples in the test
+set, so as to not bias the way you design your model.
+
+
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Train, Test, and Validation Sets}
+\begin{scriptsize}
+
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.55]{pics/validation.png}
+\end{figure}
+
+\footnotetext{source: \url{https://www.codeproject.com/KB/AI/1146582/validation.PNG}}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Questions?}
+%\vspace{1.5cm}
+\begin{center}\LARGE Thanks for your Attention!\\ \end{center}
+
+
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]\scriptsize
+\frametitle{References}
+\bibliography{bio}
+\bibliographystyle{apalike}
+%\bibliographystyle{flexbib}
+\end{frame}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

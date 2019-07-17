@@ -8,6 +8,8 @@ This is a course on natural language processing.
 
 * [Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing) (in Spanish)
 
+* [Course Calendar](https://calendar.google.com/calendar?cid=MXJtNGcwMmc4OTNoZTBvdnAwczhkNGUzMWtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
+
 
 ### Info
 The neural network-related topics of the course are taken from the book of Yoav Goldberg: 

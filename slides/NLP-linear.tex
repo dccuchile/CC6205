@@ -263,21 +263,99 @@ resulting in:
 \end{scriptsize}
 \end{frame}
 
+
 \begin{frame}{The Sigmoid function}
 \begin{figure}[htb]
 	\centering
-	 \includegraphics[scale=0.3]{pics/sigmoid.png}
+	 \includegraphics[scale=0.5]{pics/sigmoid.png}
 \end{figure}
+\end{frame}
+
+
+
+\begin{frame}{The Sigmoid function}
+
 \begin{scriptsize}
 \begin{itemize}
-\item The output $f(\vec{x})$ is in the range $[-\infty,\infty]$ , and we map it to one of two classes $\{-1,+1\}$ using the $sign$ function.
-\item This is a good fit if all we care about is the assigned class.
-\item We may be interested also in the confidence of the decision, or the probability that the classifier assigns to the class.
+\item The sigmoid function is is monotonically increasing, and maps values
+to the range $[0, 1]$, with $0$ being mapped to $\frac{1}{2}$.
+\item When used with a suitable loss function (discussed later) the binary predictions made through the log-linear model can be interpreted as class membership probability estimates:
+\begin{equation}
+ \sigma(f(\vec{x})) = P(\hat{y} = 1| \vec{x}) \quad \text{of $\vec{x}$ belonging to the positive class.}
+\end{equation}
+\item We also get $P(\hat{y} = 0| \vec{x}) = 1 - P(\hat{y} = 1| \vec{x}) = 1 -  \sigma(f(\vec{x}))$
+\item The closer the value is to $0$ or $1$ the more certain the model is in its class membership prediction, with the value of $0.5$ indicating model uncertainty.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
 
 
+
+
+\begin{frame}{Multi-class Classification}
+
+\begin{scriptsize}
+\begin{itemize}
+\item Most classification problems are of a multi-class nature, in which we
+should assign an example to one of $k$ different classes.
+\item For example, we are given a document and asked to classify it into one of six possible languages: English, French, German, Italian, Spanish, Other.
+\item A possible solution is to consider six weight vectors $\vec{w}_{EN}$,$\vec{w}_{FR},\dots$ and biases, one for each
+language, and predict the language resulting in the highest score:
+\begin{equation}
+ \hat{y} = f(\vec{x}) = \operatorname{argmax}_{L \in \{ EN,FR,GR,IT,SP,O \}} \quad \vec{x}\cdot \vec{w}_L+ b_{L}
+\end{equation}
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-class Classification}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The six sets of parameters $\vec{w}_L \in  \mathcal{R}^{784}$ and $b_L$  can be arranged as a matrix $W \in \mathcal{R}^{784\times6}$ and vector $\vec{b} \in \mathcal{R}^6$ , and the equation re-written as:
+\begin{equation}
+ \begin{split}
+  \vec{\hat{y}} = f(\vec{x}) = \quad & \vec{x} \cdot W + \vec{b}\\
+   \text{prediction} = \hat{y} = \quad  & \operatorname{argmax}_i \vec{\hat{y}}_{[i]} 
+ \end{split}
+\end{equation}
+
+\item Here $\vec{\hat{y}} \in \mathcal{R}^6$ is a vector of the scores assigned by the model to each language, and we again determine the predicted language by taking the argmax over the entries of $\vec{\hat{y}}$.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Representations}
+
+\begin{scriptsize}
+\begin{itemize}
+\item Consider the vector $\vec{\hat{y}}$  resulting from applying a trained model to a document.
+\item The vector can be considered as a representation of the document, capturing the properties of the document that are important to us, namely the scores of the different languages.
+\item The representation $\vec{\hat{y}}$  contains strictly more information than the prediction $\operatorname{argmax}_i \vec{\hat{y}}_{[i]} $.
+\item For example, $\vec{\hat{y}}$ can be used to distinguish documents in which the main language in German, but which also contain a sizeable amount of French words.
+\item By clustering documents based on their vector representations as assigned by the model, we could perhaps discover documents written in regional dialects, or by multilingual authors.
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Representations}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The vectors $\vec{x}$ containing the normalized letter-bigram counts for the documents are also representations of the documents.
+\item Arguably containing a similar kind of information to the vectors  $\vec{\hat{y}}$. 
+\item However, the representations in  $\vec{\hat{y}}$ is more compact (6 entries instead of 784) and more specialized for the language prediction objective.
+\item Clustering by the vectors $\vec{x}$ would likely reveal document similarities that are not due to a particular mix of languages, but perhaps due to the document's topic or writing styles.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{Training}

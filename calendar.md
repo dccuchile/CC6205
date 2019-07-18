@@ -2,8 +2,8 @@
 
 1. Semana 1
 	
-   1. Martes 30/07. Cátedra: Introducción
-   2. Jueves 01/08. Cátedra: Information Retrieval
+   *. Martes 30/07. Cátedra: Introducción
+   *. Jueves 01/08. Cátedra: Information Retrieval
    
 2. Semana 2
 	 	

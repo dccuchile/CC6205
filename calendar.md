@@ -9,6 +9,7 @@
 	 	
     * Martes 06/08. Cátedra:  Language Models
     * Jueves 08/08. Auxiliar 1 - Ejercicio 1
+    * Viernes 09/08. Vence Plazo para inscribir grupo y proyecto.
     
 3. Semana 3
 

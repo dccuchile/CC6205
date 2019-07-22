@@ -2,7 +2,7 @@
 This is a course on natural language processing.
 
 * Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
-* TAs: TBA
+* TAs: [Pablo Badilla](https://github.com/pabloBad), [Jocelyn Durstan](https://sites.google.com/view/jdunstan/home), [Felipe Arias](https://github.com/felipeariastapia)
 
 * Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00
 

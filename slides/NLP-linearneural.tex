@@ -40,7 +40,7 @@
 {\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
 \newcommand{\bigtimes}{\BIGOP{\times}}
 \vspace{-0.5cm}
-\title{Natural Language Processing \\ Linear Models}
+\title{Natural Language Processing \\ Linear Models and Neural Networks}
 \vspace{-0.5cm}
 \author[Felipe Bravo Márquez]{\footnotesize
 %\author{\footnotesize  
@@ -296,11 +296,10 @@ to the range $[0, 1]$, with $0$ being mapped to $\frac{1}{2}$.
 
 \begin{scriptsize}
 \begin{itemize}
-\item Most classification problems are of a multi-class nature, in which we
-should assign an example to one of $k$ different classes.
-\item For example, we are given a document and asked to classify it into one of six possible languages: English, French, German, Italian, Spanish, Other.
-\item A possible solution is to consider six weight vectors $\vec{w}_{EN}$,$\vec{w}_{FR},\dots$ and biases, one for each
-language, and predict the language resulting in the highest score:
+\item Most classification problems are of a multi-class nature: examples are assigned to one of $k$ different classes.
+\item Example: we are given a document and asked to classify it into one of six possible languages: English, French, German, Italian, Spanish, Other.
+\item Possible solution: consider six weight vectors $\vec{w}_{EN}$,$\vec{w}_{FR},\dots$ and biases (one for each language).
+\item Predict the language resulting in the highest score:
 \begin{equation}
  \hat{y} = f(\vec{x}) = \operatorname{argmax}_{L \in \{ EN,FR,GR,IT,SP,O \}} \quad \vec{x}\cdot \vec{w}_L+ b_{L}
 \end{equation}
@@ -334,10 +333,11 @@ language, and predict the language resulting in the highest score:
 \begin{scriptsize}
 \begin{itemize}
 \item Consider the vector $\vec{\hat{y}}$  resulting from applying a trained model to a document.
-\item The vector can be considered as a representation of the document, capturing the properties of the document that are important to us, namely the scores of the different languages.
+\item The vector can be considered as a representation of the document.
+\item It captures the properties of the document that are important to us:  the scores of the different languages.
 \item The representation $\vec{\hat{y}}$  contains strictly more information than the prediction $\operatorname{argmax}_i \vec{\hat{y}}_{[i]} $.
-\item For example, $\vec{\hat{y}}$ can be used to distinguish documents in which the main language in German, but which also contain a sizeable amount of French words.
-\item By clustering documents based on their vector representations as assigned by the model, we could perhaps discover documents written in regional dialects, or by multilingual authors.
+\item Example: $\vec{\hat{y}}$ can be used to distinguish documents in which the main language is German, but which also contain a sizeable amount of French words.
+\item Clustering documents based on $\vec{\hat{y}}$ could help to discover documents written in regional dialects, or by multilingual authors.
 
 
 \end{itemize}
@@ -350,12 +350,232 @@ language, and predict the language resulting in the highest score:
 \begin{scriptsize}
 \begin{itemize}
 \item The vectors $\vec{x}$ containing the normalized letter-bigram counts for the documents are also representations of the documents.
-\item Arguably containing a similar kind of information to the vectors  $\vec{\hat{y}}$. 
+\item Arguably containing a similar kind of information to the vectors $\vec{\hat{y}}$. 
 \item However, the representations in  $\vec{\hat{y}}$ is more compact (6 entries instead of 784) and more specialized for the language prediction objective.
 \item Clustering by the vectors $\vec{x}$ would likely reveal document similarities that are not due to a particular mix of languages, but perhaps due to the document's topic or writing styles.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
+
+
+\begin{frame}{Representations}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The trained matrix $W \in \mathcal{R}^{784 \times 6}$  can also be considered as containing learned representations.
+\item We can consider two views of $W$, as rows or as columns.
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.35]{pics/2rep.png}
+\end{figure}
+
+Two views of the $W$ matrix. (a) Each column corresponds to a language. (b) Each row
+corresponds to a letter bigram. Source: \cite{goldberg2017neural}.
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Representations}
+
+\begin{scriptsize}
+\begin{itemize}
+\item A column of $W$ can be taken to be a $784$-dimensional vector representation of a language in terms of its characteristic letter-bigram patterns.
+\item We can then cluster the 6 language vectors according to their similarity.
+\item Each of the 784 rows of $W$ provide a 6-dimensional vector representation of that bigram in terms of the languages it prompts.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Representations}
+
+\begin{scriptsize}
+\begin{itemize}
+\item Representations are central to deep learning.
+\item One could argue that the main power of deep-learning is the ability to learn good representations.
+\item In the linear case, the representations are interpretable.
+\item We can assign a meaningful interpretation to each dimension in the
+representation vector.
+\item For example: each dimension corresponds to a particular language or letter-bigram.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Representations}
+
+\begin{scriptsize}
+\begin{itemize}
+\item Deep learning models, on the other hand,  often learn a cascade of representations of the input that build on top of each other. 
+\item These representations are often not interpretable.
+\item We do not know which properties of the input they capture.
+\item However, they are still very useful for making predictions.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{One-Hot Vector Representation}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The input vector $\vec{x}$ in our language classification example contains the normalized bigram counts in the document $D$.
+\item This vector can be decomposed into an average of $|D|$ vectors, each corresponding to a particular document position $i$:
+\begin{equation}
+ \vec{x} = \frac{1}{|D|} \sum_{i=1}^{|D|} \vec{x}^{D_{[i]}}
+\end{equation}
+\item Here, $D_{[i]}$ is the bigram at document position $i$.
+\item Each vector  $\vec{x}^{D_{[i]}} \in \mathcal{R}^{784}$ is a one-hot vector.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{One-Hot Vector Representation}
+
+\begin{scriptsize}
+\begin{itemize}
+\item A one-hot vector: all entries are zero except the single entry corresponding to the letter bigram $D_{[i]}$, which is 1.
+\item The resulting vector $\vec{x}$ is commonly referred to as an averaged bag of bigrams (more generally averaged bag of words , or just bag of words).
+\item Bag-of-words (BOW) representations contain information about the identities of all the ``words'' (here, bigrams) of the document, without considering their order.
+\item A one-hot representation can be considered as a bag-of-a-single-word.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{One-Hot Vector Representation}
+
+\begin{scriptsize}
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.35]{pics/onehot.png}
+\end{figure}
+
+One-hot vectors of words. Source: \url{https://medium.com/@athif.shaffy/one-hot-encoding-of-text-b69124bef0a7}.
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Log-linear Multi-class Classification}
+
+\begin{scriptsize}
+\begin{itemize}
+\item In the binary case, we transformed the linear prediction into a probability estimate by passing it through the sigmoid function, resulting in a log-linear model.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Introduction to Neural Networks}
+\begin{scriptsize}
+\begin{itemize}
+\item Very popular machine learning models formed by units called \textbf{neurons}.
+\item A neuron is a computational unit that has scalar inputs and outputs. 
+\item  Each input has an associated weight $w$.
+ \item The neuron multiplies each input by its weight, and then sums them (other functions such as \textbf{max} are also possible). 
+\item It applies an activation function $g$ (usually non-linear) to the result, and passes it to its output.
+\item Multiple layers can be stacked.
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Activation Functions}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The nonlinear activation function $g$ has a crucial role in the network's ability to represent complex functions. 
+\item Without the nonlinearity in g, the neural network can only represent linear transformations of the input.
+\end{itemize}
+
+
+\end{scriptsize}
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.24]{pics/activations.png}
+\end{figure}
+
+\footnotetext{Source:\cite{goldberg2017neural}}
+
+\end{frame}
+
+
+\begin{frame}{Feedforward Network with two Layers}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.38]{pics/NN-example.png}
+\end{figure}
+
+\footnotetext{Source:\cite{goldberg2017neural}}
+
+\end{frame}
+
+
+
+\begin{frame}{Brief Introduction to Neural Networks}
+\begin{scriptsize}
+\begin{itemize}
+\item The feedforward network from the picture is a stack of linear models separated by nonlinear functions.
+\item The values of each row of neurons in the network can be thought of as a vector. 
+
+\item The input layer is a 4-dimensional vector $(\vec{x})$, and the layer above it is a 6-dimensional vector $(\vec{h}^1)$.
+\item The fully connected layer can be thought of as a linear transformation from 4 dimensions to 6 dimensions. 
+\item A fully connected layer implements a vector-matrix multiplication, $\vec{h}=\vec{x}W$.
+\item The weight of the connection from the $i$-th neuron in the input row to the $j$-th neuron in the output row is $W_{[i,j]}$.
+\item The values of $\vec{h}$ are transformed by a nonlinear function $g$ that is applied to each value before being passed on as input to the next layer.
+
+\end{itemize}
+
+\footnotetext{Vectors are assumed to be row vectors and superscript indices correspond to network layers.}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Brief Introduction to Neural Networks}
+\begin{scriptsize}
+\begin{itemize}
+\item The Multilayer Perceptron (MLP) from the figure can be written as the following mathematical function:
+\begin{center}
+\begin{equation}
+\begin{split}
+NN_{MLP2}(\vec{x}) & =  \vec{y}  \\
+\vec{h}^{1} &  = g^{1}(\vec{x}W^{1}+\vec{b}^{1}) \\
+\vec{h}^{2} &  = g^{2}(\vec{h}^{1}W^{2}+\vec{b}^{2}) \\
+\vec{y} &  = \vec{h}^{2}W^{3}\\
+\vec{y} &  = (g^2(g^1(\vec{x}W^{1}+\vec{b}^{1})W^2+\vec{b}^2))W^3.\\
+\end{split}
+\end{equation}
+\end{center}
+%NN_{MLP2(x)}  =  y \\
+%h^{1} = g^{1}(xW^{1}+b{1}) \\
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
 
 
 \begin{frame}{Training}
@@ -497,6 +717,84 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 
 
 
+
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
+\item  One can compute the gradients of the various parameters of a network by hand and implement them in code.
+
+\item This procedure is cumbersome and error prone.
+
+\item For most purposes, it is preferable to use automatic tools for gradient computation [Bengio, 2012].
+
+\item A computation graph is a representation of an arbitrary mathematical computation (e.g., a neural network) as a graph.
+
+\item Consider for example a graph for the computation of $(a*b+1)*(a*b+2)$:
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/compGraph.png}
+\end{figure}
+
+\item The computation of $a*b$ is shared.
+
+\item The graph structure defines the order of the computation in terms of the dependencies between the different components.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
+
+\item  Te computation graph abstraction allows us to:
+
+
+\begin{enumerate}
+\begin{scriptsize}
+ \item Easily construct arbitrary networks.
+ \item Evaluate their predictions for given inputs (forward pass)
+ 
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/forwardPass.png}
+\end{figure}
+
+ 
+ 
+ \item Compute gradients for their parameters with respect to arbitrary scalar losses (backward pass or backpropagation).
+ 
+ 
+  
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/backwardPass.png}
+\end{figure}
+ 
+\end{scriptsize}
+ \end{enumerate}
+  
+  
+  
+  
+ \item The backpropagation algorithm (backward pass) is essentially following the chain-rule of differentiation\footnote{A comprehensive tutorial on the backpropagation algorithm over the computational graph abstraction: \url{https://colah.github.io/posts/2015-08-Backprop/}}.
+ 
+  
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+
 \begin{frame}{Train, Test, and Validation Sets}
 \begin{scriptsize}
 \begin{itemize}
@@ -547,7 +845,20 @@ set, so as to not bias the way you design your model.
 
 
 
+\begin{frame}{Deep Learning Frameworks}
+Several software packages implement the computation-graph model. All these packages support all the essential components (node types) for defining a wide range of neural network architectures.
+\begin{scriptsize}
+\begin{itemize}
+\item TensorFlow (\url{https://www.tensorflow.org/}): an open source software library for numerical computation using data-flow graphs originally developed by the Google Brain Team. 
 
+\item Keras: High-level neural network API that runs on top of Tensorflow as well as other backends (\url{https://keras.io/}). 
+
+\item PyTorch: open source machine learning library for Python, based on Torch, developed by Facebook's artificial-intelligence research group. It supports dynamic graph construction, a different computation graph is created from scratch for each training sample. (\url{https://pytorch.org/})
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 
 

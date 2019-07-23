@@ -299,7 +299,73 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \end{frame}
 
 
+\begin{frame}{Backpropagation (without vectorial derivatives)}
+\begin{scriptsize}
 
+
+\begin{itemize}
+\item In a general feed-forward netowrk, each unit computes a weighted sum of its inputs in the form:
+\begin{equation}
+\vec{h}_{[j]}^l = \sum_{i}  W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)} + \vec{b}_{[j]}^l
+\end{equation}
+
+
+\begin{equation}
+\frac{\partial L}{\partial W_{[i,j]}^l} = \frac{\partial L}{\partial \vec{h}_{[j]}^l} \times  \frac{\partial \vec{h}_{[j]}^l}{\partial W_{[i,j]}^l}
+\end{equation}
+
+\begin{equation}
+\vec{z}_{[j]}^l = g(\vec{h}_{[j]}^l)
+\end{equation}
+
+\begin{equation}
+\vec{z}_{[j]}^0 = \vec{x}_{[j]}
+\end{equation}
+
+
+
+\begin{equation}
+\vec{\delta}_{[j]}^l = \frac{\partial L}{\partial \vec{h}_{[j]}^l}
+\end{equation}
+
+\begin{equation}
+\frac{\partial \vec{h}_{[j]}^l}{\partial W_{[i,j]}^l} = \vec{z}_{[i]}^{(l-1)}
+\end{equation}
+
+
+\begin{equation}
+\frac{\partial L}{\partial W_{[i,j]}^l} = \vec{\delta}_{[j]}^l \times \vec{z}_{[i]}^{(l-1)}
+\end{equation}
+
+
+\begin{equation}
+\vec{\delta}_{[j]}^l = \frac{\partial L}{\partial \vec{h}_{[j]}^l} = \sum_{k,m (m>l)} \frac{\partial L}{\partial \vec{h}_{[k]}^m} \times \frac{\partial \vec{h}_{[k]}^m}{\partial \vec{h}_{[j]}^l}
+\end{equation}
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Backpropagation (without vectorial derivatives)}
+\begin{scriptsize}
+
+
+\begin{itemize}
+\item In a general feed-forward netowrk, each unit computes a weighted sum of its inputs in the form:
+\begin{equation}
+\vec{h}_{[j]}^l = \sum_{i}  W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)} + \vec{b}_{[j]}^l 
+\end{equation}
+
+\item where z i is the activation of a unit, or input, that sends a connection to unit j, and w ji is the weight associated with that connection. superscripts correpond to layer indexes
+
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{The Computation Graph Abstraction}

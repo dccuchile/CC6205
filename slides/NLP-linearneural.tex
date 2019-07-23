@@ -99,12 +99,12 @@ predictions also for instances it has not seen during training.
 \item One common hypothesis class is that of high-dimensional linear function:
 \begin{equation}
 \begin{split}
-f(x) = \vec{x} \cdot W + \vec{b}\\
+f(\vec{x}) = \vec{x} \cdot W + \vec{b}\\
 \vec{x} \in  \mathcal{R}^{d_{in}} & \quad W \in  \mathcal{R}^{d_{in}\times d_{out}} \quad \vec{b} \in  \mathcal{R}^{d_{out}}
 \end{split}
 \end{equation}
 \item The vector $\vec{x}$ is the input to the function.
-\item The matrix $W$ and the vector $\vec{b}$ are the parameters.
+\item The matrix $W$ and the vector $\vec{b}$ are the \textbf{parameters}.
 
 \item The goal of the learner is to set the values of the parameters $W$ and $\vec{b}$ such that the function behaves as intended on a collection of input values $\vec{x}_{1:k} = \vec{x}_1,\dots,\vec{x}_k$ and the corresponding desired outputs $\vec{y}_{1:k} = \vec{y}_1,\dots,\vec{y}_k$
 
@@ -124,7 +124,7 @@ f(x) = \vec{x} \cdot W + \vec{b}\\
 \item This is a binary classifcation problem 
 \begin{equation}
 \begin{split}
-f(x) = \vec{x} \cdot \vec{w} + b\\
+f(\vec{x}) = \vec{x} \cdot \vec{w} + b\\
 \end{split}
 \end{equation}
  $d_{out}=1$, $\vec{w}$ is a vector, and $b$ is a scalar. 
@@ -469,11 +469,137 @@ One-hot vectors of words. Source: \url{https://medium.com/@athif.shaffy/one-hot-
 \begin{scriptsize}
 \begin{itemize}
 \item In the binary case, we transformed the linear prediction into a probability estimate by passing it through the sigmoid function, resulting in a log-linear model.
+\item The analog for the multi-class case is passing the score vector through the \textbf{softmax} function:
+\begin{equation}
+ \operatorname{softmax}(\vec{x})_{[i]} = \frac{e^{\vec{x}_{[i]}}}{\sum_j e^{\vec{x}_{[j]}}}
+\end{equation}
+Resulting in:
+\begin{equation}
+\begin{split}
+\hat{\vec{y}} \quad & =  \operatorname{softmax}(\vec{x} \cdot W + \vec{b})  \\
+\hat{\vec{y}}_{[i]} \quad & = \frac{e^{(\vec{x} \cdot W + \vec{b})_{[i]}}}{\sum_j e^{(\vec{x} \cdot W + \vec{b})_{[j]}}}
+\end{split}
+\end{equation}
+\item The softmax transformation forces the values in $\hat{\vec{y}}$ to be positive and sum to 1, making them interpretable as a probability distribution.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Limitations of linear models: the XOR problem}
+\begin{scriptsize}
+\begin{itemize}
+\item The hypothesis class of linear (and log-linear) models is severely restricted.
+\item For example, it cannot represent the XOR function, defined as:
+\begin{equation}
+ \begin{split}
+  \operatorname{xor}(0,0) \quad & = 0 \\
+  \operatorname{xor}(1,0) \quad & = 1 \\
+  \operatorname{xor}(0,1) \quad & = 1 \\
+  \operatorname{xor}(1,1) \quad & = 0 \\
+ \end{split}
+\end{equation}
 \end{itemize}
 \end{scriptsize}
 \end{frame}
 
 
+\begin{frame}{Limitations of linear models: the XOR problem}
+\begin{scriptsize}
+\begin{itemize}
+\item There is no parameterization $\vec{w} \in \mathcal{R}^2, b \in \mathcal{R}$ such that:
+\begin{equation}
+ \begin{split}
+  (0,0) \cdot \vec{w} +b \quad & < 0 \\
+  (0,0) \cdot \vec{w} +b \quad & < 0 \\
+  (0,0) \cdot \vec{w} +b \quad & < 0 \\
+  (0,0) \cdot \vec{w} +b \quad & < 0 \\
+ \end{split}
+\end{equation}
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Limitations of linear models: the XOR problem}
+\begin{scriptsize}
+\begin{itemize}
+\item To see why, consider the following plot of the XOR function, where blue Os denote the positive class and green Xs the negative class.
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.35]{pics/xor.png}
+\end{figure}
+\item It is clear that no straight line can separate the two classes.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Nonlinear input transformations}
+\begin{scriptsize}
+\begin{itemize}
+\item If we transform the points by feeding each of them through the nonlinear function $\phi(x_1,x_2) = [x_1 \times x_2, x_1 x_2 ]$ , the XOR problem becomes linearly separable.
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.25]{pics/xor2.png}
+\end{figure}
+
+\item The function $\phi$ mapped the data into a representation that is suitable for linear classification.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Nonlinear input transformations}
+\begin{scriptsize}
+\begin{itemize}
+\item We can now easily train a linear classifier to solve the XOR problem.
+\begin{equation}
+ \hat{y} = f(\vec{x}) = \phi(\vec{x}) \cdot \vec{w} +b
+\end{equation}
+\item Problem: we need to manually define the function $\phi$.
+\item This process is dependent on the particular dataset, and requires a lot of human intuition.
+\item Solution: define a trainable nonlinear mapping function, and train it in con-
+junction with the linear classifier.
+\item Finding the suitable representation becomes the responsibility of the training algorithm.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Trainable mapping functions}
+\begin{scriptsize}
+\begin{itemize}
+\item The mapping function can take the form of a parameterized linear model.
+\item Followed by a nonlinear activation function $g$ that is applied to each of the output dimensions:
+\begin{equation}
+\begin{split}
+\hat{y} = f(\vec{x}) = \phi(\vec{x}) \cdot \vec{w} +b \\
+\phi(\vec{x}) = g(\vec{x}W'+ \vec{b}') \\
+\end{split} 
+\end{equation}
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Trainable mapping functions}
+\begin{scriptsize}
+\begin{itemize}
+\item By taking $g(x) = \operatorname{max}(0, x)$ and $W' = \begin{pmatrix}
+    1 & 1 \\ 1 & 1 \end{pmatrix}$, $\vec{b}' = \begin{pmatrix}
+    -1 & 0 \end{pmatrix}$.
+\item We get an equivalent mapping to $[x_1 \times x_2, x_1 + x_2]$  for the our points of interest (0,0), (0,1), (1,0), and (1,1).
+\item This successfuly solves the XOR problem!
+\item Learning both the representation function and the linear classifier on top of it at the same time is the main idea behind deep learning and neural networks.
+\item In fact, previous equation describes a very common neural network architecture called a multi-layer perceptron (MLP).
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 
 

@@ -299,48 +299,60 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \end{frame}
 
 
-\begin{frame}{Backpropagation (without vectorial derivatives)}
+
+
+\begin{frame}{Backpropagation}
 \begin{scriptsize}
 
 
 \begin{itemize}
-\item In a general feed-forward netowrk, each unit computes a weighted sum of its inputs in the form:
+\item Backpropagation is an efficient technique for evaluating the gradient
+of a loss function $L$ for a feed-forward neural network with respect to all its parameters \cite{bishop2006pattern}. \footnote{The following slides on backpropagation are based on \cite{bishop2006pattern}, we adapted the notation to be consistent with \cite{goldberg2017neural}.}
+\item Those parameters are: $W^1, \vec{b}^1, \dots, W^m, \vec{b}^m$, for a network of $m$ layers.
+\item Recall that superscripts are used to denote layer indexes (not exponentiations).
+\item For simplicity, we will assume that $L$ is calculated over a single example.
+
+\item In a general feed-forward network, each unit computes a weighted sum of its inputs in the form:
 \begin{equation}
-\vec{h}_{[j]}^l = \sum_{i}  W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)} + \vec{b}_{[j]}^l
+\vec{h}_{[j]}^l = \sum_{i}  \left( W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)} + \vec{b}_{[j]}^l \right)
+\label{eq:sum}
 \end{equation}
 
+\item The variable $\vec{z}_{[i]}^{(l-1)}$ is an input that sends a connection to unit $\vec{h}_{[j]}^l$, $W_{[i,j]}^l$ is the weight associated with that connection, and $l$ is the layer index.
+
+\item The biases vectors  $\vec{b}_{[j]}$ can be excluded from (eq.\ref{eq:sum}) and included to the weight matrix $W_{[i,j]}^l$ by introducing an extra unit, or input, with activation fixed at +1.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Backpropagation}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+\item The inputs at layer $l$, $\vec{z}_{[i]}^{(l-1)}$ are the result of applying the activation function $g$ to units from the previous layer:
 
 \begin{equation}
-\frac{\partial L}{\partial W_{[i,j]}^l} = \frac{\partial L}{\partial \vec{h}_{[j]}^l} \times  \frac{\partial \vec{h}_{[j]}^l}{\partial W_{[i,j]}^l}
+\vec{z}_{[j]}^{l} = g(\vec{h}_{[j]}^{l})
+\label{eq:ac}
 \end{equation}
 
-\begin{equation}
-\vec{z}_{[j]}^l = g(\vec{h}_{[j]}^l)
-\end{equation}
+\item For the input layer ($l=0$), $\vec{z}$ corresponds to the input vector $\vec{z} = \vec{x}$ 
 
 \begin{equation}
 \vec{z}_{[j]}^0 = \vec{x}_{[j]}
 \end{equation}
 
+\item For each instance in the training set, we supply the corresponding input vector $\vec{x}$ to the network.
+\item Next we calculate the activations of all of the hidden and output units in the network by successive application of (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}). 
 
-
-\begin{equation}
-\vec{\delta}_{[j]}^l = \frac{\partial L}{\partial \vec{h}_{[j]}^l}
-\end{equation}
-
-\begin{equation}
-\frac{\partial \vec{h}_{[j]}^l}{\partial W_{[i,j]}^l} = \vec{z}_{[i]}^{(l-1)}
-\end{equation}
-
-
-\begin{equation}
-\frac{\partial L}{\partial W_{[i,j]}^l} = \vec{\delta}_{[j]}^l \times \vec{z}_{[i]}^{(l-1)}
-\end{equation}
-
-
-\begin{equation}
-\vec{\delta}_{[j]}^l = \frac{\partial L}{\partial \vec{h}_{[j]}^l} = \sum_{k,m (m>l)} \frac{\partial L}{\partial \vec{h}_{[k]}^m} \times \frac{\partial \vec{h}_{[k]}^m}{\partial \vec{h}_{[j]}^l}
-\end{equation}
+\item This process is often called forward propagation because it can be regarded
+as a forward flow of information through the network.
 
 \end{itemize}
 
@@ -348,24 +360,195 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \end{scriptsize}
 \end{frame}
 
-\begin{frame}{Backpropagation (without vectorial derivatives)}
+
+\begin{frame}{Backpropagation}
 \begin{scriptsize}
 
 
 \begin{itemize}
-\item In a general feed-forward netowrk, each unit computes a weighted sum of its inputs in the form:
+
+\item Now consider the evaluation of the derivative of $L$ with respect to a weight
+$W_{[i,j]}^l$.
+
+\item Assuming that the loss $L$ is calculated over a single example, we can note that $L$ depends on the weight $W_{[i,j]}^l$ only via the summed input $\vec{h}_{[j]}^{l}$.
+
+
+\item We can therefore apply the chain rule for partial derivatives to give
+
 \begin{equation}
-\vec{h}_{[j]}^l = \sum_{i}  W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)} + \vec{b}_{[j]}^l 
+\frac{\partial L}{\partial W_{[i,j]}^l} = \frac{\partial L}{\partial \vec{h}_{[j]}^{l}} \times \frac{\partial \vec{h}_{[j]}^{l}}{\partial W_{[i,j]}^l}
+\label{eq:chain}
 \end{equation}
-
-\item where z i is the activation of a unit, or input, that sends a connection to unit j, and w ji is the weight associated with that connection. superscripts correpond to layer indexes
-
 
 \end{itemize}
 
 
 \end{scriptsize}
 \end{frame}
+
+
+
+\begin{frame}{Backpropagation}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+
+\item We now introduce a useful notation:
+
+\begin{equation}
+\vec{\delta}_{[j]}^l \equiv \frac{\partial L}{\partial \vec{h}_{[j]}^l}
+\label{eq:delta}
+\end{equation}
+
+\item Using (\ref{eq:sum}), we can write
+\begin{equation}
+\frac{\partial \vec{h}_{[j]}^l}{\partial W_{[i,j]}^l} = \vec{z}_{[i]}^{(l-1)}
+\label{eq:part}
+\end{equation}
+
+\item Substituting (\ref{eq:delta}) and (\ref{eq:part})  into (\ref{eq:chain}), we then obtain
+
+\begin{equation}
+\frac{\partial L}{\partial W_{[i,j]}^l} = \vec{\delta}_{[j]}^l \times \vec{z}_{[i]}^{(l-1)}
+\label{eq:deltarule}
+\end{equation}
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Backpropagation}
+\begin{scriptsize}
+
+\begin{itemize}
+ \item  Equation (\ref{eq:deltarule}) tells us that the required derivative is obtained simply by multiplying the value of $\vec{\delta}_{[j]}^l$ by the value of $\vec{z}_{[i]}^{(l-1)}$.
+ 
+ \item Thus, in order to evaluate the derivatives, we need only to calculate the value of $\vec{\delta}_{[j]}^l$ for each hidden and output unit in the network, and then apply (\ref{eq:deltarule}).
+ 
+ \item Calculating $\vec{\delta}_{[j]}^m$ for output units ($l=m$), is usually straightforward, since activation units $\vec{h}_{[j]}^m$ are directly observed in the loss expression.
+ 
+ \item The same applies for shallow linear models.
+\end{itemize} 
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Backpropagation}
+\begin{scriptsize}
+
+\begin{itemize}
+ \item To evaluate the $\vec{\delta}_{[j]}^l$ for hidden units, we again make use of the chain rule for partial derivatives:
+ 
+ \begin{equation}
+\vec{\delta}_{[j]}^l \equiv \frac{\partial L}{\partial \vec{h}_{[j]}^l} = \sum_{k}\left( \frac{\partial L}{\partial \vec{h}_{[k]}^{l+1}} \times \frac{\partial \vec{h}_{[k]}^{l+1}}{\partial \vec{h}_{[j]}^l}\right)
+\label{eq:deltachain}
+\end{equation}
+
+\item The sum runs over all units $\vec{h}_{[k]}^{l+1}$ to which unit $\vec{h}_{[j]}^l$ sends connections.
+
+\item We assume that connections go only to consecutive layers in the network (from layer $l$ to layer $(l+1)$).
+\item The units $\vec{h}_{[k]}^{l+1}$  could include other hidden units and/or output units.
+
+\item If we now substitute the definition of $\vec{\delta}_{[j]}^l$  given by (eq.\ref{eq:delta}) into (eq.\ref{eq:deltachain}), we get
+
+ \begin{equation}
+\vec{\delta}_{[j]}^l \equiv \frac{\partial L}{\partial \vec{h}_{[j]}^l} = \sum_{k}\left( \vec{\delta}_{[k]}^{(l+1)}  \times \frac{\partial \vec{h}_{[k]}^{l+1}}{\partial \vec{h}_{[j]}^l} \right)
+\label{eq:delta2}
+\end{equation}
+
+\end{itemize}
+
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Backpropagation}
+\begin{scriptsize}
+
+\begin{itemize}
+\item Now, for expression $\vec{h}_{[k]}^{l+1}$ we can go to its definition (eq.\ref{eq:sum}): 
+
+\begin{displaymath}
+\vec{h}_{[k]}^{(l+1)} = \sum_{i} \left(W_{[i,k]}^{l+1} \times \vec{z}_{[i]}^{l} + \vec{b}_{[k]}^{(l+1)}\right) 
+\end{displaymath}
+
+\item Now, we replace (eq.\ref{eq:ac}) $(\vec{z}_{[i]}^{l} = g(\vec{h}_{[i]}^{l}))$  
+into previous equation and we obtain:
+
+\begin{displaymath}
+\vec{h}_{[k]}^{(l+1)} = \sum_{i}  \left( W_{[i,k]}^{l+1} \times g(\vec{h}_{[i]}^{l}) + \vec{b}_{[k]}^{(l+1)}\right) 
+\end{displaymath}
+
+
+\item Now when calculating $\frac{\partial \vec{h}_{[k]}^{l+1}}{\partial \vec{h}_{[j]}^l}$ all the terms in the summation where $i \neq j$ get canceled out.   
+
+
+\item Hence:
+
+\begin{equation}
+\frac{\partial \vec{h}_{[k]}^{l+1}}{\partial \vec{h}_{[j]}^l} =  W_{[j,k]}^{l+1} \times g'(\vec{h}_{[j]}^{l})
+\label{eq:partialhh}
+\end{equation}
+
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Backpropagation}
+\begin{scriptsize}
+
+\begin{itemize}
+\item Now, if we substitute (eq.\ref{eq:partialhh}) into (eq.\ref{eq:delta2})
+
+
+ \begin{equation}
+\vec{\delta}_{[j]}^l \equiv \frac{\partial L}{\partial \vec{h}_{[j]}^l} = \sum_{k} \left( \vec{\delta}_{[k]}^{(l+1)}  \times W_{[j,k]}^{l+1} \times g'(\vec{h}_{[j]}^{l}) \right)
+\label{eq:delta3}
+\end{equation}
+
+\item Since $g'(\vec{h}_{[j]}^{l})$ doesn't depend on $k$ we can obtain the following backpropagation formula:
+
+ \begin{equation}
+\vec{\delta}_{[j]}^l = g'(\vec{h}_{[j]}^{l}) \times \sum_{k} \left( \vec{\delta}_{[k]}^{(l+1)}  \times W_{[j,k]}^{l+1}\right)  
+\label{eq:delta4}
+\end{equation}
+
+\item Which tells us that the value of $\delta$ for a particular hidden unit can be obtained by propagating the $\delta$'s backwards from units higher up in the network. \cite{bishop2006pattern}.
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Backpropagation }
+\begin{scriptsize}
+The backpropagation procedure can  be summarized as follows.
+\begin{enumerate}
+ \item Apply an input vector $\vec{x}$  to the network and forward propagate through
+the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations of all the hidden and output units.
+\item Evaluate the $\vec{\delta}_{[j]}^m$ for all the output units (recall that the derivatives involved here are easy to calculate).
+\item Backpropagate the $\vec{\delta}_{[k]}^{(l+1)}$ using (eq.\ref{eq:delta4}) to obtain $\vec{\delta}_{[j]}^l$ for each hidden unit in the network. We go from higher to lower layers in the network.
+\item Use (eq.\ref{eq:deltarule}) $(\frac{\partial L}{\partial W_{[i,j]}^l} = \vec{\delta}_{[j]}^l \times \vec{z}_{[i]}^{(l-1)})$ to evaluate the required derivatives.
+\end{enumerate}
+
+
+\end{scriptsize}
+\end{frame}
+
+
 
 
 \begin{frame}{The Computation Graph Abstraction}
@@ -448,7 +631,7 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \begin{frame}{Train, Test, and Validation Sets}
 \begin{scriptsize}
 \begin{itemize}
-\item Parameterized function are prone to overfit the data.
+\item Neural networks are prone to overfit the data.
 \item Hence, performance on training data can be misleading.
 \item Held-out set: split training set into training and testing subsets (80\% and 20\% splits). Train on training and compute accuracy on testing.
 \item Problem: in practice you often train several models, compare their quality, and select the best one. 

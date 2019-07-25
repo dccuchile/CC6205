@@ -314,7 +314,7 @@ of a loss function $L$ for a feed-forward neural network with respect to all its
 
 \item In a general feed-forward network, each unit computes a weighted sum of its inputs in the form:
 \begin{equation}
-\vec{h}_{[j]}^l = \sum_{i}  \left( W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)} + \vec{b}_{[j]}^l \right)
+\vec{h}_{[j]}^l = \left(\sum_{i}  W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)}\right) + \vec{b}_{[j]}^l 
 \label{eq:sum}
 \end{equation}
 
@@ -477,14 +477,14 @@ $W_{[i,j]}^l$.
 \item Now, for expression $\vec{h}_{[k]}^{l+1}$ we can go to its definition (eq.\ref{eq:sum}): 
 
 \begin{displaymath}
-\vec{h}_{[k]}^{(l+1)} = \sum_{i} \left(W_{[i,k]}^{l+1} \times \vec{z}_{[i]}^{l} + \vec{b}_{[k]}^{(l+1)}\right) 
+\vec{h}_{[k]}^{(l+1)} = \left( \sum_{i} W_{[i,k]}^{l+1} \times \vec{z}_{[i]}^{l}\right) + \vec{b}_{[k]}^{(l+1)} 
 \end{displaymath}
 
 \item Now, we replace (eq.\ref{eq:ac}) $(\vec{z}_{[i]}^{l} = g(\vec{h}_{[i]}^{l}))$  
 into previous equation and we obtain:
 
 \begin{displaymath}
-\vec{h}_{[k]}^{(l+1)} = \sum_{i}  \left( W_{[i,k]}^{l+1} \times g(\vec{h}_{[i]}^{l}) + \vec{b}_{[k]}^{(l+1)}\right) 
+\vec{h}_{[k]}^{(l+1)} = \left( \sum_{i}   W_{[i,k]}^{l+1} \times g(\vec{h}_{[i]}^{l})\right)  + \vec{b}_{[k]}^{(l+1)}
 \end{displaymath}
 
 

@@ -65,20 +65,20 @@
    \item How can a company process the claims left by its users on its Web portals?
   \end{itemize}
 
-The following areas of knowledge study these problems:
+These problems are studied in the following fields:
 
 \begin{itemize}
- \item \emph{Information Retrieval}:  science of searching for information in a documents.
- \item \emph{Text Mining}: Extraction of knowledge from text.
+ \item \emph{Information Retrieval}:  science of searching for information in  document collections.
+ \item \emph{Text Mining}: automatic extraction of knowledge from text.
 \end{itemize}
 
-Both of them are closely related to NLP! (the borders between these fields are unclear)
+Both of them are closely related to NLP! (the borders between these fields are unclear).
 
 \end{frame}
 
 \begin{frame}\frametitle{Tokens and Types}
 {\footnotesize
-Tokenization: The task of splitting a sentence or document into \emph{tokens}. \\
+Tokenization: the task of splitting a sentence or document into pieces called \emph{tokens}. \\
 Additional transformations can be employed such as the removal of special characters (e.g., punctuation), lowercasing, etc. ~\cite{manning2008}. 
 
 \begin{block}{Example}
@@ -86,12 +86,16 @@ Input: I like human languages and programming languages.\\
 Tokens: [I] [like] [human] [languages] [and] [programming] [languages]
 \end{block}
 
-A \emph{type} is a class of \emph{token} containing a single sequence of characters.
-They are obtained by identifying unique tokens within the document.
+
 
 \begin{block}{Types}
-Tipos: [I] [like] [human] [languages] [and] [programming]  \\
-\center{\textit{The token \emph{languages} was repeated in the sentece}}
+\begin{itemize}
+ \item A \emph{type} is a class of \emph{token} containing a single sequence of characters.
+\item They are obtained by identifying unique tokens within the document.
+\end{itemize}
+
+Types for the previous sentence: [I] [like] [human] [languages] [and] [programming]  \\
+\center{The token \emph{languages} was repeated in the sentence.}
 \end{block}
 
 
@@ -101,11 +105,15 @@ Tipos: [I] [like] [human] [languages] [and] [programming]  \\
 
 \begin{frame}\frametitle{Vocabulary Extraction }
 \footnotesize{
-A  \emph{term} is a normalized \emph{type}. The vocabulary $V$, is the set of terms (normalized unique tokens) within a collection of documents or corpus $D$.
+\begin{itemize}
+ \item A  \emph{term} is a normalized \emph{type}. 
+ \item Normalization is the process of creating equivalence classes of different \emph{types}. This will become clear in the following slides.
+ \item The vocabulary $V$, is the set of terms (normalized unique tokens) within a collection of documents or corpus $D$.
+\end{itemize}
  
 \begin{block}{Stopwords removal}
 \begin{itemize}
- \item In order to reduce the size of the vocabulary and eliminate terms that do not provide much information, terms that occur with high frequency are in the corpus are elminated. 
+ \item In order to reduce the size of the vocabulary and eliminate terms that do not provide much information, terms that occur with high frequency in the corpus are eliminated. 
  \item These terms are called \emph{stopwords} and include  articles, pronouns, prepositions and conjunctions. \\
 Example: [a, an, and, any, has, do, don't, did, the, on].\footnote{Related concepts: function words, closed-class words.}
 \end{itemize}
@@ -123,7 +131,7 @@ The removal of stopwords can be inconvenient in many NLP tasks!!
 
 \begin{frame}\frametitle{Stemming}
 \footnotesize{
-A process in which terms are transformed to their root in order to reduce the size of the vocabulary. It is carried out on the basis of a set of word reduction rules. \\ Example: Porter's Algorithm.
+A term normalization process in which terms are transformed to their root in order to reduce the size of the vocabulary. It is carried by applying word reduction rules. \\ Example: Porter's Algorithm.
 
 \begin{figure}[h!]
 	\centering
@@ -158,8 +166,10 @@ t3 & program\\
 \footnotesize{
 
 \begin{itemize}
- \item Another strategy to transform words to their root. It performs a morphological analysis using reference dictionaries (lookup tables) to create equivalence classes between \emph{types}.
-\item For example for the token \emph{saw}, a stemming rule could return the term \emph{s}, while through lemmatization a dictionary would give us \emph{see}. 
+\item Another term normalization strategy.
+ \item It also transform words into their roots.
+ \item It performs a morphological analysis using reference dictionaries (lookup tables) to create equivalence classes between \emph{types}.
+\item For example for the token \emph{saw}, a stemming rule could return the term \emph{s}, while through lemmatization a dictionary would give us the term \emph{see}. 
 
 \end{itemize}
 
@@ -175,7 +185,7 @@ t3 & program\\
 \begin{frame}\frametitle{Zipf's law [1]}
 \footnotesize{
 \begin{itemize}
-\item The Zipf's law, proposed by \emph{George Kingsley Zipf} in \cite{zipf1935}, is an empirical law about the frequency of terms within a collection of documents (corpus). 
+\item The Zipf's law, proposed by \emph{George Kingsley Zipf} in \cite{zipf1935}, is an empirical law about the frequency of terms within a collection of documents (\textbf{corpus}). 
 \item It states that the frequency $f$ of a term in a corpus is inversely proportional to its $r$ ranking in a sorted frequency table:
 \begin{equation}
 	f = \frac{cf}{r^{\beta}}
@@ -206,7 +216,7 @@ t3 & program\\
 \end{figure}
 \begin{itemize}
  \item If we plot a $log-log$ graph, we obtain a straight line with slope  $-\beta^{-1}$.
- \item Most frequent words can be used to buil a \emph{stopwords} list. 
+ \item Listing the most frequent words of a corpus can be used to build a \emph{stopwords} list. 
 \end{itemize}
 }
 
@@ -277,9 +287,11 @@ t3 & program\\
 \footnotesize{
 \begin{itemize}
  \item In order to rank queries, or measure the similarity between two documents we need a similarity metric.
- \item Documents can be represented as vectors of terms, where each term is a vector dimension \cite{salton1975vector}. 
- \item These types of representations are called \emph{Bag of Words}. Word order and linguistic structure is loss. 
- \item Idea: the value of each dimension is a weight that represents the relevance of the term $t_{i}$ in the document $d$.
+ \item Documents can be \textit{represented} as vectors of terms, where each term is a vector dimension \cite{salton1975vector}. 
+ \item Documents with different words and lengths will reside in the same vector space.
+ \item These types of representations are called \emph{Bag of Words}.
+ \item In bag-of-words-representations the order of words and the linguistic structure of a sentence is loss. 
+ \item The value of each dimension is a weight that represents the relevance of the term $t_{i}$ in the document $d$.
 
 \begin{equation}
  d_{j} \rightarrow \overrightarrow{d_{j}}=(w(t_{1},d_{j}),...,w(t_{|V|},d_{j}))
@@ -296,15 +308,15 @@ t3 & program\\
 \begin{frame}\frametitle{Term Frequency - Inverted Document Frequency [1]}
 \footnotesize{
 \begin{itemize}
- \item Let $Tf_{i,j}$ be the frequency of term $t_{i}$ in document $d_{j}$.
- \item A term that appears $10$ times should provide more information than one that appears once.
+ \item Let $tf_{i,j}$ be the frequency of term $t_{i}$ in document $d_{j}$.
+ \item A term that occurs $10$ times should provide more information than one that occurs once.
  \item  What happens when we have documents that are much longer than the others?
  \item We can normalize by the maximum term frequency in the document. 
 \begin{displaymath}
- Tf_{i,j}=\frac{f_{i,j}}{max \ f_{i,j}}
+ ntf_{i,j}=\frac{tf_{i,j}}{\max_i (tf_{i,j})}
 \end{displaymath}
-\item  Does a term that appears in very few documents provide more or less information than one that appears several times?
-\item For example, the document \emph{The respected major of Pelotillehue}. The term \emph{Pelotillehue} appears in fewer documents than \emph{major}, so it should be more descriptive. 
+\item  Does a term that occurs in very few documents provide more or less information than one that occurs several times?
+\item For example, the document \emph{The respected major of Pelotillehue}. The term \emph{Pelotillehue} occurs in fewer documents than the term \emph{major}, so it should be more descriptive. 
 \end{itemize}
 
 
@@ -320,14 +332,14 @@ t3 & program\\
  \end{displaymath}
 \item A term that appears in all documents would have $idf=0$ and one that appears in $10\%$ of the documents would have $idf=1$.
 
-\item The $Tf$-$idf$ scoring model combines $Tf$ and $idf$ scores, resulting in the following weights $w$ for a term in a document:
+\item The $tf$-$idf$ scoring model combines $tf$ and $idf$ scores, resulting in the following weights $w$ for a term in a document:
 \begin{displaymath}
-w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}}) 
+w(t_{i},d_{j})=tf_{i}\times log_{10}(\frac{N}{n_{i}}) 
 \end{displaymath}
 
-\item Search engine queries can also be modeled as vectors too. However, queries have  between $2$ and $3$ terms in average. To avoid having too many null dimensions, query vectors can be smoothed as follows:
+\item Search engine queries can also be modeled as vectors. However, queries have  between $2$ and $3$ terms in average. To avoid having too many null dimensions, query vectors can be smoothed as follows:
 \begin{displaymath}
- w(t_{i},d_{j})=(0.5+0.5\times Tf_{i,j})log_{10}(\frac{N}{n_{i}}) 
+ w(t_{i},d_{j})=(0.5+0.5\times tf_{i,j})log_{10}(\frac{N}{n_{i}}) 
 \end{displaymath}
 
 
@@ -348,12 +360,13 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
  
  \item The common approach is to calculate the cosine of the angle between the two vectors.
  \item If both documents are the same, the angle would be $0$ and its cosine would be $1$. On the other hand, if they are orthogonal  the cosine is $0$.
- \item The vectors are normalized by its euclidean norm $||d||_{2}$.
  \item The cosine similarity is calculated as follows:
  \begin{displaymath}
- cos(d_{1},d_{2})= \frac{d_{1}\cdot d_{2}}{|d_{1}|\times|d_{2}|} = \frac{\sum_{i=1}^{|V|}(w(t_{i},d_{1})\times w(t_{i},d_{1}))}{\sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{1})^2}\times \sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{2})^2}}
+ cos(\vec{d}_{1},\vec{d}_{2})= \frac{\vec{d}_{1}\cdot \vec{d}_{2}}{|\vec{d}_{1}|\times|\vec{d}_{2}|} = \frac{\sum_{i=1}^{|V|}(w(t_{i},d_{1})\times w(t_{i},d_{1}))}{\sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{1})^2}\times \sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{2})^2}}
 \end{displaymath}
 \item This is wrongly called \emph{cosine distance}. It is actually a similarity metric.
+\item Notice that cosine similarity normalizes the vectors by its euclidean norm $||\vec{d}||_{2}$.
+
 \end{itemize}
 
 
@@ -377,10 +390,10 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
  $d_{2}\rightarrow t_{5}t_{4}t_{2}t_{3}t_{5}$ \\
  $d_{3}\rightarrow t_{2}t_{1}t_{4}t_{4}$ \\
 
-\item Build a term-document matrix of $5\times3$ dimensions using simple $Tf$-$idf$ weights (without normalization).
+\item Build a term-document matrix of $5\times3$ dimensions using simple $tf$-$idf$ weights (without normalization).
 \item  We recommend you first build a list with the number of documents in which each term appears (useful for calculating $idf$ scores) 
 \item Then calculate the $idf$ scores of each term.
-\item Fill up the cells of the matrix the $Tf$-$idf$ values.
+\item Fill up the cells of the matrix the $tf$-$idf$ values.
 \item Which is the closest document to $d_{1}$?
 \end{itemize}
 
@@ -389,7 +402,7 @@ w(t_{i},d_{j})=Tf_{i}\times log_{10}(\frac{N}{n_{i}})
 
 \begin{frame}{Result}
  \begin{table}[htbp]
-\caption{Tf-idf Matrix}
+\caption{tf-idf Matrix}
 \begin{tabular}{|l|r|r|r|}
 \hline
  & \multicolumn{1}{l|}{d1} & \multicolumn{1}{l|}{d2} & \multicolumn{1}{l|}{d3} \\ \hline
@@ -427,7 +440,7 @@ t5 & 0.000 & 0.954 & 0.000 \\ \hline
 \footnotesize{
 \begin{itemize}
  \item Document clustering allows identifying topics in a corpus and reducing the search space in a search engine i.e., the inverted index is organized according to the clusters. 
- \item K-medias is a simple clustering algorithm that receives the number of clusters $k$ as a parameter.
+ \item K-means is a simple clustering algorithm that receives the number of clusters $k$ as a parameter.
  \item The algorithm relies on the idea of \emph{centroid}, which is the average vector of documents belonging to the same cluster.
  \item Let $S$ be a set of $2$-dimensional vectors $\{3,6\}, \{1,2\}, \{5,1\}$, the centroid of $S$ is $\{(3+1+5)/3,(6+2+1)/3\} = \{3,3\}$.
 

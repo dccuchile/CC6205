@@ -112,7 +112,7 @@
 
 
 
-\begin{frame}{Brief Introduction to Neural Networks}
+\begin{frame}{Feedforward Network Neural Networks}
 \begin{scriptsize}
 \begin{itemize}
 \item The feedforward network from the picture is a stack of linear models separated by nonlinear functions.
@@ -132,13 +132,38 @@
 \end{frame}
 
 
-
-
-
-\begin{frame}{Brief Introduction to Neural Networks}
+\begin{frame}{Neural Netoworks as Mathematical Functions}
 \begin{scriptsize}
 \begin{itemize}
-\item The Multilayer Perceptron (MLP) from the figure can be written as the following mathematical function:
+\item The Multilayer Perceptron (MLP) from the figure is called MLP2 because it has two hidden layers.
+\item A simpler model would be MLP1, a multilayer perceptron of one hidden layer:
+\begin{center}
+\begin{equation}
+\begin{split}
+NN_{MLP1}(\vec{x}) = g(\vec{x}W^{1}+\vec{b}^{1})W^{2}+\vec{b}^{2} \\
+\vec{x} \in \mathcal{R}^{in}, W^{1} \in \mathcal{R}^{d_{in}\times d_{1}}, \vec{b}^{1} \in \mathcal{R}^{1}, W^{1} \in \mathcal{R}^{in}, \vec{b}^{1} \in \mathcal{R}^{in}   
+\end{split}
+\end{equation}
+\end{center}
+
+\item Here $W^{1}$ and $\vec{b}^{1}$ are a matrix and a bias term for the first linear transformation of the input.
+\item The function $g$ is a nonlinear function that is applied element-wise (also called a nonlinearity or an activation function ).
+\item $W^{2}$ and $\vec{b}^{2}$ are the matrix and bias term for a second linear transform.
+
+\item When describing a neural network, one should specify the dimensions of the layers ($d_{1}$) and the input ($d_{in}$).
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Neural Netoworks as Mathematical Functions}
+\begin{scriptsize}
+\begin{itemize}
+\item MLP2 can be written as the following mathematical function:
 \begin{center}
 \begin{equation}
 \begin{split}
@@ -150,9 +175,24 @@ NN_{MLP2}(\vec{x}) & =  \vec{y}  \\
 \end{split}
 \end{equation}
 \end{center}
-%NN_{MLP2(x)}  =  y \\
-%h^{1} = g^{1}(xW^{1}+b{1}) \\
+\item The matrices and the bias terms that define the linear transformations are the parameters of the network. 
+\item Like in linear models, it is common to refer to the collection of all parameters as $\Theta$.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
+
+
+\begin{frame}{Representation Power}
+\begin{scriptsize}
+\begin{itemize}
+\item \cite{hornik1989multilayer} and \cite{cybenko1989approximation} showed that a multilayer perceptron of one hidden later (MLP1) is a universal approximator.
+\item MLP1 can approximate all continuous functions on a closed and bounded subset of $\mathcal{R}^n$.
+\item This may suggest there is no reason to go beyond MLP1 to more complex architectures.
+\item The result does not say how easy or hard it is to set the parameters based on training data and a specific learning algorithm.
+\item It also does not guarantee that a training algorithm will find
+the correct function generating our training data.
+\item Finally, it does not state how large the hidden layer should be.
 \end{itemize}
 
 
@@ -160,6 +200,17 @@ NN_{MLP2}(\vec{x}) & =  \vec{y}  \\
 \end{frame}
 
 
+
+\begin{frame}{Activation Functions}
+The nonlinearity $g$ can take many forms.
+\begin{scriptsize}
+\begin{itemize}
+\item \textbf{Sigmoid}.
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{Training}
@@ -255,7 +306,7 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 
 
 
-\begin{frame}{Some Loss Functions}
+\begin{frame}{Loss Functions}
 \begin{scriptsize}
 \begin{itemize}
  \item Hinge (or SVM loss):  for binary classification problems, the classifier's output is a single scalar $\tilde{y}$ and the intended output y is in $\{+1,-1\}$.  The classification rule is $\hat{y} = sign(\tilde{y})$, and a classification is considered correct if $y \cdot \tilde{y} > 0$.  
@@ -277,7 +328,7 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 
 
 
-\begin{frame}{Some Loss Functions}
+\begin{frame}{Loss Functions}
 \begin{scriptsize}
 \begin{itemize}
 

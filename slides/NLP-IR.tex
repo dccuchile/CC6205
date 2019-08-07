@@ -362,7 +362,7 @@ w(t_{i},d_{j})=tf_{i}\times log_{10}(\frac{N}{n_{i}})
  \item If both documents are the same, the angle would be $0$ and its cosine would be $1$. On the other hand, if they are orthogonal  the cosine is $0$.
  \item The cosine similarity is calculated as follows:
  \begin{displaymath}
- cos(\vec{d}_{1},\vec{d}_{2})= \frac{\vec{d}_{1}\cdot \vec{d}_{2}}{|\vec{d}_{1}|\times|\vec{d}_{2}|} = \frac{\sum_{i=1}^{|V|}(w(t_{i},d_{1})\times w(t_{i},d_{1}))}{\sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{1})^2}\times \sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{2})^2}}
+ cos(\vec{d}_{1},\vec{d}_{2})= \frac{\vec{d}_{1}\cdot \vec{d}_{2}}{|\vec{d}_{1}|\times|\vec{d}_{2}|} = \frac{\sum_{i=1}^{|V|}(w(t_{i},d_{1})\times w(t_{i},d_{2}))}{\sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{1})^2}\times \sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{2})^2}}
 \end{displaymath}
 \item This is wrongly called \emph{cosine distance}. It is actually a similarity metric.
 \item Notice that cosine similarity normalizes the vectors by its euclidean norm $||\vec{d}||_{2}$.

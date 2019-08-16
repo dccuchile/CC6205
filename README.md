@@ -56,6 +56,9 @@ The neural network-related topics of the course are taken from the book of Yoav 
     and Their Implications OpenAI Blog](https://openai.com/blog/better-language-models/)
 15. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
 16. [RNN effectiveness](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+17. [SuperGLUE: an benchmark of Natural Language Understanding Tasks](https://super.gluebenchmark.com/)
+18. [decaNLP The Natural Language Decathlon: a benchmark for studying general NLP models that can perform a variety of complex, natural language tasks](http://decanlp.com/).
+ 
 
 ##  
 

@@ -58,6 +58,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 16. [RNN effectiveness](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
 17. [SuperGLUE: an benchmark of Natural Language Understanding Tasks](https://super.gluebenchmark.com/)
 18. [decaNLP The Natural Language Decathlon: a benchmark for studying general NLP models that can perform a variety of complex, natural language tasks](http://decanlp.com/).
+19. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
  
 
 ##  

@@ -371,13 +371,35 @@ the correct function generating our training data.
 \end{frame}
 
 
+
 \begin{frame}{Online Stochastic Gradient Descent}
 
+\begin{scriptsize}
+\begin{itemize}
+\item All the parameters are initialized with random values $w$.
+\item For each training example $(x,y)$ we calculate the loss $L$ with current values of $w$.
+\item Then we update the parameters with the following rule until convergence:
+\item $w_i \leftarrow w_i - \eta \frac{\partial L}{w_i}(x,y)$  (for all parameters $w_i$)
 
 \begin{figure}[htb]
 	\centering
 	 \includegraphics[scale=0.3]{pics/Online-SGD.png}
 \end{figure}
+
+\end{itemize}
+
+
+\footnotetext{Source:\cite{goldberg2017neural}}
+
+\end{scriptsize}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Online Stochastic Gradient Descent}
+
 
 \begin{scriptsize}
 \begin{itemize}
@@ -391,13 +413,14 @@ training process, or decay as a function of the time step $t$.
 
 \end{scriptsize}
 
-\footnotetext{Source:\cite{goldberg2017neural}}
-
 \end{frame}
 
 
-\begin{frame}{Mini-batch Stochastic Gradient Descent}
 
+
+
+
+\begin{frame}{Mini-batch Stochastic Gradient Descent}
 
 \begin{scriptsize}
 \begin{itemize}

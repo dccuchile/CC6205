@@ -494,13 +494,58 @@ Resulting in:
 \begin{itemize}
 \item  When training a parameterized function (e.g., a linear model, a neural network) one defines a loss function $L(\hat{y}, y)$, stating the loss of predicting $\hat{y}$ when the true output is y.
 
+\begin{displaymath}
+L(f(\vec{x};\Theta), y) 
+\end{displaymath}
+
+\item We use the symbol $\Theta$ to denote all the parameters of the model (e.g.,  $W, \vec{b}$)
+
 \item The training objective is then to minimize the loss across the different training examples. 
 
+
+\item Formally, a loss function $L(\hat{y},y)$ assigns a numerical score (a scalar) to a predicted output $\hat{y}$ given the true expected output $y$. 
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Training}
+\begin{scriptsize}
+\begin{itemize}
+\item The loss function should attain its minimum value for cases where the prediction is correct.
+
+\item We can also define a corpus-wide loss with respect to the parameters $\Theta$ as the average loss over all training examples:
+
+\begin{displaymath}
+ \mathcal{L}(\Theta) = \frac{1}{n} \sum_{i=1}^n L(f(\vec{x}_i;\Theta), y_i)
+\end{displaymath}
+
+\item The goal of the training algorithm is then to set the values of the parameters $Theta$  such that the value of $\mathcal{L}$ is minimized.
+
+
+\begin{displaymath}
+ \hat{\Theta} = \operatorname{argmin}_{\Theta} \mathcal{L}(\Theta) =  \operatorname{argmin}_{\Theta} \frac{1}{n} \sum_{i=1}^n L(f(\vec{x}_i;\Theta), y_i)
+\end{displaymath}
+
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Gradient-based Optimization}
+\begin{scriptsize}
+\begin{itemize}
 \item Functions are trained using  gradient-based methods.
 
 \item They work by repeatedly computing an estimate of the loss $L$ over the training set.
 
-\item We use the symbol $\Theta$ to denote all the parameters of the model (e.g.,  $W, \vec{b}$)
+
 
 \item The training method computes gradients of the parameters ($\Theta$)  with respect to the loss estimate, and moving the parameters in the opposite directions of the gradient. 
 
@@ -511,7 +556,6 @@ Resulting in:
 
 \end{scriptsize}
 \end{frame}
-
 
 
 \begin{frame}{Gradient Descent}
@@ -541,10 +585,10 @@ Resulting in:
 
 \begin{scriptsize}
 \begin{itemize}
-\item All the parameters are initialized with random values ($W, \vec{b}$).
-\item For each training example $(x,y)$ we calculate the loss $L$ with current values of $w$.
+\item All the parameters are initialized with random values ($\Theta$).
+\item For each training example $(x,y)$ we calculate the loss $L$ with current values of $\Theta$.
 \item Then we update the parameters with the following rule until convergence:
-\item $w_i \leftarrow w_i - \eta \frac{\partial L}{w_i}(x,y)$  (for all parameters $w_i$)
+\item $\Theta_i \leftarrow \Theta_i - \eta \frac{\partial L}{\Theta_i}(\hat{y},y)$  (for all parameters $\Theta_i$)
 
 \begin{figure}[htb]
 	\centering
@@ -657,6 +701,55 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 
 \end{frame}
 
+
+
+
+
+\begin{frame}{Regularization}
+\begin{scriptsize}
+\begin{itemize}
+ \item Our optimization problem may admit multiple solutions, and, especially in higher dimensions, it can also over-fit.
+ \item Scenario: In our language identification problem one of the documents in the training set ($\vec{x}_O$) is an outlier.
+ \item The document is actually in German, but is labeled as French.
+ 
+ \item In order to drive the loss down, the learner can identify features (letter bigrams) in $\vec{x}_O$ that occur in only few other documents, and give them very strong weights toward the (incorrect) French class. 
+
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{Regularization}
+\begin{scriptsize}
+\begin{itemize}
+ \item Then, for other German documents in which these features occur, which may now be mistakenly classified as French, the learner will find other German letter bigrams and will raise their weights in order for the documents to be classified as German again. 
+ \item This is a bad solution to the learning problem.
+ \item The model is learning something incorrect, and can cause test German documents which share many words with $\vec{x}_O$ to be mistakenly classified as French. 
+ \item Intuitively, we would like to control for such cases by driving the learner away from such misguided solutions and toward more natural ones, in which it is OK to mis-classify a few examples if they don't fit well with the rest.
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Beyond SGD}
+\begin{scriptsize}
+\begin{itemize}
+
+ \item While the SGD algorithm can and often does produce good results, more advanced algorithms are also available. 
+ \item The SGD+Momentum [Polyak, 1964] and Nesterov Momentum [Nesterov, 1983,
+2004, Sutskever et al., 2013] algorithms are variants of SGD in which previous gradients are accumulated and affect the current update.
+\item Adaptive learning rate algorithms including AdaGrad [Duchi et al., 2011], AdaDelta [Zeiler, 2012], RMSProp [Tieleman and Hinton, 2012], and Adam [Kingma and Ba, 2014] are designed to select the learning rate for each minibatch.
+\item This sometimes done on a per-coordinate basis, potentially alleviating the need of fiddling with learning rate scheduling. 
+\item For details of these algorithms, see the original papers or [Bengio et al., 2016, Sections 8.3, 8.4].
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
 
 
 

@@ -88,12 +88,6 @@
 
 \end{scriptsize}
 
-\begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.24]{pics/activations.png}
-\end{figure}
-
-\footnotetext{Source:\cite{goldberg2017neural}}
 
 \end{frame}
 
@@ -201,153 +195,134 @@ the correct function generating our training data.
 
 
 
+\begin{frame}{Representation Power}
+\begin{scriptsize}
+\begin{itemize}
+\item In practice, we train neural networks on relatively small amounts of data using local search methods.
+\item We also use hidden layers of relatively modest sizes (up to several thousands). 
+\item The universal approximation theorem does not give any guarantees under these conditions.
+\item However, there is definitely benefit in trying out more complex architectures than MLP1. 
+\item In many cases, however, MLP1 does indeed provide strong results.
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+
+
+
 \begin{frame}{Activation Functions}
-The nonlinearity $g$ can take many forms.
 \begin{scriptsize}
 \begin{itemize}
-\item \textbf{Sigmoid}.
+\item The nonlinearity $g$ can take many forms. 
+\item There is currently no good theory as to which nonlinearity to apply in which conditions.
+\item Choosing the correct nonlinearity for a given task is for the most part an empirical question.
 \end{itemize}
-
-
 \end{scriptsize}
 \end{frame}
 
 
-\begin{frame}{Training}
+\begin{frame}{Sigmoid}
 \begin{scriptsize}
 \begin{itemize}
-\item  When training a parameterized function (e.g., a linear model, a neural network) one defines a loss function $L(\hat{y}, y)$, stating the loss of predicting $\hat{y}$ when the true output is y.
-
-\item The training objective is then to minimize the loss across the different training examples. 
-
-\item Functions are trained using  gradient-based methods.
-
-\item They work by repeatedly computing an estimate of the loss $L$ over the training set.
-
-\item They compute gradients of the parameters with respect to the loss estimate, and moving the parameters in the opposite directions of the gradient. 
-
-\item Different optimization methods differ in how the error estimate is computed, and how moving in the opposite direction of the gradient is defined.
-
+\item The sigmoid activation function $\sigma(x) = \frac{1}{1+e^{-x}}$ is an S-shaped function, transforming each value x into the range $[0, 1]$.
+\item The sigmoid was the canonical nonlinearity for neural networks since their inception.
+\item Is currently considered to be deprecated for use in internal layers of neural networks, as the choices listed next prove to work much better empirically.
 \end{itemize}
-
-
-\end{scriptsize}
-\end{frame}
-
-
-
-\begin{frame}{Gradient Descent}
-\begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.15]{pics/sgd.png}
-\end{figure}
-
-\footnotetext{Source: \url{https://sebastianraschka.com/images/faq/closed-form-vs-gd/ball.png}}
-
-
-\end{frame}
-
-
-
-
-
-\begin{frame}{Online Stochastic Gradient Descent}
-
 
 \begin{figure}[htb]
 	\centering
-	 \includegraphics[scale=0.3]{pics/Online-SGD.png}
+	 \includegraphics[scale=0.3]{pics/sigmoid2.png}
 \end{figure}
 
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Hyperbolic tangent (tanh)}
 \begin{scriptsize}
 \begin{itemize}
-\item The learning rate can either be fixed throughout the
-training process, or decay as a function of the time step $t$.
-\item  The error calculated in line 3 is based on a single training example, and is thus just a rough estimate of the corpus-wide loss $L$ that we are aiming to minimize. 
-\item The noise in the loss computation may result in inaccurate gradients (single examples may provide noisy information).
-
+\item The hyperbolic tangent $\operatorname{tanh}(x) = \frac{e^{2x}-1}{e^{2x}+1}$ activation function is an S-shaped function, transforming the values x into the range$[-1, 1]$.
 \end{itemize}
 
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.3]{pics/tanh.png}
+\end{figure}
 
 \end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Hard tanh}
+\begin{scriptsize}
+\begin{itemize}
+\item The hard-tanh activation function is an approximation of the tanh function which is faster to compute and to find derivatives thereof:
+\end{itemize}
+
+  \[
+    \operatorname{hardtanh}(x) = \left\{\begin{array}{lr}
+        -1 & x < -1\\
+        1 & x > 1\\
+        x & \text{otherwise.} 
+        \end{array} \right\} 
+  \]
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.3]{pics/hardtanh.png}
+\end{figure}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{ReLU}
+\begin{scriptsize}
+\begin{itemize}
+\item The rectifier activation function \cite{glorot2011deep}, also known as the recti fied linear unit is a very simple activation function.
+\item It is easy to work with and was shown many times to produce excellent results.
+\item The ReLU unit clips each value $x < 0$ at $0$.
+\begin{displaymath}
+ \operatorname{ReLU}(x) = \operatorname{max}(0,x)
+\end{displaymath}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.3]{pics/relu.png}
+\end{figure}
+\item It performs well for many tasks, especially when combined with the dropout regularization technique (to be explained later).
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Activation Functions}
+\begin{scriptsize}
+\begin{itemize}
+\item As a rule of thumb, both ReLU and tanh units work well, and significantly outperform the sigmoid.
+\item You may want to experiment with both tanh and ReLU activations, as each one may perform better in different settings.
+\item The figure from below shows the shapes of the different activations functions, together with the shapes of their derivatives.
+\end{itemize}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.35]{pics/activations.png}
+\end{figure}
 
 \footnotetext{Source:\cite{goldberg2017neural}}
-
-\end{frame}
-
-
-\begin{frame}{Mini-batch Stochastic Gradient Descent}
-
-
-\begin{scriptsize}
-\begin{itemize}
-\item A common way of reducing this noise is
-to estimate the error and the gradients based on a sample of $m$ examples.
-\item This gives rise to the minibatch SGD algorithm
-
-
-
-
-\begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.25]{pics/minibatch-SGD.png}
-\end{figure}
-
-\item Higher values of $m$ provide better estimates of the corpus-wide gradients, while smaller values allow more updates and in turn faster convergence.
-
-\item For modest sizes of $m$ , some computing architectures (i.e., GPUs) allow an efficient parallel implementation of the computation in lines 3-6.
-
-\end{itemize}
 \end{scriptsize}
-
-\footnotetext{Source:\cite{goldberg2017neural}}
-
 \end{frame}
 
 
-
-\begin{frame}{Loss Functions}
-\begin{scriptsize}
-\begin{itemize}
- \item Hinge (or SVM loss):  for binary classification problems, the classifier's output is a single scalar $\tilde{y}$ and the intended output y is in $\{+1,-1\}$.  The classification rule is $\hat{y} = sign(\tilde{y})$, and a classification is considered correct if $y \cdot \tilde{y} > 0$.  
- \begin{displaymath}
-  L_{\text{hinge}(\text{binary})}(\tilde{y},y) = \max(0,1-y \cdot \tilde{y})  
- \end{displaymath}
-
- \item Binary cross entropy (or logistic loss): is used in binary classification with conditional probability outputs. The classifier's output $\tilde{y}$ is transformed using the sigmoid function to the range $[0,1]$ , and is interpreted as the conditional probability $P(y=1|x)$.
-  \begin{displaymath}
-  L_{\text{logistic}}(\hat{y},y) = -y \log \hat{y} - (1-y) \log(1-\hat{y})  
- \end{displaymath}
- 
-\end{itemize}
-\end{scriptsize}
-
-\end{frame}
-
-
-
-
-
-\begin{frame}{Loss Functions}
-\begin{scriptsize}
-\begin{itemize}
-
- \item Categorical cross-entropy loss:  is used when a probabilistic interpretation of multi-class scores is desired. It measures the dissimilarity between the true label distribution $y$ and the predicted label distribution $\tilde{y}$. 
-   \begin{displaymath}
-  L_{\text{cross-entropy}}(\hat{y},y) = - \sum_{i} y_{[i]} \log(\hat{y}_{[i]})   
- \end{displaymath}
-\item The predicted label distribution of the categorical cross-entropy loss ($\hat{y}$) is obtained by applying the softmax function the last layer of the network $\tilde{y}$:
-    \begin{displaymath}
-\hat{y}_{[i]} = \text{softmax}(\tilde{y})_{[i]} =  \frac{e^{\tilde{y}_{[i]}}}{\sum_{j}e^{\tilde{y}_{[j]}}}   
- \end{displaymath}
- 
-\item The softmax function squashes the $k$-dimensional output to values in the range (0,1) with all entries adding up to 1. Hence, $\hat{y}_{[i]} = P( y = i |x)$ represent the class membership conditional distribution.
- 
-\end{itemize}
-\end{scriptsize}
-
-
-\end{frame}
 
 
 
@@ -677,55 +652,6 @@ the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations
 
 
 
-
-
-\begin{frame}{Train, Test, and Validation Sets}
-\begin{scriptsize}
-\begin{itemize}
-\item Neural networks are prone to overfit the data.
-\item Hence, performance on training data can be misleading.
-\item Held-out set: split training set into training and testing subsets (80\% and 20\% splits). Train on training and compute accuracy on testing.
-\item Problem: in practice you often train several models, compare their quality, and select the best one. 
-\item Selecting the best model according to the held-out set's accuracy will result in an overly optimistic estimate of the model's quality.
-\item You don't know if the chosen settings of the final classifier are good in general, or are just good for the particular examples in the held-out sets.
-
-\end{itemize}
-\end{scriptsize}
-\end{frame}
-
-
-\begin{frame}{Train, Test, and Validation Sets}
-\begin{scriptsize}
-\begin{itemize}
-\item The accepted methodology is to use a three-way split of the data into train, validation (also called development ), and test sets \footnote{An alternative approach is cross-validation, but it doesn't scale well for training deep neural networks.}. 
-\item This gives you two held-out sets: a validation set (also called development set ), and a test set.
-\item All the experiments, tweaks, error analysis, and model selection should be performed based on the validation set. 
-\item Then, a single run of the final model over the test set will give a good estimate of its expected quality on unseen examples. 
-\item It is important to keep the test set as pristine as possible, running as few experiments as possible on it. 
-\item Some even advocate that you should not even look at the examples in the test
-set, so as to not bias the way you design your model.
-
-
-
-\end{itemize}
-
-\end{scriptsize}
-\end{frame}
-
-
-
-\begin{frame}{Train, Test, and Validation Sets}
-\begin{scriptsize}
-
- \begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.55]{pics/validation.png}
-\end{figure}
-
-\footnotetext{source: \url{https://www.codeproject.com/KB/AI/1146582/validation.PNG}}
-
-\end{scriptsize}
-\end{frame}
 
 
 

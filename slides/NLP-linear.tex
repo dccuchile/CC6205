@@ -723,10 +723,10 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \begin{frame}{Regularization}
 \begin{scriptsize}
 \begin{itemize}
- \item Then, for other German documents in which these features occur, which may now be mistakenly classified as French, the learner will find other German letter bigrams and will raise their weights in order for the documents to be classified as German again. 
- \item This is a bad solution to the learning problem.
+  \item This is a bad solution to the learning problem.
  \item The model is learning something incorrect, and can cause test German documents which share many words with $\vec{x}_O$ to be mistakenly classified as French. 
- \item Intuitively, we would like to control for such cases by driving the learner away from such misguided solutions and toward more natural ones, in which it is OK to mis-classify a few examples if they don't fit well with the rest.
+ \item We would like to control for such cases by driving the learner away from such misguided solutions.
+ \item Idea: it is OK to mis-classify a few examples if they don't fit well with the rest.
  
 \end{itemize}
 \end{scriptsize}

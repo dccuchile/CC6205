@@ -164,7 +164,7 @@ f(\vec{x}) = \vec{x} \cdot \vec{w} + b\\
 \item Each entry $\vec{x}_{[i]}$  represents a count of a particular letter combination in the document, normalized by the document's length.
 \item For example, denoting by $\vec{x}_{ab}$ the entry of $\vec{x}$ corresponding to the letter bigram $ab$:
 \begin{equation}
- x_{ab}= \frac{\#ab}{|D|}
+ \vec{x}_{ab}= \frac{\#ab}{|D|}
 \end{equation}
 where $\#ab$ is the number of times the bigram $ab$ appears in the document, and $|D|$ is the total number of bigrams in the document (the document’s length).
 
@@ -183,7 +183,7 @@ where $\#ab$ is the number of times the bigram $ab$ appears in the document, and
 
 \begin{figure}[htb]
 	\centering
-	 \includegraphics[scale=0.27]{pics/langbigrams.png}
+	 \includegraphics[scale=0.26]{pics/langbigrams.png}
 \end{figure}
 
 \scriptsize{Character-bigram histograms for documents in English (left, blue) and German(right,green). Underscores denote spaces. Only the top frequent character-bigrams are showed.}
@@ -522,7 +522,7 @@ L(f(\vec{x};\Theta), y)
  \mathcal{L}(\Theta) = \frac{1}{n} \sum_{i=1}^n L(f(\vec{x}_i;\Theta), y_i)
 \end{displaymath}
 
-\item The goal of the training algorithm is then to set the values of the parameters $Theta$  such that the value of $\mathcal{L}$ is minimized.
+\item The goal of the training algorithm is then to set the values of the parameters $\Theta$  such that the value of $\mathcal{L}$ is minimized.
 
 
 \begin{displaymath}
@@ -948,7 +948,7 @@ set, so as to not bias the way you design your model.
 \begin{frame}{Nonlinear input transformations}
 \begin{scriptsize}
 \begin{itemize}
-\item If we transform the points by feeding each of them through the nonlinear function $\phi(x_1,x_2) = [x_1 \times x_2, x_1 x_2 ]$ , the XOR problem becomes linearly separable.
+\item If we transform the points by feeding each of them through the nonlinear function $\phi(x_1,x_2) = [x_1 \times x_2, x_1 + x_2 ]$ , the XOR problem becomes linearly separable.
 \begin{figure}[htb]
 	\centering
 	 \includegraphics[scale=0.25]{pics/xor2.png}

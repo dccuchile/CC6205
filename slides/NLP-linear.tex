@@ -321,7 +321,7 @@ to the range $[0, 1]$, with $0$ being mapped to $\frac{1}{2}$.
  \end{split}
 \end{equation}
 
-\item Here $\vec{\hat{y}} \in \mathcal{R}^6$ is a vector of the scores assigned by the model to each language, and we again determine the predicted language by taking the argmax over the entries of $\vec{\hat{y}}$.
+\item Here $\vec{\hat{y}} \in \mathcal{R}^6$ is a vector of the scores assigned by the model to each language, and we again determine the predicted language by taking the argmax over the entries of $\vec{\hat{y}}$ (the columns with the highest value).
 
 \end{itemize}
 \end{scriptsize}
@@ -551,6 +551,11 @@ L(f(\vec{x};\Theta), y)
 
 \item Different optimization methods differ in how the error estimate is computed, and how moving in the opposite direction of the gradient is defined.
 
+\item If the function is convex, the optimum will be a global one.
+
+\item Otherwise, the process is only guaranteed to find a local optimum.
+
+
 \end{itemize}
 
 
@@ -677,6 +682,35 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \end{frame}
 
 
+\begin{frame}{Loss Functions}
+\begin{scriptsize}
+\begin{itemize}
+ \item The logistic loss has a probalistic interpration:
+ \item We assume that $P(y =1 | \vec{x} ; \Theta) = f(\vec{x})$ and $P(y = 0 | \vec{x} ; \Theta) = 1 - f(\vec{x})$
+ \item We can write this is a more compact way: 
+ \begin{displaymath}
+  P(y | \vec{x} ; \Theta) = f(\vec{x})^y+(1-f(\vec{x}))^{1-y}
+ \end{displaymath}
+
+ \item The above expression is the probability mass function of the Bernoulli distribution.
+ 
+\item Now we replace $f(\vec{x})$ by $\hat{y}$:
+ \begin{displaymath}
+  P(y | \vec{x} ; \Theta) = \hat{y}^y+(1-\hat{y})^{1-y}
+ \end{displaymath} 
+\item If we perform maximum likelihood estimation to this expression we would apply a logarithm function and maximize the paramters $\Theta$:
+ \begin{displaymath}
+  y \log \hat{y} + (1-y) \log(1-\hat{y}) 
+ \end{displaymath} 
+ 
+\item Maximizing this expression is equivalent to miniziming the logistic loss!
+ 
+\item Many loss functions correspond to the negative likelihood of probalistic models!
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
 
 
 

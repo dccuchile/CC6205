@@ -24,7 +24,7 @@
 5. Semana 5
 
      * Martes 27/08: Cátedra:  Linear Models
-     * Jueves 29/08: Auxiliar 2 - Ejercicio 2
+     * Jueves 29/08: Cátedra:  Linear Models y Ejercicio 2
 
      Semana Olímpica (sin clases)
 
@@ -37,7 +37,7 @@
 
 7. Semana 7
 
-     * Martes 24/09: Cátedra:  Neural Networks
+     * Martes 24/09: Auxiliar 2 - Word Embeddings
      * Jueves 26/09: Cátedra:  Neural Networks
      * Viernes 27/09: Entrega Tarea 1
 

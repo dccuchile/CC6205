@@ -689,14 +689,14 @@ to estimate the error and the gradients based on a sample of $m$ examples.
  \item We assume that $P(y =1 | \vec{x} ; \Theta) = f(\vec{x})$ and $P(y = 0 | \vec{x} ; \Theta) = 1 - f(\vec{x})$
  \item We can write this is a more compact way: 
  \begin{displaymath}
-  P(y | \vec{x} ; \Theta) = f(\vec{x})^y+(1-f(\vec{x}))^{1-y}
+  P(y | \vec{x} ; \Theta) = f(\vec{x})^y\times(1-f(\vec{x}))^{1-y}
  \end{displaymath}
 
  \item The above expression is the probability mass function of the Bernoulli distribution.
  
 \item Now we replace $f(\vec{x})$ by $\hat{y}$:
  \begin{displaymath}
-  P(y | \vec{x} ; \Theta) = \hat{y}^y+(1-\hat{y})^{1-y}
+  P(y | \vec{x} ; \Theta) = \hat{y}^y\times(1-\hat{y})^{1-y}
  \end{displaymath} 
 \item If we perform maximum likelihood estimation to this expression we would apply a logarithm function and maximize the paramters $\Theta$:
  \begin{displaymath}

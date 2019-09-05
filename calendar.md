@@ -31,6 +31,7 @@
 6. Semana 6
 
      * Martes 10/09: Presentaciones Hito 1
+     * Miércoles 11/09: Presentaciones Hito 1 (Research Track)
      * Jueves 12/09: Presentaciones Hito 1
 
      Vacaciones Fiestas Patrias (sin clases)

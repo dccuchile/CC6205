@@ -1,0 +1,204 @@
+
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
+
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont}
+\usepackage{graphics}
+\usepackage{cases}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{multirow}	
+\usepackage{amstext}
+\usepackage[ruled,vlined,lined]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{fontenc}
+\usepackage{framed,color}
+\usepackage{palatino, url, multicol}
+%\algsetup{indent=2em}
+\newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+\vspace{-0.5cm}
+\title{Natural Language Processing \\ MEMMs and CRFs}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+
+
+\end{frame}
+
+
+\begin{frame}{MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+ \item Maximum-entropy Markov models (MEMMs) make use of log-linear models for sequence labeling tasks.
+ \item Our goal will be to model the conditional distribution
+ 
+ \begin{displaymath}
+  P(s_1,s_2 \dots, s_m | x_1, \dots, x_m)
+ \end{displaymath}
+where each $x_j$ for $j = 1 \dots m$ is the $j$'th input symbol (for example the j'th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$'th state.
+ 
+\item We'll use $S$ to denote the set of possible states; we assume that $S$ is a finite set. \footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/}}
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+ \item For example, in part-of-speech tagging of English, $S$ would be the set of all possible parts of speech in English (noun, verb, determiner, preposition, etc.).
+ \item Given a sequence of words $x_1, \dots, x_m$ , there are $k^m$ possible part-of-speech sequences $s_1, \dots, s_m$ , where $k = |S|$ is the number of possible parts of speech.
+ \item We'd like to estimate a distribution over these $k^m$ possible sequences.
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+ \item In a first step, MEMMs use the following decomposition:
+ \begin{equation}
+\begin{split}
+  P(s_1,s_2 \dots, s_m | x_1, \dots, x_m) \quad & =  \prod_{i=1}^{m}    P(s_i | s_1 \dots, s_{i-1}, x_1, \dots, x_m)\\
+ \quad & =  \prod_{i=1}^{m}    P(s_i | s_{i-1}, x_1, \dots, x_m)
+\end{split}
+\end{equation}
+
+\item The first equality is exact (it follows by the chain rule of conditional probabilities).
+
+\item The second equality follows from an independence assumption, namely that for all $i$,
+
+\begin{displaymath}
+ P(s_i | s_1 \dots, s_{i-1}, x_1, \dots, x_m) =   P(s_i | s_{i-1}, x_1, \dots, x_m)
+\end{displaymath}
+
+
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+ \item Hence we are making an assumption here that is similar to the Markov assumption in HMMs. 
+
+ \item The state in the $i$'th position depends only on the state in the $(i -1)$'th position. 
+ 
+ 
+ \item Having made these independence assumptions, we then model each term using a log-linear model (or Softmax):
+ 
+ \begin{equation}
+ P(s_i | s_{i-1}, x_1, \dots, x_m)  =  \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
+\end{equation}
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{MEMMs}
+\begin{scriptsize}
+
+Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
+\begin{itemize}
+ \item $x_1, \cdots, x_m$ is the entire sentence being tagged.
+  \item $i$ is the position to be tagged (can take any value from $1$ to $m$)
+  \item $s$ is the previous state value (can take any value in $S$).
+  \item $s'$ is the new state value (can take any value in $S$)
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Example of Features used in Part-of-Speech Tagging}
+\begin{scriptsize}
+
+
+\begin{enumerate}
+ \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_1=1$ if $s_i$ = ADVERB and word $x_i$ ends in ``-ly''; 0 otherwise. \\ 
+ 
+ If the weight $\vec{w}_1$ associated with this feature is large and positive, then this feature is essentially saying that we prefer labelings where words ending in -ly get labeled as ADVERB.
+ 
+ \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_2=1$ if $i=1$, $s_i$= VERB, and $x_m$=?; 0 otherwise. 
+ \\ If the weight $\vec{w}_2$ associated with this feature is large and positive, then labelings that assign VERB to the first word in a question (e.g., ``Is this a sentence beginning with a verb?'') are preferred.
+
+\end{enumerate}
+
+
+\footnotemark{Source: \url{https://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/}}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Questions?}
+%\vspace{1.5cm}
+\begin{center}\LARGE Thanks for your Attention!\\ \end{center}
+
+
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]\scriptsize
+\frametitle{References}
+\bibliography{bio}
+\bibliographystyle{apalike}
+%\bibliographystyle{flexbib}
+\end{frame}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

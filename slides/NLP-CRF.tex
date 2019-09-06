@@ -62,14 +62,20 @@
 \begin{scriptsize}
 \begin{itemize}
  \item Maximum-entropy Markov models (MEMMs) make use of log-linear models for sequence labeling tasks.
- \item Our goal will be to model the conditional distribution
+ 
+ \item In the early NLP literature, logistic regression was often called maximum entropy classification \cite{jacobbook}.
+ 
+ \item Hence, MEMMs will look very similar to the multi-class softmax models seen in the lecture about linear models. 
+ 
+ 
+ \item The goal of MEMMs is  model the following conditional distribution:
  
  \begin{displaymath}
   P(s_1,s_2 \dots, s_m | x_1, \dots, x_m)
  \end{displaymath}
-where each $x_j$ for $j = 1 \dots m$ is the $j$'th input symbol (for example the j'th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$'th state.
- 
-\item We'll use $S$ to denote the set of possible states; we assume that $S$ is a finite set. \footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/}}
+
+ \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/}. The notation and terminology has been adapted to be consistent with the other material.}
+
  
 \end{itemize}
 
@@ -82,9 +88,11 @@ where each $x_j$ for $j = 1 \dots m$ is the $j$'th input symbol (for example the
 \begin{frame}{MEMMs}
 \begin{scriptsize}
 \begin{itemize}
+\item We use $S$ to denote the set of possible tags.
+\item We assume that $S$ is a finite set. 
  \item For example, in part-of-speech tagging of English, $S$ would be the set of all possible parts of speech in English (noun, verb, determiner, preposition, etc.).
  \item Given a sequence of words $x_1, \dots, x_m$ , there are $k^m$ possible part-of-speech sequences $s_1, \dots, s_m$ , where $k = |S|$ is the number of possible parts of speech.
- \item We'd like to estimate a distribution over these $k^m$ possible sequences.
+ \item We want to estimate a distribution over these $k^m$ possible sequences.
 \end{itemize}
 
 
@@ -123,22 +131,26 @@ where each $x_j$ for $j = 1 \dots m$ is the $j$'th input symbol (for example the
 \begin{frame}{MEMMs}
 \begin{scriptsize}
 \begin{itemize}
- \item Hence we are making an assumption here that is similar to the Markov assumption in HMMs. 
+ \item Hence we are making an first order Markov assumption similar to the Markov assumption in HMMs. 
+ 
+ \item It is also possible to have second-order Markov models here. 
 
- \item The state in the $i$'th position depends only on the state in the $(i -1)$'th position. 
+ \item The tag in the $i$-th position depends only on the tag in the $(i -1)$-th position. 
  
  
- \item Having made these independence assumptions, we then model each term using a log-linear model (or Softmax):
+ \item Having made these independence assumptions, we then model each term using a log-linear model:
  
  \begin{equation}
  P(s_i | s_{i-1}, x_1, \dots, x_m)  =  \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
 \end{equation}
+
  
 \end{itemize}
 
 
 \end{scriptsize}
 \end{frame}
+
 
 
 \begin{frame}{MEMMs}
@@ -148,8 +160,8 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 \begin{itemize}
  \item $x_1, \cdots, x_m$ is the entire sentence being tagged.
   \item $i$ is the position to be tagged (can take any value from $1$ to $m$)
-  \item $s$ is the previous state value (can take any value in $S$).
-  \item $s'$ is the new state value (can take any value in $S$)
+  \item $s$ is the previous tag value (can take any value in $S$).
+  \item $s'$ is the new tag value (can take any value in $S$)
  
 \end{itemize}
 
@@ -162,13 +174,21 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 
 
 \begin{enumerate}
- \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_1=1$ if $s_i$ = ADVERB and word $x_i$ ends in ``-ly''; 0 otherwise. \\ 
+ \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[1]}=1$ if $s_i$ = ADVERB and word $x_i$ ends in ``-ly''; 0 otherwise. \\ 
  
- If the weight $\vec{w}_1$ associated with this feature is large and positive, then this feature is essentially saying that we prefer labelings where words ending in -ly get labeled as ADVERB.
+ If the weight $\vec{w}_{[1]}$ associated with this feature is large and positive, then this feature is essentially saying that we prefer labelings where words ending in -ly get labeled as ADVERB.
  
- \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_2=1$ if $i=1$, $s_i$= VERB, and $x_m$=?; 0 otherwise. 
- \\ If the weight $\vec{w}_2$ associated with this feature is large and positive, then labelings that assign VERB to the first word in a question (e.g., ``Is this a sentence beginning with a verb?'') are preferred.
+ \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[2]}=1$ if $i=1$, $s_i$= VERB, and $x_m$=?; 0 otherwise. 
+ \\ If the weight $\vec{w}_{[2]}$ associated with this feature is large and positive, then labelings that assign VERB to the first word in a question (e.g., ``Is this a sentence beginning with a verb?'') are preferred.
 
+
+\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[3]}=1$ if $s_{i-1}$= ADJECTIVE and $l_i$= NOUN; 0 otherwise. 
+\\Again, a positive weight for this feature means that adjectives tend to be followed by nouns. 
+
+\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[4]}=1$ if $s_{i-1}$= PREPOSITION and $s_{i}$= PREPOSITION. 
+\\ A negative weight $\vec{w}_{[4]}$ for this function would mean that prepositions don't tend to follow prepositions.
+
+ 
 \end{enumerate}
 
 
@@ -178,7 +198,38 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 \end{frame}
 
 
+\begin{frame}{MEMMs and Multi-class Softmax}
+\begin{scriptsize}
+\begin{itemize}
+\item Notice that the log-linear model from above is very similar to the multi-class softmax model presented in the lecture about linear models.
 
+\item A general log-linear model has the following form:
+
+\begin{displaymath}
+ P( y | x; \vec{w}) = \frac{\exp (\vec{w}\cdot \vec{\phi}(x,y))}{\sum_{y' \in Y} \exp (\vec{w}\cdot \vec{\phi}(x,y'))}
+\end{displaymath}
+
+
+\item A multi-class softmax model has the following form:
+\begin{equation}
+\begin{split}
+\hat{\vec{y}} \quad & =  \operatorname{softmax}(\vec{x} \cdot W + \vec{b})  \\
+\hat{\vec{y}}_{[i]} \quad & = \frac{e^{(\vec{x} \cdot W + \vec{b})_{[i]}}}{\sum_j e^{(\vec{x} \cdot W + \vec{b})_{[j]}}}
+\end{split}
+\end{equation}
+
+\item Difference 1: in the log-linear model we have a fixed parameter vector $\vec{w}$ instead of having multiple vectors (one column of $W$ for each class value).
+
+\item Difference 2: the feature vector of the log-linear model $\vec{\phi}(x,y)$ includes information of the label $y$, whereas the input vecotr $\vec{x}$ of the softmax model is independent of $y$. 
+
+\item Log-linear models allow using features that consider the interaction between $x$ and $y$ (e.g., $x$ end in ``ly'' and $y$ is an ADVERB).
+
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
 
 
 

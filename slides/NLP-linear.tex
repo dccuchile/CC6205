@@ -698,14 +698,14 @@ to estimate the error and the gradients based on a sample of $m$ examples.
  \begin{displaymath}
   P(y | \vec{x} ; \Theta) = \hat{y}^y\times(1-\hat{y})^{1-y}
  \end{displaymath} 
-\item If we perform maximum likelihood estimation to this expression we would apply a logarithm function and maximize the paramters $\Theta$:
+\item If we perform maximum likelihood estimation to this expression we would apply a logarithm function and maximize the parameters $\Theta$:
  \begin{displaymath}
   y \log \hat{y} + (1-y) \log(1-\hat{y}) 
  \end{displaymath} 
  
 \item Maximizing this expression is equivalent to miniziming the logistic loss!
  
-\item Many loss functions correspond to the negative likelihood of probalistic models!
+\item Many loss functions correspond to the negative log-likelihood of probalistic models!
  
 \end{itemize}
 \end{scriptsize}

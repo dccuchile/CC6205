@@ -61,13 +61,32 @@
 \begin{frame}{MEMMs}
 \begin{scriptsize}
 \begin{itemize}
- \item Maximum-entropy Markov models (MEMMs) make use of log-linear models for sequence labeling tasks.
+
+\item The goal of sequence labeling is to assign tags to words, or more generally, to assign discrete labels to discrete elements in a sequence \cite{jacobbook}.
+
+\item Well known examples of this problem are: part-of-speech tagging (POS) and Named Entity Recognition (NER).
+
+\item Maximum-entropy Markov models (MEMMs) make use of log-linear models for sequence labeling tasks.
  
  \item In the early NLP literature, logistic regression was often called maximum entropy classification \cite{jacobbook}.
  
  \item Hence, MEMMs will look very similar to the multi-class softmax models seen in the lecture about linear models. 
  
- 
+  \item In contrast to HMMs, here we rely on parameterized functions.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+
+
  \item The goal of MEMMs is  model the following conditional distribution:
  
  \begin{displaymath}
@@ -76,13 +95,13 @@
 
  \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/}. The notation and terminology has been adapted to be consistent with the other material.}
 
+\item We expecto this $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$
  
 \end{itemize}
 
 
 \end{scriptsize}
 \end{frame}
-
 
 
 \begin{frame}{MEMMs}
@@ -131,18 +150,17 @@
 \begin{frame}{MEMMs}
 \begin{scriptsize}
 \begin{itemize}
- \item Hence we are making an first order Markov assumption similar to the Markov assumption in HMMs. 
+ \item Hence we are making a first order Markov assumption similar to the Markov assumption made in HMMs. 
  
- \item It is also possible to have second-order Markov models here. 
-
  \item The tag in the $i$-th position depends only on the tag in the $(i -1)$-th position. 
  
  
- \item Having made these independence assumptions, we then model each term using a log-linear model:
+ \item Having made these independence assumptions, we then model each term using a log-linear (Softmax) model:
  
  \begin{equation}
  P(s_i | s_{i-1}, x_1, \dots, x_m)  =  \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
 \end{equation}
+
 
  
 \end{itemize}
@@ -199,31 +217,22 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 
 
 
-\begin{frame}{Example of Features used in Part-of-Speech Tagging}
+\begin{frame}{Feature Templates}
 \begin{scriptsize}
 
+It is possible to define more general feature templates covering unigrams, bigrams, n-grams of words as well as tag values of $s_{i-1}$ and $s_i$.
 
 \begin{enumerate}
- \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[1]}=1$ if $s_i$ = ADVERB and word $x_i$ ends in ``-ly''; 0 otherwise. \\ 
+  
+ \item A word unigram and tag unigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,k)]}=1$ if $s_i$ = TAG$_{[j]}$ and $x_i$ = WORD$_{[k]}$; 0 otherwise $\forall j,k$. \\ Notice that $j$ is and index spanning all possible tags in $S$ and $k$ is another index spanning the words in the vocabulary $V$.
  
- If the weight $\vec{w}_{[1]}$ associated with this feature is large and positive, then this feature is essentially saying that we prefer labelings where words ending in -ly get labeled as ADVERB.
+ \item A word bigram and tag bigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,k,u,v)]}=1$ if $s_{i-1}$ = TAG$_{[j]}$ and $s_i$ = TAG$_{[k]}$ and $x_{i-1}$ = WORD$_{[u]}$ and $x_{i}$ = WORD$_{[v]}$; 0 otherwise $\forall j,k,u,v$. 
  
- \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[2]}=1$ if $i=1$, $s_i$= VERB, and $x_m$=?; 0 otherwise. 
- \\ If the weight $\vec{w}_{[2]}$ associated with this feature is large and positive, then labelings that assign VERB to the first word in a question (e.g., ``Is this a sentence beginning with a verb?'') are preferred.
-
-
-\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[3]}=1$ if $s_{i-1}$= ADJECTIVE and $l_i$= NOUN; 0 otherwise. 
-\\Again, a positive weight for this feature means that adjectives tend to be followed by nouns. 
-
-\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[4]}=1$ if $s_{i-1}$= PREPOSITION and $s_{i}$= PREPOSITION. 
-\\ A negative weight $\vec{w}_{[4]}$ for this function would mean that prepositions don't tend to follow prepositions.
-
  
 \end{enumerate}
 
-
-\footnotemark{Source: \url{https://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/}}
-
+The function $hash(j,k,...)$ will map each different feature to a unique index in the feature vector.  \\
+Notice that the resuling vector will be very high-dimensional and sparse.
 \end{scriptsize}
 \end{frame}
 
@@ -249,6 +258,20 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 \end{split}
 \end{equation}
 
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{MEMMs and Multi-class Softmax}
+\begin{scriptsize}
+\begin{itemize}
+
 \item Difference 1: in the log-linear model we have a fixed parameter vector $\vec{w}$ instead of having multiple vectors (one column of $W$ for each class value).
 
 \item Difference 2: the feature vector of the log-linear model $\vec{\phi}(x,y)$ includes information of the label $y$, whereas the input vecotr $\vec{x}$ of the softmax model is independent of $y$. 
@@ -261,6 +284,76 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 
 \end{scriptsize}
 \end{frame}
+
+
+
+\begin{frame}{Training MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+
+\item Once we've defined the feature vectors $\vec{\phi}$, we can train the parameters $\vec{w}$ of the model in the usual way for linear models.
+
+\item We set the negative log-likelihood as the loss function and optimize parameters using gradient descent from the training examples.
+
+\item This is equivalent as using the cross-entropy loss.
+
+\item ``Any loss consisting of a negative log-likelihood is a cross-entropy between the empirical distribution defined by the training set and the probability distribution defined by model'' \cite{goodfellow2016deep}.  
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Decoding with MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+
+\item The decoding problem is as follows.
+\item We are given a new test sequence $x_1, \dots, x_m$.
+\item Our goal is to compute the most likely state sequence for this test sequence,
+
+\begin{equation}
+ \operatorname{argmax}_{s_1,\dots,s_m} P(s_1,\dots,s_m|x_1,\dots,x_m).
+\end{equation}
+
+\item There are $k^m$ possible state sequences, so for any reasonably large sentence length $m$ brute-force search through all the possibilities will not be possible.
+
+\item We can use the Viterbi alogrithm in a similar way as used for HMMs.
+ 
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Decoding with MEMMs}
+\begin{scriptsize}
+\begin{itemize}
+
+\item The basic data structure in the algorithm will be a dynamic programming table $\pi$ with entries $\pi[j,s]$ for $j=1, \dots, m$, and $s \in S$.
+
+\item  $\pi[j,s]$ will store the maximum probability for any state sequence ending in state $s$ at position $j$.
+
+\item More formally, our algorithm will compute 
+\begin{displaymath}
+\pi[j,s] =  \operatorname{max}_{s_1,\dots, s_{j-1}}\left(P(s | s_{j-1}, x_1, \dots, x_m) \prod_{k=1}^{j-1}    P(s_k | s_{k-1}, x_1, \dots, x_m)\right)
+\end{displaymath}
+for all $j = 1, \dots,m$, and for all $s \in S$.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
 
 
 %https://www.depends-on-the-definition.com/sequence-tagging-lstm-crf/

@@ -46,7 +46,6 @@
 %\author{\footnotesize  
  \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
   
- 
 
 \date{\today}
 
@@ -224,9 +223,9 @@ It is possible to define more general feature templates covering unigrams, bigra
 
 \begin{enumerate}
   
- \item A word unigram and tag unigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,k)]}=1$ if $s_i$ = TAG$_{[j]}$ and $x_i$ = WORD$_{[k]}$; 0 otherwise $\forall j,k$. \\ Notice that $j$ is and index spanning all possible tags in $S$ and $k$ is another index spanning the words in the vocabulary $V$.
+ \item A word unigram and tag unigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,z)]}=1$ if $s_i$ = TAG$_{[j]}$ and $x_i$ = WORD$_{[z]}$; 0 otherwise $\forall j,z$. \\ Notice that $j$ is and index spanning all possible tags in $S$ and $z$ is another index spanning the words in the vocabulary $V$.
  
- \item A word bigram and tag bigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,k,u,v)]}=1$ if $s_{i-1}$ = TAG$_{[j]}$ and $s_i$ = TAG$_{[k]}$ and $x_{i-1}$ = WORD$_{[u]}$ and $x_{i}$ = WORD$_{[v]}$; 0 otherwise $\forall j,k,u,v$. 
+ \item A word bigram and tag bigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,z,u,v)]}=1$ if $s_{i-1}$ = TAG$_{[j]}$ and $s_i$ = TAG$_{[z]}$ and $x_{i-1}$ = WORD$_{[u]}$ and $x_{i}$ = WORD$_{[v]}$; 0 otherwise $\forall j,z,u,v$. 
  
  
 \end{enumerate}
@@ -317,7 +316,7 @@ Notice that the resuling vector will be very high-dimensional and sparse.
 \item Our goal is to compute the most likely state sequence for this test sequence,
 
 \begin{equation}
- \operatorname{argmax}_{s_1,\dots,s_m} P(s_1,\dots,s_m|x_1,\dots,x_m).
+ \operatorname{arg} \max_{s_1,\dots,s_m} P(s_1,\dots,s_m|x_1,\dots,x_m).
 \end{equation}
 
 \item There are $k^m$ possible state sequences, so for any reasonably large sentence length $m$ brute-force search through all the possibilities will not be possible.
@@ -342,7 +341,7 @@ Notice that the resuling vector will be very high-dimensional and sparse.
 
 \item More formally, our algorithm will compute 
 \begin{displaymath}
-\pi[j,s] =  \operatorname{max}_{s_1,\dots, s_{j-1}}\left(P(s | s_{j-1}, x_1, \dots, x_m) \prod_{k=1}^{j-1}    P(s_k | s_{k-1}, x_1, \dots, x_m)\right)
+\pi[j,s] =  \max_{s_1,\dots, s_{j-1}}\left(P(s | s_{j-1}, x_1, \dots, x_m) \prod_{k=1}^{j-1}    P(s_k | s_{k-1}, x_1, \dots, x_m)\right)
 \end{displaymath}
 for all $j = 1, \dots,m$, and for all $s \in S$.
 
@@ -353,6 +352,157 @@ for all $j = 1, \dots,m$, and for all $s \in S$.
 \end{frame}
 
 
+
+
+\begin{frame}{Decoding with MEMMs}
+\begin{scriptsize}
+The algorithm is as follows:
+
+\begin{itemize}
+
+\item  Initialization: for $s \in  S$
+
+\begin{displaymath}
+  \pi[1,s] = P (s | s_0,x_1,\dots,x_m)
+\end{displaymath}
+where $s_0$ is a special ``initial'' state.
+
+\item For $j \in \{2,\dots,m\}$, $s \in  \{1,\dots,k\}$
+
+\begin{displaymath}
+  \pi[j,s] =  \max_{s' \in S} \ [\pi[j-1,s'] \times P (s | s',x_1,\dots,x_m)]
+\end{displaymath}
+
+\end{itemize}
+
+Finally, having filled in the $\pi[j,s]$ values for all $j, s$, we can calculate
+
+\begin{displaymath}
+  \max_{s_1,\dots,s_m} = \max_{s} \ \pi[m,s].
+\end{displaymath}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Decoding with MEMMs}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item  Finally, having filled in the $\pi[j,s]$ values for all $j, s$, we can calculate
+
+\begin{displaymath}
+  \max_{s_1,\dots,s_m} = \max_{s} \ \pi[m,s].
+\end{displaymath}
+
+
+\item The algorithm runs in $O(mk^2)$ time (i.e., linear in the sequence length $m$,
+and quadratic in the number of tags $k$).
+
+
+\item As in the Viterbi algorithm for HMMs, we can compute the highest-scoring sequence using backpointers in the dynamic programming algorithm.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Comparison between MEMMs and HMMs}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item  So what is the motivation for using MEMMs instead of HMMs?
+
+\item Note that the Viterbi decoding algorithms for the two models are very similar. 
+
+\item In MEMMs, the probability associated with each state transition $s_{i-1}$ to $s_i$ is
+
+ \begin{displaymath}
+ P(s_i | s_{i-1}, x_1, \dots, x_m)  =  \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
+\end{displaymath}
+
+
+\item In HMMs, the probability associated with each transition is:
+
+\begin{displaymath}
+ P(s_i | s_{i-1}, x_1, \dots, x_m) = P(s_1|s_{i-1})P(x_i|s_i)
+\end{displaymath}
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Comparison between MEMMs and HMMs}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item  The key advantage of MEMMs is that the use of feature vectors $\vec{\phi}$ allows much
+richer representations than those used in HMMs.
+
+\item For example, the transition probability can be sensitive to any word in the input sequence $x_1, \dots, x_m$.
+
+\item In addition, it is very easy to introduce features that are sensitive to spelling features (e.g., prefixes or suffixes) of the current word $x_i$ , or of the surrounding words.
+
+\item These features are useful in many NLP applications, and are difficult to incorporate within HMMs in a clean way.
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{conditional random fields (CRFs)}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item  We now turn to conditional random fields (CRFs).
+
+\item Notation: for convenience, we'll use $x_{1:m}$ to refer to an input sequence $x_1 ,\dots,x_m$, and $s_{1:m}$ to refer to a sequence of states $s_1, \dots, s_m$.
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{CRFs and MEMMs}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item  The problem with MEMM is since the normalization happens at each time step it ends up making up decision at each time step independently which leads to this problem called label bias\footnote{In some state space configurations, MEMMs essentially completely ignore the input.}.
+
+\item CRF overcomes this issue by taking the score of the whole sequence before normalizing to make it a probability distribution.
+
+\item Training MEMM is quite easy. You just train a multi-class logistic regression for for a given word to the label. Use this classifier at each word/time step to predict the whole sequence.
+
+\item Training CRF is more complex. The objective  is to maximize the log probability of the most likely sequence.
+
+\item Source: \url{https://www.quora.com/What-are-the-pros-and-cons-of-these-three-sequence-models-MaxEnt-Markov-Model-Conditional-random-fields-and-recurrent-neural-networks}.
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+% Label Bias•In some state space configurations,MEMMs essentially completely ignore the inputs.•Example (ON BOARD)
+% "label bias problem," where states with low-entropy transition distributions "effectively ignore their observations."
+% These are names for situations when one source of information is ignored because it isexplained away by anothersource
 
 \begin{frame}{Links}
 \begin{scriptsize}

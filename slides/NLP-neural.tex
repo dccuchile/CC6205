@@ -325,6 +325,116 @@ the correct function generating our training data.
 
 
 
+\begin{frame}{Backpropagation}
+\begin{scriptsize}
+
+
+\begin{itemize}
+\item Neural networks are trained in the same way as linear models.
+
+\item The network's output is used to compute a loss fuction $L(\hat{y},y)$ that is minimized across the training examples using gradient descent. 
+\item Backpropagation is an efficient technique for evaluating the gradient
+of a loss function $L$ for a feed-forward neural network with respect to all its parameters \cite{bishop2006pattern}. \footnote{The following slides on backpropagation are based on \cite{bishop2006pattern}, we adapted the notation to be consistent with \cite{goldberg2017neural}.}
+\item Those parameters are: $W^1, \vec{b}^1, \dots, W^m, \vec{b}^m$, for a network of $m$ layers.
+\item Recall that superscripts are used to denote layer indexes (not exponentiations).
+\item For simplicity, we will assume that $L$ is calculated over a single example.
+\item Challenge: in neural networks the number of parameters can be huge and we need an efficient way to calculate the gradients.
+
+\item Idea: apply the derivate chain rule wisely.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Derivative Chain Rule Recap}
+\begin{scriptsize}
+
+
+\begin{itemize}
+\item Simple chain rule: let $z = f(y)$, $y = g(x)$, 
+\begin{displaymath}
+\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \times \frac{\partial y}{\partial x}
+\end{displaymath}
+
+\item  Example: $z= e^{y}$, $y = 2x$ 
+
+\begin{displaymath}
+\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \times \frac{\partial y}{\partial x} = e^{y} \times 2 = 2 e^{2x}
+\end{displaymath}
+
+
+\end{itemize}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.2]{pics/simple_chain_rule.png}
+\end{figure}
+
+\footnotetext{Figure taken from:    \url{http://cs224d.stanford.edu/lectures/CS224d-Lecture5.pdf}}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Derivative Chain Rule Recap}
+\begin{scriptsize}
+
+
+\begin{itemize}
+\item Multiple path chain rule: let $z = f(y_1,y_2)$, $y_1 = g_1(x)$, $y_2 =g_2(x)$ 
+\begin{displaymath}
+\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y_1} \times \frac{\partial y_1}{\partial x} + \frac{\partial z}{\partial y_2} \times \frac{\partial y_2}{\partial x}
+\end{displaymath}
+
+\item  Example: $z= e^{y_1 \times y_2}$, $y_1 = 2x$, $y_2 = x^2$ 
+
+\begin{displaymath}
+\frac{\partial z}{\partial x} = (e^{y_1 \times y_2}\times y_2) \times 2 + (e^{y_1 \times y_2}\times y_1) \times 2x = e^{2x^3} \times 6x^2
+\end{displaymath}
+
+
+\end{itemize}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.3]{pics/multiple_paths_chain_rule.png}
+\end{figure}
+
+\footnotetext{Figure taken from:    \url{http://cs224d.stanford.edu/lectures/CS224d-Lecture5.pdf}}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Derivative Chain Rule Recap}
+
+The general version of the multiple path chain rule would be:
+
+\begin{displaymath}
+ \frac{\partial z}{\partial x} = \sum_{i=1}^n \frac{\partial z}{\partial y_i} \times \frac{\partial y_i}{\partial x} 
+\end{displaymath}
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.4]{pics/multiple_paths_chain_rule_general.png}
+\end{figure}
+
+\footnotetext{Figure taken from:    \url{http://cs224d.stanford.edu/lectures/CS224d-Lecture5.pdf}}
+
+\end{frame}
+
+
+
+
+
 
 
 \begin{frame}{Backpropagation}
@@ -332,12 +442,6 @@ the correct function generating our training data.
 
 
 \begin{itemize}
-\item Backpropagation is an efficient technique for evaluating the gradient
-of a loss function $L$ for a feed-forward neural network with respect to all its parameters \cite{bishop2006pattern}. \footnote{The following slides on backpropagation are based on \cite{bishop2006pattern}, we adapted the notation to be consistent with \cite{goldberg2017neural}.}
-\item Those parameters are: $W^1, \vec{b}^1, \dots, W^m, \vec{b}^m$, for a network of $m$ layers.
-\item Recall that superscripts are used to denote layer indexes (not exponentiations).
-\item For simplicity, we will assume that $L$ is calculated over a single example.
-
 \item In a general feed-forward network, each unit computes a weighted sum of its inputs in the form:
 \begin{equation}
 \vec{h}_{[j]}^l = \left(\sum_{i}  W_{[i,j]}^l \times \vec{z}_{[i]}^{(l-1)}\right) + \vec{b}_{[j]}^l 

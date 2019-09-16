@@ -932,6 +932,138 @@ the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations
 \begin{scriptsize}
 \begin{itemize}
 
+\item The presents the computation graph for an MLP with one hidden-layer and a softmax output transformation.
+
+
+\item Oval nodes represent mathematical operations or functions, and shaded rectangle nodes represent parameters (bound variables).
+
+\item Network inputs are treated as constants, and drawn without a surrounding node. 
+
+\item Input and parameter nodes have no incoming arcs, and output nodes have no outgoing arcs. 
+
+\item The output of each node is a matrix, the dimensionality of which is indicated above the node.
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
+
+\item This graph is incomplete: without specifying the inputs, we cannot compute an output.
+
+\item Figure 5.1b shows a complete graph for an MLP that takes three words as inputs, and predicts the distribution over part-of-speech tags for the third word. 
+
+\item This graph can be used for prediction, but not for training, as the output is a vector (not a scalar) and the graph does not take into account
+the correct answer or the loss term. 
+
+\item Finally, the graph in Figure 5.1c shows the computation graph for a specific training example, in which the inputs are the (embeddings of ) the words ``the,'' ``black,'' ``dog,'' and the expected output is ``NOUN'' (whose index is 5). 
+
+\item The pick node implements an indexing operation, receiving a vector and an index (in this case, 5) and returning  the corresponding entry in the vector.
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Forward Computation}
+\begin{scriptsize}
+\begin{itemize}
+
+\item  The forward pass computes the outputs of the nodes in the graph. \item Since each node's output depends only on itself and on its incoming edges, it is trivial to compute the outputs of all nodes.
+
+\item This is done by traversing the nodes in a topological order and computing the output of each node given the already computed outputs of its predecessors.
+
+\item  More formally, in a graph of $N$ nodes, we associate each node with an index $i$ according to their topological ordering.
+
+\item Let $f_i$ be the function computed by node $i$ (e.g., multiplication,
+addition , etc.).
+
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Forward Computation}
+\begin{scriptsize}
+\begin{itemize}
+
+\item Let $\pi(i)$ be the parent nodes of node $i$ , and $\pi^{-1}(i) = \{j| i \in \pi(j) \}$ the children nodes of node $i$ (these are the arguments of $f_i$).
+
+\item Denote by $v(i)$  the output of node $i$ , that is, the application of $f_i$ to the output values of its arguments $\pi^{-1}(i)$. 
+
+\item For variable and input nodes, $f_i$ is a constant function and $\pi^{-1}(i)$ is empty. 
+
+\item The computation-graph forward pass computes the values $v(i)$ for all $i \in [1,N]$.
+
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.35]{pics/forwardPass.png}
+\end{figure}
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Backward Computation (Backprop)}
+\begin{scriptsize}
+\begin{itemize}
+
+\item The backward pass begins by designating a node $N$ with scalar $(1\times1)$ output as a loss-node, and running forward computation up to that node.
+
+\item The backward computation computes the gradients of the parameters with respect to that node's value.
+
+
+\item Denote by $d(i)$  the quantity $\frac{\partial N}{ \partial i}$.
+
+\item The backpropagation algorithm is used to compute the values $d(i)$  for all nodes $i$.
+
+\item The backward pass fills a table of values $d(1), \dots, d(N)$  as shown in the following algorithm.
+
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.35]{pics/backwardPass.png}
+\end{figure}
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Backward Computation (Backprop)}
+\begin{scriptsize}
+\begin{itemize}
+
+\item The backpropagation algorithm is essentially following the chain-rule of differentiation.
+
+\item The quantity  $\frac{\partial f_j}{ \partial i}$ is the partial derivative of $f_j(\pi^{-1}(j))$ w.r.t the argument $i \in \pi^-1(j)$.
+
+\item This value depends on the function $f_j$ and the values $v(a_1), \dots, v(a_m)$  (where $a_1, \dots, a_m =  \pi^{-1}(j)$) of its arguments, which were computed in the forward pass.
+
+
+\item Thus, in order to define a new kind of node, one needs to define two methods: one for calculating the forward value $v(i)$  based on the node's inputs, and the another for calculating  $\frac{\partial f_j}{ \partial i}$ for each $x \in \pi^{-1}(i)$.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Summary of the Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
+
+\item Notice that the above formulation of backpropagation is equivalent to one given earlier in the class.
+
 \item  Te computation graph abstraction allows us to:
 
 
@@ -940,34 +1072,46 @@ the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations
  \item Easily construct arbitrary networks.
  \item Evaluate their predictions for given inputs (forward pass)
  
- \begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.25]{pics/forwardPass.png}
-\end{figure}
-
- 
- 
- \item Compute gradients for their parameters with respect to arbitrary scalar losses (backward pass or backpropagation).
- 
- 
+\item Compute gradients for their parameters with respect to arbitrary scalar losses (backward pass or backpropagation).
   
- \begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.25]{pics/backwardPass.png}
-\end{figure}
  
 \end{scriptsize}
  \end{enumerate}
   
   
+\item A nice property of the computation graph abstraction is that it allows computing the gradients for arbitrary networks (e.g., networks with skip-connections, shared weights, special loss functions, etc.)
+ 
   
-  
- \item The backpropagation algorithm (backward pass) is essentially following the chain-rule of differentiation\footnote{A comprehensive tutorial on the backpropagation algorithm over the computational graph abstraction: \url{https://colah.github.io/posts/2015-08-Backprop/}}.
+\footnotetext{A comprehensive tutorial on the backpropagation algorithm over the computational graph abstraction can be found here: \url{https://colah.github.io/posts/2015-08-Backprop/}.}
  
   
 \end{itemize}
 \end{scriptsize}
 \end{frame}
+
+
+
+
+\begin{frame}{Derivatives of ``non-mathematical'' functions}
+\begin{scriptsize}
+\begin{itemize}
+
+\item Defining  $\frac{\partial f_j}{ \partial i}$ for mathematical functions such is as $log$ or $+$ is straightforward.
+
+\item It may be challenging to think about the derivative of operations as as pick($\vec{x},5$) that selects the fifth element of a vector.
+
+\item The answer is to think in terms of the contribution to the computation. 
+
+\item After picking the $i$-th element of a vector, only that element participates in the remainder of the computation. 
+
+\item Thus, the gradient of pick($\vec{x},5$) is a vector $\vec{v}$ with the dimensionality of $\vec{x}$ where $\vec{v}_{[5]} =1$ and $\vec{v}_{[i \neq 5]} = 0$.
+
+\item Similarly, for the function $\max(0,x)$  the value of the gradient is $1$ for $x>0$ and $0$ otherwise.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
 
 
 

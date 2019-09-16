@@ -325,7 +325,180 @@ the correct function generating our training data.
 
 
 
-\begin{frame}{Backpropagation}
+
+
+
+\begin{frame}{Embedding Layers}
+\begin{scriptsize}
+\begin{itemize}
+
+\item In NLP the input to the neural network contains symbolic categorical features (e.g., words from a closed vocabulary, character n-grams, POS tags).
+
+\item In linear models we usually represent the input with sparse vectors e.g., as the sum or the concatenation of one-hot encoded vectors (the sum is equivalent to a bag-of words representation). 
+
+\item In neural networks, it is common to associate each possible feature value (i.e., each word in the vocabulary, each POS tag category) with a $d-$dimensional vector for some $d$.
+
+\item These vectors are then considered parameters of the model, and are trained jointly with the other parameters.
+
+\item The mapping from a symbolic feature values such as ``word number 1249'' to $d-$dimensional vectors is performed by an embedding layer (also called a lookup layer ).
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Embedding Layers}
+\begin{scriptsize}
+\begin{itemize}
+
+\item The parameters in an embedding layer are simply a matrix $E \in \mathcal{R}^{|vocab|\times d}$ where each row corresponds to a different word in the vocabulary.
+
+\item The lookup operation is then simply indexing: $v_{1249} = E_{[1249,:]}$.
+
+\item If the symbolic feature is encoded as a one-hot vector $\vec{x}$, the lookup operation can be implemented as a vector-matrix multiplication $\vec{x}E$.
+
+\item The word vectors are often concatenated to each other before being passed on to the next layer.
+
+
+\item The embeddings matrix $E$ can be initialized with pre-trained word vectors trained from unlabeled documents using specific methods based on the distributional hypothesis such as the ones implemented in Word2Vec (to be discussed later in the course).
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Dense Vectors vs. One-hot representations}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+\item What are the benefits of representing our features as vectors instead of as unique IDs?
+\item Should we always represent features as dense vectors? 
+\item Let's consider the two kinds of representations.
+
+\item 1) \textbf{One Hot}: each feature is its own dimension. 
+\begin{itemize}
+\begin{scriptsize}
+\item Dimensionality of one-hot vector is same as number of distinct features.
+\item Features are completely independent from one another. The feature ``word is `dog' '' is as dissimilar to ``word is `thinking' '' than it is to ``word is `cat' ''.
+\end{scriptsize}
+\end{itemize}
+
+\item 2) \textbf{Dense}: each feature is a d -dimensional vector. 
+\begin{itemize}
+\begin{scriptsize}
+\item Dimensionality of vector is $d$.
+\item Model training will cause similar features to have similar vectors: information is shared between similar features.
+\end{scriptsize}
+\end{itemize}
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Example: Dense Vectors vs. One-hot representations}
+
+
+
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.35]{pics/denseonehot.png}
+\end{figure}
+
+
+\end{frame}
+
+\begin{frame}{Example: Dense Vectors vs. One-hot representations}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+\item Previous figure shows two encodings of the information: current word
+is ``dog;'' previous word is ``the;'' previous pos-tag is ``DET.''
+
+\item (a) Sparse feature vector. 
+\begin{itemize}
+\begin{scriptsize}
+\item Each dimension represents a feature. 
+\item Feature combinations receive their own dimensions.
+\item Feature values are binary. 
+\item Dimensionality is very high.
+\end{scriptsize}
+\end{itemize}
+
+\item (b) Dense, embeddings-based feature vector. 
+\begin{itemize}
+\begin{scriptsize}
+\item Each core feature is represented as a vector.
+\item Each feature corresponds to several input vector entries.
+\item No explicit encoding of feature combinations.
+\item Dimensionality is low.
+\item The feature-to-vector mappings come from an embedding table.
+\end{scriptsize}
+\end{itemize}
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{Dense Vectors vs. One-hot representations}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+\item One benefit of using dense and low-dimensional vectors is computational: the majority of neural network toolkits do not play well with very high-dimensional, sparse vectors.
+\item However, this is just a technical obstacle, which can be resolved with some engineering effort.
+
+\item The main benefit of the dense representations is in generalization power.
+
+\item If we believe some features may provide similar clues, it is worthwhile to provide a representation that is able to capture these similarities. 
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Dense Vectors vs. One-hot representations}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+\item Let's assume we have observed the word dog many times during
+training, but only observed the word cat a handful of times. 
+
+\item If each of the words is associated with its own dimension (one-hot), occurrences of dog will not tell us anything about the occurrences of cat. 
+
+\item However, in the dense vectors representation the learned vector for dog may be similar to the learned vector for cat.
+
+\item This will allow the model to share statistical strength between the two events. 
+
+\item This argument assumes that we saw enough occurrences of the word cat such that its vector will be similar to that of dog.
+
+\item Pre-trained word embeddings (e.g., Word2Vec, Glove) to be discussed later in the course can be used to obtain dense vectors from unanoted text.
+
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Neural Network Training}
 \begin{scriptsize}
 
 
@@ -688,9 +861,40 @@ the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations
 
 \item This procedure is cumbersome and error prone.
 
-\item For most purposes, it is preferable to use automatic tools for gradient computation [Bengio, 2012].
+\item For most purposes, it is preferable to use automatic tools for gradient computation \cite{bengio2012practical}.
 
 \item A computation graph is a representation of an arbitrary mathematical computation (e.g., a neural network) as a graph.
+
+\item This abstraction will allow us computing the gradients from any kind of neural network architecture using the backpropagation algorithm. 
+
+\item Previous formulation was restricted to feedforward networks.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
+\item A computation graph is a directed acyclic graph (DAG).
+
+\item Nodes correspond to mathematical operations or (bound) variables.
+
+\item Edges correspond to the flow of intermediary values between the nodes.
+
+\item The graph structure defines the order of the computation in terms of the dependencies  between the different components.
+
+\item The graph is a DAG and not a tree, as the result of one operation can be the input of several continuations.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+\begin{itemize}
 
 \item Consider for example a graph for the computation of $(a*b+1)*(a*b+2)$:
 
@@ -701,7 +905,7 @@ the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations
 
 \item The computation of $a*b$ is shared.
 
-\item The graph structure defines the order of the computation in terms of the dependencies between the different components.
+\item Since a neural network is essentially a mathematical expression, it can be represented as a computation graph.
 
 \end{itemize}
 \end{scriptsize}
@@ -710,6 +914,18 @@ the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations
 
 
 
+\begin{frame}{The Computation Graph Abstraction}
+\begin{scriptsize}
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.32]{pics/comgraphexample.png}
+\end{figure}
+
+\footnotetext{Figure taken from:  \cite{goldberg2017neural}}
+
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{The Computation Graph Abstraction}
@@ -755,7 +971,42 @@ the network using (eq.\ref{eq:sum}) and (eq.\ref{eq:ac}) to find the activations
 
 
 
+\begin{frame}{Regularization and Dropout}
+\begin{scriptsize}
+\begin{itemize}
+\item Multi-layer networks can be large and have many parameters, making them especially prone to overfitting.
 
+\item Model regularization is just as important in deep neural networks as it is in linear models, and perhaps even more so.
+
+\item The regularizers discussed for linear models, namely $L_2$ , $L_1$, and the elastic-net, are also relevant for neural networks.
+
+\item Another effective technique for preventing neural networks from overfitting the training data is \textbf{dropout training} \cite{hinton2012improving}.
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Regularization and Dropout}
+\begin{scriptsize}
+\begin{itemize}
+
+\item The dropout method is designed to prevent the network from learning to rely on specific weights.
+
+\item It works by randomly dropping (setting to 0) half of the neurons in the network (or in a specific layer) in each training example in the stochastic-gradient training.
+
+
+ \begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.45]{pics/drop-out-in-neural-networks.jpg}
+\end{figure}
+
+\footnotetext{Figure taken from:    \url{https://www.kdnuggets.com/wp-content/uploads/drop-out-in-neural-networks.jpg}}
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 
 

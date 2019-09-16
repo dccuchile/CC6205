@@ -39,44 +39,44 @@
 7. Semana 7
 
      * Martes 24/09: Auxiliar 2 - Word Embeddings
-     * Jueves 26/09: Cátedra:  Neural Networks
+     * Jueves 26/09: Cátedra:  Linear Models y Neural Networks.
      * Viernes 27/09: Entrega Tarea 1
 
 8. Semana 8
 
-     * Martes 01/10. Cátedra:  Word Embeddings
+     * Martes 01/10. Cátedra:  Neural Networks 
      * Jueves 03/10. Auxiliar 3 - Ejercicio 3.
 
 9. Semana 9
 
-     * Martes 08/10. Cátedra: Tagging - HMM.
-     * Jueves 10/10. Cátedra:  Convolutional Neural Networks
+     * Martes 08/10. Cátedra: Word Embeddings. 
+     * Jueves 10/10. Cátedra:  Tagging - HMM. 
 
 10. Semana 10
 
-     * Martes 15/10. Cátedra:  Recurrent Neural Networks
-     * Jueves 17/10. Cátedra Parsing.
+     * Martes 15/10. Cátedra:  MEMMs y CRFs. 
+     * Jueves 17/10.  Convolutional Neural Networks. 
 
 11. Semana 11
 
-      * Martes 22/10. Cátedra Parsing.
+      * Martes 22/10.  Cátedra: Recurrent Neural Networks.  
       * Jueves 24/10. Auxiliar 4 - Ejercicio 4. 
 
 12. Semana 12
 
-      * Martes 29/10. Cátedra: Sequence-to-Sequence.
+      * Martes 29/10. Cátedra: Sequence-to-Sequence + Attention.
       * Jueves 31/10. Feriado
 
 13. Semana 13
 
-      * Martes 05/11. Cátedra: Attention + Transformer. 
+      * Martes 05/11. Cátedra: Parsing 
       * Jueves 07/11. Auxiliar 5 - Ejercicio 5.
       * Viernes 08/11. Entrega Tarea 2
 
 14. Semana 14
 
-      * Martes 12/11. Cátedra: ELMO and BERT
-      * Jueves 14/11. Cátedra.
+      * Martes 12/11. Cátedra: Parsing
+      * Jueves 14/11. Cátedra: Transformer + ELMO + BERT + cierre.
 
 15. Semana 15
 

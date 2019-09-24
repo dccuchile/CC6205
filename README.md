@@ -27,6 +27,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 2. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex))
 3. [Word Vectors](slides/NLP-wordvectors.pdf) | ([tex source file](slides/NLP-wordvectors.tex))
 2. [Tagging, and Hidden Markov Models ](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf) (slides by Michael Collins), [notes](http://www.cs.columbia.edu/~mcollins/hmms-spring2013.pdf), [videos](https://www.youtube.com/playlist?list=PLlQBy7xY8mbI13gwXZz4r55MeatSZOqm7)
+4. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex))
 4. [Convolutional Neural Networks](slides/NLP-CNN.pdf) | ([tex source file](slides/NLP-CNN.tex))
 5. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex))
 6. [Sequence to Sequence Models](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex))
@@ -59,7 +60,9 @@ The neural network-related topics of the course are taken from the book of Yoav 
 17. [SuperGLUE: an benchmark of Natural Language Understanding Tasks](https://super.gluebenchmark.com/)
 18. [decaNLP The Natural Language Decathlon: a benchmark for studying general NLP models that can perform a variety of complex, natural language tasks](http://decanlp.com/).
 19. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
- 
+20. [Chatbot and Related Research Paper Notes with Images](https://github.com/ricsinaruto/Seq2seqChatbots/wiki/Chatbot-and-Related-Research-Paper-Notes-with-Images)
+21. [XLNet Explained](http://mlexplained.com/2019/06/30/paper-dissected-xlnet-generalized-autoregressive-pretraining-for-language-understanding-explained/)
+22. [PyTorch-Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/pytorch-transformers/index.html)
 
 ##  
 

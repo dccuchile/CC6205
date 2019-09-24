@@ -164,7 +164,7 @@ f(\vec{x}) = \vec{x} \cdot \vec{w} + b\\
 \item Each entry $\vec{x}_{[i]}$  represents a count of a particular letter combination in the document, normalized by the document's length.
 \item For example, denoting by $\vec{x}_{ab}$ the entry of $\vec{x}$ corresponding to the letter bigram $ab$:
 \begin{equation}
- x_{ab}= \frac{\#ab}{|D|}
+ \vec{x}_{ab}= \frac{\#ab}{|D|}
 \end{equation}
 where $\#ab$ is the number of times the bigram $ab$ appears in the document, and $|D|$ is the total number of bigrams in the document (the document’s length).
 
@@ -183,7 +183,7 @@ where $\#ab$ is the number of times the bigram $ab$ appears in the document, and
 
 \begin{figure}[htb]
 	\centering
-	 \includegraphics[scale=0.27]{pics/langbigrams.png}
+	 \includegraphics[scale=0.26]{pics/langbigrams.png}
 \end{figure}
 
 \scriptsize{Character-bigram histograms for documents in English (left, blue) and German(right,green). Underscores denote spaces. Only the top frequent character-bigrams are showed.}
@@ -321,7 +321,7 @@ to the range $[0, 1]$, with $0$ being mapped to $\frac{1}{2}$.
  \end{split}
 \end{equation}
 
-\item Here $\vec{\hat{y}} \in \mathcal{R}^6$ is a vector of the scores assigned by the model to each language, and we again determine the predicted language by taking the argmax over the entries of $\vec{\hat{y}}$.
+\item Here $\vec{\hat{y}} \in \mathcal{R}^6$ is a vector of the scores assigned by the model to each language, and we again determine the predicted language by taking the argmax over the entries of $\vec{\hat{y}}$ (the columns with the highest value).
 
 \end{itemize}
 \end{scriptsize}
@@ -494,17 +494,41 @@ Resulting in:
 \begin{itemize}
 \item  When training a parameterized function (e.g., a linear model, a neural network) one defines a loss function $L(\hat{y}, y)$, stating the loss of predicting $\hat{y}$ when the true output is y.
 
-\item The training objective is then to minimize the loss across the different training examples. 
-
-\item Functions are trained using  gradient-based methods.
-
-\item They work by repeatedly computing an estimate of the loss $L$ over the training set.
+\begin{displaymath}
+L(f(\vec{x};\Theta), y) 
+\end{displaymath}
 
 \item We use the symbol $\Theta$ to denote all the parameters of the model (e.g.,  $W, \vec{b}$)
 
-\item The training method computes gradients of the parameters ($\Theta$)  with respect to the loss estimate, and moving the parameters in the opposite directions of the gradient. 
+\item The training objective is then to minimize the loss across the different training examples. 
 
-\item Different optimization methods differ in how the error estimate is computed, and how moving in the opposite direction of the gradient is defined.
+
+\item Formally, a loss function $L(\hat{y},y)$ assigns a numerical score (a scalar) to a predicted output $\hat{y}$ given the true expected output $y$. 
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Training}
+\begin{scriptsize}
+\begin{itemize}
+\item The loss function should attain its minimum value for cases where the prediction is correct.
+
+\item We can also define a corpus-wide loss with respect to the parameters $\Theta$ as the average loss over all training examples:
+
+\begin{displaymath}
+ \mathcal{L}(\Theta) = \frac{1}{n} \sum_{i=1}^n L(f(\vec{x}_i;\Theta), y_i)
+\end{displaymath}
+
+\item The goal of the training algorithm is then to set the values of the parameters $\Theta$  such that the value of $\mathcal{L}$ is minimized.
+
+
+\begin{displaymath}
+ \hat{\Theta} = \operatorname{argmin}_{\Theta} \mathcal{L}(\Theta) =  \operatorname{argmin}_{\Theta} \frac{1}{n} \sum_{i=1}^n L(f(\vec{x}_i;\Theta), y_i)
+\end{displaymath}
+
 
 \end{itemize}
 
@@ -512,6 +536,31 @@ Resulting in:
 \end{scriptsize}
 \end{frame}
 
+
+
+\begin{frame}{Gradient-based Optimization}
+\begin{scriptsize}
+\begin{itemize}
+\item Functions are trained using  gradient-based methods.
+
+\item They work by repeatedly computing an estimate of the loss $L$ over the training set.
+
+
+
+\item The training method computes gradients of the parameters ($\Theta$)  with respect to the loss estimate, and moving the parameters in the opposite directions of the gradient. 
+
+\item Different optimization methods differ in how the error estimate is computed, and how moving in the opposite direction of the gradient is defined.
+
+\item If the function is convex, the optimum will be a global one.
+
+\item Otherwise, the process is only guaranteed to find a local optimum.
+
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{Gradient Descent}
@@ -541,10 +590,10 @@ Resulting in:
 
 \begin{scriptsize}
 \begin{itemize}
-\item All the parameters are initialized with random values ($W, \vec{b}$).
-\item For each training example $(x,y)$ we calculate the loss $L$ with current values of $w$.
+\item All the parameters are initialized with random values ($\Theta$).
+\item For each training example $(x,y)$ we calculate the loss $L$ with current values of $\Theta$.
 \item Then we update the parameters with the following rule until convergence:
-\item $w_i \leftarrow w_i - \eta \frac{\partial L}{w_i}(x,y)$  (for all parameters $w_i$)
+\item $\Theta_i \leftarrow \Theta_i - \eta \frac{\partial L}{\Theta_i}(\hat{y},y)$  (for all parameters $\Theta_i$)
 
 \begin{figure}[htb]
 	\centering
@@ -633,6 +682,35 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \end{frame}
 
 
+\begin{frame}{Loss Functions}
+\begin{scriptsize}
+\begin{itemize}
+ \item The logistic loss has a probalistic interpration:
+ \item We assume that $P(y =1 | \vec{x} ; \Theta) = f(\vec{x})$ and $P(y = 0 | \vec{x} ; \Theta) = 1 - f(\vec{x})$
+ \item We can write this is a more compact way: 
+ \begin{displaymath}
+  P(y | \vec{x} ; \Theta) = f(\vec{x})^y\times(1-f(\vec{x}))^{1-y}
+ \end{displaymath}
+
+ \item The above expression is the probability mass function of the Bernoulli distribution.
+ 
+\item Now we replace $f(\vec{x})$ by $\hat{y}$:
+ \begin{displaymath}
+  P(y | \vec{x} ; \Theta) = \hat{y}^y\times(1-\hat{y})^{1-y}
+ \end{displaymath} 
+\item If we perform maximum likelihood estimation to this expression we would apply a logarithm function and maximize the parameters $\Theta$:
+ \begin{displaymath}
+  y \log \hat{y} + (1-y) \log(1-\hat{y}) 
+ \end{displaymath} 
+ 
+\item Maximizing this expression is equivalent to miniziming the logistic loss!
+ 
+\item Many loss functions correspond to the negative log-likelihood of probalistic models!
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
 
 
 
@@ -657,6 +735,145 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 
 \end{frame}
 
+
+
+
+
+\begin{frame}{Regularization}
+\begin{scriptsize}
+\begin{itemize}
+ \item Our optimization problem may admit multiple solutions, and, especially in higher dimensions, it can also over-fit.
+ \item Scenario: In our language identification problem one of the documents in the training set ($\vec{x}_O$) is an outlier.
+ \item The document is actually in German, but is labeled as French.
+ 
+ \item In order to drive the loss down, the learner can identify features (letter bigrams) in $\vec{x}_O$ that occur in only few other documents.
+ 
+ \item The learner will give these features very strong weights toward the (incorrect) French class. 
+
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{Regularization}
+\begin{scriptsize}
+\begin{itemize}
+  \item This is a bad solution to the learning problem.
+ \item The model is learning something incorrect.
+ \item Test German documents which share many words with $\vec{x}_O$ could be mistakenly classified as French. 
+ \item We would like to control for such cases by driving the learner away from such misguided solutions.
+ \item Idea: it is OK to mis-classify a few examples if they don't fit well with the rest.
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Regularization}
+\begin{scriptsize}
+\begin{itemize}
+  \item Regularization: we add a regularization term $R$ to the optimization objective.
+  \item  The goal of this term: to control the complexity (large weights) of the parameter value ($\Theta$), and avoid cases of overfitting:
+\begin{equation}
+ \begin{split}
+  \hat{\Theta} \quad & =  \operatorname{argmin}_{\Theta} \mathcal{L}(\Theta) + \lambda R(\Theta) \\
+     \quad & =  \operatorname{argmin}_{\Theta} \frac{1}{n} \sum_{i=1}^n L(f(\vec{x}_i;\Theta), y_i) + \lambda R(\Theta) \\
+ \end{split}
+\end{equation}  
+\item The regularization term considers the parameter values, and scores their complexity.  
+\item The value of hyperparameter $\lambda$ has to be set manually, based on the classification performance on a development set.   
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Regularization}
+\begin{scriptsize}
+\begin{itemize}
+  \item  In practice, the regularizers $R$ equate complexity with large weights.
+  \item They work to keep the parameter values ($\Theta$) low.
+  \item They drive the learner toward solutions with low norms of the parameter matrices ($W$).
+  \item Common choices for $R$ are the $L_2$ norm, the $L_1$ norm, and the elastic-net.
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{L$_2$ Regularization}
+\begin{scriptsize}
+\begin{itemize}
+\item  In $L_2$ regularization, $R$ takes the form of the squared $L_2$ norm of the parameters.
+\item Goal: try to keep the sum of the squares of the parameter values low.
+  \begin{displaymath}
+   R_{L_{2}}(W) = ||W||^{2}_{2} = \sum_{i,j}(W_{[i,l]})^2
+  \end{displaymath}
+\item The $L_2$ regularizer is also called a gaussian prior or weight decay.
+\item $L_2$ regularized models are severely punished for high parameter weights.
+\item Once the value is close enough to zero, their effect becomes negligible.
+\item The model will prefer to decrease the value of one parameter with high weight by 1 than to decrease the value of ten parameters that already have relatively low weights by 0.1 each.
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{L$_1$ Regularization}
+\begin{scriptsize}
+\begin{itemize}
+  \item  In $L_1$ regularization, $R$ takes the form of the $L_1$ norm of the parameters.
+  \item Goal: try to keep the sum of the absolute values of the parameters low.
+  \begin{displaymath}
+   R_{L_{1}}(W) = ||W||_{1} = \sum_{i,j} |W_{[i,l]}|
+  \end{displaymath}
+ \item In contrast to $L_2$ , the $L_1$ regularizer is punished uniformly for low and high values.
+ \item It has an incentive to decrease all the non-zero parameter values toward zero. 
+ \item It thus encourages a sparse solutions—models with many parameters with a zero value. 
+ \item The $L_1$ regularizer is also called a sparse prior or lasso \cite{tibshirani1996regression}. 
+  \end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{Elastic-Net}
+\begin{scriptsize}
+\begin{itemize}
+  \item  The elastic-net regularization \cite{zou2005regularization} combines both $L_1$ and $L_2$ regularization:
+ 
+ \begin{displaymath}
+  R_{\text{elactic-net}}(W) = \lambda_{1}R_{L_{1}}(W) + \lambda_{2}R_{L_{2}}(W)
+ \end{displaymath}
+
+  
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Beyond SGD}
+\begin{scriptsize}
+\begin{itemize}
+
+ \item While the SGD algorithm can and often does produce good results, more advanced algorithms are also available. 
+ \item The SGD+Momentum \cite{polyak1964some} and Nesterov Momentum \cite{nesterov2018lectures,sutskever2013importance}  algorithms are variants of SGD in which previous gradients are accumulated and affect the current update. 
+\item Adaptive learning rate algorithms including AdaGrad \cite{duchi2011adaptive}, AdaDelta \cite{zeiler2012adadelta}, RMSProp \cite{tieleman2012lecture}, and Adam \cite{kingma2014adam} are designed to select the learning rate for each minibatch.
+\item This sometimes done on a per-coordinate basis, potentially alleviating the need of fiddling with learning rate scheduling. 
+\item For details of these algorithms, see the original papers or \cite{goodfellow2016deep}(Sections 8.3, 8.4).
+ 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
 
 
 
@@ -765,7 +982,7 @@ set, so as to not bias the way you design your model.
 \begin{frame}{Nonlinear input transformations}
 \begin{scriptsize}
 \begin{itemize}
-\item If we transform the points by feeding each of them through the nonlinear function $\phi(x_1,x_2) = [x_1 \times x_2, x_1 x_2 ]$ , the XOR problem becomes linearly separable.
+\item If we transform the points by feeding each of them through the nonlinear function $\phi(x_1,x_2) = [x_1 \times x_2, x_1 + x_2 ]$ , the XOR problem becomes linearly separable.
 \begin{figure}[htb]
 	\centering
 	 \includegraphics[scale=0.25]{pics/xor2.png}

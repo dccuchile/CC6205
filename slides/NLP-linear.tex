@@ -725,11 +725,9 @@ to estimate the error and the gradients based on a sample of $m$ examples.
    \begin{displaymath}
   L_{\text{cross-entropy}}(\vec{\hat{y}},\vec{y}) = - \sum_{i} \vec{y}_{[i]} \log(\vec{\hat{y}}_{[i]})   
  \end{displaymath}
-\item The predicted label distribution of the categorical cross-entropy loss ($\vec{\hat{y}}$) is obtained by applying the softmax function the last layer of the network $\vec{\tilde{y}}$:
-    \begin{displaymath}
-\vec{\hat{y}}_{[i]} = \text{softmax}(\vec{\tilde{y}})_{[i]} =  \frac{e^{\vec{\tilde{y}}_{[i]}}}{\sum_{j}e^{\vec{\tilde{y}}_{[j]}}}   
- \end{displaymath}
+ \item When using the cross-entropy loss, it is assumed that the classifier's output is transformed using the softmax transformation.
 
+ \item The softmax function squashes the $k$-dimensional output to values in the range (0,1) with all entries adding up to 1. Hence, $\vec{\hat{y}}_{[i]} = P( y = i |x)$ represent the class membership conditional distribution.
  
 \end{itemize}
 \end{scriptsize}
@@ -742,7 +740,6 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \begin{scriptsize}
 \begin{itemize}
 
-\item The softmax function squashes the $k$-dimensional output to values in the range (0,1) with all entries adding up to 1. Hence, $\vec{\hat{y}}_{[i]} = P( y = i |x)$ represent the class membership conditional distribution.
 
 
 \item For hard-classification problems in which each training example has a single correct class assignment, $\vec{y}$ is a one-hot vector representing the true class. 
@@ -752,7 +749,7 @@ to estimate the error and the gradients based on a sample of $m$ examples.
  \end{displaymath}
  where $t$ is the correct class assignment.
 
- \item When using the cross-entropy loss, it is assumed that the classifier's output is transformed using the softmax transformation.
+
 
  
 \end{itemize}
@@ -919,7 +916,7 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 \begin{frame}{Train, Test, and Validation Sets}
 \begin{scriptsize}
 \begin{itemize}
-\item The accepted methodology is to use a three-way split of the data into train, validation (also called development ), and test sets \footnote{An alternative approach is cross-validation, but it doesn't scale well for training deep neural networks.}. 
+\item The accepted methodology is to use a three-way split of the data into train, validation (also called development), and test sets\footnote{An alternative approach is cross-validation, but it doesn't scale well for training deep neural networks.}. 
 \item This gives you two held-out sets: a validation set (also called development set ), and a test set.
 \item All the experiments, tweaks, error analysis, and model selection should be performed based on the validation set. 
 \item Then, a single run of the final model over the test set will give a good estimate of its expected quality on unseen examples. 
@@ -950,7 +947,7 @@ set, so as to not bias the way you design your model.
 \end{frame}
 
 
-\begin{frame}{Limitations of linear models: the XOR problem}
+\begin{frame}{A limitation of linear models: the XOR problem}
 \begin{scriptsize}
 \begin{itemize}
 \item The hypothesis class of linear (and log-linear) models is severely restricted.
@@ -968,7 +965,7 @@ set, so as to not bias the way you design your model.
 \end{frame}
 
 
-\begin{frame}{Limitations of linear models: the XOR problem}
+\begin{frame}{A limitation of linear models: the XOR problem}
 \begin{scriptsize}
 \begin{itemize}
 \item There is no parameterization $\vec{w} \in \mathcal{R}^2, b \in \mathcal{R}$ such that:
@@ -986,7 +983,7 @@ set, so as to not bias the way you design your model.
 
 
 
-\begin{frame}{Limitations of linear models: the XOR problem}
+\begin{frame}{A limitation of linear models: the XOR problem}
 \begin{scriptsize}
 \begin{itemize}
 \item To see why, consider the following plot of the XOR function, where blue Os denote the positive class and green Xs the negative class.

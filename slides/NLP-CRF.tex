@@ -471,12 +471,42 @@ richer representations than those used in HMMs.
 
 \item Notation: for convenience, we'll use $x_{1:m}$ to refer to an input sequence $x_1 ,\dots,x_m$, and $s_{1:m}$ to refer to a sequence of tags $s_1, \dots, s_m$.
 
+\item The set of all possible states is again $S$.
+
+\item The set of all possible state sequences is $S^m$.
+
+\item In conditional random fields we'll again build a model of
+\begin{displaymath}
+ P(s_1, \dots, s_m | x_1, \dots, x_m) = P(s_{1:m}|x_{1:m})
+\end{displaymath}
+
+
 \end{itemize}
 
 \end{scriptsize}
 \end{frame}
 
+\begin{frame}{Conditional Random Fields (CRFs)}
+\begin{scriptsize}
 
+\begin{itemize}
+
+\item A first key idea in CRFs will be to define a feature vector  that maps an entire input sequence $x_{1:m}$ paired with an entire tag sequence $s_{1_m}$ to some $d$-dimensional feature vector:
+
+\begin{displaymath}
+ \vec{\Phi}(x_{1:m},s_{1:m}) \in \mathcal{R}^d
+\end{displaymath}
+
+\item We'll soon give a concrete definition for $\vec{\Phi}$.
+\item  For now just assume that some definition exists. 
+\item We will often refer to $\vec{\Phi}$ as being a ``global'' feature vector.
+\item It is global in the sense that it takes the entire state
+sequence into account.
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{CRFs and MEMMs}

@@ -69,14 +69,14 @@
 
 13. Semana 13
 
-      * Martes 05/11. Cátedra: Parsing 
-      * Jueves 07/11. Auxiliar 5 - Ejercicio 5.
+      * Martes 05/11. Cátedra: Parsing. 
+      * Jueves 07/11. Cátedra: Parsing. 
       * Viernes 08/11. Entrega Tarea 2
 
 14. Semana 14
 
-      * Martes 12/11. Cátedra: Parsing
-      * Jueves 14/11. Cátedra: Transformer + ELMO + BERT + cierre.
+      * Martes 12/11. Cátedra: Transformer + ELMO + BERT + cierre. 
+      * Jueves 14/11. Auxiliar 5 - Ejercicio 5. 
 
 15. Semana 15
 

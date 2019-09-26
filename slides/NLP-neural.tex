@@ -162,9 +162,9 @@
 \begin{equation}
 \begin{split}
 NN_{MLP2}(\vec{x}) & =  \vec{\hat{y}}  \\
-\vec{h}^{1} &  = g^{1}(\vec{x}W^{1}+\vec{b}^{1}) \\
-\vec{h}^{2} &  = g^{2}(\vec{h}^{1}W^{2}+\vec{b}^{2}) \\
-\vec{y} &  = \vec{h}^{2}W^{3}\\
+\vec{h}^{1} &  = \vec{x}W^{1}+\vec{b}^{1} \\
+\vec{h}^{2} &  = g^{1}(\vec{h}^{1})W^{2}+\vec{b}^{2} \\
+\vec{y} &  = g^{2}(\vec{h}^{2})W^{3}\\
 \vec{y} &  = (g^2(g^1(\vec{x}W^{1}+\vec{b}^{1})W^2+\vec{b}^2))W^3.\\
 \end{split}
 \end{equation}

@@ -162,9 +162,9 @@
 \begin{equation}
 \begin{split}
 NN_{MLP2}(\vec{x}) & =  \vec{\hat{y}}  \\
-\vec{h}^{1} &  = g^{1}(\vec{x}W^{1}+\vec{b}^{1}) \\
-\vec{h}^{2} &  = g^{2}(\vec{h}^{1}W^{2}+\vec{b}^{2}) \\
-\vec{y} &  = \vec{h}^{2}W^{3}\\
+\vec{h}^{1} &  = \vec{x}W^{1}+\vec{b}^{1} \\
+\vec{h}^{2} &  = g^{1}(\vec{h}^{1})W^{2}+\vec{b}^{2} \\
+\vec{y} &  = g^{2}(\vec{h}^{2})W^{3}\\
 \vec{y} &  = (g^2(g^1(\vec{x}W^{1}+\vec{b}^{1})W^2+\vec{b}^2))W^3.\\
 \end{split}
 \end{equation}
@@ -336,7 +336,7 @@ the correct function generating our training data.
 
 \item In linear models we usually represent the input with sparse vectors e.g., as the sum, average,  or the concatenation of one-hot encoded vectors (the sum or the average can produce bag-of words representation). 
 
-\item In neural networks, it is common to associate each possible feature value (i.e., each word in the vocabulary, each POS tag category) with a $d-$dimensional vector for some $d$.
+\item In neural networks, it is common to associate each possible feature value (i.e., each word in the vocabulary, each POS tag category) with a $d-$dimensional dense vector for some $d$.
 
 \item These vectors are then considered parameters of the model, and are trained jointly with the other parameters.
 
@@ -351,16 +351,17 @@ the correct function generating our training data.
 \begin{scriptsize}
 \begin{itemize}
 
-\item The parameters in an embedding layer are simply a matrix $E \in \mathcal{R}^{|vocab|\times d}$ where each row corresponds to a different word in the vocabulary.
+\item The parameters in a word embedding layer are simply a matrix $E \in \mathcal{R}^{|vocab|\times d}$ where each row corresponds to a different word in the vocabulary.
 
 \item The lookup operation is then simply indexing: $v_{1249} = E_{[1249,:]}$.
 
 \item If the symbolic feature is encoded as a one-hot vector $\vec{x}$, the lookup operation can be implemented as a vector-matrix multiplication $\vec{x}E$.
 
-\item The word vectors are often concatenated to each other before being passed on to the next layer.
+\item The embedding vectors are combined before being passed on to the next layer.
 
+\item Common combination operations are: concatenation, summation, average. 
 
-\item The embeddings matrix $E$ can be initialized with pre-trained word vectors trained from unlabeled documents using specific methods based on the distributional hypothesis such as the ones implemented in Word2Vec (to be discussed later in the course).
+\item A word embeddings matrix $E$ can be initialized with pre-trained word vectors trained from unlabeled documents using specific methods based on the distributional hypothesis such as the ones implemented in Word2Vec (to be discussed later in the course).
 
 
 \end{itemize}
@@ -490,7 +491,7 @@ training, but only observed the word cat a handful of times.
 
 \item This argument assumes that we saw enough occurrences of the word cat such that its vector will be similar to that of dog.
 
-\item Pre-trained word embeddings (e.g., Word2Vec, Glove) to be discussed later in the course can be used to obtain dense vectors from unanoted text.
+\item Pre-trained word embeddings (e.g., Word2Vec, Glove) to be discussed later in the course can be used to obtain dense vectors from unannotated text.
 
 
 \end{itemize}
@@ -505,7 +506,7 @@ training, but only observed the word cat a handful of times.
 \begin{itemize}
 \item Neural networks are trained in the same way as linear models.
 
-\item The network's output is used to compute a loss fuction $L(\hat{y},y)$ that is minimized across the training examples using gradient descent. 
+\item The network's output is used to compute a loss function $L(\hat{y},y)$ that is minimized across the training examples using gradient descent. 
 \item Backpropagation is an efficient technique for evaluating the gradient
 of a loss function $L$ for a feed-forward neural network with respect to all its parameters \cite{bishop2006pattern}. \footnote{The following slides on backpropagation are based on \cite{bishop2006pattern}, we adapted the notation to be consistent with \cite{goldberg2017neural}.}
 \item Those parameters are: $W^1, \vec{b}^1, \dots, W^m, \vec{b}^m$, for a network of $m$ layers.
@@ -513,7 +514,7 @@ of a loss function $L$ for a feed-forward neural network with respect to all its
 \item For simplicity, we will assume that $L$ is calculated over a single example.
 \item Challenge: in neural networks the number of parameters can be huge and we need an efficient way to calculate the gradients.
 
-\item Idea: apply the derivate chain rule wisely.
+\item Idea: apply the derivative chain rule wisely.
 
 \end{itemize}
 

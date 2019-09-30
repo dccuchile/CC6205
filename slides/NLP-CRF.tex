@@ -65,7 +65,7 @@
 
 \item Well known examples of this problem are: part-of-speech tagging (POS) and Named Entity Recognition (NER).
 
-\item Maximum-entropy Markov models (MEMMs) make use of log-linear models for sequence labeling tasks.
+\item Maximum-entropy Markov models (MEMMs) make use of log-linear multi-class models for sequence labeling tasks.
  
  \item In the early NLP literature, logistic regression was often called maximum entropy classification \cite{jacobbook}.
  
@@ -92,7 +92,7 @@
   P(s_1,s_2 \dots, s_m | x_1, \dots, x_m)
  \end{displaymath}
 
- \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/}. The notation and terminology has been adapted to be consistent with the other material.}
+ \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/crf.pdf}. The notation and terminology has been adapted to be consistent with the rest of the course.}
 
 \item We expecto this $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$
  
@@ -121,7 +121,7 @@
 \begin{frame}{MEMMs}
 \begin{scriptsize}
 \begin{itemize}
- \item In a first step, MEMMs use the following decomposition:
+ \item In a first step, MEMMs use the following decomposition ($s_0$ has always a special tag $*$):
  \begin{equation}
 \begin{split}
   P(s_1,s_2 \dots, s_m | x_1, \dots, x_m) \quad & =  \prod_{i=1}^{m}    P(s_i | s_1 \dots, s_{i-1}, x_1, \dots, x_m)\\
@@ -154,7 +154,7 @@
  \item The tag in the $i$-th position depends only on the tag in the $(i -1)$-th position. 
  
  
- \item Having made these independence assumptions, we then model each term using a log-linear (Softmax) model:
+ \item Having made these independence assumptions, we then model each term using a multiclass log-linear (softmax) model:
  
  \begin{equation}
  P(s_i | s_{i-1}, x_1, \dots, x_m)  =  \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
@@ -549,6 +549,8 @@ where $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ are the same as the feature vectors us
 
 \item Essentially, we are adding up many sparse vectors.
 
+
+
 \end{itemize}
 
 
@@ -567,6 +569,9 @@ where $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ are the same as the feature vectors us
 \end{displaymath}
 
 \item Thus $\vec{\Phi}(x_{1:m},s_{1:m})_{[k]}$ is calculated by summing the ``local'' feature vector $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]}$  over the m different tag transitions in $s_1,\dots,s_m$.
+
+
+\item We would expect each local vector to encode relevant information about the tag transition by turning on some vector dimensions (setting the value to one).
 
 \item We now turn to two critical practical issues in CRFs: first, decoding, and sec-
 ond, parameter estimation (training).
@@ -662,15 +667,75 @@ to the Viterbi algorithm.
 
 \begin{itemize}
 
-\item  The problem with MEMM is since the normalization happens at each time step it ends up making up decision at each time step independently which leads to this problem called label bias\footnote{In some state space configurations, MEMMs essentially completely ignore the input.}.
+\item CRFs and MEMMS are discriminative sequence labeling models: they model the conditional probability directly via a parameterized log-linear multi-class function (softmax).
 
-\item CRF overcomes this issue by taking the score of the whole sequence before normalizing to make it a probability distribution.
+\item HMMs, on the other hand, are are generative models.
 
-\item Training MEMM is quite easy. You just train a multi-class logistic regression for for a given word to the label. Use this classifier at each word/time step to predict the whole sequence.
+\item In MEMM the normalization (denominator of the softmax) is local: it happens at each tag step (the sum runs over all posible tag values $S$).
+
+\item In CRFs the normalization is global: the sum runs over all possible tag sequences $S^m$.
+
+\item Training a MEMM is quite easy: just train a multi-class log-linear model for for a given word to the label. This classifier is used at each word step to predict the whole sequence.
 
 \item Training CRF is more complex. The objective  is to maximize the log probability of the most likely sequence.
 
-\item Source: \url{https://www.quora.com/What-are-the-pros-and-cons-of-these-three-sequence-models-MaxEnt-Markov-Model-Conditional-random-fields-and-recurrent-neural-networks}.
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{CRFs and MEMMs: the label bias problem}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item MEMMs end up making up decision at each time step independently.
+
+\item This leads to a problem called label bias: in some tag space configurations, MEMMs essentially completely ignore important aspects of the context.
+
+\item Example: The right POS labeling of sentence ``will to fight'' (la voluntad de pelear) is ``NN TO VB''. \footnote{Here we are using the PENN Treebank tagset: \url{https://www.eecis.udel.edu/~vijay/cis889/ie/pos-set.pdf}} 
+
+\item Here NN stands for ``noun'', TO stands for ``infinitive to'',  and VB stands for ``verb base form''.
+
+\item Modals (MD) show up much more frequently at the start of the sentence than nouns do (e.g., questions).
+
+\item Hence, tag ``MD'' will receive a higher score than tag ``NN'' when $x_0$=``will'' : $P(s_1 = MD|s_{0} = *,x_1 = \text{``will''},...) > P( s_1 = NN| s_{i-1} = *, x_1 = \text{``will''})$.
+
+
+\item But we know that MD + TO is very rare: ``... can to eat'', ``... would to eat''.
+
+
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{CRFs and MEMMs: the label bias problem}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item The word ``to'' is relatively deterministic (almost always has tag TO) so it doesn't matter what tag precedes it.
+
+\item Because of the local normalization of MEMMs, $P(s_i = TO | s_{i-1}, x_1, \dots, x_i = \text{``to''}, \dots, x_n)$ will always be 1 when $x_i=$``to'' regardless of the value of $s_{i-1}$ (MD or NN).
+
+\item That means our prediction for ``to'' can't help us disambiguate ``will''.  
+
+\item We lose the information that MD + TO sequences rarely happen.
+
+\item As a consequence: a MEMMS would likely label the first word to ``MD''.
+
+\item CRF overcomes this issue by doing a global normalization: it considers the score of the whole sequence before normalizing to make it a probability distribution.
+
+
 
 \end{itemize}
 
@@ -685,6 +750,10 @@ to the Viterbi algorithm.
 \begin{frame}{Links}
 \begin{scriptsize}
 \begin{itemize}
+
+\item \url{http://people.ischool.berkeley.edu/~dbamman/nlpF18/slides/11_memm_crf.pdf}
+
+\item \url{http://people.ischool.berkeley.edu/~dbamman/nlpF18/slides/12_neural_sequence_labeling.pdf}
 
 \item \url{https://www.depends-on-the-definition.com/sequence-tagging-lstm-crf/}
 

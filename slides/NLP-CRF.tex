@@ -177,8 +177,8 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 \begin{itemize}
  \item $x_1, \cdots, x_m$ is the entire sentence being tagged.
   \item $i$ is the position to be tagged (can take any value from $1$ to $m$)
-  \item $s$ is the previous tag value (can take any value in $S$).
-  \item $s'$ is the new tag value (can take any value in $S$)
+  \item $s_{i-1}$ is the previous tag value (can take any value in $S$).
+  \item $s_i$ is the new tag value (can take any value in $S$)
  
 \end{itemize}
 
@@ -199,7 +199,7 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
  \\ If the weight $\vec{w}_{[2]}$ associated with this feature is large and positive, then labelings that assign VERB to the first word in a question (e.g., ``Is this a sentence beginning with a verb?'') are preferred.
 
 
-\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[3]}=1$ if $s_{i-1}$= ADJECTIVE and $l_i$= NOUN; 0 otherwise. 
+\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[3]}=1$ if $s_{i-1}$= ADJECTIVE and $s_i$= NOUN; 0 otherwise. 
 \\Again, a positive weight for this feature means that adjectives tend to be followed by nouns. 
 
 \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[4]}=1$ if $s_{i-1}$= PREPOSITION and $s_{i}$= PREPOSITION. 
@@ -471,9 +471,9 @@ richer representations than those used in HMMs.
 
 \item Notation: for convenience, we'll use $x_{1:m}$ to refer to an input sequence $x_1 ,\dots,x_m$, and $s_{1:m}$ to refer to a sequence of tags $s_1, \dots, s_m$.
 
-\item The set of all possible states is again $S$.
+\item The set of all possible tags is again $S$.
 
-\item The set of all possible state sequences is $S^m$.
+\item The set of all possible tag sequences is $S^m$.
 
 \item In conditional random fields we'll again build a model of
 \begin{displaymath}
@@ -502,6 +502,69 @@ richer representations than those used in HMMs.
 \item We will often refer to $\vec{\Phi}$ as being a ``global'' feature vector.
 \item It is global in the sense that it takes the entire state
 sequence into account.
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Conditional Random Fields (CRFs)}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item In CRFs we build a giant log-linear model:
+
+\begin{displaymath}
+ P(s_{1:m}|x_{1:m}; \vec{w}) = \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))}
+\end{displaymath}
+
+\item This is ``just'' another log-linear model, but it is is ``giant''.
+\item The space of possible values for $s_{1:m}$, i.e., $S^m$. 
+\item The normalization constant (denominator in the above expression) involves a sum over the set $S^m$.
+\item These issues might seem to cause severe computational problems.
+\item  Under appropriate assumptions we can train and decode efficiently
+with this type of model.
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Conditional Random Fields (CRFs)}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item  The next question is how to define $\vec{\Phi}(x_{1:m},s_{1:m})$? 
+
+\begin{displaymath}
+ \vec{\Phi}(x_{1:m},s_{1:m}) = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j) 
+\end{displaymath}
+
+where $\vec{\phi}(x_{1m},j,s_{j-1},s_j)$ are the same as the feature vectors used in MEMMs.
+
+\item  Example: \ $ \vec{\Phi}([\text{the,dog,barks}],\text{DET,NOUN,VERB}]) = \vec{\phi}([\text{the,dog,barks}],1,*,\text{DET}) + \vec{\phi}([\text{the,dog,barks}],2,\text{DET},\text{NOUN}) + \vec{\phi}([\text{the,dog,barks}],3,\text{NOUN},\text{VERB})$
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Conditional Random Fields (CRFs)}
+\begin{scriptsize}
+
+\begin{itemize}
+\item We are assuming that for $k= 1, \dots, d$, the $k$'th global feature is:
+
+\begin{displaymath}
+ \vec{\Phi}(x_{1:m},s_{1:m})_{[k]} = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]} 
+\end{displaymath}
+
+\item Thus $\vec{\Phi}(x_{1:m},s_{1:m})_{[k]}$ is calculated by summing the ``local'' feature vector $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]}$  over the m different tag transitions in $s_1,\dots,s_m$.
+
+\item We now turn to two critical practical issues in CRFs: first, decoding, and sec-
+ond, parameter estimation (training).
 
 \end{itemize}
 

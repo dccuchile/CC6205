@@ -275,7 +275,7 @@ Notice that the resuling vector will be very high-dimensional and sparse.
 
 \item Difference 2: the feature vector of the log-linear model $\vec{\phi}(x,y)$ includes information of the label $y$, whereas the input vecotr $\vec{x}$ of the softmax model is independent of $y$. 
 
-\item Log-linear models allow using features that consider the interaction between $x$ and $y$ (e.g., $x$ end in ``ly'' and $y$ is an ADVERB).
+\item Log-linear models allow using features that consider the interaction between $x$ and $y$ (e.g., $x$ ends in ``ly'' and $y$ is an ADVERB).
 
  
 \end{itemize}
@@ -522,8 +522,8 @@ sequence into account.
 \end{displaymath}
 
 \item This is ``just'' another log-linear model, but it is is ``giant''.
-\item The space of possible values for $s_{1:m}$, i.e., $S^m$. 
-\item The normalization constant (denominator in the above expression) involves a sum over the set $S^m$.
+\item The space of possible values for $s_{1:m}$ is huge $S^m$. 
+\item The normalization constant (denominator in the above expression) involves a sum over all possible tag sequences $S^m$.
 \item These issues might seem to cause severe computational problems.
 \item  Under appropriate assumptions we can train and decode efficiently
 with this type of model.
@@ -537,7 +537,7 @@ with this type of model.
 
 \begin{itemize}
 
-\item  The next question is how to define $\vec{\Phi}(x_{1:m},s_{1:m})$? 
+\item  We define the global feature vector $\vec{\Phi}(x_{1:m},s_{1:m})$ as follows: 
 
 \begin{displaymath}
  \vec{\Phi}(x_{1:m},s_{1:m}) = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j) 
@@ -546,7 +546,12 @@ with this type of model.
 where $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ are the same as the feature vectors used in MEMMs.
 
 \item  Example: \ $ \vec{\Phi}([\text{the,dog,barks}],\text{DET,NOUN,VERB}]) = \vec{\phi}([\text{the,dog,barks}],1,*,\text{DET}) + \vec{\phi}([\text{the,dog,barks}],2,\text{DET},\text{NOUN}) + \vec{\phi}([\text{the,dog,barks}],3,\text{NOUN},\text{VERB})$
+
+\item Essentially, we are adding up many sparse vectors.
+
 \end{itemize}
+
+
 
 \end{scriptsize}
 \end{frame}
@@ -555,7 +560,7 @@ where $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ are the same as the feature vectors us
 \begin{scriptsize}
 
 \begin{itemize}
-\item We are assuming that for $k= 1, \dots, d$, the $k$'th global feature is:
+\item We are assuming that for any dimension of $\vec{\Phi}_{[k]}, k= 1, \dots, d$, the $k$'th global feature is:
 
 \begin{displaymath}
  \vec{\Phi}(x_{1:m},s_{1:m})_{[k]} = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]} 
@@ -570,6 +575,86 @@ ond, parameter estimation (training).
 
 \end{scriptsize}
 \end{frame}
+
+
+
+\begin{frame}{Decoding with CRFs}
+\begin{scriptsize}
+
+\begin{itemize}
+\item The decoding problem in CRFs is as follows.
+\item For a given input sequence $x_{1:m} = x_1 , x_2 , \dots, x_m$ , we would like to find the most likely underlying  state sequence under the model, that is,
+
+\begin{equation}
+ \begin{split}
+ arg \max_{s_{1:m} \in S^m} P(s_{1:m}| x_{1:m}; \vec{w})  \quad & =  arg \max_{s_{1:m} \in S^m} \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))} \\
+ \quad & =  arg \max_{s_{1:m} \in S^m} \exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m})) \\
+  \quad & =  arg \max_{s_{1:m} \in S^m}  \vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}) \\
+    \quad & =  arg \max_{s_{1:m} \in S^m}  \vec{w} \cdot \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j) \\
+ \quad & =  arg \max_{s_{1:m} \in S^m}  \sum_{j=1}^{m} \vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)   
+ \end{split}
+ \end{equation}
+
+
+
+
+\end{itemize}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Decoding with CRFs}
+\begin{scriptsize}
+
+\begin{itemize}
+\item We have shown that finding the most likely sequence under the model is equivalent to finding the sequence that maximizes:
+
+\begin{displaymath}
+ arg \max_{s_{1:m} \in S^m}  \sum_{j=1}^{m} \vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)  
+\end{displaymath}
+
+\item This problem has a clear intuition. Each transition from tag  $s_{j-1}$ to tag $s_j$ has an associated score:  $\vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)$  
+
+
+\item This score could be positive or negative. 
+
+\item Intuitively, this score will be relatively high if the state transition is plausible, relatively low if this transition is implausible.
+
+\item  The decoding problem is to find an entire sequence of states such that the sum of transition scores is maximized.
+
+\item We can again solve this problem using a variant of the Viterbi algorithm, in a very similar way to the decoding algorithm for HMMs or MEMMs.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Parameter Estimation in CRFs (training)}
+\begin{scriptsize}
+
+\begin{itemize}
+\item For parameter estimation, we assume we have a set of $n$ labeled examples, $\{(x_{1:m}^i, s_{1:m}^i )\}_{i=1}^n$ . Each $x_{1:m}^i$ is an input sequence $x_1^i, \dots , x_m^i$ each $s_{1:m}^i$ is a tag sequence $s_1^i, \dots , s_m^i$.
+
+\item We again set the negative log-likelihood (or cross-entropy) as the loss function $L$ as optimize parameters using gradient descent.
+
+\item The main challenge here is that gradient calculations $\frac{\partial L}{\partial \vec{w}_{[k]}}$ involve summing over $S^m$ (a very large set containing all possible tag sequences).
+
+\item This sum can be computed efficiently using the Forward-backward algorithm\footnote{\url{http://www.cs.columbia.edu/~mcollins/fb.pdf}}. 
+
+\item This is another dynamic programming algorithm that is closely related
+to the Viterbi algorithm.
+
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
 
 
 \begin{frame}{CRFs and MEMMs}

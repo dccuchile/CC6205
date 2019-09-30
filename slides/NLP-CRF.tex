@@ -491,7 +491,7 @@ richer representations than those used in HMMs.
 
 \begin{itemize}
 
-\item A first key idea in CRFs will be to define a feature vector  that maps an entire input sequence $x_{1:m}$ paired with an entire tag sequence $s_{1_m}$ to some $d$-dimensional feature vector:
+\item A first key idea in CRFs will be to define a feature vector  that maps an entire input sequence $x_{1:m}$ paired with an entire tag sequence $s_{1:m}$ to some $d$-dimensional feature vector:
 
 \begin{displaymath}
  \vec{\Phi}(x_{1:m},s_{1:m}) \in \mathcal{R}^d
@@ -543,7 +543,7 @@ with this type of model.
  \vec{\Phi}(x_{1:m},s_{1:m}) = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j) 
 \end{displaymath}
 
-where $\vec{\phi}(x_{1m},j,s_{j-1},s_j)$ are the same as the feature vectors used in MEMMs.
+where $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ are the same as the feature vectors used in MEMMs.
 
 \item  Example: \ $ \vec{\Phi}([\text{the,dog,barks}],\text{DET,NOUN,VERB}]) = \vec{\phi}([\text{the,dog,barks}],1,*,\text{DET}) + \vec{\phi}([\text{the,dog,barks}],2,\text{DET},\text{NOUN}) + \vec{\phi}([\text{the,dog,barks}],3,\text{NOUN},\text{VERB})$
 \end{itemize}
@@ -606,6 +606,8 @@ ond, parameter estimation (training).
 \item \url{https://www.quora.com/What-are-the-pros-and-cons-of-these-three-sequence-models-MaxEnt-Markov-Model-Conditional-random-fields-and-recurrent-neural-networks}
 
 \item \url{https://people.cs.umass.edu/~mccallum/papers/crf-tutorial.pdf}
+
+\item \url{http://www.davidsbatista.net/blog/2017/11/13/Conditional_Random_Fields} 
 
 \end{itemize}
 

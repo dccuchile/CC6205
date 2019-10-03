@@ -63,6 +63,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 20. [Chatbot and Related Research Paper Notes with Images](https://github.com/ricsinaruto/Seq2seqChatbots/wiki/Chatbot-and-Related-Research-Paper-Notes-with-Images)
 21. [XLNet Explained](http://mlexplained.com/2019/06/30/paper-dissected-xlnet-generalized-autoregressive-pretraining-for-language-understanding-explained/)
 22. [PyTorch-Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/pytorch-transformers/index.html)
+23. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
 
 ##  
 

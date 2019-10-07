@@ -66,7 +66,7 @@ layer.
 \item A mapping of discrete symbols to continuous vectors.
 \item  When embedding words, they transform from being isolated distinct symbols into mathematical
 objects that can be operated on. 
-\item Distance between vectors can be equated to distance between words, 
+\item Distance between vectors can be equated to distance between words. 
 \item This makes easier to generalize the behavior from one word to another.
 \end{itemize}
 \end{scriptsize}
@@ -121,8 +121,8 @@ objects that can be operated on.
 \begin{scriptsize}
 The associations between words and contexts can be calculated using different approaches:
 \begin{enumerate}
- \item Co-occurrence counts
-\item Positive point-wise mutual information (PPMI)
+ \item Co-occurrence counts.
+\item Positive point-wise mutual information (PPMI).
 \item The significance values of a paired t-test.  
 \end{enumerate}
 
@@ -138,18 +138,25 @@ Distributional methods are also referred to as count-based methods.
 \begin{frame}{PPMI}
 \begin{scriptsize}
 \begin{itemize}
-\item PPMI a filtered version of the traditional PMI measure in which negative values are set to zero:
+\item  PMI calculates the log of the probability of word-context pairs occurring together over the probability of them being independent. 
+
+\begin{equation}
+ \operatorname{PMI}(w, c)= \log_2 \left( \frac{P(w,c)}{P(w)P(c)} \right) = \log_{2} \left ( \frac{\operatorname{count}(w,c)\times |D|}{\operatorname{count}(w)\times \operatorname{count}(c)} \right ) 
+\end{equation}
+
+
+
+
+
+
+\item Negative PMI values suggest that the pair co-occurs less often than chance. 
+\item These estimates are unreliable unless the counts are calculated from very large corpora \cite{JurafskyBook}.
+\item  PPMI corrects this problem by replacing negative values by zero:
+
 \begin{equation}
  \operatorname{PPMI}(w, c)= \operatorname{max}(0,\operatorname{PMI}(w, c))
 \end{equation}
 
-\begin{equation}
- \operatorname{PPMI}(w,c)= \max \left (0, \log_{2} \left ( \frac{\operatorname{count}(w,c)\times |D|}{\operatorname{count}(w)\times \operatorname{count}(c)} \right )\right ). 
-\end{equation}
-\item  PMI calculates the log of the probability of word-context pairs occurring together over the probability of them being independent. 
-\item Negative PMI values suggest that the pair co-occurs less often than chance. 
-\item These estimates are unreliable unless the counts are calculated from very large corpora \cite{JurafskyBook}.
-\item  PPMI corrects this problem by replacing negative values by zero. 
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -170,7 +177,9 @@ Distributional methods are also referred to as count-based methods.
 
 \item  Word \textbf{embeddings} are low-dimensional continuous dense word vectors trained from document corpora using \textbf{neural networks}.
 
-\item They have become a crucial component of Neural Network architectures for NLP.
+\item The dimensions are not directly interpretable i.e., represent latent features of  the  word,  ``hopefully capturing useful syntactic and semantic properties''~\cite{turian2010word}.
+
+\item They have become a crucial component of neural network architectures for NLP.
 
 
 \end{itemize}
@@ -186,12 +195,31 @@ Distributional methods are also referred to as count-based methods.
 \begin{scriptsize}
 \begin{itemize}
 
+\item There are two main approaches for obtaining word embeddings:
 
-\item They usually rely on an auxiliary predictive task (e.g., predict the following word).
+\begin{enumerate}
+\begin{scriptsize}
 
-\item The dimensions are not directly interpretable i.e., represent latent features of  the  word,  ``hopefully capturing useful syntactic and semantic properties''\cite{turian2010word}.
+\item Embedding layers: using an embedding layer in a task-specific neural network architecture trained from labeled examples (e.g., sentiment analysis).
 
-\item Most popular models are skip-gram \cite{Mikolov2013}, continuos bag-of-words \cite{Mikolov2013}, and Glove \cite{penningtonSM14}.
+\item Pre-trained word embeddings: creating an auxiliary predictive task from unlabeled copora (e.g., predict the following word) in which word embeddings will naturally arise from the neural-network architecture.
+\end{scriptsize}
+\end{enumerate}
+
+
+\item These approaches can also be combined: one can initialize an embedding layer of a task-specific neural network with pre-trained word embeddings obtained with the second approach.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Distributed Vectors or Word embeddings (2)}
+\begin{scriptsize}
+\begin{itemize}
+
+
+\item Most popular models based on the second approach are skip-gram \cite{Mikolov2013}, continuos bag-of-words \cite{Mikolov2013}, and Glove \cite{penningtonSM14}.
 
 \item Word embeddings have shown to be more powerful than distributional approaches in many NLP tasks~\cite{baroni2014don}.
 
@@ -204,15 +232,12 @@ Distributional methods are also referred to as count-based methods.
 
 
 
-
-
-
 \begin{frame}{Word2Vec}
 \begin{scriptsize}
 \begin{itemize}
 \item Word2Vec is a software package that implements two neural network architectures for training word embeddings:  Continuos Bag of Words (CBOW) and Skip-gram.
 \item It implements two  optimization models: Negative Sampling and Hierarchical Softmax.
-\item These models are neural networks with one hidden layer that are trained to predict the contexts of words.
+\item These models are shallow neural networks that are trained to predict the contexts of words.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -224,18 +249,29 @@ Distributional methods are also referred to as count-based methods.
 \begin{frame}{Skip-gram Model}
 \begin{scriptsize}
 \begin{itemize}
-\item A neural network with one hidden layer is trained for predicting the words surrounding a center word, within a window  of size $k$ that is shifted along the input corpus. 
+\item A neural network with one ``projection'' or ``hidden'' layer is trained for predicting the words surrounding a center word, within a window  of size $k$ that is shifted along the input corpus. 
 \item The center and surrounding $k$ words correspond to the input and output layers of the network.
 \item Words are initially represented by 1-hot vectors: vectors of the size of the vocabulary ($|V|$) with zero values in all entries except for the corresponding word index that receives a value of 1. 
-\item The output layer is formed by the concatenation of the $k$ 1-hot vectors of the surrounding words. 
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Skip-gram Model}
+\begin{scriptsize}
+\begin{itemize}
+\item The output layer combines the $k$ 1-hot vectors of the surrounding words. 
 \item The hidden layer has a dimensionality $d$, which determines the size of the embeddings (normally $d \ll |V|$).
 \end{itemize}
 \end{scriptsize}
   \begin{figure}[h]
-        	\includegraphics[scale = 0.33]{pics/skip-gram.png}
+        	\includegraphics[scale = 0.4]{pics/skip-gram.png}
         \end{figure}
 
 \end{frame}
+
 
 
 \begin{frame}{Skip-gram Model}
@@ -262,29 +298,55 @@ Distributional methods are also referred to as count-based methods.
 \begin{frame}{Parametrization of the Skip-gram model}
 \begin{scriptsize}
 \begin{itemize}
-\item The conditional probability of the context word $c$ given the center word $w$ is modelled with a softmax ($C$ is the set of all context words):
+
+\item  We are given an input corpus formed by a sequence of  words $w_1, w_2, w_3, . . . , w_T$ and a window size $k$.
+
+\item We denote target or (center) words by letter $w$ and surrounding context words by letter $c$.
+
+\item The objective of the Skip-gram model is to maximize the average log probability of the context words given the target words:
+
+\begin{displaymath}
+ \frac{1}{T} \sum_{t=1}^T \sum_{c \in c_{1:k}}  \log p(c|w_t)
+\end{displaymath}
+
+
+\item The conditional probability of a context word $c$ given a center word $w$ is modeled with a softmax ($C$ is the set of all context words, which is usually the same as the vocabulary):
 
 
 \begin{displaymath}
 p(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{ \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}}
 \end{displaymath}
 
+\item Model's parameters $\theta$: $\vec{c}$ and $\vec{w}$ (vector representations of contexts and target words).
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 
-\item Model's parameters $\theta$: $\vec{c}$ and $\vec{w}$ (vector representations of contexts and words).
+
+
+
+
+\begin{frame}{Parametrization of the Skip-gram model}
+\begin{scriptsize}
+\begin{itemize}
+
+\item Let $D$ be the set of correct word-context pairs (i.e., word pairs that are observed in the Corpus).
+
 \item The optimization goal is to maximize the conditional likelihood of the contexts $c$:
 
 
 \begin{equation}
 \begin{split}
-arg \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log p(c|w)} = \sum_{(w,c) \in D} ( \log e^{\vec{c}\cdot \vec{w}} - \log \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}  )
+\operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log p(c|w)} = \sum_{(w,c) \in D} ( \log e^{\vec{c}\cdot \vec{w}} - \log \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}  )
 \end{split}
 \end{equation}
 
 
-\item Assumption: maximising this function will result in good embeddings $\vec{w}$ i.e.,  similar words will have similar vectors.
+\item Assumption: maximizing this function will result in good embeddings $\vec{w}$ i.e.,  similar words will have similar vectors.
 
-\item The term $p(c|w)$ is computationally expensive because of the summation $\sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}$ over all the contexts $c'$
+\item The term $p(c|w)$ is computationally expensive because of the summation $\sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}$ over all the contexts $c'$.
 
 \item Fix: replace the softmax with a hierarchical softmax (the vocabulary is represented with a Huffman binary tree). 
 
@@ -305,17 +367,16 @@ arg \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log p(c|w)} = \sum_{(w,c
 \begin{itemize}
 
 \item Negative-sampling (NS) is presented as a more efficient model for calculating skip-gram embeddings. 
-\item However, it optimises a different objective function \cite{goldberg2014word2vec}.
+\item However, it optimizes a different objective function \cite{goldberg2014word2vec}.
 
-\item Let $D$ be the set of correct word-context pairs.
 
-\item NS maximizes the probability that a word-context  pair a word-context pair $(w, c)$ came from the input corpus $D$ using a sigmoid function:
+\item NS maximizes the probability that a word-context pair $(w, c)$ came from the set of correct word-context pairs $D$ using a sigmoid function:
 
 \begin{displaymath}
 P(D = 1| w,c_i) = \frac{1}{1+e^{-\vec{w} \cdot \vec{c_{i}}}}
 \end{displaymath}
 
-\item Assumption: the contexts words $c_i$ are indepedent from each other:
+\item Assumption: the contexts words $c_i$ are independent from each other:
 
 \begin{displaymath}
 P(D = 1| w,c_{1:k}) = \prod_{i=1}^{k}{P(D = 1| w,c_i)} = \prod_{i=1}^{k}{\frac{1}{1+e^{-\vec{w} \cdot \vec{c_{i}}}}} 
@@ -325,7 +386,7 @@ P(D = 1| w,c_{1:k}) = \prod_{i=1}^{k}{P(D = 1| w,c_i)} = \prod_{i=1}^{k}{\frac{1
 
 \begin{equation}
 \begin{split}
-arg \max_{\vec{c}, \vec{w}} & \quad \log P(D = 1| w,c_{1:k}) = \sum_{i=1}^{k}{\log \frac{1}{1+e^{-\vec{w} \cdot \vec{c_{i}}}}}
+\operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \log P(D = 1| w,c_{1:k}) = \sum_{i=1}^{k}{\log \frac{1}{1+e^{-\vec{w} \cdot \vec{c_{i}}}}}
 \end{split}
 \end{equation}
 
@@ -373,7 +434,7 @@ pairs which are not in the data.
 \item Final objective function:
 \begin{equation}
 \begin{split}
-arg \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log P(D = 1| w,c_{1:k})} + \sum_{(w,c) \in \tilde{D}} \log P(D = 0| w,c_{1:k})
+\operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log P(D = 1| w,c_{1:k})} + \sum_{(w,c) \in \tilde{D}} \log P(D = 0| w,c_{1:k})
 \end{split}
 \end{equation}
 
@@ -417,7 +478,7 @@ arg \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log P(D = 1| w,c_{1:k})}
 matrix, and trains the word and context vectors $\vec{w}$ and $\vec{c}$ attempting to satisfy:
 
 \begin{equation}
-w \cdot c + b_{[w]}+b_{[c]} = \log \#(w,c) \quad \forall (w,c) \in D
+\vec{w} \cdot \vec{c} + b_{[w]}+b_{[c]} = \log \#(w,c) \quad \forall (w,c) \in D
 \end{equation}
 
 \item where $b_{[w]}$ and $b_{[c]}$ are word-specific and context-specific trained biases.
@@ -493,7 +554,7 @@ the two algorithmic families are equivalent.
   
 \item FastText embeedings extend the skipgram model to take into account the internal structure of words while learning word representations \cite{bojanowski2016enriching}.
 
-\item A vector representation is associated to each character $n$-gram.
+\item A vector representation is associated with each character $n$-gram.
 
 \item  Words are represented as the sum of these representations. 
 
@@ -514,7 +575,7 @@ the two algorithmic families are equivalent.
   
 \item Let $\mathcal{G}_{w}$ be the set of $n$-grams appearing in $w$.
 
-\item FastText associates a vector $\vec{g}$ to each $n$-gram in $\mathcal{G}_{w}$.
+\item FastText associates a vector $\vec{g}$ with each $n$-gram in $\mathcal{G}_{w}$.
 
 \item In FastText the probability that  a word-context pair $(w, c)$ came from the input corpus $D$ is calculated as follows:
 

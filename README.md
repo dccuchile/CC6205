@@ -64,6 +64,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 21. [XLNet Explained](http://mlexplained.com/2019/06/30/paper-dissected-xlnet-generalized-autoregressive-pretraining-for-language-understanding-explained/)
 22. [PyTorch-Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/pytorch-transformers/index.html)
 23. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
+24. [PLMpapers: a collection of papers about Pre-Trained Language Models](https://github.com/thunlp/PLMpapers)
 
 ##  
 

@@ -303,6 +303,17 @@ Distributional methods are also referred to as count-based methods.
 
 \item We denote target or (center) words by letter $w$ and surrounding context words by letter $c$.
 
+\item The context window $c_{1:k}$ of word $w_t$ corresponds to words $w_{t-k/2},\dots, w_{t-1}, w_{t+1}, \dots, w_{t+k/2}$ (assuming that $k$ is an even number). 
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Parametrization of the Skip-gram model}
+\begin{scriptsize}
+\begin{itemize}
+
 \item The objective of the Skip-gram model is to maximize the average log probability of the context words given the target words:
 
 \begin{displaymath}
@@ -327,14 +338,13 @@ p(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{ \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w
 
 
 
-
 \begin{frame}{Parametrization of the Skip-gram model}
 \begin{scriptsize}
 \begin{itemize}
 
 \item Let $D$ be the set of correct word-context pairs (i.e., word pairs that are observed in the Corpus).
 
-\item The optimization goal is to maximize the conditional likelihood of the contexts $c$:
+\item The optimization goal is to maximize the conditional log-likelihood of the contexts $c$ (this is equivalent to minimizing the cross-entropy loss):
 
 
 \begin{equation}

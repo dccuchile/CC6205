@@ -238,6 +238,9 @@ Distributional methods are also referred to as count-based methods.
 \item Word2Vec is a software package that implements two neural network architectures for training word embeddings:  Continuos Bag of Words (CBOW) and Skip-gram.
 \item It implements two  optimization models: Negative Sampling and Hierarchical Softmax.
 \item These models are shallow neural networks that are trained to predict the contexts of words.
+
+\item A very comprehensive tutorial about the algorithms behind word2vec: \url{https://arxiv.org/pdf/1411.2738.pdf}.
+
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -317,7 +320,7 @@ Distributional methods are also referred to as count-based methods.
 \item The objective of the Skip-gram model is to maximize the average log probability of the context words given the target words:
 
 \begin{displaymath}
- \frac{1}{T} \sum_{t=1}^T \sum_{c \in c_{1:k}}  \log p(c|w_t)
+ \frac{1}{T} \sum_{t=1}^T \sum_{c \in c_{1:k}}  \log P(c|w_t)
 \end{displaymath}
 
 
@@ -349,7 +352,7 @@ p(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{ \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w
 
 \begin{equation}
 \begin{split}
-\operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log p(c|w)} = \sum_{(w,c) \in D} ( \log e^{\vec{c}\cdot \vec{w}} - \log \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}  )
+\operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log P(c|w)} = \sum_{(w,c) \in D} ( \log e^{\vec{c}\cdot \vec{w}} - \log \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}  )
 \end{split}
 \end{equation}
 
@@ -532,6 +535,27 @@ trained using Word2Vec: $\vec{w}_{king} - \vec{w}_{man} + \vec{w}_{woman} \appro
     	\includegraphics[scale = 0.2]{pics/linear-relationships.png}
     \end{figure}
 \footnotemark{Source: \url{https://www.tensorflow.org/tutorials/word2vec}}
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Evaluation}
+\begin{scriptsize}
+\begin{itemize}
+   
+\item There are many datasets with human annotated associations of word pairs or gold anologies that can be used to evaluate word embeddings algorithms.
+
+\item Those approaches are called \textit{Intrinsic Evaluation Approaches}.
+
+\item Most of them are implemented in: \url{https://github.com/kudkudak/word-embeddings-benchmarks}.
+
+\item Word embeddings can also be evaluated extrinsically by using them in an external NLP task (e.g., POS tagging, sentiment analysis).
+
+    
+\end{itemize}
+
+
 
 \end{scriptsize}
 \end{frame}

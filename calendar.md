@@ -60,11 +60,10 @@
 11. Semana 11
 
       * Martes 22/10.  Cátedra: Recurrent Neural Networks.  
-      * Jueves 24/10. Auxiliar 4 - Ejercicio 4. 
-
+      * Jueves 24/10. Cátedra: Sequence-to-Sequence + Attention - Ejercicio 4.
 12. Semana 12
 
-      * Martes 29/10. Cátedra: Sequence-to-Sequence + Attention.
+      * Martes 29/10. Auxiliar 4. 
       * Jueves 31/10. Feriado
 
 13. Semana 13

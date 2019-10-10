@@ -328,7 +328,7 @@ Distributional methods are also referred to as count-based methods.
 
 
 \begin{displaymath}
-p(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{ \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}}
+P(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{ \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}}
 \end{displaymath}
 
 \item Model's parameters $\theta$: $\vec{c}$ and $\vec{w}$ (vector representations of contexts and target words).
@@ -359,7 +359,7 @@ p(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{ \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w
 
 \item Assumption: maximizing this function will result in good embeddings $\vec{w}$ i.e.,  similar words will have similar vectors.
 
-\item The term $p(c|w)$ is computationally expensive because of the summation $\sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}$ over all the contexts $c'$.
+\item The term $P(c|w)$ is computationally expensive because of the summation $\sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}$ over all the contexts $c'$.
 
 \item Fix: replace the softmax with a hierarchical softmax (the vocabulary is represented with a Huffman binary tree). 
 

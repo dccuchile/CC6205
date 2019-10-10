@@ -417,7 +417,7 @@ P(D = 1| w,c_{1:k}) = \prod_{i=1}^{k}{P(D = 1| w,c_i)} = \prod_{i=1}^{k}{\frac{1
 \begin{itemize}
 
 
-\item This objective has a trivial solution if we set $\vec{w}$,$\vec{c}$ such that $p(D=1|w,c)=1$ for every pair $(w,c)$ from $D$.
+\item This objective has a trivial solution if we set $\vec{w}$,$\vec{c}$ such that $P(D=1|w,c)=1$ for every pair $(w,c)$ from $D$.
 \item This is achieved by setting $\vec{w}=\vec{c}$  and $\vec{w} \cdot \vec{c} = K$ for all $\vec{w},\vec{c}$, where $K$ is a large number.
 \item We need a mechanism that prevents all the vectors from having the same value, by disallowing some $(w, c)$ combinations. 
 \item One way to do so, is to present the model with some $(w, c)$ pairs for which $p(D= 1|w, c)$ must be low, i.e.

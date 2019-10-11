@@ -632,8 +632,9 @@ The traditional attention mechanism largely solved the first dependency by givin
  
  \item When we do this, if we give the decoder access to the entire target sentence, the model can just repeat the target sentence (in other words, it doesn't need to learn anything).
  
- \item To prevent this from happening, the decoder masks the ``future'' tokens (replace them by special masked tokens) when decoding a certain word.
- 
+ \item To prevent this from happening, the decoder masks the ``future'' tokens when decoding a certain word.
+
+  \item The masking is done by setting to $- \infty$ all values in the inputof the softmax which correspond to illegal connections
  
 \end{itemize}
 

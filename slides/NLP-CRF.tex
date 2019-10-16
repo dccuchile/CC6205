@@ -94,7 +94,7 @@
 
  \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/crf.pdf}. The notation and terminology has been adapted to be consistent with the rest of the course.}
 
-\item We expecto this $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$
+\item We would expect $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$ in a model trained from training dataset.
  
 \end{itemize}
 
@@ -149,7 +149,7 @@
 \begin{frame}{MEMMs}
 \begin{scriptsize}
 \begin{itemize}
- \item Hence we are making a first order Markov assumption similar to the Markov assumption made in HMMs. 
+ \item Hence we are making a first order Markov assumption similar to the Markov assumption made in HMMs\footnote{We actually made a second order Markov assumption in HMMs. MEMMs can also be extended to second order assumptions.}. 
  
  \item The tag in the $i$-th position depends only on the tag in the $(i -1)$-th position. 
  
@@ -176,9 +176,9 @@
 Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
 \begin{itemize}
  \item $x_1, \cdots, x_m$ is the entire sentence being tagged.
-  \item $i$ is the position to be tagged (can take any value from $1$ to $m$)
+  \item $i$ is the position to be tagged (can take any value from $1$ to $m$).
   \item $s_{i-1}$ is the previous tag value (can take any value in $S$).
-  \item $s_i$ is the new tag value (can take any value in $S$)
+  \item $s_i$ is the new tag value (can take any value in $S$).
  
 \end{itemize}
 
@@ -223,15 +223,15 @@ It is possible to define more general feature templates covering unigrams, bigra
 
 \begin{enumerate}
   
- \item A word unigram and tag unigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,z)]}=1$ if $s_i$ = TAG$_{[j]}$ and $x_i$ = WORD$_{[z]}$; 0 otherwise $\forall j,z$. \\ Notice that $j$ is and index spanning all possible tags in $S$ and $z$ is another index spanning the words in the vocabulary $V$.
+ \item A word unigram and tag unigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[index(j,z)]}=1$ if $s_i$ = TAG$_{[j]}$ and $x_i$ = WORD$_{[z]}$; 0 otherwise $\forall j,z$. \\ Notice that $j$ is and index spanning all possible tags in $S$ and $z$ is another index spanning the words in the vocabulary $V$.
  
- \item A word bigram and tag bigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[hash(j,z,u,v)]}=1$ if $s_{i-1}$ = TAG$_{[j]}$ and $s_i$ = TAG$_{[z]}$ and $x_{i-1}$ = WORD$_{[u]}$ and $x_{i}$ = WORD$_{[v]}$; 0 otherwise $\forall j,z,u,v$. 
+ \item A word bigram and tag bigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[index(j,z,u,v)]}=1$ if $s_{i-1}$ = TAG$_{[j]}$ and $s_i$ = TAG$_{[z]}$ and $x_{i-1}$ = WORD$_{[u]}$ and $x_{i}$ = WORD$_{[v]}$; 0 otherwise $\forall j,z,u,v$. 
  
  
 \end{enumerate}
 
-The function $hash(j,k,...)$ will map each different feature to a unique index in the feature vector.  \\
-Notice that the resuling vector will be very high-dimensional and sparse.
+The function $index(j,k,...)$ will map each different feature to a unique index in the feature vector.  \\
+Notice that the resulting vector will be very high-dimensional and sparse.
 \end{scriptsize}
 \end{frame}
 
@@ -290,7 +290,7 @@ Notice that the resuling vector will be very high-dimensional and sparse.
 \begin{scriptsize}
 \begin{itemize}
 
-\item Once we've defined the feature vectors $\vec{\phi}$, we can train the parameters $\vec{w}$ of the model in the usual way for linear models.
+\item Once we've defined the feature vectors $\vec{\phi}$, we can train the parameters $\vec{w}$ of the model in the usual way linear models are trained.
 
 \item We set the negative log-likelihood as the loss function and optimize parameters using gradient descent from the training examples.
 
@@ -375,11 +375,6 @@ where $s_0$ is a special ``initial'' state.
 
 \end{itemize}
 
-Finally, having filled in the $\pi[j,s]$ values for all $j, s$, we can calculate
-
-\begin{displaymath}
-  \max_{s_1,\dots,s_m} = \max_{s} \ \pi[m,s].
-\end{displaymath}
 
 
 \end{scriptsize}
@@ -451,7 +446,7 @@ richer representations than those used in HMMs.
 
 \item For example, the transition probability can be sensitive to any word in the input sequence $x_1, \dots, x_m$.
 
-\item In addition, it is very easy to introduce features that are sensitive to spelling features (e.g., prefixes or suffixes) of the current word $x_i$ , or of the surrounding words.
+\item In addition, it is very easy to introduce features that are sensitive to spelling features (e.g., prefixes or suffixes) of the current word $x_i$, or of the surrounding words.
 
 \item These features are useful in many NLP applications, and are difficult to incorporate within HMMs in a clean way.
 
@@ -669,9 +664,9 @@ to the Viterbi algorithm.
 
 \item CRFs and MEMMS are discriminative sequence labeling models: they model the conditional probability directly via a parameterized log-linear multi-class function (softmax).
 
-\item HMMs, on the other hand, are are generative models.
+\item HMMs, on the other hand, are generative models.
 
-\item In MEMM the normalization (denominator of the softmax) is local: it happens at each tag step (the sum runs over all posible tag values $S$).
+\item In MEMM the normalization (denominator of the softmax) is local: it happens at each tag step (the sum runs over all possible tag values $S$).
 
 \item In CRFs the normalization is global: the sum runs over all possible tag sequences $S^m$.
 

@@ -65,7 +65,7 @@
 
 \item Well known examples of this problem are: part-of-speech tagging (POS) and Named Entity Recognition (NER).
 
-\item Maximum-entropy Markov models (MEMMs) make use of log-linear multi-class models for sequence labeling tasks.
+\item Maximum-entropy Markov models (MEMMs) make use of log-linear multi-class models for sequence labeling tasks \cite{mccallum2000maximum}.
  
  \item In the early NLP literature, logistic regression was often called maximum entropy classification \cite{jacobbook}.
  
@@ -273,7 +273,7 @@ Notice that the resulting vector will be very high-dimensional and sparse.
 
 \item Difference 1: in the log-linear model we have a fixed parameter vector $\vec{w}$ instead of having multiple vectors (one column of $W$ for each class value).
 
-\item Difference 2: the feature vector of the log-linear model $\vec{\phi}(x,y)$ includes information of the label $y$, whereas the input vecotr $\vec{x}$ of the softmax model is independent of $y$. 
+\item Difference 2: the feature vector of the log-linear model $\vec{\phi}(x,y)$ includes information of the label $y$, whereas the input vector $\vec{x}$ of the softmax model is independent of $y$. 
 
 \item Log-linear models allow using features that consider the interaction between $x$ and $y$ (e.g., $x$ ends in ``ly'' and $y$ is an ADVERB).
 
@@ -462,7 +462,7 @@ richer representations than those used in HMMs.
 
 \begin{itemize}
 
-\item  We now turn to Conditional Random Fields (CRFs).
+\item  We now turn to Conditional Random Fields (CRFs) \cite{Lafferty:2001:CRF:645530.655813}.
 
 \item Notation: for convenience, we'll use $x_{1:m}$ to refer to an input sequence $x_1 ,\dots,x_m$, and $s_{1:m}$ to refer to a sequence of tags $s_1, \dots, s_m$.
 

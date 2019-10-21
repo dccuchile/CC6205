@@ -65,6 +65,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 22. [PyTorch-Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/pytorch-transformers/index.html)
 23. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
 24. [PLMpapers: a collection of papers about Pre-Trained Language Models](https://github.com/thunlp/PLMpapers)
+25. [The Illustrated GPT-2 (Visualizing Transformer Language Models)](https://jalammar.github.io/illustrated-gpt2/)
 
 ##  
 

@@ -313,20 +313,7 @@ weighted average
 \end{frame}
 
 
-\begin{frame}{RNN-CRF}
-\begin{scriptsize}
 
-\begin{itemize}
-
-\item An alternative approach to the transducer for sequence labeling is to combine the RNN with Conditional Random Fields (CRFs).
-\item This produces a powerful tagger \cite{huang2015bidirectional}, in which the RNN acts as feature extractor, and the CRF as a special layer.
-\item The CRF layers performs a global normalization over all possible sequences which helps to find the optimum sequence.
-
-\item More info here: \url{https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html}
-
-\end{itemize}
-\end{scriptsize}
-\end{frame}
 
 
 \begin{frame}{Bidirectional RNNS (BIRNN)}
@@ -819,7 +806,21 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
         
 \end{frame}
 
+\begin{frame}{Bi-LSTM CRF}
+\begin{scriptsize}
 
+\begin{itemize}
+
+\item An alternative approach to the transducer for sequence labeling is to combine a BI-LSTM with a Conditional Random Field (CRF).
+\item This produces a powerful tagger \cite{huang2015bidirectional} called BI-LSTM-CRF, in which the LSTM acts as feature extractor, and the CRF as a special layer.
+\item The CRF layers performs a global normalization over all possible sequences which helps to find the optimum sequence.
+\item The forward-backward algorithm is used during training and the Viterbi algorithm during decoding.
+
+\item More info here: \url{https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html}
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 
 

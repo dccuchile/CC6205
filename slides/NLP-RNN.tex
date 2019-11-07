@@ -204,6 +204,7 @@ p(e = j|\vec{x}_{1:n}) = \text{softmax}(RNN(\vec{x}_{1:n})\cdot W +b)_{[j]}
 \end{frame}
 
 
+
 \begin{frame}{RNN Training}
 \begin{scriptsize}
 \begin{itemize}
@@ -231,6 +232,101 @@ useful for the further prediction task.
 
 
 
+\begin{frame}{RNN usage-patterns: Acceptor}
+\begin{scriptsize}
+\begin{itemize}
+\item A common RNN usage-pattern is the acceptor.
+\item This pattern is used for text classification.
+\item The supervision signal is only based on the final output vector $\vec{y}_n$.
+
+\item The RNN's output vector $\vec{y}_n$ is fed into a fully connected layer or an MLP, which produce a prediction.
+
+\item The error gradients are then backpropagated through the
+rest of the sequence.
+\item The loss can take any familiar form: cross entropy, hinge, etc.
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{RNN usage-patterns: Acceptor}
+\begin{scriptsize}
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/acceptor.png}
+        	\caption{Acceptor RNN training graph.}
+        \end{figure}
+\begin{itemize}
+
+\item Example 1: an RNN that reads the characters of a word one by one and then use the final state to predict the part-of-speech of that word.
+
+\item Example 2: an RNN that reads in a sentence and, based on the final state decides if it conveys positive or negative sentiment.
+
+
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{RNN usage-patterns: Transducer}
+\begin{scriptsize}
+\begin{itemize}
+\item Another option is to treat the RNN as a transducer, producing an output $\hat{t}_i$ for each input it reads in.
+\item This pattern is very handy for sequence labeling tasks (e.g, POS tagging, NER).
+\item We compute a local loss signal (e.g., cross-entropy)  $L_{\text{local}}(\hat{t}_{i},{t}_{i})$ for each of the outputs $\hat{t}_{i}$ based on a true label $t_i$.
+\item The loss for unrolled sequence will then be: $L(\hat{t}_{i:n},{t}_{i:n}) =  \sum_{i} L_{\text{local}}(\hat{t}_{i},{t}_{i})$ , or using another combination rather than a sum such as an average or a
+weighted average
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{RNN usage-patterns: Transducer}
+\begin{scriptsize}
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.25]{pics/transducer.png}
+        	\caption{Transducer RNN training graph.}
+        \end{figure}
+
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{RNN usage-patterns: Transducer}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item Example 1: a sequence tagger (e.g., NER, POS), in which we take $\vec{x}_{i:n}$ to be feature representations for the $n$ words of a sentence, and $t_i$ as an input for predicting the tag assignment of word $i$ based on words $1:i$.
+\item Example 2: language modeling, in which the sequence of words $x_{1:n}$ is used to predict a distribution over the $(i+1)th$ word. 
+\item RNN-based language models are shown to provide vastly better perplexities than traditional language models.
+
+\item Using RNNs as transducers allows us to relax the Markov assumption that is traditionally taken in language models and HMM taggers, and condition on the entire prediction history.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{RNN-CRF}
+\begin{scriptsize}
+
+\begin{itemize}
+
+\item An alternative approach to the transducer for sequence labeling is to combine the RNN with Conditional Random Fields (CRFs).
+\item This produces a powerful tagger \cite{huang2015bidirectional}, in which the RNN acts as feature extractor, and the CRF as a special layer.
+\item The CRF layers performs a global normalization over all possible sequences which helps to find the optimum sequence.
+
+\item More info here: \url{https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html}
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 
 \begin{frame}{Bidirectional RNNS (BIRNN)}
@@ -672,7 +768,7 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
 \begin{scriptsize}
 \begin{itemize}
 \item An emoji-based distant supervision model for detecting sentiment and other affective states from short social media messages was proposed in \cite{FelboMSRL17}.
-\item Emojis are used as a distant supervision approach for various affective detection tasks (e.g., emotion, sentiment, sarcasm) using a large corpus of 634M tweets with 64 emojis.
+\item Emojis are used as a distant supervision approach for various affect detection tasks (e.g., emotion, sentiment, sarcasm) using a large corpus of 634M tweets with 64 emojis.
 \item A neural network architecture is pretrained with this corpus. 
 \item The network is an LSTM variant formed by an embedding layer, 2 bidrectional LSTM layers with normal skip connections and temporal average pooling-skip connections.
 \end{itemize}
@@ -709,7 +805,7 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
 \item The model achieves state-of-the-art results the detection of emotion, sentiment, and sarcasm. 
 \item  The pretrained network is released to the public.
 
-\item  A demo of the model: \url{https://github.com/bfelbo/DeepMoji}.
+\item  A demo of the model: \url{https://deepmoji.mit.edu/}.
 \end{itemize}
 \end{scriptsize}
 \end{frame}

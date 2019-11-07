@@ -217,10 +217,11 @@ prefixes that are followed by low-probability events.
 \begin{scriptsize}
 \begin{itemize}
 \item Beam search interpolates between the exact search and the greedy search by changing the size $K$ of hypotheses maintained throughout the search procedure \cite{cho2015natural}.
+\item The Beam search algorithm works in stages.
 \item  We first pick the $K$ starting words with the highest probability 
 \item At each step, each candidate sequence is expanded with all possible next steps. 
 \item Each candidate step is scored. 
-\item The $K$ sequences with the most likely probabilities are selected and all other candidates are pruned. 
+\item The $K$ sequences with the most likely probabilities are retained and all other candidates are pruned. 
 \item The search process can halt for each candidate separately either by reaching a maximum length, by reaching an end-of-sequence token, or by reaching a threshold likelihood.
 \item The sentence with the highest overall probability is selected.
 \end{itemize}
@@ -273,7 +274,19 @@ prefixes that are followed by low-probability events.
 \begin{frame}{Conditioned Generation with Attention}
 \begin{scriptsize}
 \begin{itemize}
-\item Unnormalized attention weights  are produced using a feed-forward network MLP taking into account the decoder state at time $j$ ($\vec{s}_j$) and each of the vectors $\vec{c}_i$.
+\item Unnormalized attention weights ($\bar{\alpha}_{[i]}^j$)  are produced taking into account the decoder state at time $j$ ($\vec{s}_j$) and each of the vectors $\vec{c}_i$.
+\item They can be obtained in various ways, basically any differentiable function returning a scalar out of two vectors $\vec{s}_j$ and  $\vec{c}_i$ could be employed. 
+\item The simplest approach is a dot product:  $\bar{\alpha}_{[i]}^j = \vec{s}_j \cdot \vec{c}_i$. 
+\item Another one is Additive attention which uses a Multilayer Perceptron: $\bar{\alpha}_{[i]}^j = MLP^{att}([\vec{s}_j;\vec{c}_i]) = \vec{v} \cdot \operatorname{tanh}([\vec{s}_j;\vec{c}_i]U +\vec{b})$
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Conditioned Generation with Attention}
+\begin{scriptsize}
+\begin{itemize}
 \item These unnormalized weights are then normalized into a probability distribution using the softmax function.
 
 \begin{figure}[h]
@@ -289,8 +302,6 @@ prefixes that are followed by low-probability events.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
-
-
 
 
 
@@ -336,7 +347,7 @@ prefixes that are followed by low-probability events.
 \end{scriptsize}
 \end{frame}
 
-\begin{frame}{What’s Wrong with RNNs?}
+\begin{frame}{What's Wrong with RNNs?}
 \begin{scriptsize}
 \begin{itemize}
 \item Given what we just learned above, it would seem like attention solves all the problems with RNNs and encoder-decoder architectures. \footnote{The following material is based on: \url{http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/}}

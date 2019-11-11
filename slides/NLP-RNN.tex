@@ -476,11 +476,23 @@ biRNN^{*}(\vec{x}_{1:n})= \vec{y}_{1:n} = biRNN(\vec{x}_{1:n},1),\dots,biRNN(\ve
 \item The S-RNN is hard to train effectively because of the \textbf{vanishing gradients} problem.
 \item Error signals (gradients) in later steps in the sequence diminish quickly in the backpropagation process.
 \item Thus, they do not reach earlier input signals, making it hard for the S-RNN to capture long-range dependencies.
-\item Gating-based architectures, such as the LSTM [Hochreiter
-and Schmidhuber, 1997] and the GRU [Cho et al., 2014b] are designed to solve this deficiency.
+\item Gating-based architectures, such as the LSTM \cite{hochreiter1997long} and the GRU \cite{cho2014learning} are designed to solve this deficiency.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
+
+
+\begin{frame}{The vanishing gradients problem in Recurrent Neural Networks}
+\begin{scriptsize}
+\begin{itemize}
+\item Intuitively, recurrent neural networks can be thought of as very deep feed-forward networks, with shared parameters across different layers.
+\item For the Simple-RNN, the gradients then include repeated multiplication of the matrix $W$, making it very likely for the values to vanish or explode.
+\item  The gating mechanism mitigate this problem to a large extent by getting rid of this repeated multiplication of a single matrix.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
 
 
 \begin{frame}{Gated Architectures}
@@ -500,7 +512,7 @@ and Schmidhuber, 1997] and the GRU [Cho et al., 2014b] are designed to solve thi
 \begin{scriptsize}
 \begin{itemize}
 \item How does one provide more controlled memory access?
-\item Consider a binary vector $\vec{g} \in {0,1}^n$. 
+\item Consider a binary vector $\vec{g} \in [0,1]^n$. 
 \item Such a vector can act as a \textbf{gate} for controlling access to $n$-dimensional vectors, using the hadamard-product operation $\vec{x} \odot \vec{g}$.
 \item The hadamard operation is the same as the element-wise multiplication of two vectors:
 \begin{displaymath}
@@ -586,7 +598,7 @@ near the borders.
 \begin{scriptsize}
 
 \begin{itemize}
-\item The Long Short-Term Memory (LSTM) architecture [Hochreiter and Schmidhuber, 1997] was designed to solve the vanishing gradients problem.
+\item The Long Short-Term Memory (LSTM) architecture \cite{hochreiter1997long} was designed to solve the vanishing gradients problem. 
 \item It was the the first architecture to introduce the gating mechanism.
 \item The LSTM architecture explicitly splits the state vector $\vec{s}_i$ into two halves: 1) memory cells and 2) working memory.
 \item The memory cells are designed to preserve the memory, and also the error gradients, across time, and are controlled through differentiable gating components\footnote{Smooth mathematical functions that simulate logical gates.}.
@@ -656,8 +668,8 @@ near the borders.
 \begin{itemize}
 \item The LSTM architecture is very effective, but also quite complicated.
 \item The complexity of the system makes it hard to analyze, and also computationally expensive to work with.
-\item The gated recurrent unit (GRU) was recently introduced by Cho et al. [2014b] as an alternative to the LSTM.
-\item It was subsequently shown by Chung et al. [2014] to perform comparably to the LSTM on several (non textual) datasets.
+\item The gated recurrent unit (GRU) was recently introduced in \cite{cho2014learning} as an alternative to the LSTM.
+\item It was subsequently shown in \cite{chung2014empirical} to perform comparably to the LSTM on several (non textual) datasets.
 \item Like the LSTM, the GRU is also based on a gating mechanism, but with substantially fewer gates and without a separate memory component.
 \end{itemize}
 \end{scriptsize}
@@ -681,7 +693,7 @@ near the borders.
 \item The proportions of the interpolation are controlled using the gate $\vec{z}$.
 \item The GRU was shown to be effective in language modeling and machine translation.
 \item However, the jury is still out between the GRU, the LSTM and possible alternative RNN architectures, and the subject is actively researched. 
-\item For an empirical exploration of the GRU and the LSTM architectures, see Jozefowicz et al. [2015].
+\item For an empirical exploration of the GRU and the LSTM architectures, see \cite{jozefowicz2015empirical}.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -739,11 +751,11 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
 \begin{scriptsize}
 \begin{itemize}
 \item The word embeddings matrix $E$ is initialized using pre-trained embeddings learned over a large external corpus using an algorithm such as word2vec or Glove with a relatively wide window.
-\item It is often helpful to extend the model by considering bidirectional RNNs-
-\item For longer sentences, Li et al. [2015] found it useful to use a hierarchical architecture, in which the sentence is split into smaller spans based on punctuation.
+\item It is often helpful to extend the model by considering bidirectional RNNs.
+\item For longer sentences, \cite{li2015tree} found it useful to use a hierarchical architecture, in which the sentence is split into smaller spans based on punctuation.
 \item Then, each span is fed into a bidirectional RNN. 
 \item Sequence of resulting vectors (onefor each span) are then fed into an RNN acceptor.
-\item A similar hierarchical architecture was used for document-level sentiment classification in Tang et al. [2015].
+\item A similar hierarchical architecture was used for document-level sentiment classification in \cite{tang2015document}.
 \end{itemize}
 \end{scriptsize}
 \end{frame}

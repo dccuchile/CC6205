@@ -569,7 +569,7 @@ current memory state and the input.
 
 \begin{itemize}
 \item A solution to this problem is to approximate the hard gating mechanism with a soft—but differentiable—gating mechanism.
-\item To achieve these differentiable gates , we replace the requirement that $\vec{g} \in {0,1}^n$ and allow arbitrary real numbers, $\vec{g}' \in \mathcal{R}^n$.
+\item To achieve these differentiable gates , we replace the requirement that $\vec{g} \in [0,1]^n$ and allow arbitrary real numbers, $\vec{g}' \in \mathcal{R}^n$.
 \item These real numbers are then pass through a sigmoid function $\sigma(\vec{g}')$.
 \item This bounds the value in the range $(0,1)$, with most values
 near the borders.

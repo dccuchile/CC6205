@@ -583,7 +583,7 @@ near the borders.
 \begin{scriptsize}
 
 \begin{itemize}
-\item When using the gate $\sigma(g')\odot \vec{x}$ , indices in $\vec{x}$ corresponding to near-one values in $\sigma(\vec{g}')$ are allowed to pass.
+\item When using the gate $\sigma(\vec{g}')\odot \vec{x}$ , indices in $\vec{x}$ corresponding to near-one values in $\sigma(\vec{g}')$ are allowed to pass.
 \item While those corresponding to near-zero values are blocked. 
 \item The gate values can then be conditioned on the input and the current memory.
 \item And can be trained using a gradient-based method to perform a desired behavior.
@@ -625,7 +625,7 @@ near the borders.
 \begin{scriptsize}
 
 \begin{itemize}
-\item The state at time $j$ is composed of two vectors, $\vec{c}_j$ and $h_{j}$, where $\vec{c}_j$ is the memory component and $\vec{h}_j$ is the hidden state component.
+\item The state at time $j$ is composed of two vectors, $\vec{c}_j$ and $\vec{h}_{j}$, where $\vec{c}_j$ is the memory component and $\vec{h}_j$ is the hidden state component.
 \item There are three gates, $\vec{i}$ , $\vec{f}$ , and $\vec{o}$, controlling for \textbf{i}nput, \textbf{f}orget, and \textbf{o}utput.
 \item The gate values are computed based on linear combinations of the current input $\vec{x}_j$ and the previous state $\vec{h}_{j-1}$, passed through a sigmoid activation function.
 \item An update candidate $\vec{z}$ is computed as a linear combination of $\vec{x}_j$ and $\vec{h}_{j-1}$ , passed through a tanh activation function (to push the values to be between -1 and 1).
@@ -668,7 +668,7 @@ near the borders.
 \begin{itemize}
 \item The LSTM architecture is very effective, but also quite complicated.
 \item The complexity of the system makes it hard to analyze, and also computationally expensive to work with.
-\item The gated recurrent unit (GRU) was recently introduced in \cite{cho2014learning} as an alternative to the LSTM.
+\item The gated recurrent unit (GRU) was introduced in \cite{cho2014learning} as an alternative to the LSTM.
 \item It was subsequently shown in \cite{chung2014empirical} to perform comparably to the LSTM on several (non textual) datasets.
 \item Like the LSTM, the GRU is also based on a gating mechanism, but with substantially fewer gates and without a separate memory component.
 \end{itemize}

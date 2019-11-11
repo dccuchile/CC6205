@@ -729,7 +729,8 @@ intricate patterns in the data.
 \begin{scriptsize}
 \begin{itemize}
 \item The sentence-level sentiment classification task is modelled using an RNN-acceptor.
-\item After tokenization, the RNN reads in the words of the sentence one at a time. \item The final RNN state is then fed into an MLP followed by a softmax-layer with two outputs (positive and negative). 
+\item After tokenization, the RNN reads in the words of the sentence one at a time. 
+\item The final RNN state is then fed into an MLP followed by a softmax-layer with two outputs (positive and negative). 
 \item The network is trained with cross-entropy loss based on the gold sentiment labels.
 
 \begin{equation}
@@ -754,7 +755,7 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
 \item It is often helpful to extend the model by considering bidirectional RNNs.
 \item For longer sentences, \cite{li2015tree} found it useful to use a hierarchical architecture, in which the sentence is split into smaller spans based on punctuation.
 \item Then, each span is fed into a bidirectional RNN. 
-\item Sequence of resulting vectors (onefor each span) are then fed into an RNN acceptor.
+\item Sequence of resulting vectors (one for each span) are then fed into an RNN acceptor.
 \item A similar hierarchical architecture was used for document-level sentiment classification in \cite{tang2015document}.
 \end{itemize}
 \end{scriptsize}

@@ -751,7 +751,7 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
 \begin{frame}{Sentiment Classification with RNNs}
 \begin{scriptsize}
 \begin{itemize}
-\item The word embeddings matrix $E$ is initialized using pre-trained embeddings learned over a large external corpus using an algorithm such as word2vec or Glove with a relatively wide window.
+\item The word embeddings matrix $E$ is initialized using pre-trained embeddings learned over a large external corpus using an algorithm such as Word2vec or Glove with a relatively wide window.
 \item It is often helpful to extend the model by considering bidirectional RNNs.
 \item For longer sentences, \cite{li2015tree} found it useful to use a hierarchical architecture, in which the sentence is split into smaller spans based on punctuation.
 \item Then, each span is fed into a bidirectional RNN. 

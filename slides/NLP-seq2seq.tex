@@ -277,7 +277,7 @@ prefixes that are followed by low-probability events.
 \item Unnormalized attention weights ($\bar{\alpha}_{[i]}^j$)  are produced taking into account the decoder state at time $j$ ($\vec{s}_j$) and each of the vectors $\vec{c}_i$.
 \item They can be obtained in various ways, basically any differentiable function returning a scalar out of two vectors $\vec{s}_j$ and  $\vec{c}_i$ could be employed. 
 \item The simplest approach is a dot product:  $\bar{\alpha}_{[i]}^j = \vec{s}_j \cdot \vec{c}_i$. 
-\item Another one is Additive attention which uses a Multilayer Perceptron: $\bar{\alpha}_{[i]}^j = MLP^{att}([\vec{s}_j;\vec{c}_i]) = \vec{v} \cdot \operatorname{tanh}([\vec{s}_j;\vec{c}_i]U +\vec{b})$
+\item The one we will use in these slides is Additive attention, which uses a Multilayer Perceptron: $\bar{\alpha}_{[i]}^j = MLP^{att}([\vec{s}_j;\vec{c}_i]) = \vec{v} \cdot \operatorname{tanh}([\vec{s}_j;\vec{c}_i]U +\vec{b})$
 
 \end{itemize}
 \end{scriptsize}
@@ -315,6 +315,36 @@ prefixes that are followed by low-probability events.
 
 
 
+\begin{frame}{Conditioned Generation with Attention}
+\begin{scriptsize}
+The entire sequence-to-sequence generation with attention is given by:
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/attentionformula.png}
+        \end{figure}  
+
+        
+                
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Conditioned Generation with Attention}
+\begin{scriptsize}
+\begin{itemize}
+\item Why use the biRNN encoder to translate the conditioning sequence $\vec{x}_{1:n}$  into the context vectors $\vec{c}_{1:n}$?
+\item Why we just don't attend directly on the inputs (word embeddings) $MLP^{att}([\vec{s}_j;\vec{x}_i])$?
+\item We could, but we get important benefits from the encoding process.
+\item First, the biRNN vectors $\vec{c}_i$ represent the items $\vec{x}_i$ in their sentential context.
+\item Sentential context: a a window focused around the input item $\vec{x}_i$ and not the item itself.
+\item Second, by having a trainable encoding component that is trained jointly with the decoder, the encoder and decoder evolve together.
+\item Hence, the network can learn to encode relevant properties of the input that are useful for decoding, and that may not be present at the source sequence $\vec{x}_{1:n}$ directly.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
 \begin{frame}{Attention and Word Alignments}
 \begin{scriptsize}
 \begin{itemize}
@@ -350,7 +380,7 @@ prefixes that are followed by low-probability events.
 \begin{frame}{What's Wrong with RNNs?}
 \begin{scriptsize}
 \begin{itemize}
-\item Given what we just learned above, it would seem like attention solves all the problems with RNNs and encoder-decoder architectures. \footnote{The following material is based on: \url{http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/}}
+\item Given what we just learned above, it would seem like attention solves all the problems with RNNs and encoder-decoder architectures\footnote{The following material is based on: \url{http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/}}.
 
 \item There are a few shortcomings of RNNs that another architecture called the \textbf{Transformer} tries to address.
 
@@ -379,7 +409,7 @@ In essence, there are three kinds of dependencies in neural machine translations
 \end{enumerate}
 
 
-The traditional attention mechanism largely solved the first dependency by giving the decoder access to the entire input sequence. 
+The traditional attention mechanism largely solved the first dependency by giving the decoder access to the entire input sequence. The second and third depedencies were addressed by the RNNs.
 
 \end{scriptsize}
 

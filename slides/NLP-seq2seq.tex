@@ -613,9 +613,27 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{scriptsize}
 \begin{itemize}
 
+\item The encoder contains self-attention layers. 
+
+\item In a self-attention layer all of the keys, values and queries come from the same place, in this case, the output of the previous layer in the encoder. 
+
+\item Each position in the encoder can attend to all positions in the previous layer of theencoder.
+
  \item  The encoder is composed of two blocks (which we will call sub-layers to distinguish from the $N$ blocks composing the encoder and decoder).
 \item  One is the Multi-Head Attention sub-layer over the inputs, mentioned above. 
 \item The other is a simple feed-forward network. 
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{The Encoder}
+\begin{scriptsize}
+\begin{itemize}
+
 \item Between each sub-layer, there is a residual connection followed by a layer normalization. 
 
 \item A residual connection is basically just taking the input and adding it to the output of the sub-network, and is a way of making training deep networks easier. 
@@ -663,19 +681,19 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{scriptsize}
 \begin{itemize}
 
- \item  The decoder is very similar to the encoder but has one Multi-Head Attention layer labeled the ``masked multi-head attention'' network.
- 
- \item This network attends over the previous decoder states, so plays a similar role to the decoder hidden state in RNN machine translation architectures. 
- 
- \item The reason this is called the masked multi-head attention block is that we need to mask the inputs to the decoder from future time-steps.
- 
- \item When we train the Transformer, we want to process all the sentences at the same time. 
- 
- \item When we do this, if we give the decoder access to the entire target sentence, the model can just repeat the target sentence (in other words, it doesn't need to learn anything).
- 
- \item To prevent this from happening, the decoder masks the ``future'' tokens when decoding a certain word.
 
-  \item The masking is done by setting to $- \infty$ all values in the inputof the softmax which correspond to illegal connections
+
+\item The decoder has ``encoder-decoder attention'' layers in which the queries come from the previous decoder layer,and the memory keys and values come from the output of the encoder.
+
+\item This allows every position in the decoder to attend over all positions in the input sequence.
+
+\item This mimics the typical encoder-decoder attention mechanisms in sequence-to-sequence models.
+
+\item Self-attention layers in the decoder allow each position in the decoder to attend to all positions in the decoder up to and including that position.
+
+ \item This plays a similar role to the decoder hidden state in RNN machine translation architectures.
+
+
  
 \end{itemize}
 
@@ -683,6 +701,27 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 \end{frame}
 
+
+
+
+
+\begin{frame}{The Decoder}
+\begin{scriptsize}
+\begin{itemize}
+ \item When we train the Transformer, we want to process all the sentences at the same time. 
+ 
+ \item When we do this, if we give the decoder access to the entire target sentence, the model can just repeat the target sentence (in other words, it doesn't need to learn anything).
+ 
+ \item To prevent this from happening, the decoder masks the ``future'' tokens when decoding a certain word.
+
+  \item The masking is done by setting to $- \infty$ all values in the input of the softmax which correspond to illegal connections.
+ \item This is why ``multi-head attention blocks'' in the decoder are referred to as ``masked'': the inputs to the decoder from future time-steps ared masked.
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
 
 
 \begin{frame}{The Decoder}

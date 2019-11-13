@@ -337,7 +337,7 @@ The entire sequence-to-sequence generation with attention is given by:
 \item Why we just don't attend directly on the inputs (word embeddings) $MLP^{att}([\vec{s}_j;\vec{x}_i])$?
 \item We could, but we get important benefits from the encoding process.
 \item First, the biRNN vectors $\vec{c}_i$ represent the items $\vec{x}_i$ in their sentential context.
-\item Sentential context: a a window focused around the input item $\vec{x}_i$ and not the item itself.
+\item Sentential context: a window focused around the input item $\vec{x}_i$ and not the item itself.
 \item Second, by having a trainable encoding component that is trained jointly with the decoder, the encoder and decoder evolve together.
 \item Hence, the network can learn to encode relevant properties of the input that are useful for decoding, and that may not be present at the source sequence $\vec{x}_{1:n}$ directly.
 \end{itemize}
@@ -348,7 +348,7 @@ The entire sequence-to-sequence generation with attention is given by:
 \begin{frame}{Attention and Word Alignments}
 \begin{scriptsize}
 \begin{itemize}
-\item In the context of machine translation, one can think of MLP att as computing a soft alignment between the current decoder state $\vec{s}_j$ (capturing the recently produced foreign words) and each of the source sentence components $\vec{c}_i$.
+\item In the context of machine translation, one can think of $MLP^{att}$ as computing a soft alignment between the current decoder state $\vec{s}_j$ (capturing the recently produced foreign words) and each of the source sentence components $\vec{c}_i$.
 
 
 \end{itemize}

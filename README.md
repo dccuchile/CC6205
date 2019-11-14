@@ -51,6 +51,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
 10. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
 11. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
+11. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
 12. [ELMO explained](http://mlexplained.com/2018/06/15/paper-dissected-deep-contextualized-word-representations-explained/)
 13. [BERT exaplained](http://mlexplained.com/2019/01/07/paper-dissected-bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding-explained/)
 14. [Better Language Models

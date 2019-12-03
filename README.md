@@ -10,6 +10,8 @@ This is a course on natural language processing.
 
 * [Course Calendar](calendar.md)
 
+* [Youtube Playlist with lectures](https://www.youtube.com/playlist?list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi)
+
 
 ### Info
 The neural network-related topics of the course are taken from the book of Yoav Goldberg: 

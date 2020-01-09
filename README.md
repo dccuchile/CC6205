@@ -72,6 +72,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 26. [Linguistics, NLP, and Interdisciplinarity Or: Look at Your Data, by Emily M. Bender](https://medium.com/@emilymenonbender/linguistics-nlp-and-interdisciplinarity-or-look-at-your-data-e49e03d37c9c)
 27. [The State of NLP Literature: Part I, by Saif Mohammad](https://medium.com/@nlpscholar/state-of-nlp-cbf768492f90)
 28. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
+29. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
 
 ##  
 

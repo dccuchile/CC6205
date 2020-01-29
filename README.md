@@ -73,7 +73,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 27. [The State of NLP Literature: Part I, by Saif Mohammad](https://medium.com/@nlpscholar/state-of-nlp-cbf768492f90)
 28. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
 29. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
-
+30. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
 ##  
 
 

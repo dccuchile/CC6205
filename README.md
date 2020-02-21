@@ -88,3 +88,4 @@ The neural network-related topics of the course are taken from the book of Yoav 
 4. [CS224N: Natural Language Processing with Deep Learning | Winter 2019](https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z)
 5. [Computational Linguistics I by Jordan Boyd-Graber  University of Maryland](https://www.youtube.com/playlist?list=PLegWUnz91WfuPebLI97-WueAP90JO-15i)  
 5. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)
+5. [BERT Research Series by  Chris McCormick](https://www.youtube.com/playlist?list=PLam9sigHPGwOBuH4_4fr-XvDbe5uneaf6)

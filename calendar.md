@@ -2,85 +2,85 @@
 
 1. Semana 1
 	
-   * Martes 30/07. Cátedra: Introducción
-   * Jueves 01/08. Cátedra: Introducción - Information Retrieval
+   * Martes 10/03. Cátedra: Introducción
+   * Jueves 12/03. Cátedra: Introducción - Information Retrieval
    
 2. Semana 2
 	 	
-    * Martes 06/08. Cátedra:  Information Retrieval
-    * Jueves 08/08. Auxiliar 1 - Ejercicio 1
-    * Viernes 09/08. Vence Plazo para inscribir grupo y proyecto.
+    * Martes 17/03. Cátedra:  Information Retrieval
+    * Jueves 19/03. Auxiliar 1 - Ejercicio 1
+    * Viernes 20/03. Vence Plazo para inscribir grupo y proyecto.
     
 3. Semana 3
 
-     * Martes 13/08. Cátedra: Language Models
-     * Jueves 15/08. Feriado.
+     * Martes 24/03. Cátedra: Language Models
+     * Jueves 24/03. Cátedra: Language Models
 
 4. Semana 4
 
-    * Martes 20/08. Cátedra: Language Models
-    * Jueves 22/08. Cátedra:  Naive Bayes
+    * Martes 31/03. Cátedra: Language Models
+    * Jueves 02/04. Cátedra:  Naive Bayes
 
 5. Semana 5
 
-     * Martes 27/08: Cátedra:  Linear Models
-     * Jueves 29/08: Cátedra:  Linear Models y Ejercicio 2
+     * Martes 07/04: Cátedra:  Linear Models
+     * Jueves 07/04: Cátedra:  Linear Models y Ejercicio 2
 
-     Semana Olímpica (sin clases)
 
 6. Semana 6
 
-     * Martes 10/09: Presentaciones Hito 1
-     * Miércoles 11/09: Presentaciones Hito 1 (Research Track)
-     * Jueves 12/09: Presentaciones Hito 1
+     * Martes 14/04: Presentaciones Hito 1
+     * Miércoles 15/04: Presentaciones Hito 1 (Research Track)
+     * Jueves 16/04: Presentaciones Hito 1
 
-     Vacaciones Fiestas Patrias (sin clases)
 
 7. Semana 7
 
-     * Martes 24/09: Auxiliar 2 - Word Embeddings
-     * Jueves 26/09: Cátedra:  Linear Models y Neural Networks.
-     * Viernes 27/09: Entrega Tarea 1
+     * Martes 21/04: Auxiliar 2 - Word Embeddings
+     * Jueves 23/04: Cátedra:  Linear Models y Neural Networks.
+     * Viernes 24/04: Entrega Tarea 1
 
 8. Semana 8
 
-     * Martes 01/10. Cátedra:  Neural Networks 
-     * Jueves 03/10. Auxiliar 3 - Ejercicio 3.
+     * Martes 28/04. Cátedra:  Neural Networks 
+     * Jueves 30/04. Auxiliar 3 - Ejercicio 3.
 
 9. Semana 9
 
-     * Martes 08/10. Cátedra: Word Embeddings. 
-     * Jueves 10/10. Cátedra:  Tagging - HMM. 
+     * Martes 05/05. Cátedra: Word Embeddings. 
+     * Jueves 07/05. Cátedra:  Tagging - HMM. 
 
 10. Semana 10
 
-     * Martes 15/10. Cátedra:  MEMMs y CRFs. 
-     * Jueves 17/10.  Convolutional Neural Networks. 
+     * Martes 12/05. Cátedra:  MEMMs y CRFs. 
+     * Jueves 14/05.  Convolutional Neural Networks. 
+
+Vacaciones mitad de semestre
 
 11. Semana 11
 
-      * Martes 22/10.  Cátedra: Recurrent Neural Networks.  
-      * Jueves 24/10. Cátedra: Sequence-to-Sequence + Attention - Ejercicio 4.
+      * Martes 26/05.  Cátedra: Recurrent Neural Networks.  
+      * Jueves 28/05. Cátedra: Sequence-to-Sequence + Attention - Ejercicio 4.
 12. Semana 12
 
-      * Martes 29/10. Auxiliar 4. 
-      * Jueves 31/10. Feriado
+      * Martes 02/06. Auxiliar 4. 
+      * Jueves 04/06. Cátedra: Transformer.
 
 13. Semana 13
 
-      * Martes 05/11. Cátedra: Transformer. 
-      * Jueves 07/11. Auxiliar 5 - BERT (por José Cañete)   
+      * Martes 09/06. Cátedra: Transformer. 
+      * Jueves 11/06. Auxiliar 5 - BERT (por José Cañete)   
 
 14. Semana 14
 
-      * Martes 12/11. Cátedra: Parsing.  
-      * Jueves 14/11. Cátedra: Parsing + Ejercicio 5.   
-      * Viernes 15/11. Entrega Tarea 2
+      * Martes 16/06. Cátedra: Parsing.  
+      * Jueves 18/06. Cátedra: Parsing + Ejercicio 5.   
+      * Viernes 19/06. Entrega Tarea 2
 
 15. Semana 15
 
-      * Martes 19/11. Cátedra: Parsing
-      * Jueves 21/11. Cátedra: ELMO + BERT + cierre.
+      * Martes 23/06. Cátedra: Parsing
+      * Jueves 25/06. Tutoría proyecto.
       
 16. Semana de Exámenes. Presentaciones Hito 2.       
 

@@ -3,18 +3,18 @@
 1. Semana 1
 	
    * Martes 10/03. Cátedra: Introducción
-   * Jueves 12/03. Cátedra: Introducción - Information Retrieval
+   * Jueves 12/03. Cátedra: Information Retrieval
    
 2. Semana 2
 	 	
     * Martes 17/03. Cátedra:  Information Retrieval
-    * Jueves 19/03. Auxiliar 1 - Ejercicio 1
+    * Jueves 19/03. Language Models 
     * Viernes 20/03. Vence Plazo para inscribir grupo y proyecto.
     
 3. Semana 3
 
      * Martes 24/03. Cátedra: Language Models
-     * Jueves 24/03. Cátedra: Language Models
+     * Jueves 24/03. Cátedra: Auxiliar 1 - Ejercicio 1
 
 4. Semana 4
 

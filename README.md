@@ -2,7 +2,7 @@
 This is a course on natural language processing.
 
 * Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
-* TAs: [Pablo Badilla](https://github.com/pabloBad), [Jocelyn Durstan](https://sites.google.com/view/jdunstan/home), [Juglar Díaz](https://www.linkedin.com/in/juglar-d%C3%ADaz-a06429100)
+* TAs: [Pablo Badilla](https://github.com/pabloBad), [Gabriel Chaperón](https://github.com/gchaperon), [Cristián Tamblay](https://github.com/cristian-tamblay)
 
 * Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00  (Lecture Room B104, Beauchef 851, Piso 1, Edificio Norte)
 

@@ -14,17 +14,17 @@
 3. Semana 3
 
      * Martes 24/03. Cátedra: Language Models
-     * Jueves 26/03. Cátedra: Auxiliar 1 - Ejercicio 1
+     * Jueves 26/03. Cátedra: Auxiliar 1  
 
 4. Semana 4
 
-    * Martes 31/03. Cátedra: Language Models
+    * Martes 31/03. Cátedra: Language Models Ejercicio 1
     * Jueves 02/04. Cátedra:  Naive Bayes
 
 5. Semana 5
 
      * Martes 07/04: Cátedra:  Linear Models
-     * Jueves 09/04: Cátedra:  Linear Models y Ejercicio 2
+     * Jueves 09/04: Cátedra:  Linear Models  
 
 
 6. Semana 6
@@ -36,18 +36,18 @@
 
 7. Semana 7
 
-     * Martes 21/04: Auxiliar 2 - Word Embeddings
+     * Martes 21/04: Auxiliar 2 - Word Embeddings - Ejercicio 2
      * Jueves 23/04: Cátedra:  Linear Models y Neural Networks.
      * Viernes 24/04: Entrega Tarea 1
 
 8. Semana 8
 
      * Martes 28/04. Cátedra:  Neural Networks 
-     * Jueves 30/04. Auxiliar 3 - Ejercicio 3.
+     * Jueves 30/04. Auxiliar 3 - .
 
 9. Semana 9
 
-     * Martes 05/05. Cátedra: Word Embeddings. 
+     * Martes 05/05. Cátedra: Word Embeddings.  Ejercicio 3
      * Jueves 07/05. Cátedra:  Tagging - HMM. 
 
 10. Semana 10

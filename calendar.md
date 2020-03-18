@@ -14,7 +14,7 @@
 3. Semana 3
 
      * Martes 24/03. Cátedra: Language Models
-     * Jueves 24/03. Cátedra: Auxiliar 1 - Ejercicio 1
+     * Jueves 26/03. Cátedra: Auxiliar 1 - Ejercicio 1
 
 4. Semana 4
 
@@ -24,7 +24,7 @@
 5. Semana 5
 
      * Martes 07/04: Cátedra:  Linear Models
-     * Jueves 07/04: Cátedra:  Linear Models y Ejercicio 2
+     * Jueves 09/04: Cátedra:  Linear Models y Ejercicio 2
 
 
 6. Semana 6

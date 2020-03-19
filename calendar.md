@@ -57,29 +57,29 @@ Vacaciones mitad de semestre
       * Jueves 28/05.  QA - Auxiliar 4: RNNs con Pytorch para NLP.
 11. Semana 11
       * Mini-Tarea 4 (Sequence to Sequence)
-      * Martes 02/06. Cátedra: ELMO y BERT. 
-      * Jueves 04/06. Cátedra: Transformer.
+      * Martes 02/06. Cátedra: Transformer.  
+      * Jueves 04/06. Cátedra: ELMO y BERT
 
 12. Semana 12
 
-      * Martes 09/06. Cátedra: Transformer. 
-      * Jueves 11/06. Auxiliar 5 - BERT (por José Cañete)   
+      * Martes 09/06. QA - Auxiliar 5: BERT.    
+      * Jueves 11/06. Cátedra: Parsing.     
 
 13. Semana 13
 
       * Martes 16/06. Cátedra: Parsing.  
-      * Jueves 18/06. Cátedra: Parsing + Ejercicio 5.   
+      * Jueves 18/06. Cátedra: Parsing. 
       * Viernes 19/06. Entrega Tarea 2
 
 14. Semana 14
-
-      * Martes 23/06. Cátedra: Parsing
-      * Jueves 25/06. Tutoría proyecto.
+      * Mini-Tarea 5 (Parsing)
+      * Martes 23/06. Cátedra: Parsing. 
+      * Jueves 25/06. TBA
       
 15. Semana 15
 
-      * Martes 02/07. Cátedra: Parsing
-      * Jueves 04/07 Tutoría proyecto.      
+      * Martes 02/07. TBA
+      * Jueves 04/07. TBA      
       
        
 

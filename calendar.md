@@ -13,7 +13,7 @@
      * Jueves 26/03.  QA - Auxiliar 0  (Ambiente de trabajo)  
 
 3. Semana 3
-    * Se publica Tarea 1 (Competencia Emotion Detection)
+    * Se publica Competencia 1 (Competencia Emotion Detection)
     * Martes 31/03. Cátedra: Naive Bayes
     * Jueves 02/04. Cátedra:  Linear Models
 
@@ -33,7 +33,7 @@
 
      * Martes 21/04:  Cátedra: Word Embeddings 
      * Jueves 23/04:  QA - Auxiliar 2 (Word Embeddings) 
-     * Viernes 24/04: Entrega Tarea 1
+     * Viernes 24/04: Entrega Competencia 1
 
 7. Semana 7
      * Mini-Tarea 3 (Word Embeddings)
@@ -52,7 +52,7 @@
 Vacaciones mitad de semestre
 
 10. Semana 10
-      * Se publica Tarea 2 (Competencia Sequence Labeling) 
+      * Se publica Competencia 2 (Competencia Sequence Labeling) 
       * Martes 26/05.  Cátedra: Sequence-to-Sequence + Attention
       * Jueves 28/05.  QA - Auxiliar 4: RNNs con Pytorch para NLP.
 11. Semana 11
@@ -69,7 +69,7 @@ Vacaciones mitad de semestre
 
       * Martes 16/06. Cátedra: Parsing.  
       * Jueves 18/06. Cátedra: Parsing. 
-      * Viernes 19/06. Entrega Tarea 2
+      * Viernes 19/06. Entrega Competencia 2
 
 14. Semana 14
       * Mini-Tarea 5 (Parsing)

@@ -14,32 +14,22 @@ Primero voy a ver colab y aprovechar de explicar algunas de las herramientas que
 # Google Colab
 Es un entorno que permite escribir y ejecutar python en un web browser.
 
+* Esencialmente un jupyter notebook
+* Formato basado en celdas -> texto y codigo
+* Acepta texto en formato markdown + algunos manjares extra
+* Es posible ejecutar comando de shell con `!` antepuesto al comando
+
 * Viene con todo instalado
 * No requiere configuracion
 * Da acceso a GPUs
 * Completamente multiplataforma 
 
-* Esencialmente un jupyter notebook
-* Formato basado en celdas -> texto y codigo
-* Acepta texto en formato markdown + algunos manjares extra
-
-
 * Se puede conectar a fuentes de datos externas
-* Es posible ejecutar comando de shell con `!` antepuesto al comando
 * Con esto se pueden descargar datasets y extraerlos desde el notebook
 
 
 
-
-## Mini intro a Numpy y Pandas
-### Pandas
-* Libreria para analisis y manejo de datos
-* Tiene una api gigante
-* Buena documentacion
-* DataFrame es la clase principal, datos tabulares
-* Soporta una gran cantidad de operaciones tipo SQL
-
-### Numpy
+# Numpy
 * Libreria para realizar computacion matematica
 * Tiene sintaxis similar a matlab
 * Clase principal: ndarray
@@ -48,7 +38,15 @@ Es un entorno que permite escribir y ejecutar python en un web browser.
 * Incluye tambien muchas funciones de calculo y algebra lineal.
 
 
-## Datos
+# Pandas
+* Libreria para analisis y manejo de datos
+* Tiene una api gigante
+* Buena documentacion
+* DataFrame es la clase principal, datos tabulares
+* Soporta una gran cantidad de operaciones tipo SQL
+
+
+# Datos
 * Se puede conectar con Drive, se monta en el directorio local y se tiene acceso a todo el drive
 * Tambien se pueden descargar datos usando la linea de comando
 

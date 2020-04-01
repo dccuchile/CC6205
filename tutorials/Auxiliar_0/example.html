@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <style type="text/css">
+html {
+font-size: 100%;
+overflow-y: scroll;
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+body {
+color: #444;
+font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+font-size: 12px;
+line-height: 1.7;
+padding: 1em;
+margin: auto;
+max-width: 42em;
+background: #fefefe;
+}
+a {
+color: #0645ad;
+text-decoration: none;
+}
+a:visited {
+color: #0b0080;
+}
+a:hover {
+color: #06e;
+}
+a:active {
+color: #faa700;
+}
+a:focus {
+outline: thin dotted;
+}
+*::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+*::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+a::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+a::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+p {
+margin: 1em 0;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+color: #111;
+line-height: 125%;
+margin-top: 2em;
+font-weight: normal;
+}
+h4, h5, h6 {
+font-weight: bold;
+}
+h1 {
+font-size: 2.5em;
+}
+h2 {
+font-size: 2em;
+}
+h3 {
+font-size: 1.5em;
+}
+h4 {
+font-size: 1.2em;
+}
+h5 {
+font-size: 1em;
+}
+h6 {
+font-size: 0.9em;
+}
+blockquote {
+color: #666666;
+margin: 0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr {
+display: block;
+height: 2px;
+border: 0;
+border-top: 1px solid #aaa;
+border-bottom: 1px solid #eee;
+margin: 1em 0;
+padding: 0;
+}
+pre, code, kbd, samp {
+color: #000;
+font-family: monospace, monospace;
+_font-family: 'courier new', monospace;
+font-size: 0.98em;
+}
+pre {
+white-space: pre;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+b, strong {
+font-weight: bold;
+}
+dfn {
+font-style: italic;
+}
+ins {
+background: #ff9;
+color: #000;
+text-decoration: none;
+}
+mark {
+background: #ff0;
+color: #000;
+font-style: italic;
+font-weight: bold;
+}
+sub, sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sup {
+top: -0.5em;
+}
+sub {
+bottom: -0.25em;
+}
+ul, ol {
+margin: 1em 0;
+padding: 0 0 0 2em;
+}
+li p:last-child {
+margin-bottom: 0;
+}
+ul ul, ol ol {
+margin: .3em 0;
+}
+dl {
+margin-bottom: 1em;
+}
+dt {
+font-weight: bold;
+margin-bottom: .8em;
+}
+dd {
+margin: 0 0 .8em 2em;
+}
+dd:last-child {
+margin-bottom: 0;
+}
+img {
+border: 0;
+-ms-interpolation-mode: bicubic;
+vertical-align: middle;
+}
+figure {
+display: block;
+text-align: center;
+margin: 1em 0;
+}
+figure img {
+border: none;
+margin: 0 auto;
+}
+figcaption {
+font-size: 0.8em;
+font-style: italic;
+margin: 0 0 .8em;
+}
+table {
+margin-bottom: 2em;
+border-bottom: 1px solid #ddd;
+border-right: 1px solid #ddd;
+border-spacing: 0;
+border-collapse: collapse;
+}
+table th {
+padding: .2em 1em;
+background-color: #eee;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+}
+table td {
+padding: .2em 1em;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+vertical-align: top;
+}
+.author {
+font-size: 1.2em;
+text-align: center;
+}
+@media only screen and (min-width: 480px) {
+body {
+font-size: 14px;
+}
+}
+@media only screen and (min-width: 768px) {
+body {
+font-size: 16px;
+}
+}
+@media print {
+* {
+background: transparent !important;
+color: black !important;
+filter: none !important;
+-ms-filter: none !important;
+}
+body {
+font-size: 12pt;
+max-width: 100%;
+}
+a, a:visited {
+text-decoration: underline;
+}
+hr {
+height: 1px;
+border: 0;
+border-bottom: 1px solid black;
+}
+a[href]:after {
+content: " (" attr(href) ")";
+}
+abbr[title]:after {
+content: " (" attr(title) ")";
+}
+.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+content: "";
+}
+pre, blockquote {
+border: 1px solid #999;
+padding-right: 1em;
+page-break-inside: avoid;
+}
+tr, img {
+page-break-inside: avoid;
+}
+img {
+max-width: 100% !important;
+}
+@page :left {
+margin: 15mm 20mm 15mm 10mm;
+}
+@page :right {
+margin: 15mm 10mm 15mm 20mm;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3 {
+page-break-after: avoid;
+}
+}
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="auxiliar-0">Auxiliar 0</h1>
+<p><strong>El colab asociado a esta aux se puede visitar aca https://colab.research.google.com/drive/12NA8gGzXe-MU8pm6XO_4T-f3e-3YJGyw</strong></p>
+<p>En esta auxiliar voy a introducir herramientas y flujos de trabajo basicos para que tod@s puedan tener un comienzo mas fluido en el curso y ojala lo menos frustrante posible.</p>
+<p>Esta auxiliar esta orientada a personas con conocimientos basico o nulos sobre entornos de trabajo de python, asique es probable que a usuarios mas experimentados no les sea de mayor utilidad.</p>
+<p>Primero voy a ver colab y aprovechar de explicar algunas de las herramientas que van a tener que usar en la minitarea 1.</p>
+<h1 id="google-colab">Google Colab</h1>
+<p>Es un entorno que permite escribir y ejecutar python en un web browser.</p>
+<ul>
+<li><p>Viene con todo instalado</p></li>
+<li><p>No requiere configuracion</p></li>
+<li><p>Da acceso a GPUs</p></li>
+<li><p>Completamente multiplataforma</p></li>
+<li><p>Esencialmente un jupyter notebook</p></li>
+<li><p>Formato basado en celdas -&gt; texto y codigo</p></li>
+<li><p>Acepta texto en formato markdown + algunos manjares extra</p></li>
+<li><p>Se puede conectar a fuentes de datos externas</p></li>
+<li><p>Es posible ejecutar comando de shell con <code>!</code> antepuesto al comando</p></li>
+<li><p>Con esto se pueden descargar datasets y extraerlos desde el notebook</p></li>
+</ul>
+<h2 id="mini-intro-a-numpy-y-pandas">Mini intro a Numpy y Pandas</h2>
+<h3 id="pandas">Pandas</h3>
+<ul>
+<li>Libreria para analisis y manejo de datos</li>
+<li>Tiene una api gigante</li>
+<li>Buena documentacion</li>
+<li>DataFrame es la clase principal, datos tabulares</li>
+<li>Soporta una gran cantidad de operaciones tipo SQL</li>
+</ul>
+<h3 id="numpy">Numpy</h3>
+<ul>
+<li>Libreria para realizar computacion matematica</li>
+<li>Tiene sintaxis similar a matlab</li>
+<li>Clase principal: ndarray</li>
+<li>Permite realizar operaciones matematicas entre vectores con sintaxis simple y concisa</li>
+<li>Calculo punto a punto es el default</li>
+<li>Incluye tambien muchas funciones de calculo y algebra lineal.</li>
+</ul>
+<h2 id="datos">Datos</h2>
+<ul>
+<li>Se puede conectar con Drive, se monta en el directorio local y se tiene acceso a todo el drive</li>
+<li>Tambien se pueden descargar datos usando la linea de comando</li>
+</ul>
+<h1 id="anaconda">Anaconda</h1>
+<ul>
+<li><p>Version autocontenida de python + gestor de paquetes</p></li>
+<li><p>Para instalar seguir las instrucciones en https://docs.anaconda.com/anaconda/install/</p></li>
+<li><p>Tipear <code>anaconda-navigator</code> en una terminal. Interfaz grafica para facilitar acceso a los programas que se instalaron</p></li>
+<li><p>Tambien se puede usar desde la terminal</p></li>
+<li><p>Python default pasa a ser el que se instalo con anaconda, todos los programas viven en $HOME/anaconda3</p></li>
+<li><p>Muy simple de instalar, viene con todos los paquetes necesarios para hacer analisis ded datos</p></li>
+<li><p>Algunos paquetes nos estan disponibles</p></li>
+</ul>
+<h1 id="python-puro-pip">Python puro + pip</h1>
+<ul>
+<li>Considerablemente mas latero que las otras opciones</li>
+<li>Da mas control</li>
+<li>No requiere de otros programas, solo los que vienen preinstalados en el sistema (es posible que se tenga que instalar pip)</li>
+<li>Opcion “default” de python</li>
+<li>Acceso a todos los paquetes de python</li>
+</ul>
+<h1 id="demos">Demos</h1>
+<ul>
+<li>Mostrar como ejecutar el notebook creado en colab en los otros dos “entornos”</li>
+</ul>
+</body>
+</html>

@@ -74,6 +74,8 @@ The neural network-related topics of the course are taken from the book of Yoav 
 28. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
 29. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
 30. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
+31. [Dive into Deep Learning Book](https://d2l.ai/)
+31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
 ##  
 
 

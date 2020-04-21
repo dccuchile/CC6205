@@ -70,7 +70,7 @@
 
       * Martes 30/06. Cátedra: Parsing.  
       * Jueves 02/07. QA - Cátedra: Parsing. 
-      * Domingo 05/06. Entrega Competencia 2
+      * Domingo 05/07. Entrega Competencia 2
 
 14. Semana 14
       * Mini-Tarea 5 (Parsing)

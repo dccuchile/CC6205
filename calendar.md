@@ -27,8 +27,8 @@
 
 5. Semana 5
 
-     * Martes 28/04: Cátedra:  Neural Networks
-     * Jueves 30/04: QA - Cátedra: Neural Networks
+     * Martes 28/04: QA - Cátedra:  Neural Networks
+     * Jueves 30/04: Cátedra: Neural Networks
 
 
 6. Semana 6
@@ -44,8 +44,8 @@
 
 8. Semana 8
 
-     * Martes 26/05. Cátedra: Convolutional Neural Networks.
-     * Jueves 28/05. QA - Auxiliar 3: Intro a Pytorch. 
+     * Martes 26/05. QA - Auxiliar 3: Intro a Pytorch. 
+     * Jueves 28/05. Cátedra: Convolutional Neural Networks.  
 
 9. Semana 9
      * Martes 02/06. Cátedra:  Recurrent Neural Networks. 
@@ -54,8 +54,8 @@
 
 10. Semana 10
       * Se publica Competencia 2 (Competencia Sequence Labeling) 
-      * Martes 09/06.  Cátedra: Sequence-to-Sequence + Attention
-      * Jueves 11/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.
+      * Martes 09/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP. 
+      * Jueves 11/06.  Cátedra: Sequence-to-Sequence + Attention
 11. Semana 11
       * Mini-Tarea 4 (Sequence to Sequence)
       * Martes 16/06. Cátedra: Transformer.  

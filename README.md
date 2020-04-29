@@ -77,7 +77,8 @@ The neural network-related topics of the course are taken from the book of Yoav 
 30. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
 31. [Dive into Deep Learning Book](https://d2l.ai/)
 31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
-##  
+32. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
+33. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
 
 
 

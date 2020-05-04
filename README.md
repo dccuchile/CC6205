@@ -27,7 +27,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 2. [Text Classification and Naive Bayes](https://web.stanford.edu/~jurafsky/slp3/slides/7_NB.pdf) (slides by Dan Jurafsky), [notes](https://web.stanford.edu/~jurafsky/slp3/4.pdf), [video 1](https://youtu.be/kG9BK9Oy1hU), [video 2](https://youtu.be/Iqte5kKHvzE), [video 3](https://youtu.be/TSJg0_X3Abk)
 2. [Linear Models](slides/NLP-linear.pdf) | ([tex source file](slides/NLP-linear.tex)), [video 1](https://youtu.be/zhBxDsNLZEA), [video 2](https://youtu.be/Fooua_uaWSE), [video 3](https://youtu.be/DqbzhdQa1eQ), [video 4](https://youtu.be/1nfWWXqfAzA)
 2. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex)), [video 1](https://youtu.be/oHZHA8h2xN0), [video 2](https://youtu.be/2lXank0W6G4), [video 3](https://youtu.be/BUDIi9qItzY), [video 4](https://youtu.be/KKN2Ipy-vGk)       
-3. [Word Vectors](slides/NLP-wordvectors.pdf) | ([tex source file](slides/NLP-wordvectors.tex))
+3. [Word Vectors](slides/NLP-wordvectors.pdf) | ([tex source file](slides/NLP-wordvectors.tex)) [video 1](https://youtu.be/wtwUsJMC9CA), [video 2](https://youtu.be/XDxzQ7JU95U), [video 3](https://youtu.be/Ikyc3DRVodk)
 2. [Tagging, and Hidden Markov Models ](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf) (slides by Michael Collins), [notes](http://www.cs.columbia.edu/~mcollins/hmms-spring2013.pdf), [videos](https://www.youtube.com/playlist?list=PLlQBy7xY8mbI13gwXZz4r55MeatSZOqm7)
 4. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex))
 4. [Convolutional Neural Networks](slides/NLP-CNN.pdf) | ([tex source file](slides/NLP-CNN.tex)), [video](https://youtu.be/lLZW5Fn40r8)

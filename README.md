@@ -79,7 +79,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
 32. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
 33. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
-
+34. [A Primer in BERTology: What we know about how BERT works](https://arxiv.org/abs/2002.12327)
 
 
 

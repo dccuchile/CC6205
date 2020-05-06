@@ -42,6 +42,8 @@
      * Martes 12/05. Cátedra:  Tagging - HMM.  
      * Jueves 14/05. QA - Cátedra:  MEMMs y CRFs. 
 
+Vacaciones
+
 8. Semana 8
 
      * Martes 26/05. QA - Auxiliar 3: Intro a Pytorch. 

@@ -40,8 +40,6 @@
 7. Semana 7
 PARO
      * Mini-Tarea 3 (Word Embeddings)
-     * Martes 12/05. Cátedra:  Tagging - HMM.  
-     * Jueves 14/05. QA - Cátedra:  MEMMs y CRFs. 
 
 Vacaciones
 

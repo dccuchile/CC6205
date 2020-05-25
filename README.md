@@ -94,3 +94,4 @@ The neural network-related topics of the course are taken from the book of Yoav 
 5. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)
 5. [BERT Research Series by  Chris McCormick](https://www.youtube.com/playlist?list=PLam9sigHPGwOBuH4_4fr-XvDbe5uneaf6)
 5. [Successes and Challenges in Neural Models for Speech and Language - Michael Collins](https://www.youtube.com/watch?v=jfwqRMdTmLo)
+5. [More on Transforemers: BERT and Friends by Jorge Pérez](https://tv.vera.com.uy/video/55388)

@@ -94,7 +94,7 @@
 
  \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/crf.pdf}. The notation and terminology has been adapted to be consistent with the rest of the course.}
 
-\item We would expect $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$ in a model trained from training dataset.
+\item We would expect $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$ in a model trained from a POS-tagging training dataset.
  
 \end{itemize}
 
@@ -462,7 +462,7 @@ richer representations than those used in HMMs.
 
 \begin{itemize}
 
-\item  We now turn to Conditional Random Fields (CRFs) \cite{Lafferty:2001:CRF:645530.655813}.
+\item  We now turn to Conditional Random Fields (CRFs) \cite{LaffertyMP01}.
 
 \item Notation: for convenience, we'll use $x_{1:m}$ to refer to an input sequence $x_1 ,\dots,x_m$, and $s_{1:m}$ to refer to a sequence of tags $s_1, \dots, s_m$.
 

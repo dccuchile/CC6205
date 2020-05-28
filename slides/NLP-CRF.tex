@@ -182,6 +182,7 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
  
 \end{itemize}
 
+The scope of the feature vector is \textbf{restricted} to the whole input sequence $x_1, x_m$, and only the previous and current tag values. This restriction allows efficient training of both MEMMs and CRFs.
 
 \end{scriptsize}
 \end{frame}
@@ -234,6 +235,21 @@ The function $index(j,k,...)$ will map each different feature to a unique index 
 Notice that the resulting vector will be very high-dimensional and sparse.
 \end{scriptsize}
 \end{frame}
+
+
+
+\begin{frame}{Example}
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.73]{pics/CRF1.pdf}
+        \end{figure}
+\end{frame}
+
+\begin{frame}{Example}
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.6]{pics/CRF2.pdf}
+        \end{figure}
+\end{frame}
+
 
 
 

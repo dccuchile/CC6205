@@ -825,11 +825,16 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
 \begin{itemize}
 
 \item An alternative approach to the transducer for sequence labeling is to combine a BI-LSTM with a Conditional Random Field (CRF).
-\item This produces a powerful tagger \cite{huang2015bidirectional} called BI-LSTM-CRF, in which the LSTM acts as feature extractor, and the CRF as a special layer.
-\item The CRF layers performs a global normalization over all possible sequences which helps to find the optimum sequence.
-\item The forward-backward algorithm is used during training and the Viterbi algorithm during decoding.
+\item This produces a powerful tagger \cite{huang2015bidirectional} called BI-LSTM-CRF, in which the LSTM acts as feature extractor, and the CRF as a special layer that models the transitions from one tag to another.
 
-\item More info here: \url{https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html}
+\item The CRF layers performs a global normalization over all possible sequences which helps to find the optimum sequence.
+
+\item In a CRF we model the conditional probability of the output tag sequence given the input sequence:
+
+\begin{displaymath}
+ P(s_1, \dots, s_m | x_1, \dots, x_m) = P(s_{1:m}|x_{1:m})
+\end{displaymath}
+
 
 \end{itemize}
 \end{scriptsize}
@@ -842,16 +847,59 @@ p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
 
 \begin{itemize}
 
-\item In a CRF we model the conditional probability of the output tag sequence given the input sequence:
+
+\item We do this by defining a feature map 
 
 \begin{displaymath}
- P(s_1, \dots, s_m | x_1, \dots, x_m) = P(s_{1:m}|x_{1:m})
+ \vec{\Phi}(x_{1:m},s_{1:m}) \in \mathcal{R}^d
 \end{displaymath}
+
+that maps an entire input sequence $x_{1:m}$ paired with an entire tag sequence $s_{1:m}$ to some $d$-dimensional feature vector.
+
+\item Then we can model the probability as a log-linear model with the parameter vector $\vec{w} \in \mathcal{R}^d$:
+
+\begin{displaymath}
+ P(s_{1:m}|x_{1:m}; \vec{w}) = \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))}
+\end{displaymath}
+
+where $s'_{1:m}$ ranges over all possible output sequences.
+
+\item We can view the expression $\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m})= \text{score}_{crf}(x_{1:m},s_{1:m}) $ as a score of how well the tag sequence fits the given input sequence.
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Bi-LSTM CRF}
+\begin{scriptsize}
+
+\begin{itemize}
+
+
+\item Recall from the CRF lecture that $\vec{\Phi}(x_{1:m},s_{1:m})$ was created with manually designed features.
+
+\item The idea of the LSTM CRF is to replace $\vec{\Phi}(x_{1:m},s_{1:m})$ with the output of an LSTM transducer (automatically learned features):
+
+\begin{displaymath}
+\text{score}_{lstm-crf}(x_{1:m},s_{1:m})= \sum_{i=1}^{m} \left(W_{[s_{i-1},s_i]} + \text{LSTM}^*(x_{1:m})_{[i]} \right) 
+\end{displaymath}
+
+where $W_{[s_{i-1},s_i]}$ corresponds to a transition score from tag $s_{i-1}$ to $s_i$  that is learned by the network and $\text{LSTM}^*(x_{1:m})_{[i]}$ comes from the hidden state of the Bi-LSTM at timestep $i$.
+
+\item Note that the transition matrix $W$ is position independent.
+
+\item The forward-backward algorithm is used during training and the Viterbi algorithm during decoding.
+
+\item More info in\footnote{\url{https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html}} and\footnote{\url{https://www.depends-on-the-definition.com/sequence-tagging-lstm-crf/}}.
+
 
 
 \end{itemize}
 \end{scriptsize}
 \end{frame}
+
 
 
 

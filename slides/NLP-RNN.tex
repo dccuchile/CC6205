@@ -866,6 +866,8 @@ where $s'_{1:m}$ ranges over all possible output sequences.
 
 \item We can view the expression $\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m})= \text{score}_{crf}(x_{1:m},s_{1:m}) $ as a score of how well the tag sequence fits the given input sequence.
 
+\item Recall from the CRF lecture that $\vec{\Phi}(x_{1:m},s_{1:m})$ was created with manually designed features.
+
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -877,16 +879,15 @@ where $s'_{1:m}$ ranges over all possible output sequences.
 
 \begin{itemize}
 
-
-\item Recall from the CRF lecture that $\vec{\Phi}(x_{1:m},s_{1:m})$ was created with manually designed features.
-
 \item The idea of the LSTM CRF is to replace $\vec{\Phi}(x_{1:m},s_{1:m})$ with the output of an LSTM transducer (automatically learned features):
 
 \begin{displaymath}
-\text{score}_{lstm-crf}(x_{1:m},s_{1:m})= \sum_{i=1}^{m} \left(W_{[s_{i-1},s_i]} + \text{LSTM}^*(x_{1:m})_{[i]} \right) 
+\text{score}_{lstm-crf}(x_{1:m},s_{1:m})= \sum_{i=0}^{m} W_{[s_{i-1},s_i]}*\text{LSTM}^*(x_{1:m})_{[i]} +\vec{b}{[s_{i-1},s_i]}
 \end{displaymath}
 
-where $W_{[s_{i-1},s_i]}$ corresponds to a transition score from tag $s_{i-1}$ to $s_i$  that is learned by the network and $\text{LSTM}^*(x_{1:m})_{[i]}$ comes from the hidden state of the Bi-LSTM at timestep $i$.
+where $W_{[s_{i-1},s_i]}$ corresponds to a transition score from tag $s_{i-1}$ to $s_i$, $\vec{b}{[s_{i-1},s_i]}$ is a bias term for the transition and $\text{LSTM}^*(x_{1:m})_{[i]}$ comes from the hidden state of the Bi-LSTM at timestep i.
+
+\item All these parameters are learned jointly.
 
 \item Note that the transition matrix $W$ is position independent.
 

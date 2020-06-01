@@ -62,7 +62,7 @@ PARO
       * Jueves 18/06.  QA - Cátedra:  Recurrent Neural Networks. 
 
 12. Semana 12
-      * Mini-Tarea 4 (Sequence to Sequence) 
+      * Mini-Tarea 4 
       * Martes 23/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.       
       * Jueves 25/06.  Cátedra: Sequence-to-Sequence + Attention.      
 
@@ -75,7 +75,7 @@ Vacaciones
 
 
 14. Semana 14
-      * Mini-Tarea 5 (Parsing)
+      * Mini-Tarea 5 
       * Martes 14/07.  Auxiliar 5: BERT.   
       * Jueves 16/07. QA - Cátedra: Parsing.  
 

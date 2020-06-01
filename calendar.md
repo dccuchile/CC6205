@@ -57,12 +57,12 @@ PARO
       * Jueves 11/06.  Cátedra: Convolutional Neural Networks.    
       
 11. Semana 11
-      * Se publica Competencia 2 (Competencia Sequence Labeling) 
+      * Mini-Tarea 4 
       * Martes 16/06.  Cátedra:  Recurrent Neural Networks.   
       * Jueves 18/06.  QA - Cátedra:  Recurrent Neural Networks. 
 
 12. Semana 12
-      * Mini-Tarea 4 
+      * Se publica Competencia 2 (Competencia Sequence Labeling) 
       * Martes 23/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.       
       * Jueves 25/06.  Cátedra: Sequence-to-Sequence + Attention.      
 

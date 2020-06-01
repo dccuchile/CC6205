@@ -44,49 +44,47 @@ PARO
 Vacaciones
 
 8. Semana 8
+PARO
 
-     * Martes 26/05. Cátedra:  Tagging - HMM. 
-     * Jueves 28/05. QA - Cátedra:  MEMMs y CRFs.   
 
 9. Semana 9
-     * Martes 02/06. QA - Auxiliar 3: Intro a Pytorch.  
-     * Jueves 04/06. Cátedra: Convolutional Neural Networks. 
+     * Martes 02/06. Cátedra:  Tagging - HMM.  
+     * Jueves 04/06.  QA - Cátedra:  MEMMs y CRFs.  
 
 
 10. Semana 10
-      * Se publica Competencia 2 (Competencia Sequence Labeling) 
-      * Martes 09/06.   Cátedra:  Recurrent Neural Networks.  
-      * Jueves 11/06.  QA - Cátedra:  Recurrent Neural Networks. 
+      * Martes 09/06.   QA - Auxiliar 3: Intro a Pytorch.    
+      * Jueves 11/06.  Cátedra: Convolutional Neural Networks.    
       
 11. Semana 11
-      * Mini-Tarea 4 (Sequence to Sequence)
-      * Martes 16/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.  
-      * Jueves 18/06.  Cátedra: Sequence-to-Sequence + Attention. 
+      * Se publica Competencia 2 (Competencia Sequence Labeling) 
+      * Martes 16/06.  Cátedra:  Recurrent Neural Networks.   
+      * Jueves 18/06.  QA - Cátedra:  Recurrent Neural Networks. 
 
 12. Semana 12
-
-      * Martes 23/06.  Cátedra: Transformer.      
-      * Jueves 25/06.  QA - Cátedra: ELMO y BERT      
+      * Mini-Tarea 4 (Sequence to Sequence) 
+      * Martes 23/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.       
+      * Jueves 25/06.  Cátedra: Sequence-to-Sequence + Attention.      
 
 Vacaciones
 
 13. Semana 13
 
-      * Martes 07/07. Auxiliar 5: BERT.   
-      * Jueves 09/07.  QA - Cátedra: Parsing.  QA - Cátedra: Parsing. 
+      * Martes 07/07. Cátedra: Transformer. 
+      * Jueves 09/07. QA - Cátedra: ELMO y BERT.   
 
 
 14. Semana 14
       * Mini-Tarea 5 (Parsing)
-      * Martes 14/07. Cátedra: Parsing. 
-      * Jueves 16/07. QA - Cátedra: Parsing. 
-      * Domingo 19/07. Entrega Competencia 2
+      * Martes 14/07.  Auxiliar 5: BERT.   
+      * Jueves 16/07. QA - Cátedra: Parsing.  
+
 
 15. Semana 15
 
-      * Martes 21/07. Cátedra: Cierre.
-      * Jueves 23/07. QA       
-      
+      * Martes 21/07. Cátedra: Parsing. 
+      * Jueves 23/07. QA - Cátedra: Parsing.      
+      * Domingo 26/07. Entrega Competencia 2      
        
 
 

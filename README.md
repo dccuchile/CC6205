@@ -38,11 +38,16 @@ The neural network-related topics of the course are taken from the book of Yoav 
 7. [Recursive Networks and Paragraph Vectors](slides/NLP-recursive.pdf) | ([tex source file](slides/NLP-recursive.tex))
 
 
+## NLP Libraries
+
+1. [NLTK: Natural Language Toolkit](https://www.nltk.org/)
+2. [spaCy: Industrial-strength NLP](https://spacy.io/)
+9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
+22. [Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/transformers/)
+31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
+35. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
 
 ## Other Resources
-
-
-
 1. [Speech and Language Processing (3rd ed. draft) by Dan Jurafsky and James H. Martin](https://web.stanford.edu/~jurafsky/slp3/).
 2. [Michael Collins' NLP notes](http://www.cs.columbia.edu/~mcollins/).
 3. [A Primer on Neural Network Models for Natural Language Processing by Joav Goldberg](https://u.cs.biu.ac.il/~yogo/nnlp.pdf).
@@ -51,7 +56,6 @@ The neural network-related topics of the course are taken from the book of Yoav 
 6. [CS224n: Natural Language Processing with Deep Learning, Stanford course](http://web.stanford.edu/class/cs224n/)
 7. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
 8. [NLTK book](http://www.nltk.org/book/)
-9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
 10. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
 11. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
 11. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
@@ -66,7 +70,6 @@ The neural network-related topics of the course are taken from the book of Yoav 
 19. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
 20. [Chatbot and Related Research Paper Notes with Images](https://github.com/ricsinaruto/Seq2seqChatbots/wiki/Chatbot-and-Related-Research-Paper-Notes-with-Images)
 21. [XLNet Explained](http://mlexplained.com/2019/06/30/paper-dissected-xlnet-generalized-autoregressive-pretraining-for-language-understanding-explained/)
-22. [PyTorch-Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/pytorch-transformers/index.html)
 23. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
 24. [PLMpapers: a collection of papers about Pre-Trained Language Models](https://github.com/thunlp/PLMpapers)
 25. [The Illustrated GPT-2 (Visualizing Transformer Language Models)](https://jalammar.github.io/illustrated-gpt2/)
@@ -76,11 +79,10 @@ The neural network-related topics of the course are taken from the book of Yoav 
 29. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
 30. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
 31. [Dive into Deep Learning Book](https://d2l.ai/)
-31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
 32. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
 33. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
 34. [A Primer in BERTology: What we know about how BERT works](https://arxiv.org/abs/2002.12327)
-35. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
+
 
 
 

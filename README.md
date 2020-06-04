@@ -62,6 +62,19 @@ The neural network-related topics of the course are taken from the book of Yoav 
 15. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
 
 
+### Videos 
+
+1. [Natural Language Processing MOOC videos by Dan Jurafsky and Chris Manning, 2012](https://www.youtube.com/playlist?list=PLoROMvodv4rOFZnDyrlW3-nI7tMLtmiJZ&disable_polymer=true)
+2. [Natural Language Processing MOOC videos by Michael Collins, 2013](https://www.youtube.com/channel/UCB_JX4jH3QQmp69rmkWpl1A/playlists?shelf_id=3&view=50&sort=dd)
+3. [Natural Language Processing with Deep Learning by Chris Manning and Richard Socher, 2017](https://www.youtube.com/playlist?list=PL3FW7Lu3i5Jsnh1rnUwq_TcylNr7EkRe6)
+4. [CS224N: Natural Language Processing with Deep Learning | Winter 2019](https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z)
+5. [Computational Linguistics I by Jordan Boyd-Graber  University of Maryland](https://www.youtube.com/playlist?list=PLegWUnz91WfuPebLI97-WueAP90JO-15i)  
+5. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)
+5. [BERT Research Series by  Chris McCormick](https://www.youtube.com/playlist?list=PLam9sigHPGwOBuH4_4fr-XvDbe5uneaf6)
+5. [Successes and Challenges in Neural Models for Speech and Language - Michael Collins](https://www.youtube.com/watch?v=jfwqRMdTmLo)
+5. [More on Transforemers: BERT and Friends by Jorge Pérez](https://tv.vera.com.uy/video/55388)
+
+
 ## Other Resources
 7. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
 10. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
@@ -91,14 +104,4 @@ The neural network-related topics of the course are taken from the book of Yoav 
 
 
 
-### Videos 
 
-1. [Natural Language Processing MOOC videos by Dan Jurafsky and Chris Manning, 2012](https://www.youtube.com/playlist?list=PLoROMvodv4rOFZnDyrlW3-nI7tMLtmiJZ&disable_polymer=true)
-2. [Natural Language Processing MOOC videos by Michael Collins, 2013](https://www.youtube.com/channel/UCB_JX4jH3QQmp69rmkWpl1A/playlists?shelf_id=3&view=50&sort=dd)
-3. [Natural Language Processing with Deep Learning by Chris Manning and Richard Socher, 2017](https://www.youtube.com/playlist?list=PL3FW7Lu3i5Jsnh1rnUwq_TcylNr7EkRe6)
-4. [CS224N: Natural Language Processing with Deep Learning | Winter 2019](https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z)
-5. [Computational Linguistics I by Jordan Boyd-Graber  University of Maryland](https://www.youtube.com/playlist?list=PLegWUnz91WfuPebLI97-WueAP90JO-15i)  
-5. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)
-5. [BERT Research Series by  Chris McCormick](https://www.youtube.com/playlist?list=PLam9sigHPGwOBuH4_4fr-XvDbe5uneaf6)
-5. [Successes and Challenges in Neural Models for Speech and Language - Michael Collins](https://www.youtube.com/watch?v=jfwqRMdTmLo)
-5. [More on Transforemers: BERT and Friends by Jorge Pérez](https://tv.vera.com.uy/video/55388)

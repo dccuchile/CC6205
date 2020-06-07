@@ -47,6 +47,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 22. [Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/transformers/)
 31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
 35. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
+36. [WEFE: The Word Embeddings Fairness Evaluation Framework](https://wefe.readthedocs.io/en/latest/)
 
 ## Notes and Books 
 1. [Speech and Language Processing (3rd ed. draft) by Dan Jurafsky and James H. Martin](https://web.stanford.edu/~jurafsky/slp3/).
@@ -62,7 +63,8 @@ The neural network-related topics of the course are taken from the book of Yoav 
 1. [CS224n: Natural Language Processing with Deep Learning, Stanford course](http://web.stanford.edu/class/cs224n/)
 2. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
 3. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
-
+4. [CS 521: Statistical Natural Language Processing by Natalie Parde, University of Illinois](http://www.natalieparde.com/teaching/cs521_spring2020.html)
+5. [
 
 ### Videos 
 
@@ -79,6 +81,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 
 ## Other Resources
 1. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
+2. [NLP News By Sebastian Ruder](http://newsletter.ruder.io/)
 2. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
 3. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
 4. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)

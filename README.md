@@ -41,6 +41,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 ## NLP Libraries
 
 1. [NLTK: Natural Language Toolkit](https://www.nltk.org/)
+2. [Gensim](https://radimrehurek.com/gensim/)
 2. [spaCy: Industrial-strength NLP](https://spacy.io/)
 9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
 22. [Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/transformers/)
@@ -54,6 +55,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 4. [Natural Language Understanding with Distributed Representation by Kyunghyun Cho](https://arxiv.org/abs/1511.07916)
 5. [Natural Language Processing Book by Jacob Eisenstein](https://github.com/jacobeisenstein/gt-nlp-class/blob/master/notes/eisenstein-nlp-notes.pdf)
 8. [NLTK book](http://www.nltk.org/book/)
+9. [Embeddings in Natural Language Processing by Mohammad Taher Pilehvar and Jose Camacho-Collados](http://josecamachocollados.com/book_embNLP_draft.pdf)
 31. [Dive into Deep Learning Book](https://d2l.ai/)
 
 ## Other NLP Courses

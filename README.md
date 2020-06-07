@@ -64,7 +64,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 2. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
 3. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
 4. [CS 521: Statistical Natural Language Processing by Natalie Parde, University of Illinois](http://www.natalieparde.com/teaching/cs521_spring2020.html)
-5. [
+
 
 ### Videos 
 

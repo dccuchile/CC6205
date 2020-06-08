@@ -80,8 +80,10 @@ The neural network-related topics of the course are taken from the book of Yoav 
 
 
 ## Other Resources
+1. [ACL Portal](https://www.aclweb.org/portal/)
 1. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
 2. [NLP News By Sebastian Ruder](http://newsletter.ruder.io/)
+2. [Corpora Mailing List](https://mailman.uib.no/listinfo/corpora)
 2. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
 3. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
 4. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)

@@ -43,6 +43,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 1. [NLTK: Natural Language Toolkit](https://www.nltk.org/)
 2. [Gensim](https://radimrehurek.com/gensim/)
 2. [spaCy: Industrial-strength NLP](https://spacy.io/)
+3. [Torchtext](https://torchtext.readthedocs.io/en/latest/)
 9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
 22. [Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/transformers/)
 31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)

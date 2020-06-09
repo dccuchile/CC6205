@@ -27,8 +27,8 @@
 
 5. Semana 5
 
-     * Martes 28/04: Cátedra:  Neural Networks
-     * Jueves 30/04: QA - Cátedra: Neural Networks
+     * Martes 28/04: QA - Cátedra:  Neural Networks
+     * Jueves 30/04: Cátedra: Neural Networks
 
 
 6. Semana 6
@@ -38,50 +38,53 @@
      * Domingo 10/05: Entrega Competencia 1
 
 7. Semana 7
+PARO
      * Mini-Tarea 3 (Word Embeddings)
-     * Martes 12/05. Cátedra:  Tagging - HMM.  
-     * Jueves 14/05. QA - Cátedra:  MEMMs y CRFs. 
+
+Vacaciones
 
 8. Semana 8
+PARO
 
-     * Martes 26/05. Cátedra: Convolutional Neural Networks.
-     * Jueves 28/05. QA - Auxiliar 3: Intro a Pytorch. 
 
 9. Semana 9
-     * Martes 02/06. Cátedra:  Recurrent Neural Networks. 
-     * Jueves 04/06. QA - Cátedra:  Recurrent Neural Networks. 
+     * Martes 02/06. Cátedra:  Tagging - HMM.  
+     * Jueves 04/06.  QA - Cátedra:  MEMMs y CRFs.  
 
 
 10. Semana 10
-      * Se publica Competencia 2 (Competencia Sequence Labeling) 
-      * Martes 09/06.  Cátedra: Sequence-to-Sequence + Attention
-      * Jueves 11/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.
+      * Martes 09/06.   QA - Auxiliar 3: Intro a Pytorch.    
+      * Jueves 11/06.  Cátedra: Convolutional Neural Networks.    
+      
 11. Semana 11
-      * Mini-Tarea 4 (Sequence to Sequence)
-      * Martes 16/06. Cátedra: Transformer.  
-      * Jueves 18/06. QA - Cátedra: ELMO y BERT
+      * Martes 16/06.  Cátedra:  Recurrent Neural Networks.   
+      * Jueves 18/06.  QA - Cátedra:  Recurrent Neural Networks. 
 
 12. Semana 12
+      * Mini-Tarea 4 
+      * Se publica Competencia 2 (Competencia Sequence Labeling) 
+      * Martes 23/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.       
+      * Jueves 25/06.  Cátedra: Sequence-to-Sequence + Attention.      
 
-      * Martes 23/06. Auxiliar 5: BERT.    
-      * Jueves 25/06. QA - Cátedra: Parsing.     
+Vacaciones
 
 13. Semana 13
 
-      * Martes 30/06. Cátedra: Parsing.  
-      * Jueves 02/07. QA - Cátedra: Parsing. 
-      * Domingo 05/07. Entrega Competencia 2
+      * Martes 07/07. Cátedra: Transformer. 
+      * Jueves 09/07. QA - Cátedra: ELMO y BERT.   
+
 
 14. Semana 14
-      * Mini-Tarea 5 (Parsing)
-      * Martes 07/07. Cátedra: Parsing. 
-      * Jueves 09/07. QA - TBA
-      
+      * Mini-Tarea 5 
+      * Martes 14/07.  Auxiliar 5: BERT.   
+      * Jueves 16/07. QA - Cátedra: Parsing.  
+
+
 15. Semana 15
 
-      * Martes 14/07. TBA
-      * Jueves 16/07. QA - TBA      
-      
+      * Martes 21/07. Cátedra: Parsing. 
+      * Jueves 23/07. QA - Cátedra: Parsing.      
+      * Domingo 26/07. Entrega Competencia 2      
        
 
 

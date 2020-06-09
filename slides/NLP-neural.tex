@@ -126,6 +126,16 @@
 \end{frame}
 
 
+
+\begin{frame}{Fully connected layers as vector-matrix multiplications}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.65]{pics/neural_net_mat_mul.pdf}
+\end{figure}
+\end{frame}
+
+
+
 \begin{frame}{Neural Networks as Mathematical Functions}
 \begin{scriptsize}
 \begin{itemize}
@@ -135,7 +145,7 @@
 \begin{equation}
 \begin{split}
 \vec{\hat{y}} = NN_{MLP1}(\vec{x}) = g(\vec{x}W^{1}+\vec{b}^{1})W^{2}+\vec{b}^{2} \\
-\vec{x} \in \mathcal{R}^{in}, W^{1} \in \mathcal{R}^{d_{in}\times d_{1}}, \vec{b}^{1} \in \mathcal{R}^{d_{in}}, W^{2} \in \mathcal{R}^{d_{1}\times d_{out}}, \vec{b}^{2} \in \mathcal{R}^{d_{out}}, \vec{\hat{y}} \in \mathcal{R}^{d_{out}}    
+\vec{x} \in \mathcal{R}^{in}, W^{1} \in \mathcal{R}^{d_{in}\times d_{1}}, \vec{b}^{1} \in \mathcal{R}^{d_{1}}, W^{2} \in \mathcal{R}^{d_{1}\times d_{out}}, \vec{b}^{2} \in \mathcal{R}^{d_{out}}, \vec{\hat{y}} \in \mathcal{R}^{d_{out}}    
 \end{split}
 \end{equation}
 \end{center}
@@ -370,6 +380,14 @@ the correct function generating our training data.
 
 
 
+\begin{frame}{The Embedding Matrix}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.65]{pics/emb_matrix.pdf}
+\end{figure}
+\end{frame}
+
+
 
 \begin{frame}{Dense Vectors vs. One-hot representations}
 \begin{scriptsize}
@@ -508,7 +526,7 @@ training, but only observed the word cat a handful of times.
 
 \item The network's output is used to compute a loss function $L(\hat{y},y)$ that is minimized across the training examples using gradient descent. 
 \item Backpropagation is an efficient technique for evaluating the gradient
-of a loss function $L$ for a feed-forward neural network with respect to all its parameters \cite{bishop2006pattern}. \footnote{The following slides on backpropagation are based on \cite{bishop2006pattern}, we adapted the notation to be consistent with \cite{goldberg2017neural}.}
+of a loss function $L$ for a feed-forward neural network with respect to all its parameters \cite{bishop2006pattern}.\footnote{The following slides on backpropagation are based on \cite{bishop2006pattern}, we adapted the notation to be consistent with \cite{goldberg2017neural}.}
 \item Those parameters are: $W^1, \vec{b}^1, \dots, W^m, \vec{b}^m$, for a network of $m$ layers.
 \item Recall that superscripts are used to denote layer indexes (not exponentiations).
 \item For simplicity, we will assume that $L$ is calculated over a single example.
@@ -521,6 +539,17 @@ of a loss function $L$ for a feed-forward neural network with respect to all its
 
 \end{scriptsize}
 \end{frame}
+
+
+\begin{frame}{Neural Network Training}
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.41]{pics/neural_net.pdf}
+\end{figure}
+\end{frame}
+
+
+
 
 
 \begin{frame}{Derivative Chain Rule Recap}
@@ -1125,7 +1154,7 @@ addition , etc.).
 
 \item The regularizers discussed for linear models, namely $L_2$ , $L_1$, and the elastic-net, are also relevant for neural networks.
 
-\item Another effective technique for preventing neural networks from overfitting the training data is \textbf{dropout training} \cite{hinton2012improving}.
+\item Another effective technique for preventing neural networks from overfitting the training data is \textbf{dropout training} \cite{srivastava2014dropout}.
 
 
 \end{itemize}

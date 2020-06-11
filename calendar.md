@@ -71,7 +71,7 @@ Vacaciones
 13. Semana 13
 
       * Martes 07/07. Cátedra: Transformer. 
-      * Jueves 09/07. QA - Cátedra: Contextual Words Representations (ELMO,BERT).   
+      * Jueves 09/07. QA - Cátedra: Contextual Words Representations (ELMO, BERT).   
 
 
 14. Semana 14

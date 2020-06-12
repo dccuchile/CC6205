@@ -76,8 +76,8 @@ Vacaciones
 
 14. Semana 14
       * Mini-Tarea 5 
-      * Martes 14/07.  Auxiliar 5: BERT.   
-      * Jueves 16/07. QA - Cátedra: Parsing.  
+      * Martes 14/07. QA - Cátedra: Contextual Words Representations (ELMO, BERT).     
+      * Jueves 16/07. QA - Auxiliar 5: BERT. 
 
 
 15. Semana 15

@@ -64,14 +64,14 @@ PARO
       * Mini-Tarea 4 
       * Se publica Competencia 2 (Competencia Sequence Labeling) 
       * Martes 23/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.       
-      * Jueves 25/06.  Cátedra: Sequence-to-Sequence + Attention.      
+      * Jueves 25/06.  Cátedra: Cátedra:  Recurrent Neural Networks.       
 
 Vacaciones
 
 13. Semana 13
 
-      * Martes 07/07. Cátedra: Transformer. 
-      * Jueves 09/07. QA - Cátedra: Contextual Words Representations (ELMO, BERT).   
+      * Martes 07/07. Sequence-to-Sequence + Attention. 
+      * Jueves 09/07. QA -  Cátedra: Transformer.     
 
 
 14. Semana 14
@@ -82,8 +82,8 @@ Vacaciones
 
 15. Semana 15
 
-      * Martes 21/07. Cátedra: Parsing. 
-      * Jueves 23/07. QA - Cátedra: Parsing.      
+      * Martes 21/07. Cátedra: Contextual Words Representations (ELMO, BERT).
+      * Jueves 23/07. QA - Cátedra: Discusión Final.      
       * Domingo 26/07. Entrega Competencia 2      
        
 

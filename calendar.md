@@ -63,9 +63,8 @@ PARO
 12. Semana 12
       * Mini-Tarea 4 
       * Se publica Competencia 2 (Competencia Sequence Labeling) 
-      * Martes 23/06.  QA - Auxiliar 4: RNNs con Pytorch para NLP.       
-      * Jueves 25/06.  Cátedra: Cátedra:  Recurrent Neural Networks.       
-
+      * Martes 23/06.  Cátedra: Recurrent Neural Networks.               
+      * Jueves 25/06. QA - Auxiliar 4: RNNs con Pytorch para NLP.  
 Vacaciones
 
 13. Semana 13

@@ -94,7 +94,7 @@
 
  \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/crf.pdf}. The notation and terminology has been adapted to be consistent with the rest of the course.}
 
-\item We would expect $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$ in a model trained from training dataset.
+\item We would expect $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$ in a model trained from a POS-tagging training dataset.
  
 \end{itemize}
 
@@ -182,6 +182,7 @@ Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
  
 \end{itemize}
 
+The scope of the feature vector is \textbf{restricted} to the whole input sequence $x_1, x_m$, and only the previous and current tag values. This restriction allows efficient training of both MEMMs and CRFs.
 
 \end{scriptsize}
 \end{frame}
@@ -234,6 +235,21 @@ The function $index(j,k,...)$ will map each different feature to a unique index 
 Notice that the resulting vector will be very high-dimensional and sparse.
 \end{scriptsize}
 \end{frame}
+
+
+
+\begin{frame}{Example}
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.73]{pics/CRF1.pdf}
+        \end{figure}
+\end{frame}
+
+\begin{frame}{Example}
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.6]{pics/CRF2.pdf}
+        \end{figure}
+\end{frame}
+
 
 
 
@@ -462,7 +478,7 @@ richer representations than those used in HMMs.
 
 \begin{itemize}
 
-\item  We now turn to Conditional Random Fields (CRFs) \cite{Lafferty:2001:CRF:645530.655813}.
+\item  We now turn to Conditional Random Fields (CRFs) \cite{LaffertyMP01}.
 
 \item Notation: for convenience, we'll use $x_{1:m}$ to refer to an input sequence $x_1 ,\dots,x_m$, and $s_{1:m}$ to refer to a sequence of tags $s_1, \dots, s_m$.
 
@@ -552,6 +568,16 @@ where $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ are the same as the feature vectors us
 
 \end{scriptsize}
 \end{frame}
+
+
+\begin{frame}{Example}
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.26]{pics/CRF3.png}
+        \end{figure}
+        
+        \footnotemark{source: \url{http://people.ischool.berkeley.edu/~dbamman/nlpF18/slides/12_neural_sequence_labeling.pdf}}
+\end{frame}
+
 
 \begin{frame}{Conditional Random Fields (CRFs)}
 \begin{scriptsize}

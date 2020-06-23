@@ -28,60 +28,44 @@ The neural network-related topics of the course are taken from the book of Yoav 
 2. [Linear Models](slides/NLP-linear.pdf) | ([tex source file](slides/NLP-linear.tex)), [video 1](https://youtu.be/zhBxDsNLZEA), [video 2](https://youtu.be/Fooua_uaWSE), [video 3](https://youtu.be/DqbzhdQa1eQ), [video 4](https://youtu.be/1nfWWXqfAzA)
 2. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex)), [video 1](https://youtu.be/oHZHA8h2xN0), [video 2](https://youtu.be/2lXank0W6G4), [video 3](https://youtu.be/BUDIi9qItzY), [video 4](https://youtu.be/KKN2Ipy-vGk)       
 3. [Word Vectors](slides/NLP-wordvectors.pdf) | ([tex source file](slides/NLP-wordvectors.tex)) [video 1](https://youtu.be/wtwUsJMC9CA), [video 2](https://youtu.be/XDxzQ7JU95U), [video 3](https://youtu.be/Ikyc3DRVodk)
-2. [Tagging, and Hidden Markov Models ](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf) (slides by Michael Collins), [notes](http://www.cs.columbia.edu/~mcollins/hmms-spring2013.pdf), [video 1](https://youtu.be/-ngfOZz8yK0), [video 2](https://youtu.be/Tjgb-yQOg54), [video 3](https://youtu.be/aaa5Qoi8Vco), [video 4](https://youtu.be/4pKWIDkF_6Y)       
-4. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex))
+2. [Tagging, and Hidden Markov Models ](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf) (slides by Michael Collins), [notes](http://www.cs.columbia.edu/~mcollins/hmms-spring2013.pdf), [video 1](https://youtu.be/-ngfOZz8yK0), [video 2](https://youtu.be/PLoLKQwkONw), [video 3](https://youtu.be/aaa5Qoi8Vco), [video 4](https://youtu.be/4pKWIDkF_6Y)       
+4. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex)), [notes 1](http://www.cs.columbia.edu/~mcollins/crf.pdf), [notes 2](http://www.cs.columbia.edu/~mcollins/fb.pdf), [video 1](https://youtu.be/qlI-4lSUDkg), [video 2](https://youtu.be/PLoLKQwkONw), [video 3](https://youtu.be/ZpUwDy6o28Y)
 4. [Convolutional Neural Networks](slides/NLP-CNN.pdf) | ([tex source file](slides/NLP-CNN.tex)), [video](https://youtu.be/lLZW5Fn40r8)
 5. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex)), [video 1](https://youtu.be/BmhjUkzz3nk), [video 2](https://youtu.be/z43YFR1iIvk), [video 3](https://youtu.be/7L5JxQdwNJk)
 6. [Sequence to Sequence Models, Attention, and the Transformer](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/OpKxRjISqmM), [video 2](https://youtu.be/WQ7ihm5voB0), [video 3](https://youtu.be/8RE23Uq8rU0)
-7. [Modeling contexts of use: Contextual Representations and Pretraining](slides/contextual-representations.pdf) (slides by Chris Manning) [video](https://youtu.be/S-CspeZ8FHc), [notes](https://arxiv.org/pdf/1902.06006.pdf)
+7. [Contextual Words Representations](slides/contextual-representations.pdf) (slides by Chris Manning) [video 1](https://youtu.be/sSGbgZpHymI), [video 2](https://youtu.be/C-QfzWU6eUE), [video 3](https://youtu.be/5j4Mgl3GuVY), [notes](https://arxiv.org/pdf/1902.06006.pdf)
 2. Constituency Parsing [slides 1](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing1.pdf), [slides 2](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.pdf), [slides 3](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.2.pdf), [slides 4](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing3.pdf)    (slides by Michael Collins), [notes 1](http://www.cs.columbia.edu/~mcollins/courses/nlp2011/notes/pcfgs.pdf), [notes 2](http://www.cs.columbia.edu/~mcollins/courses/nlp2011/notes/lexpcfgs.pdf), [videos 1](https://www.youtube.com/watch?v=0tGFWbc2834&list=PLlQBy7xY8mbK9Uy9i7MTGSwyLJPii3w1L), [videos 2](https://www.youtube.com/watch?v=2hLBHSKbS44&list=PLlQBy7xY8mbKypSJe_AjVtCuXXsdODiDi), [videos 3](https://www.youtube.com/watch?v=8rD1Y6rz4Q0&list=PLlQBy7xY8mbKz9QvQU_IsOlbhshjkOwR9), [videos 4](https://www.youtube.com/watch?v=qDiVCxLq2As&list=PLlQBy7xY8mbI5o81CWHt50RtFDLYrlaKN) 
 7. [Recursive Networks and Paragraph Vectors](slides/NLP-recursive.pdf) | ([tex source file](slides/NLP-recursive.tex))
 
 
+## NLP Libraries
 
-## Other Resources
+1. [NLTK: Natural Language Toolkit](https://www.nltk.org/)
+2. [Gensim](https://radimrehurek.com/gensim/)
+2. [spaCy: Industrial-strength NLP](https://spacy.io/)
+3. [Torchtext](https://torchtext.readthedocs.io/en/latest/)
+9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
+22. [Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/transformers/)
+31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
+35. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
+36. [WEFE: The Word Embeddings Fairness Evaluation Framework](https://wefe.readthedocs.io/en/latest/)
 
-
-
+## Notes and Books 
 1. [Speech and Language Processing (3rd ed. draft) by Dan Jurafsky and James H. Martin](https://web.stanford.edu/~jurafsky/slp3/).
 2. [Michael Collins' NLP notes](http://www.cs.columbia.edu/~mcollins/).
 3. [A Primer on Neural Network Models for Natural Language Processing by Joav Goldberg](https://u.cs.biu.ac.il/~yogo/nnlp.pdf).
 4. [Natural Language Understanding with Distributed Representation by Kyunghyun Cho](https://arxiv.org/abs/1511.07916)
 5. [Natural Language Processing Book by Jacob Eisenstein](https://github.com/jacobeisenstein/gt-nlp-class/blob/master/notes/eisenstein-nlp-notes.pdf)
-6. [CS224n: Natural Language Processing with Deep Learning, Stanford course](http://web.stanford.edu/class/cs224n/)
-7. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
 8. [NLTK book](http://www.nltk.org/book/)
-9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
-10. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
-11. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
-11. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
-12. [ELMO explained](http://mlexplained.com/2018/06/15/paper-dissected-deep-contextualized-word-representations-explained/)
-13. [BERT exaplained](http://mlexplained.com/2019/01/07/paper-dissected-bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding-explained/)
-14. [Better Language Models
-    and Their Implications OpenAI Blog](https://openai.com/blog/better-language-models/)
-15. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
-16. [RNN effectiveness](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
-17. [SuperGLUE: an benchmark of Natural Language Understanding Tasks](https://super.gluebenchmark.com/)
-18. [decaNLP The Natural Language Decathlon: a benchmark for studying general NLP models that can perform a variety of complex, natural language tasks](http://decanlp.com/).
-19. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
-20. [Chatbot and Related Research Paper Notes with Images](https://github.com/ricsinaruto/Seq2seqChatbots/wiki/Chatbot-and-Related-Research-Paper-Notes-with-Images)
-21. [XLNet Explained](http://mlexplained.com/2019/06/30/paper-dissected-xlnet-generalized-autoregressive-pretraining-for-language-understanding-explained/)
-22. [PyTorch-Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/pytorch-transformers/index.html)
-23. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
-24. [PLMpapers: a collection of papers about Pre-Trained Language Models](https://github.com/thunlp/PLMpapers)
-25. [The Illustrated GPT-2 (Visualizing Transformer Language Models)](https://jalammar.github.io/illustrated-gpt2/)
-26. [Linguistics, NLP, and Interdisciplinarity Or: Look at Your Data, by Emily M. Bender](https://medium.com/@emilymenonbender/linguistics-nlp-and-interdisciplinarity-or-look-at-your-data-e49e03d37c9c)
-27. [The State of NLP Literature: Part I, by Saif Mohammad](https://medium.com/@nlpscholar/state-of-nlp-cbf768492f90)
-28. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
-29. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
-30. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
+9. [Embeddings in Natural Language Processing by Mohammad Taher Pilehvar and Jose Camacho-Collados](http://josecamachocollados.com/book_embNLP_draft.pdf)
 31. [Dive into Deep Learning Book](https://d2l.ai/)
-31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
-32. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
-33. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
-34. [A Primer in BERTology: What we know about how BERT works](https://arxiv.org/abs/2002.12327)
 
-
+## Other NLP Courses
+1. [CS224n: Natural Language Processing with Deep Learning, Stanford course](http://web.stanford.edu/class/cs224n/)
+2. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
+3. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
+4. [CS 521: Statistical Natural Language Processing by Natalie Parde, University of Illinois](http://www.natalieparde.com/teaching/cs521_spring2020.html)
+5. [10 Free Top Notch Natural Language Processing Courses](https://www.kdnuggets.com/2019/10/10-free-top-notch-courses-natural-language-processing.html)
 
 
 ### Videos 
@@ -94,3 +78,40 @@ The neural network-related topics of the course are taken from the book of Yoav 
 5. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)
 5. [BERT Research Series by  Chris McCormick](https://www.youtube.com/playlist?list=PLam9sigHPGwOBuH4_4fr-XvDbe5uneaf6)
 5. [Successes and Challenges in Neural Models for Speech and Language - Michael Collins](https://www.youtube.com/watch?v=jfwqRMdTmLo)
+5. [More on Transforemers: BERT and Friends by Jorge Pérez](https://tv.vera.com.uy/video/55388)
+
+
+## Other Resources
+1. [ACL Portal](https://www.aclweb.org/portal/)
+1. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
+2. [NLP News By Sebastian Ruder](http://newsletter.ruder.io/)
+2. [Corpora Mailing List](https://mailman.uib.no/listinfo/corpora)
+2. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
+3. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
+4. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
+5. [ELMO explained](http://mlexplained.com/2018/06/15/paper-dissected-deep-contextualized-word-representations-explained/)
+13. [BERT exaplained](http://mlexplained.com/2019/01/07/paper-dissected-bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding-explained/)
+14. [Better Language Models
+    and Their Implications OpenAI Blog](https://openai.com/blog/better-language-models/)
+16. [RNN effectiveness](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+17. [SuperGLUE: an benchmark of Natural Language Understanding Tasks](https://super.gluebenchmark.com/)
+18. [decaNLP The Natural Language Decathlon: a benchmark for studying general NLP models that can perform a variety of complex, natural language tasks](http://decanlp.com/).
+20. [Chatbot and Related Research Paper Notes with Images](https://github.com/ricsinaruto/Seq2seqChatbots/wiki/Chatbot-and-Related-Research-Paper-Notes-with-Images)
+21. [XLNet Explained](http://mlexplained.com/2019/06/30/paper-dissected-xlnet-generalized-autoregressive-pretraining-for-language-understanding-explained/)
+23. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
+24. [PLMpapers: a collection of papers about Pre-Trained Language Models](https://github.com/thunlp/PLMpapers)
+25. [The Illustrated GPT-2 (Visualizing Transformer Language Models)](https://jalammar.github.io/illustrated-gpt2/)
+26. [Linguistics, NLP, and Interdisciplinarity Or: Look at Your Data, by Emily M. Bender](https://medium.com/@emilymenonbender/linguistics-nlp-and-interdisciplinarity-or-look-at-your-data-e49e03d37c9c)
+27. [The State of NLP Literature: Part I, by Saif Mohammad](https://medium.com/@nlpscholar/state-of-nlp-cbf768492f90)
+28. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
+29. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
+30. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
+32. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
+33. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
+34. [A Primer in BERTology: What we know about how BERT works](https://arxiv.org/abs/2002.12327)
+35. [How Self-Attention with Relative Position Representations works](https://link.medium.com/wFxx3d96f7)
+
+
+
+
+

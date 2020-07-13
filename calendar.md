@@ -75,14 +75,14 @@ Vacaciones
 
 14. Semana 14
       * Mini-Tarea 5 
-      * Martes 14/07. QA - Cátedra: Contextual Words Representations (ELMO, BERT).     
-      * Jueves 16/07. QA - Auxiliar 5: BERT. 
+      * Martes 14/07. Cátedra: Contextual Words Representations (ELMO, BERT).     
+      * Jueves 16/07. Feriado.
 
 
 15. Semana 15
 
-      * Martes 21/07. Cátedra: Contextual Words Representations (ELMO, BERT).
-      * Jueves 23/07. QA - Cátedra: Discusión Final.      
+      * Martes 21/07. QA - Auxiliar 5: BERT.  
+      * Jueves 23/07. Cátedra: Contextual Words Representations (ELMO, BERT).      
       * Domingo 26/07. Entrega Competencia 2      
        
 

@@ -49,6 +49,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
 35. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
 36. [WEFE: The Word Embeddings Fairness Evaluation Framework](https://wefe.readthedocs.io/en/latest/)
+37. [WhatLies: A library that tries help you to understand. "What lies in word embeddings?"](https://rasahq.github.io/whatlies/)
 
 ## Notes and Books 
 1. [Speech and Language Processing (3rd ed. draft) by Dan Jurafsky and James H. Martin](https://web.stanford.edu/~jurafsky/slp3/).

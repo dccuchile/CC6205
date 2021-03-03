@@ -41,43 +41,49 @@ Receso Académico
 
 
 7. Semana 7
-     * Martes 02/06. Cátedra:  Tagging - HMM.  
-     * Jueves 04/06.  QA - Cátedra:  MEMMs y CRFs.  
+     * Martes 04/05. Cátedra:  Tagging - HMM.  
+     * Jueves 06/05.  QA - Cátedra:  MEMMs y CRFs.  
      * Tarea 3 (Word Embeddings)
 
 
-10. Semana 10
-      * Martes 09/06.   QA - Auxiliar 3: Intro a Pytorch.    
-      * Jueves 11/06.  Cátedra: Convolutional Neural Networks.    
+8. Semana 8
+      * Martes 11/05.   QA - Auxiliar 3: Intro a Pytorch.    
+      * Jueves 13/05.  Cátedra: Convolutional Neural Networks.    
       
-11. Semana 11
-      * Martes 16/06.  Cátedra:  Recurrent Neural Networks.   
-      * Jueves 18/06.  QA - Cátedra:  Recurrent Neural Networks. 
+9. Semana 9
+      * Martes 25/05.  Cátedra:  Recurrent Neural Networks.   
+      * Jueves 27/05.  QA - Cátedra:  Recurrent Neural Networks. 
 
-12. Semana 12
+10. Semana 10
       * Tarea 4 
       * Se publica Competencia 2 (Competencia Sequence Labeling) 
-      * Martes 23/06.  Cátedra: Recurrent Neural Networks.               
-      * Jueves 25/06. QA - Auxiliar 4: RNNs con Pytorch para NLP.  
-Vacaciones
+      * Martes 01/06.  Cátedra: Recurrent Neural Networks.               
+      * Jueves 23/06.  Feriado.    QA - Auxiliar 4: RNNs con Pytorch para NLP.  
+
+11. Semana 11
+
+      * Martes 08/06. Sequence-to-Sequence + Attention. 
+      * Jueves 10/06. QA -  Cátedra: Transformer.     
+
+
+12. Semana 12
+      * Tarea 5 
+      * Martes 15/06. Cátedra: Contextual Words Representations (ELMO, BERT).     
+      * Jueves 17/06. Feriado.
+
 
 13. Semana 13
 
-      * Martes 07/07. Sequence-to-Sequence + Attention. 
-      * Jueves 09/07. QA -  Cátedra: Transformer.     
-
+      * Martes 22/06. QA - Auxiliar 5: BERT.  
+      * Jueves 24/06. Cátedra: Contextual Words Representations (ELMO, BERT).      
+      * Entrega Competencia 2      
+       
+Receso Académico
 
 14. Semana 14
-      * Tarea 5 
-      * Martes 14/07. Cátedra: Contextual Words Representations (ELMO, BERT).     
-      * Jueves 16/07. Feriado.
 
+      * Martes 06/07. QA - Auxiliar 5: BERT.  
+      * Jueves 08/07. Cátedra: Contextual Words Representations (ELMO, BERT).      
+      * Entrega Competencia 2   
 
-15. Semana 15
-
-      * Martes 21/07. QA - Auxiliar 5: BERT.  
-      * Jueves 23/07. Cátedra: Contextual Words Representations (ELMO, BERT).      
-      * Domingo 26/07. Entrega Competencia 2      
-       
-
-
+Exámenes

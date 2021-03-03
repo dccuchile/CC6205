@@ -76,7 +76,7 @@ Receso Académico
 13. Semana 13
 
       * Martes 22/06. QA -  Cátedra: Transformer.   
-      * Jueves 24/06. Cátedra: Contextual Words Representations (ELMO, BERT).  Cátedra: Contextual Words Representations (ELMO, BERT).      
+      * Jueves 24/06. Cátedra: Contextual Words Representations (ELMO, BERT).        
       * Entrega Competencia 2      
        
 Receso Académico

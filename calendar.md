@@ -5,10 +5,10 @@
    * Martes 10/03. Cátedra: Introducción
    * Jueves 12/03. Cátedra: Information Retrieval
    
-   Semanas Transición -- Covid19
+  
    
 2. Semana 2
-     * Mini-Tarea 1 (Vector Space Model)	 	
+     * Tarea 1 (Vector Space Model)	 	
      * Martes 07/04. Cátedra: Language Models
      * Jueves 09/04.  QA - Auxiliar 0  (Ambiente de trabajo)  
  
@@ -20,7 +20,7 @@
     * Jueves 16/04. QA - Cátedra:  Linear Models
 
 4. Semana 4
-     * Mini-Tarea 2 (Language Models y Naive Bayes)		
+     * Tarea 2 (Language Models y Naive Bayes)		
      * Martes 21/04: Cátedra:  Linear Models	 	
      * Jueves 23/04: QA -  Auxiliar 1
    
@@ -39,7 +39,7 @@
 
 7. Semana 7
 PARO
-     * Mini-Tarea 3 (Word Embeddings)
+     * Tarea 3 (Word Embeddings)
 
 Vacaciones
 
@@ -61,7 +61,7 @@ PARO
       * Jueves 18/06.  QA - Cátedra:  Recurrent Neural Networks. 
 
 12. Semana 12
-      * Mini-Tarea 4 
+      * Tarea 4 
       * Se publica Competencia 2 (Competencia Sequence Labeling) 
       * Martes 23/06.  Cátedra: Recurrent Neural Networks.               
       * Jueves 25/06. QA - Auxiliar 4: RNNs con Pytorch para NLP.  
@@ -74,7 +74,7 @@ Vacaciones
 
 
 14. Semana 14
-      * Mini-Tarea 5 
+      * Tarea 5 
       * Martes 14/07. Cátedra: Contextual Words Representations (ELMO, BERT).     
       * Jueves 16/07. Feriado.
 

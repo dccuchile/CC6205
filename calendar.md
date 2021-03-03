@@ -2,22 +2,24 @@
 
 1. Semana 1
 	
-   * Martes 10/03. Cátedra: Introducción
-   * Jueves 12/03. Cátedra: Information Retrieval
+   * Martes 16/03. Cátedra: Introducción
+   * Jueves 18/03. Cátedra: Information Retrieval
    
   
    
 2. Semana 2
      * Tarea 1 (Vector Space Model)	 	
-     * Martes 07/04. Cátedra: Language Models
-     * Jueves 09/04.  QA - Auxiliar 0  (Ambiente de trabajo)  
+     * Martes 23/03. Cátedra: Language Models
+     * Jueves 25/03.  QA - Auxiliar 0  (Ambiente de trabajo)  
  
 
 
 3. Semana 3
     * Se publica Competencia 1 (Competencia Emotion Detection)
-    * Martes 14/04. Cátedra: Naive Bayes
-    * Jueves 16/04. QA - Cátedra:  Linear Models
+    * Martes 30/03. Cátedra: Naive Bayes
+    * Jueves 01/04.  Feriado QA - Cátedra:  Linear Models
+   
+Receso Académico
 
 4. Semana 4
      * Tarea 2 (Language Models y Naive Bayes)		

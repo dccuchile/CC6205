@@ -23,35 +23,27 @@ Receso Académico
 
 4. Semana 4
      * Tarea 2 (Language Models y Naive Bayes)		
-     * Martes 21/04: Cátedra:  Linear Models	 	
-     * Jueves 23/04: QA -  Auxiliar 1
+     * Martes 13/04: Cátedra:  Linear Models	 	
+     * Jueves 15/04: QA -  Auxiliar 1
    
 
 5. Semana 5
 
-     * Martes 28/04: QA - Cátedra:  Neural Networks
-     * Jueves 30/04: Cátedra: Neural Networks
+     * Martes 20/04: QA - Cátedra:  Neural Networks
+     * Jueves 22/04: Cátedra: Neural Networks
 
 
 6. Semana 6
 
-     * Martes 05/05:  Cátedra: Word Embeddings 
-     * Jueves 07/05:  QA - Auxiliar 2 (Word Embeddings) 
-     * Domingo 10/05: Entrega Competencia 1
+     * Martes 27/06:  Cátedra: Word Embeddings 
+     * Jueves 29/06:  QA - Auxiliar 2 (Word Embeddings) 
+     * Entrega Competencia 1
+
 
 7. Semana 7
-PARO
-     * Tarea 3 (Word Embeddings)
-
-Vacaciones
-
-8. Semana 8
-PARO
-
-
-9. Semana 9
      * Martes 02/06. Cátedra:  Tagging - HMM.  
      * Jueves 04/06.  QA - Cátedra:  MEMMs y CRFs.  
+     * Tarea 3 (Word Embeddings)
 
 
 10. Semana 10

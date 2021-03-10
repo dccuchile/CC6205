@@ -33,8 +33,8 @@ Receso Académico
 
 6. Semana 6
 
-     * Martes 27/06.  Cátedra: Neural Networks  
-     * Jueves 29/06.  Cátedra: Word Embeddings  
+     * Martes 27/04.  Cátedra: Neural Networks  
+     * Jueves 29/04.  Cátedra: Word Embeddings  
      * Entrega Competencia 1
 
 

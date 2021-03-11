@@ -50,6 +50,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 35. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
 36. [WEFE: The Word Embeddings Fairness Evaluation Framework](https://wefe.readthedocs.io/en/latest/)
 37. [WhatLies: A library that tries help you to understand. "What lies in word embeddings?"](https://rasahq.github.io/whatlies/)
+38. [LASER:a library to calculate and use multilingual sentence embeddings](https://github.com/facebookresearch/LASER)
 
 ## Notes and Books 
 1. [Speech and Language Processing (3rd ed. draft) by Dan Jurafsky and James H. Martin](https://web.stanford.edu/~jurafsky/slp3/).

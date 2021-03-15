@@ -1,4 +1,4 @@
-## Contenidos Publicados por Semana
+## Contenidos publicados por semana.
 
 Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Evaluacion 
 :------------: | :------------- | :------------- | :------------- | :-------------: | :-------------: 

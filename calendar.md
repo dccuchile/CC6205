@@ -3,7 +3,7 @@
 Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Evaluacion 
 :------------: | :------------- | :------------- | :------------- | :-------------: | :-------------: 
 1 | Martes 16/03 | Introducción | [Video 1](https://www.youtube.com/watch?v=HEKTNOttGvU)  [Video 2](https://www.youtube.com/watch?v=P8cwnI-f-Kg) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-introduction.pdf) | 
-1 | Jueves 18/03 | Information Retrieval | [Video 1](https://www.youtube.com/watch?v=FXIVClF370w&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=3) [Video 2](https://www.youtube.com/watch?v=f8nG1EMmPZk&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=3) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-IR.pdf) |  | 
+1 | Jueves 18/03 | Information Retrieval | [Video 1](https://www.youtube.com/watch?v=FXIVClF370w&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=3) [Video 2](https://www.youtube.com/watch?v=f8nG1EMmPZk&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=3) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-IR.pdf) | Horario de consulta (Discord) | 
 2 | Martes 23/03 | Language Models | [Video 1](https://www.youtube.com/watch?v=9E2jJ6kcb4Y&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=3) [Video 2](https://www.youtube.com/watch?v=ZWqbEQXLra0&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=5) [Diapos](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/lmslides.pdf) |  |  Tarea 1 (Vector Space Model)
 2 | Jueves 25/03 | Language Models | [Video 3](https://www.youtube.com/watch?v=tsumFqwFlaA&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=6) [Video 4](https://www.youtube.com/watch?v=s3TWdv4sqkg&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=6) [Diapos](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/lmslides.pdf) | Auxiliar 0 (Ambiente de trabajo) |
 3 | Martes 30/03 | Naive Bayes | [Video 1](https://www.youtube.com/watch?v=kG9BK9Oy1hU) [Video 2](https://www.youtube.com/watch?v=Iqte5kKHvzE) [Video 3](https://www.youtube.com/watch?v=TSJg0_X3Abk) [Diapos](https://web.stanford.edu/~jurafsky/slp3/slides/7_NB.pdf) | | Se publica Competencia 1 (Competencia Emotion Detection)
@@ -31,6 +31,6 @@ Receso Académico | | | | |
 13 | Jueves 24/06 | Contextual Words Representations (ELMO, BERT) | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) | Horario de consultas (Discord) | Entrega Competencia 2
 Receso academico | | | | 
 14 | Martes 06/07 | Contextual Words Representations (ELMO, BERT) | [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) | |
-14 | Jueves 08/07 | | | Auxiliar 5: BERT. | Entrega Competencia 2 
+14 | Jueves 08/07 | | | Auxiliar 5: BERT. | 
 Examenes (este curso no contempla examenes) | | | | |
 

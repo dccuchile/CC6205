@@ -1,6 +1,6 @@
 # Auxiliar 0
 
-**El colab asociado a esta aux se puede visitar [aca](https://colab.research.google.com/drive/12NA8gGzXe-MU8pm6XO_4T-f3e-3YJGyw)**
+**El colab asociado a esta aux se puede visitar [acá](https://colab.research.google.com/drive/1yV_5hAVgYCtEnxjq-0t6_mv27BMYSqfZ?usp=sharing)**
 
 
 En esta auxiliar voy a introducir herramientas y flujos de trabajo basicos para que tod@s puedan tener un comienzo mas fluido en el curso y ojala lo menos frustrante posible.
@@ -8,7 +8,7 @@ En esta auxiliar voy a introducir herramientas y flujos de trabajo basicos para 
 Esta auxiliar esta orientada a personas con conocimientos basico o nulos sobre entornos de trabajo de python, asique es probable que a usuarios mas experimentados no les sea de mayor utilidad.
 
 
-Primero voy a ver colab y aprovechar de explicar algunas de las herramientas que van a tener que usar en la minitarea 1.
+Primero voy a ver colab y aprovechar de explicar algunas de las herramientas que van a tener que usar en la tarea 1.
 
 
 # Google Colab

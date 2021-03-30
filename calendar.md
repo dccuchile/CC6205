@@ -7,7 +7,7 @@ Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Ev
 2 | Martes 23/03 | Language Models | [Video 1](https://www.youtube.com/watch?v=9E2jJ6kcb4Y&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=3) [Video 2](https://www.youtube.com/watch?v=ZWqbEQXLra0&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=5) [Diapos](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/lmslides.pdf) |  |  Tarea 1 (Vector Space Model)
 2 | Jueves 25/03 | Language Models | [Video 3](https://www.youtube.com/watch?v=tsumFqwFlaA&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=6) [Video 4](https://www.youtube.com/watch?v=s3TWdv4sqkg&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=6) [Diapos](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/lmslides.pdf) | Auxiliar 0 (Ambiente de trabajo) |
 3 | Martes 30/03 | Naive Bayes | [Video 1](https://www.youtube.com/watch?v=kG9BK9Oy1hU) [Video 2](https://www.youtube.com/watch?v=Iqte5kKHvzE) [Video 3](https://www.youtube.com/watch?v=TSJg0_X3Abk) [Diapos](https://web.stanford.edu/~jurafsky/slp3/slides/7_NB.pdf) | | Se publica Competencia 1 (Competencia Emotion Detection)
-3 | Jueves 01/04 | | Feriado | |
+3 | Jueves 01/04 | | Ponerse al día | Horario de Consultas |
 Receso Académico | | | | |
 4 | Martes 13/04 | Linear Models | [Video 1](https://www.youtube.com/watch?v=zhBxDsNLZEA) [Video 2](https://www.youtube.com/watch?v=Fooua_uaWSE)[Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-linear.pdf) | | Tarea 2 (Language Models y Naive Bayes)
 4 | Jueves 15/04 | | | Auxiliar 1 |

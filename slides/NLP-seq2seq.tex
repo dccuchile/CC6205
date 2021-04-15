@@ -65,7 +65,7 @@
 \begin{itemize}
 \item Language modeling is the task of assigning a probability to sentences in a language.
 \item Example: what is the probability of seeing the sentence ``the lazy dog barked loudly''?
-\item The task can be formulated as the task of predicting the probability of seing a word conditioned on previous words:
+\item The task can be formulated as the task of predicting the probability of seeing a word conditioned on previous words:
 \begin{displaymath}
  P(w_i | w_1, w_2, \cdots, w_{i-1}) = \frac{P(w_1, w_2, \cdots, w_{i-1}, w_i)}{P(w_1, w_2, \cdots, w_{i-1})}  
 \end{displaymath}
@@ -110,7 +110,7 @@ distribution.
 
 \begin{frame}{Sequence to Sequence Problems}
 \begin{scriptsize}
-Nearly any task in NLP can be formulated as a sequence to sequence (or condionated generation) task i.e., generate output sequences from input ones. Input and output sequences can have different lengths.
+Nearly any task in NLP can be formulated as a sequence to sequence (or conditioned generation) task i.e., generate output sequences from input ones. Input and output sequences can have different lengths.
 \begin{itemize}
 \item Machine Translation: source language to target language.
 \item Summarization: long text to short text.
@@ -124,7 +124,7 @@ Nearly any task in NLP can be formulated as a sequence to sequence (or condionat
 \begin{frame}{Conditioned Generation}
 \begin{scriptsize}
 \begin{itemize}
-\item While using the RNN as a generator is a cute exercise for demonstrating its strength, the power of RNN generator is really revealed when moving to a conditioned generation or enconder-decoder framework.
+\item While using the RNN as a generator is a cute exercise for demonstrating its strength, the power of RNN generator is really revealed when moving to a conditioned generation or encoder-decoder framework.
 \item Core idea: using two RNNs.
 \item Encoder: One RNN is used to encode the source input into a vector $\overrightarrow{c}$.
 \item Decoder: Another RNN is used to decode the encoder's output and generate the target output.
@@ -259,7 +259,7 @@ prefixes that are followed by low-probability events.
 \begin{displaymath}
 \vec{c}^j = \sum_{i=1}^{n} \vec{\alpha}_{[i]}^{j}\cdot \vec{c}_i 
 \end{displaymath}
-\item The elemements of $\vec{\alpha}^j$ are all positive and sum to one.
+\item The elements of $\vec{\alpha}^j$ are all positive and sum to one.
 
 
 
@@ -409,7 +409,7 @@ In essence, there are three kinds of dependencies in neural machine translations
 \end{enumerate}
 
 
-The traditional attention mechanism largely solved the first dependency by giving the decoder access to the entire input sequence. The second and third depedencies were addressed by the RNNs.
+The traditional attention mechanism largely solved the first dependency by giving the decoder access to the entire input sequence. The second and third dependencies were addressed by the RNNs.
 
 \end{scriptsize}
 
@@ -420,7 +420,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{scriptsize}
 \begin{itemize}
  \item The novel idea of the Transformer is to extend this mechanism to the processing input and output sentences as well.
- \item The RNN processes input sequences sequentialy. 
+ \item The RNN processes input sequences sequentially. 
  \item The Transformer, on the other hand, allows the encoder and decoder to see the entire input sequence all at once.
  \item This is done using attention.
 \end{itemize}
@@ -715,7 +715,7 @@ The traditional attention mechanism largely solved the first dependency by givin
  \item To prevent this from happening, the decoder masks the ``future'' tokens when decoding a certain word.
 
   \item The masking is done by setting to $- \infty$ all values in the input of the softmax which correspond to illegal connections.
- \item This is why ``multi-head attention blocks'' in the decoder are referred to as ``masked'': the inputs to the decoder from future time-steps ared masked.
+ \item This is why ``multi-head attention blocks'' in the decoder are referred to as ``masked'': the inputs to the decoder from future time-steps are masked.
 
 \end{itemize}
 

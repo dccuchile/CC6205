@@ -121,7 +121,7 @@ f(\vec{x}) = \vec{x} \cdot W + \vec{b}\\
 \begin{scriptsize}
 \begin{itemize}
 \item Consider the task of distinguishing documents written in English from documents written in German.
-\item This is a binary classifcation problem 
+\item This is a binary classification problem 
 \begin{equation}
 \begin{split}
 f(\vec{x}) = \vec{x} \cdot \vec{w} + b\\
@@ -244,7 +244,7 @@ where $\#ab$ is the number of times the bigram $ab$ appears in the document, and
 
 
 
-\begin{frame}{Log-linear Binary classifcation}
+\begin{frame}{Log-linear Binary classification}
 \begin{scriptsize}
 \begin{itemize}
 \item The output $f(\vec{x})$ is in the range $[-\infty,\infty]$ , and we map it to one of two classes $\{-1,+1\}$ using the $sign$ function.
@@ -688,7 +688,7 @@ to estimate the error and the gradients based on a sample of $m$ examples.
 
 %\hat{y}=\sigma(f(\vec{x})) = \frac{1}{1+e^{-\vec{x}\cdot \vec{w}+b}} 
 
- \item The logistic loss has a probalistic interpration:
+ \item The logistic loss has a probabilistic interpretation:
  \item We assume that $P(y =1 | \vec{x} ; \Theta) = \sigma(f(\vec{x})) = \frac{1}{1+e^{-\vec{x}\cdot \vec{w}+b}}$  and $P(y = 0 | \vec{x} ; \Theta) = 1 - \sigma(f(\vec{x}))$
  \item We can write this is a more compact way: 
  \begin{displaymath}
@@ -706,9 +706,9 @@ to estimate the error and the gradients based on a sample of $m$ examples.
   y \log \hat{y} + (1-y) \log(1-\hat{y}) 
  \end{displaymath} 
  
-\item Maximizing this expression is equivalent to miniziming the logistic loss!
+\item Maximizing this expression is equivalent to minimizing the logistic loss!
  
-\item Many loss functions correspond to the negative log-likelihood of probalistic models!
+\item Many loss functions correspond to the negative log-likelihood of probabilistic models!
  
 \end{itemize}
 \end{scriptsize}
@@ -834,7 +834,7 @@ to estimate the error and the gradients based on a sample of $m$ examples.
   \begin{displaymath}
    R_{L_{2}}(W) = ||W||^{2}_{2} = \sum_{i,j}(W_{[i,l]})^2
   \end{displaymath}
-\item The $L_2$ regularizer is also called a gaussian prior or weight decay.
+\item The $L_2$ regularizer is also called a Gaussian prior or weight decay.
 \item $L_2$ regularized models are severely punished for high parameter weights.
 \item Once the value is close enough to zero, their effect becomes negligible.
 \item The model will prefer to decrease the value of one parameter with high weight by 1 than to decrease the value of ten parameters that already have relatively low weights by 0.1 each.
@@ -1056,7 +1056,7 @@ junction with the linear classifier.
     1 & 1 \\ 1 & 1 \end{pmatrix}$, $\vec{b}' = \begin{pmatrix}
     -1 & 0 \end{pmatrix}$.
 \item We get an equivalent mapping to $[x_1 \times x_2, x_1 + x_2]$  for the our points of interest (0,0), (0,1), (1,0), and (1,1).
-\item This successfuly solves the XOR problem!
+\item This successfully solves the XOR problem!
 \item Learning both the representation function and the linear classifier on top of it at the same time is the main idea behind deep learning and neural networks.
 \item In fact, previous equation describes a very common neural network architecture called a multi-layer perceptron (MLP).
 \end{itemize}

@@ -29,8 +29,7 @@ Receso Académico | | | | |
 12 | Jueves 17/06 | | Feriado | |
 13 | Martes 22/06 | Transformer | [Video 3](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | |
 13 | Jueves 24/06 | Contextual Words Representations (ELMO, BERT) | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) | Horario de consultas (Discord) | Entrega Competencia 2
-Receso academico | | | | 
-14 | Martes 06/07 | Contextual Words Representations (ELMO, BERT) | [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) | |
-14 | Jueves 08/07 | | | Auxiliar 5: BERT. | 
+14 | Martes 29/06 | Contextual Words Representations (ELMO, BERT) | [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) | |
+14 | Jueves 01/07 | | | Auxiliar 5: BERT. | 
 Examenes (este curso no contempla examenes) | | | | |
 

@@ -22,12 +22,12 @@ Receso Académico | | | | |
 9 | Martes 25/05 | Convolutional Neural Networks | [Video](https://www.youtube.com/watch?v=lLZW5Fn40r8) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-CNN.pdf) | |
 9 | Jueves 27/05 | Recurrent Neural Networks | [Video 1](https://www.youtube.com/watch?v=BmhjUkzz3nk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Horario de consulta (Discord) |
 10 | Martes 01/06 | Recurrent Neural Networks | [Video 2](https://www.youtube.com/watch?v=z43YFR1iIvk)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | | Tarea 4
-10 | Jueves 03/06 | | Feriado | | Se publica Competencia 2 (Competencia Sequence Labeling)
+10 | Jueves 03/06 | | Ponerse al día | Horario de consulta (Discord) | Se publica Competencia 2 (Competencia Sequence Labeling)
 11 | Martes 08/06 | Recurrent Neural Networks | [Video 3](https://www.youtube.com/watch?v=7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | |
 11 | Jueves 10/06 | | | Auxiliar 4: RNNs con Pytorch para NLP. |
-12 | Martes 15/06 | Sequence-to-Sequence + Attention | [Video 1](https://www.youtube.com/watch?v=OpKxRjISqmM) [Video 2](https://www.youtube.com/watch?v=WQ7ihm5voB0)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | | Tarea 5
+12 | Martes 15/06 | Sequence-to-Sequence + Attention | [Video 1](https://www.youtube.com/watch?v=OpKxRjISqmM) [Video 2](https://www.youtube.com/watch?v=WQ7ihm5voB0)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | | 
 12 | Jueves 17/06 | | Feriado | |
-13 | Martes 22/06 | Transformer | [Video 3](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | |
+13 | Martes 22/06 | Transformer | [Video 3](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | | Tarea 5
 13 | Jueves 24/06 | Contextual Words Representations (ELMO, BERT) | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) | Horario de consultas (Discord) | Entrega Competencia 2
 Receso academico | | | | 
 14 | Martes 06/07 | Contextual Words Representations (ELMO, BERT) | [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) | |

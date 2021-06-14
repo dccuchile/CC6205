@@ -26,7 +26,7 @@ Receso Académico | | | | |
 11 | Martes 08/06 | Recurrent Neural Networks | [Video 3](https://www.youtube.com/watch?v=7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | |
 11 | Jueves 10/06 | | | Auxiliar 4: RNNs con Pytorch para NLP. |
 12 | Martes 15/06 | Sequence-to-Sequence + Attention | [Video 1](https://www.youtube.com/watch?v=OpKxRjISqmM) [Video 2](https://www.youtube.com/watch?v=WQ7ihm5voB0)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | | 
-12 | Jueves 17/06 | | Feriado | |
+12 | Jueves 17/06 | | Ponerse al día | Hora de consulta Discord |
 13 | Martes 22/06 | Transformer | [Video 3](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | | Tarea 5
 13 | Jueves 24/06 | Contextual Words Representations (ELMO, BERT) | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf) |  Auxiliar 5: BERT. | Entrega Competencia 2
 Receso academico | | | | 

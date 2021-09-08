@@ -52,6 +52,8 @@ The neural network-related topics of the course are taken from the book of Yoav 
 37. [WhatLies: A library that tries help you to understand. "What lies in word embeddings?"](https://rasahq.github.io/whatlies/)
 38. [LASER:a library to calculate and use multilingual sentence embeddings](https://github.com/facebookresearch/LASER)
 39. [Sentence Transformers: Multilingual Sentence Embeddings using BERT / RoBERTa / XLM-RoBERTa & Co. with PyTorch](https://github.com/UKPLab/sentence-transformers)
+40. [Datasets: a lightweight library with one-line dataloaders for many public datasets in NLP](https://github.com/huggingface/datasets)
+
 
 ## Notes and Books 
 1. [Speech and Language Processing (3rd ed. draft) by Dan Jurafsky and James H. Martin](https://web.stanford.edu/~jurafsky/slp3/).

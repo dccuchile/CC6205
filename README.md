@@ -88,13 +88,14 @@ The neural network-related topics of the course are taken from the book of Yoav 
 
 ## Other Resources
 1. [ACL Portal](https://www.aclweb.org/portal/)
-1. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
-2. [NLP News By Sebastian Ruder](http://newsletter.ruder.io/)
-2. [Corpora Mailing List](https://mailman.uib.no/listinfo/corpora)
-2. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
-3. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
-4. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
-5. [ELMO explained](http://mlexplained.com/2018/06/15/paper-dissected-deep-contextualized-word-representations-explained/)
+2. [Awesome-nlp: A curated list of resources dedicated to Natural Language Processing](https://github.com/keon/awesome-nlp)
+3. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
+4. [NLP News By Sebastian Ruder](http://newsletter.ruder.io/)
+5. [Corpora Mailing List](https://mailman.uib.no/listinfo/corpora)
+6. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
+7. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
+8. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
+9. [ELMO explained](http://mlexplained.com/2018/06/15/paper-dissected-deep-contextualized-word-representations-explained/)
 13. [BERT exaplained](http://mlexplained.com/2019/01/07/paper-dissected-bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding-explained/)
 14. [Better Language Models
     and Their Implications OpenAI Blog](https://openai.com/blog/better-language-models/)

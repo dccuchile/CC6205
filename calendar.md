@@ -9,7 +9,7 @@ Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Ev
 3 | Martes 22/03 | Naive Bayes | [Video 1](https://www.youtube.com/watch?v=kG9BK9Oy1hU) [Video 2](https://www.youtube.com/watch?v=Iqte5kKHvzE) [Video 3](https://www.youtube.com/watch?v=TSJg0_X3Abk) [Diapos](https://web.stanford.edu/~jurafsky/slp3/slides/7_NB.pdf) | Clase resumen presencial | Se publica Competencia 1 (Competencia Emotion Detection)
 3 | Jueves 24/03 | | Ponerse al día |  |
 4 | Martes 29/03 | Linear Models | [Video 1](https://www.youtube.com/watch?v=zhBxDsNLZEA) [Video 2](https://www.youtube.com/watch?v=Fooua_uaWSE) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-linear.pdf) | Clase resumen presencial | Tarea 2 (Language Models y Naive Bayes)
-4 | Jueves 31/04 | | | Auxiliar 1 |
+4 | Jueves 31/03 | | | Auxiliar 1 |
 5 | Martes 05/04 | Linear Models | [Video 3](https://www.youtube.com/watch?v=DqbzhdQa1eQ) [Video 4](https://www.youtube.com/watch?v=1nfWWXqfAzA) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-linear.pdf) | Clase resumen presencial |
 5 | Jueves 07/04 | Neural Networks | [Video 1](https://www.youtube.com/watch?v=oHZHA8h2xN0) [Video 2](https://www.youtube.com/watch?v=2lXank0W6G4) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-neural.pdf) |  | 
 6 | Martes 12/04 | Neural Networks | [Video 3](https://www.youtube.com/watch?v=BUDIi9qItzY) [Video 4](https://www.youtube.com/watch?v=KKN2Ipy-vGk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-neural.pdf) | Clase resumen presencial |

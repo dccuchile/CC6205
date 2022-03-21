@@ -21,7 +21,7 @@ Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Ev
 9 | Martes 03/05 | Convolutional Neural Networks | [Video](https://www.youtube.com/watch?v=lLZW5Fn40r8) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-CNN.pdf) | Clase resumen presencial |
 9 | Jueves 05/05 | Recurrent Neural Networks | [Video 1](https://www.youtube.com/watch?v=BmhjUkzz3nk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |  |
 10 | Martes 10/05 | Recurrent Neural Networks | [Video 2](https://www.youtube.com/watch?v=z43YFR1iIvk)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Clase resumen presencial | Tarea 4
-10 | Jueves 12/05 | | Ponerse al día |  | Se publica Competencia 2 (Competencia Sequence Labeling)
+10 | Jueves 12/05 | | Ponerse al día |  Horario Consultas Competencia 2 | Se publica Competencia 2 (Competencia Sequence Labeling)
 Receso |  | |  |  | 
 11 | Martes 24/05 | Recurrent Neural Networks | [Video 3](https://www.youtube.com/watch?v=7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Clase resumen presencial |
 11 | Jueves 26/05 | | | Auxiliar 4: RNNs con Pytorch para NLP. |

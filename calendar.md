@@ -17,9 +17,9 @@ Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Ev
 7 | Martes 19/04 | | |        Clase resumen presencial        | Tarea 3 (Word Embeddings)
 7 | Jueves 21/04 | Tagging - HMM | [Video 1](https://www.youtube.com/watch?v=-ngfOZz8yK0) [Video 2](https://www.youtube.com/watch?v=Tjgb-yQOg54) [Video 3](https://www.youtube.com/watch?v=aaa5Qoi8Vco) [Video 4](https://www.youtube.com/watch?v=4pKWIDkF_6Y) [Diapos](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf) |  | 
 8 | Martes 26/04 | MEMMs y CRFs | [Video 1](https://www.youtube.com/watch?v=qlI-4lSUDkg) [Video 2](https://www.youtube.com/watch?v=PLoLKQwkONw) [Video 3](https://www.youtube.com/watch?v=ZpUwDy6o28Y) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-CRF.pdf) | Clase resumen presencial |
-8 | Jueves 28/04 | | | Auxiliar 3: Intro a Pytorch. |
+8 | Jueves 28/04 | | |  |
 9 | Martes 03/05 | Convolutional Neural Networks | [Video](https://www.youtube.com/watch?v=lLZW5Fn40r8) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-CNN.pdf) | Clase resumen presencial |
-9 | Jueves 05/05 | Recurrent Neural Networks | [Video 1](https://www.youtube.com/watch?v=BmhjUkzz3nk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |  |
+9 | Jueves 05/05 | Recurrent Neural Networks | [Video 1](https://www.youtube.com/watch?v=BmhjUkzz3nk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |  Auxiliar 3: Intro a Pytorch.|
 10 | Martes 10/05 | Recurrent Neural Networks | [Video 2](https://www.youtube.com/watch?v=z43YFR1iIvk)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Clase resumen presencial | Tarea 4
 10 | Jueves 12/05 | | Ponerse al día |  Horario Consultas Competencia 2 | Se publica Competencia 2 (Competencia Sequence Labeling)
 Receso |  | |  |  | 

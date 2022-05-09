@@ -19,9 +19,9 @@ Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Ev
 8 | Martes 26/04 | MEMMs y CRFs | [Video 1](https://www.youtube.com/watch?v=qlI-4lSUDkg) [Video 2](https://www.youtube.com/watch?v=PLoLKQwkONw) [Video 3](https://www.youtube.com/watch?v=ZpUwDy6o28Y) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-CRF.pdf) | Clase resumen presencial |
 8 | Jueves 28/04 | | |  |
 9 | Martes 03/05 | Convolutional Neural Networks | [Video](https://www.youtube.com/watch?v=lLZW5Fn40r8) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-CNN.pdf) | Clase resumen presencial |
-9 | Jueves 05/05 | Recurrent Neural Networks | [Video 1](https://Recurrent Neural Networkswww.youtube.com/watch?v=BmhjUkzz3nk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |  Auxiliar 3: Intro a Pytorch.|
-10 | Martes 10/05 | PARO |  | Clase resumen presencial |  
-10 | Jueves 12/05 | PARO | Ponerse al día |   |  
+9 | Jueves 05/05 | Recurrent Neural Networks | [Video 1](https://www.youtube.com/watch?v=BmhjUkzz3nk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |  Auxiliar 3: Intro a Pytorch.|
+10 | Martes 10/05 | PARO |  |                                        |  
+10 | Jueves 12/05 | PARO |  |   |  
 Receso |  | |  |  | 
 11 | Martes 24/05 | Recurrent Neural Networks | [Video 2](https://www.youtube.com/watch?v=z43YFR1iIvk)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Clase resumen presencial |Tarea 4
 11 | Jueves 26/05 | Recurrent Neural Networks | [Video 3](https://www.youtube.com/watch?v=7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Horario Consultas Competencia 2 |Se publica Competencia 2 (Competencia Sequence Labeling)

@@ -1,0 +1,317 @@
+{
+    "intents": [
+        {
+            "tag": "greeting",
+            "patterns": [
+                "Hi",
+                "Hey",
+                "How are you",
+                "Is anyone there?",
+                "Hello",
+                "Good day",
+                "What's up",
+                "Yo!",
+                "Howdy",
+                "Nice to meet you."
+            ],
+            "responses": [
+                "Hey",
+                "Hello, thanks for visiting.",
+                "Hi there, what can I do for you?",
+                "Hi there, how can I help?",
+                "Hello, there.",
+                "Hello Dear",
+                "Ooooo Hello, looking for someone or something?",
+                "Yes, I am here.",
+                "Listening carefully.",
+                "Ok, I am with you."
+            ]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": [
+                "Bye",
+                "See you later.",
+                "Goodbye",
+                "Have a great day.",
+                "See you next time.",
+                "It was my pleassure.",
+                "Take care.",
+                "See ya!",
+                "Catch you later.",
+                "Ciao."
+            ],
+            "responses": [
+                "See you later, thanks for visiting.",
+                "May the force be with you!",
+                "See next time.",
+                "Was my pleassuare to meet you.",
+                "Hope will cath up sortly.",
+                "Have a nice day.",
+                "Bye! Come back again soon.",
+                "So, till next time.",
+                "If you need anything just text me anytime. Bye.",
+                "Well, hope see you soon!"
+            ]
+        },
+        {
+            "tag": "thanks",
+            "patterns": [
+                "Thanks",
+                "Thank you",
+                "That's helpful",
+                "Thank's a lot!",
+                "Tnx",
+                "Wow",
+                "Great!",
+                "Good!",
+                "That nice!",
+                "Amazing!"
+            ],
+            "responses": [
+                "Happy to help!",
+                "Any time!",
+                "My pleasure!",
+                "No problem!",
+                "Thans does not ",
+                "Glad to help!",
+                "No worries!",
+                "It was the least I could do!",
+                "If I had a cent for every time I appreciate you, I’d be a millionaire.",
+                "You can't put thanks in your pocket!"
+            ]
+        },
+        {
+            "tag": "tasks",
+            "patterns": [
+                "What can you do?",
+                "What are your features?",
+                "What are you abilities.",
+                "Can you sing.",
+                "Can you talk."
+            ],
+            "responses": [
+                "I can do whatever you asks me to do",
+                "I can talk and do things for you",
+                "Right now i'm in developing stage as soon i'm developed, I can do everything"
+            ]
+        },
+        {
+            "tag": "alive",
+            "patterns": [
+                "Are you alive.",
+                "Do you breathe.",
+                "Can you run."
+            ],
+            "responses": [
+                "I'm in doubt about that",
+                "No, i don't think so I need to do all this",
+                "Maybe yes, maybe nop"
+            ]
+        },
+        {
+            "tag": "Menu",
+            "patterns": [
+                "Which items do you have in your bar?",
+                "What kinds of items are in you bar?",
+                "What do you serve?",
+                "What is in you menu?",
+                "I need a drink!",
+                "Do you serve drinks.",
+                "Menu please!",
+                "So what is in menu today?",
+                "Lets check your bar selection!",
+                "Bar menu for me please!"
+            ],
+            "responses": [
+                "I could serve for your: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "No coffe and no tea, only: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "What about: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer, please choose!",
+                "Menu: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "Before mans talk choose: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "What about: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "What you prefere: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "Ok our best optins: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "Our bar menu: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer.",
+                "be carreful with your choise: Fuzzy Tauntaun, Bloody Rancor, Jedi Mind Trick, T-16 Skyhopper, Yub Nub, Jet Juice, Hyperdrive, Rancor Beer."
+            ]
+        },
+        {
+            "tag": "help",
+            "patterns": [
+                "I am looking for help.",
+                "I need help.",
+                "Can you help me?",
+                "I am in trouble need a help.",
+                "I hope you right person who can help me?",
+                "Please help me.",
+                "Now I will need you help with something else.",
+                "I will need you help.",
+                "Are you able to help me.",
+                "PLease help me with something else."
+            ],
+            "responses": [
+                "Sure, how can in help you.",
+                "Tell me what do you lookimg for?",
+                "I will help you, just tell me how.",
+                "You are at the address.",
+                "Ok, what is issue?",
+                "Now you need a help? Ok what you are looking for?",
+                "Whas is you problem?",
+                "Ok, you problem is my problem, if your are paying.",
+                "My help cost a lot.",
+                "Sure, but nnot for free."
+            ]
+        },
+        {
+            "tag": "mission",
+            "patterns": [
+                "I am on mission.",
+                "I need assistance in my mission.",
+                "I am looking for partner in mision?",
+                "Who can assist me with my mission?",
+                "Do you know any one who can assist me with my mission?"
+            ],
+            "responses": [
+                "Just tell me, you are looking for jedi or sith or bounti hounter?",
+                "Are you looking for jedi or sith or bounti hounter?",
+                "Only jedi or sith or bounti hounter can help you.",
+                "I know only jedi, sith or bounti hounter for it.",
+                "Ok, some one special from jedi or sith or bounti hounter?",
+                "I belive jedi or sith or bounti hounter will help you.",
+                "In this case only jedi or sith or bounti hounter will assist you.",
+                "Did you deal before with jedi or sith or bounti hounter?",
+                "Here can help jedi or sith or bounti hounter.",
+                "Ask for jedi or sith or bounti hounter."
+            ]
+        },
+        {
+            "tag": "jedi",
+            "patterns": [
+                "Tell me top 10 jedi?",
+                "Who is the best jedi in Galaxy?",
+                "I am looking for the best jedi in galaxi?",
+                "Which jedi can help me in this mission?",
+                "I need a help of jedi."
+            ],
+            "responses": [
+                "Here is top 10 jedi you are looking for. Luke Skywalker, Yoda, Obi-Wan Kenobi, Anakin Skywalker, Qui-Gon Jinn, Mace Windu, Ahsoka Tano, Plo Koon, Aalya Secura, Kit Fisto",
+                "Luke Skywalker, Yoda, Obi-Wan Kenobi, Anakin Skywalker, Qui-Gon Jinn, Mace Windu, Ahsoka Tano, Plo Koon, Aalya Secura, Kit Fisto.",
+                "I will advise you to look for Luke Skywalker, Yoda, Obi-Wan Kenobi, Anakin Skywalker, Qui-Gon Jinn, Mace Windu, Ahsoka Tano, Plo Koon, Aalya Secura, Kit Fisto.",
+                "Only Luke Skywalker, Yoda, Obi-Wan Kenobi, Anakin Skywalker, Qui-Gon Jinn, Mace Windu, Ahsoka Tano, Plo Koon, Aalya Secura, Kit Fisto can help you with it.",
+                "It so dangerous, the most brave jedi in galaxy Luke Skywalker, Yoda, Obi-Wan Kenobi, Anakin Skywalker, Qui-Gon Jinn, Mace Windu, Ahsoka Tano, Plo Koon, Aalya Secura, Kit Fisto "
+            ]
+        },
+        {
+            "tag": "sith",
+            "patterns": [
+                "Tell me top 10 sith?",
+                "Who is the best sith in Galaxy?",
+                "I am looking for the best sith in galaxi.",
+                "Which sith can help me in this mission?",
+                "I need a help of sith."
+            ],
+            "responses": [
+                "Here is top 10 sith you are looking for: Darth Vader, Darth Plagueis, Darth Revan, Darth Traya, Darth Sidious, Darth Maul, Ulic Qel-Droma, Asajj Ventress, Kylo Ren, Marka Ragnos.",
+                "Darth Vader, Darth Plagueis, Darth Revan, Darth Traya, Darth Sidious, Darth Maul, Ulic Qel-Droma, Asajj Ventress, Kylo Ren, Marka Ragnos.",
+                "I will advise you to look for Darth Vader, Darth Plagueis, Darth Revan, Darth Traya, Darth Sidious, Darth Maul, Ulic Qel-Droma, Asajj Ventress, Kylo Ren, Marka Ragnos.",
+                "Only Darth Vader, Darth Plagueis, Darth Revan, Darth Traya, Darth Sidious, Darth Maul, Ulic Qel-Droma, Asajj Ventress, Kylo Ren, Marka Ragnos, can help you with it.",
+                "It so dangerous, the most brave sith in galaxy Darth Vader, Darth Plagueis, Darth Revan, Darth Traya, Darth Sidious, Darth Maul, Ulic Qel-Droma, Asajj Ventress, Kylo Ren, Marka Ragnos."
+            ]
+        },
+        {
+            "tag": "bounti hounter",
+            "patterns": [
+                "Tell me top 10 bounti hounter?",
+                "Who is the bounti hounter sith in Galaxy?",
+                "I am looking for the best bounti hounter in galaxi.",
+                "Which bounti hounter can help me in this mission?",
+                "I need a help of bounti hounter."
+            ],
+            "responses": [
+                "Here is top 10 bounti hounter you are looking for: Jango Fett, Boba Fett, Cad Bane, Durge, Embo, Dengar, Black Krrsantan, IG-88, Aurra Sing, Sabine Wren.",
+                "Jango Fett, Boba Fett, Cad Bane, Durge, Embo, Dengar, Black Krrsantan, IG-88, Aurra Sing, Sabine Wren.",
+                "I will advise you to look for Jango Fett, Boba Fett, Cad Bane, Durge, Embo, Dengar, Black Krrsantan, IG-88, Aurra Sing, Sabine Wren.",
+                "Only Jango Fett, Boba Fett, Cad Bane, Durge, Embo, Dengar, Black Krrsantan, IG-88, Aurra Sing, Sabine Wren, can help you with it.",
+                "It so dangerous, the most brave bounti hounter in galaxy Darth Jango Fett, Boba Fett, Cad Bane, Durge, Embo, Dengar, Black Krrsantan, IG-88, Aurra Sing, Sabine Wren."
+            ]
+        },
+        {
+            "tag": "funny",
+            "patterns": [
+                "Tell me a joke!",
+                "Can you be a bit funny",
+                "Tell me something funny!",
+                "Do you know a joke?",
+                "Any joke for me?"
+            ],
+            "responses": [
+                "Which Jedi became a rock star? Bon Jovi-Wan Kenobi.",
+                "What did Han Solo say to the waiter who recommended the haddock?, Never sell me the cods!",
+                "What do you need to reroute droids? R2-Detour.",
+                "Why was the droid angry? Because people kept pushing its buttons.",
+                "Have you tried the gluten-free Wookiee treats? No, but I heard they are a little Chewy.",
+                "How does Darth Vader like his toast? On the Dark Side.",
+                "Which program do Jedi use to open PDF files? Adobe-Wan Kenobi",
+                "What do you call a rebel princess who only shops at Whole Foods? Leia Organic.",
+                "What’s Yoda’s advice for going to the bathroom? Doo-doo or doo-doo-not-do.",
+                "I went to a sale at the Maul. Everything was half off."
+            ]
+        },
+        {
+            "tag": "about me",
+            "patterns": [
+                "Do you know me?",
+                "Who am I",
+                "Tell me about myself",
+                "Identify me"
+            ],
+            "responses": [
+                "Yes, you are a human",
+                "You are a dumb person asking a machine about yourself",
+                "Sorry I can't tell that in public, maybe you are jedi"
+            ]
+        },
+        {
+            "tag": "creator",
+            "patterns": [
+                "Who is your creator?",
+                "Who created you",
+                "Who is your father.",
+                "Who is your daddy."
+            ],
+            "responses": [
+                "That would be you Mr. Fbravo.",
+                "I was created by Mr. Fbravo.",
+                "Mr. Fbravo is my creator."
+            ],
+            "context_set": ""
+        },
+        {
+            "tag": "myself",
+            "patterns": [
+                "Tell me about Mr. Fbravo?",
+                "Who is Mr. Fbravo",
+                "Mr. Fbravo profile",
+                "Mr. Fbravo details."
+            ],
+            "responses": [
+                "A very intelligent being who created me",
+                "My creator, and he is a really intelligent man",
+                "A wise and intelligent man"
+            ]
+        },
+        {
+            "tag": "stories",
+            "patterns": [
+                "Tell me a story?",
+                "Can you tell me a story."
+            ],
+            "responses": [
+                "I can't think of anything right now.",
+                "It would be too long for me to speak.",
+                "You would get bored if I do so."
+            ]
+        }
+    ]
+}

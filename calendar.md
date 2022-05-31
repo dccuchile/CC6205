@@ -29,7 +29,7 @@ Receso |  | |  |  |
 12 | Jueves 02/06 | Recurrent Neural Networks | [Video 3](https://www.youtube.com/watch?v=7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Horario Consultas Competencia 2 | 
 13 | Martes 07/06 | Sequence-to-Sequence + Attention | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=WQ7ihm5voB0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Clase resumen presencial |  
 13 | Jueves 09/06 |  | |  Auxiliar 4: RNNs con Pytorch para NLP. |  
-14 | Martes 14/06 | Transformer | [Video 3](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Clase Resumen Presencial | Tarea 5
+14 | Martes 14/06 | Transformer | [Video 3](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Clase Resumen Presencial | 
 14 | Jueves 16/06 | Contextual Words Representations (ELMO, BERT) | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/contextual-representations.pdf)  |  | 
 15 | Martes 21/07 | Feriado | |  | 
 15 | Jueves 23/07 |  | |  Auxiliar 5: BERT. | 

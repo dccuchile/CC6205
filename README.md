@@ -119,6 +119,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 46. [Deep Learning Based Text Classification: A Comprehensive Review](https://arxiv.org/pdf/2004.03705.pdf)
 47. [Teaching NLP is quite depressing, and I don't know how to do it well by Yoav Goldberg](https://twitter.com/yoavgo/status/1318567498653061122)
 48. [The NLP index](https://index.quantumstat.com/)
+49. [100 Must-Read NLP Papers](https://github.com/amanchadha/100-nlp-papers)
 
 
 

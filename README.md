@@ -2,7 +2,7 @@
 This is a course on natural language processing.
 
 * Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
-* TAs: Gabriel Iturra, Ignacio Meza, María José Zambrano, Ricardo Córdova and Pablo Torres.
+* TAs: [Gabriel Iturra](https://giturra.cl/), [Jorge Ortiz](https://www.ortizfuentes.com/), Consuelo Rojas, Sebastián Tinoco and Felipe Urrutia.
 
 * Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00  
 

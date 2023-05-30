@@ -204,6 +204,45 @@ p(e = j|\vec{x}_{1:n}) = \text{softmax}(RNN(\vec{x}_{1:n})\cdot W +\vec{b})_{[j]
 \end{frame}
 
 
+\begin{frame}{Elman Network or Simple-RNN}
+\begin{scriptsize}
+\begin{itemize}
+\item After describing the RNN abstraction, we are now in place to discuss the simplest instantiations of it.
+\item Recall that we are interested in a recursive function $\vec{s}_i =  R(\vec{x}_i, \vec{s}_{i-1})$ such that $\vec{s}_i$ encodes the sequence $\vec{x}_{1:n}$.
+\item The simplest RNN formulation is known as an Elman Network or Simple-RNN (S-RNN).
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Elman Network or Simple-RNN}
+\begin{scriptsize}
+\begin{equation}
+\begin{split}
+\vec{s}_i & = R_{SRNN}(\vec{x}_{i},\vec{s}_{i-1}) = g(\vec{s}_{i-1}W^{s}+\vec{x}_{i}W^{x}+\vec{b}) \\
+\vec{y}_i & = O_{SRNN}(\vec{s}_i) = \vec{s}_i \\
+\vec{s}_i, \vec{y}_i \in  \mathcal{R}^{d_{s}}, & \quad  \vec{x}_i  \in \mathcal{R}^{d_{x}}, \quad W^{x} \in \mathcal{R}^{d_{x}\times d_{s}}, \quad W^{s} \in \mathcal{R}^{d_{s}\times d_{s}}, \vec{b} \in \mathcal{R}^{d_{s}} 
+\end{split}
+\end{equation}
+
+
+\begin{itemize}
+\item The state $\vec{s}_i$ and the input $\vec{x}_i$ are each linearly transformed.
+\item The results are added (together with a bias term) and then passed through a nonlinear activation function g (commonly tanh or ReLU).
+\item The Simple RNN provides strong results for sequence tagging as well as language modeling.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Elman Network or Simple-RNN}
+
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.35]{pics/elmanRNN.png}
+        \end{figure}
+
+\end{frame}
+
+
 
 \begin{frame}{RNN Training}
 \begin{scriptsize}
@@ -440,40 +479,14 @@ biRNN^{*}(\vec{x}_{1:n})= \vec{y}_{1:n} = biRNN(\vec{x}_{1:n},1),\dots,biRNN(\ve
 \end{frame}
 
 
-\begin{frame}{Elman Network or Simple-RNN}
-\begin{scriptsize}
-\begin{itemize}
-\item After describing the RNN abstraction, we are now in place to discuss specific instantiations of it.
-\item Recall that we are interested in a recursive function $\vec{s}_i =  R(\vec{x}_i, \vec{s}_{i-1})$ such that $\vec{s}_i$ encodes the sequence $\vec{x}_{1:n}$.
-\item The simplest RNN formulation is known as an Elman Network or Simple-RNN (S-RNN).
-\end{itemize}
-\end{scriptsize}
-\end{frame}
 
-\begin{frame}{Elman Network or Simple-RNN}
-\begin{scriptsize}
-\begin{equation}
-\begin{split}
-\vec{s}_i & = R_{SRNN}(\vec{x}_{i},\vec{s}_{i-1}) = g(\vec{s}_{i-1}W^{s}+\vec{x}_{i}W^{x}+\vec{b}) \\
-\vec{y}_i & = O_{SRNN}(\vec{s}_i) = \vec{s}_i \\
-\vec{s}_i, \vec{y}_i \in  \mathcal{R}^{d_{s}}, & \quad  \vec{x}_i  \in \mathcal{R}^{d_{x}}, \quad W^{x} \in \mathcal{R}^{d_{x}\times d_{s}}, \quad W^{s} \in \mathcal{R}^{d_{s}\times d_{s}}, \vec{b} \in \mathcal{R}^{d_{s}} 
-\end{split}
-\end{equation}
-
-
-\begin{itemize}
-\item The state $\vec{s}_i$ and the input $\vec{x}_i$ are each linearly transformed.
-\item The results are added (together with a bias term) and then passed through a nonlinear activation function g (commonly tanh or ReLU).
-\item The Simple RNN provides strong results for sequence tagging as well as language modeling.
-\end{itemize}
-\end{scriptsize}
-\end{frame}
 
 
 \begin{frame}{Gated Architectures}
 \begin{scriptsize}
 \begin{itemize}
-\item The S-RNN is hard to train effectively because of the \textbf{vanishing gradients} problem.
+\item So far we have seen only one instantiation of the RNN: the simple RNN (S-RNN) or Elman network.
+\item This model is hard to train effectively because of the \textbf{vanishing gradients} problem.
 \item Error signals (gradients) in later steps in the sequence diminish quickly in the backpropagation process.
 \item Thus, they do not reach earlier input signals, making it hard for the S-RNN to capture long-range dependencies.
 \item Gating-based architectures, such as the LSTM \cite{hochreiter1997long} and the GRU \cite{cho2014learning} are designed to solve this deficiency.

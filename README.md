@@ -2,7 +2,7 @@
 This is a course on natural language processing.
 
 * Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
-* TAs: [Gabriel Iturra](https://giturra.cl/), [Jorge Ortiz](https://www.ortizfuentes.com/), Consuelo Rojas, Sebastián Tinoco and [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/).
+* TAs: [Gabriel Iturra-Bocaz](https://giturra.cl/), [Jorge Ortiz](https://www.ortizfuentes.com/), Consuelo Rojas, Sebastián Tinoco and [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/).
 
 * Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00  
 

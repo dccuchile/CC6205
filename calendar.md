@@ -24,9 +24,9 @@ Receso |  | |  |  |
 10 | Martes 23/05 | Ponerse al día |  | Clase resumen presencial |
 10 | Jueves 25/05 | Recurrent Neural Networks                     | [Video 1](https://www.youtube.com/watch?v=BmhjUkzz3nk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |   |
 11 | Martes 30/05 | Recurrent Neural Networks                     | [Video 2](https://www.youtube.com/watch?v=z43YFR1iIvk)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Clase resumen presencial |Tarea 4
-11 | Martes 01/06 | Recurrent Neural Networks                     | [Video 3](https://www.youtube.com/watch?v=7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |  |Se publica Competencia 2 (Competencia Sequence Labeling)
+11 | Jueves 01/06 | Recurrent Neural Networks                     | [Video 3](https://www.youtube.com/watch?v=7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) |  |Se publica Competencia 2 (Competencia Sequence Labeling)
 12 | Martes 06/06 | Ponerse al día |  | Clase resumen presencial |
-12 | Jueves 08/06 | Sequence-to-Sequence + Attention | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Horario Consultas Competencia 2 |
+12 | Jueves 08/06 | Sequence-to-Sequence + Attention | [Video 1](https://www.youtube.com/watch?v=OpKxRjISqmM&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=35)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Horario Consultas Competencia 2 |
 13 | Martes 13/06 | Sequence-to-Sequence + Attention | [Video 2](https://www.youtube.com/watch?v=WQ7ihm5voB0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Clase resumen presencial |
 13 | Jueves 15/06 |  | |  Auxiliar 4: RNNs con Pytorch para NLP. |
 Receso |  | |  |  |

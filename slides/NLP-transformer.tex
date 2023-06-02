@@ -470,7 +470,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 
 
-\begin{frame}{Self-Attention in Detail}
+\begin{frame}{Self-Attention in Detail: step 1}
 \begin{scriptsize}
 
 
@@ -478,7 +478,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
 
-\item The first step in calculating self-attention is to create three vectors from each of the encoder's input vectors (in this case, the embedding of each word).
+\item The \textbf{first step} in calculating self-attention is to create three vectors from each of the encoder's input vectors (in this case, the embedding of each word).
 
 \item So for each word, we create a Query vector, a Key vector, and a Value vector.
 
@@ -499,7 +499,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 
 
-\begin{frame}{Self-Attention in Detail}
+\begin{frame}{Self-Attention in Detail: step 1}
 
 
 \begin{figure}[h]
@@ -510,8 +510,10 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 
 \begin{itemize}        
+\item Example sentence: ``Thinking Machines''.
 \item Multiplying \textcolor{green}{$x_1$} by the \textcolor{purple}{WQ} weight matrix produces \textcolor{purple}{$q_1$}, the ``query'' vector associated with that word.
 \item We end up creating a ``query'', a ``key'', and a ``value'' projection of each word in the input sentence.
+
 \end{itemize}
 
 \end{scriptsize}
@@ -522,7 +524,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{frame}
 
 
-\begin{frame}{Self-Attention in Detail}
+\begin{frame}{Self-Attention in Detail: step 2}
 \begin{scriptsize}
 
 
@@ -530,13 +532,17 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
 
-\item The second step in calculating self-attention is to calculate a score. 
+\item The \textbf{second step} in calculating self-attention is to calculate a score. 
 
 \item Say we’re calculating the self-attention for the first word in this example, ``Thinking''.
 
 \item We need to score each word of the input sentence against this word. 
 
 \item The score determines how much focus to place on other parts of the input sentence as we encode a word at a certain position.
+
+\item The score is calculated by taking the dot product of the \textcolor{purple}{query vector} with the \textcolor{orange}{key vector} of the respective word we're scoring. 
+\item So if we're processing the self-attention for the word in position \textcolor{green}{\#1}, the first score would be the dot product of \textcolor{purple}{q1} and \textcolor{orange}{k1}.
+\item The second score would be the dot product of \textcolor{purple}{q1} and \textcolor{orange}{k2}.
 
 \end{itemize}
 

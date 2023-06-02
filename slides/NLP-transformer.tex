@@ -62,7 +62,7 @@
 \begin{frame}{What's Wrong with RNNs?}
 \begin{scriptsize}
 \begin{itemize}
-\item Given what we just learned on previous lecture, it would seem like attention solves all the problems with RNNs and encoder-decoder architectures\footnote{The following material is based on: \url{http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/}}.
+\item Given what we just learned on previous lecture, it would seem like attention solves all the problems with RNNs and encoder-decoder architectures\footnote{The following material is based on: \url{http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/} and \url{http://jalammar.github.io/illustrated-transformer/}}.
 
 \item There are a few shortcomings of RNNs that another architecture called the \textbf{Transformer} tries to address.
 
@@ -308,6 +308,240 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{itemize}
 
 \end{scriptsize}
+
+
+    
+
+
+\end{frame}
+
+
+
+\begin{frame}{The Encoder}
+
+
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.35]{pics/Transformer_encoder.png}
+        \end{figure}  
+
+
+
+
+
+\end{frame}
+
+
+\begin{frame}{Bringing The Tensors Into The Picture}
+\begin{scriptsize}
+\begin{itemize}
+
+
+
+\item We begin by turning each input word into a vector using an embedding layer  of the size 512 in the bottom-most encoder.
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.35]{pics/embeddings_enc.png}
+        \end{figure}  
+
+
+
+
+\item In the bottom encoder that would be the word embeddings, but in other encoders, it would be the output of the encoder that's directly below.
+
+\item The size of this list is hyperparameter we can set – basically it would be the length of the longest sentence in our training dataset.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+    
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Bringing The Tensors Into The Picture}
+\begin{scriptsize}
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/encoder_with_tensors.png}
+        \end{figure}  
+
+\begin{itemize}
+
+
+\item The word in each position flows through its own path in the encoder. 
+
+\item There are dependencies between these paths in the self-attention layer. 
+
+\item The feed-forward layer does not have those dependencies.
+
+\item However, and thus the various paths can be executed in parallel while flowing through the feed-forward layer.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+\end{frame}
+
+
+\begin{frame}{Now We’re Encoding!}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+
+\item As we've mentioned already, an encoder receives a list of vectors as input. 
+
+\item It processes this list by passing these vectors into a 'self-attention' layer, then into a feed-forward neural network, then sends out the output upwards to the next encoder.
+
+\end{itemize}
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/encoder_with_tensors_2.png}
+        \end{figure}  
+
+
+\end{scriptsize}
+
+
+\end{frame}
+
+
+\begin{frame}{Self-Attention at a High Level}
+\begin{scriptsize}
+
+
+
+\begin{itemize}
+
+
+\item Say the following sentence is an input sentence we want to translate: 
+\\ \textcolor{red}{``The animal didn't cross the street because it was too tired''}
+
+\item What does ``it'' in this sentence refer to? 
+
+\item Is it referring to the street or to the animal? 
+\item It's a simple question to a human, but not as simple to an algorithm.
+
+\item When the model is processing the word ``it'', self-attention allows it to associate ``it'' with ``animal''.
+
+\item As the model processes each word (each position in the input sequence), self attention allows it to look at other positions in the input sequence for clues that can help lead to a better encoding for this word.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+\end{frame}
+
+
+\begin{frame}{Self-Attention at a High Level}
+\begin{scriptsize}
+
+
+
+\begin{itemize}
+
+
+\item Think of how maintaining a hidden state allows an RNN to incorporate its representation of previous words/vectors it has processed with the current one it's processing. 
+
+\item Self-attention is the method the Transformer uses to bake the ``understanding'' of other relevant words into the one we're currently processing.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.4]{pics/transformer_self-attention_visualization.png}
+        \end{figure}  
+
+
+\end{frame}
+
+
+
+\begin{frame}{Self-Attention in Detail}
+\begin{scriptsize}
+
+
+
+\begin{itemize}
+
+
+\item The first step in calculating self-attention is to create three vectors from each of the encoder's input vectors (in this case, the embedding of each word).
+
+\item So for each word, we create a Query vector, a Key vector, and a Value vector.
+
+\item These vectors are created by multiplying the embedding by three matrices that we trained during the training process.
+
+\item Notice that these new vectors are smaller in dimension than the embedding vector. 
+
+\item Their dimensionality is 64, while the embedding and encoder input/output vectors have dimensionality of 512. 
+
+\item They don’t HAVE to be smaller, this is an architecture choice to make the computation of multiheaded attention (mostly) constant.
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Self-Attention in Detail}
+
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/transformer_self_attention_vectors.png}
+        \end{figure}  
+
+\begin{scriptsize}
+
+
+\begin{itemize}        
+\item Multiplying \textcolor{green}{$x_1$} by the \textcolor{purple}{WQ} weight matrix produces \textcolor{purple}{$q_1$}, the ``query'' vector associated with that word.
+\item We end up creating a ``query'', a ``key'', and a ``value'' projection of each word in the input sentence.
+\end{itemize}
+
+\end{scriptsize}
+
+
+        
+
+\end{frame}
+
+
+\begin{frame}{Self-Attention in Detail}
+\begin{scriptsize}
+
+
+
+\begin{itemize}
+
+
+\item The second step in calculating self-attention is to calculate a score. 
+
+\item Say we’re calculating the self-attention for the first word in this example, ``Thinking''.
+
+\item We need to score each word of the input sentence against this word. 
+
+\item The score determines how much focus to place on other parts of the input sentence as we encode a word at a certain position.
+
+\end{itemize}
+
+\end{scriptsize}
+
 
 \end{frame}
 

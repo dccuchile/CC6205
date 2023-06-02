@@ -115,143 +115,59 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 
 
-
-\begin{frame}{The Key Component: Multi-Head Attention}
+\begin{frame}{The Transformer}
 \begin{scriptsize}
-\begin{itemize}
- \item The attention mechanism in the Transformer is interpreted as a way of computing the relevance of a set of \textbf{values} (information) based on some \textbf{keys} and \textbf{queries}. 
- 
- \item The attention mechanism is used as a way for the model to \textbf{focus on relevant information} based on what it is currently processing.
- 
- \item In the RNN encoder-decoder architecture with attention:
- 
-
- \begin{enumerate}
-  \begin{scriptsize}
- \item Attention weights were the relevance of the encoder hidden states (values) in processing the decoder state (query).
- 
- \item These values were calculated based on the encoder hidden states (keys) and the decoder hidden state (query).
- \end{scriptsize}
-
- \end{enumerate}
-
- 
-\end{itemize}
-
-
+ \begin{itemize}
+  \item Let’s begin by looking at the Transformer as a single black box. 
+  \item In a machine translation application, it would take a sentence in one language, and output its translation in another.
+ \end{itemize}
 
 \end{scriptsize}
 
-\end{frame}
 
 
-\begin{frame}{The Key Component: Multi-Head Attention}
-
-    \begin{figure}[h]
-        	\includegraphics[scale = 0.28]{pics/attention_concept.png}
-        	\caption{In this example, the query is the word being decoded (which means dog) and both the keys and values are the source sentence. The attention score represents the relevance, and in this case is large for the word “dog” and small for others.}
-        \end{figure}  
-
-\end{frame}
-
-
-
-
-\begin{frame}{The Key Component: Multi-Head Attention}
-\begin{scriptsize}
-\begin{itemize}
- \item When we think of attention this way, we can see that the keys, values, and queries could be anything. 
- \item They could even be the same. 
- \item For instance, both values and queries could be input embeddings (self attention). 
- 
- \item If we only computed a single attention weighted sum of the values, it would be difficult to capture various different aspects of the input.
- 
-
-\end{itemize}
-
-\end{scriptsize}
-
-\end{frame}
-
-
-
-\begin{frame}{The Key Component: Multi-Head Attention}
-\begin{scriptsize}
-\begin{itemize}
- \item For instance, in the sentence ``I like cats more than dogs'', you might want to capture the fact that the sentence compares two entities, while also retaining the actual entities being compared. 
- 
- \item To solve this problem the Transformer uses the Multi-Head Attention block. 
- 
- \item This block computes multiple attention weighted sums instead of a single attention pass over the values.
- 
- \item Hence the name ``Multi-Head'' Attention.
- 
- 
- 
-\end{itemize}
-
-\end{scriptsize}
-
-\end{frame}
-
-
-\begin{frame}{The Key Component: Multi-Head Attention}
-\begin{scriptsize}
-\begin{itemize}
- \item To learn diverse representations, the Multi-Head Attention applies different linear transformations to the values, keys, and queries for each “head” of attention.
- 
- 
      \begin{figure}[h]
-        	\includegraphics[scale = 0.48]{pics/multi_head_attention.png}
+        	\includegraphics[scale = 0.29]{pics/the_transformer_3.png}
         \end{figure}  
- 
 
-\end{itemize}
-
-\end{scriptsize}
 
 \end{frame}
 
 
-
-\begin{frame}{The Key Component: Multi-Head Attention}
+\begin{frame}{The Transformer}
 \begin{scriptsize}
-\begin{itemize}
-
- \item A single attention applies a unique linear transformation to its input queries, keys, and values.
- 
- \item Then computes the attention score between each query and key.
- 
- \item The attention score is used to weight the values and sum them up.
-
-
-\item The Multi-Head Attention block just applies multiple blocks in parallel, concatenates their outputs, then applies one single linear transformation. 
- 
-\end{itemize}
+ \begin{itemize}
+  \item  This blackbox can be decomposed by an encoding component, a decoding component, and connections between them.
+ \end{itemize}
 
 \end{scriptsize}
+
+
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.29]{pics/The_transformer_encoders_decoders.png}
+        \end{figure}  
+
 
 \end{frame}
 
-
-\begin{frame}{Scaled Dot Product Attention}
+\begin{frame}{The Transformer}
 \begin{scriptsize}
-\begin{itemize}
-
- \item  Transformer uses a particular form of attention called the “Scaled Dot-Product Attention”:
- \begin{displaymath}
-  \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
- \end{displaymath}
-
- \item where $Q$ is the matrix of queries packed together and $K$ and $V$ are the matrices of keys and values packed together. 
- 
- \item $d_k$ represents the dimensionality of the queries and keys.
- 
-  \item The normalization over $\sqrt{d_k}$ is used to rescale the dot products between queries and keys (dot products tend to grow with the dimensionality).
- 
-\end{itemize}
+ \begin{itemize}
+  \item  The encoding component is a stack of encoders.
+  \item The original Transformer stacks six of them on top of each other.
+  \item But there’s nothing magical about the number six, one can definitely experiment with other arrangements. 
+  \item The decoding component is a stack of decoders of the same number.
+ \end{itemize}
 
 \end{scriptsize}
+
+
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/The_transformer_encoder_decoder_stack.png}
+        \end{figure}  
+
 
 \end{frame}
 
@@ -281,13 +197,99 @@ The traditional attention mechanism largely solved the first dependency by givin
  
  \item These blocks are composed of smaller blocks as well. 
  
- \item Let's look at each block in further detail.
+ \item Before looking at each block in further detail, let't try to understand the Attention mechanism implemented by the Transformer.
  
 \end{itemize}
 
 \end{scriptsize}
 
 \end{frame}
+
+
+
+
+\begin{frame}{Attention Mechanism in the Transformer}
+\begin{scriptsize}
+\begin{itemize}
+ \item The attention mechanism in the Transformer is interpreted as a way of computing the relevance of a set of \textbf{values} (information) based on some \textbf{keys} and \textbf{queries}. 
+ 
+ \item The attention mechanism is used as a way for the model to \textbf{focus on relevant information} based on what it is currently processing.
+ 
+ \item In the RNN encoder-decoder architecture with attention:
+ 
+
+ \begin{enumerate}
+  \begin{scriptsize}
+ \item Attention weights were the relevance of the encoder hidden states (values) in processing the decoder state (query).
+ 
+ \item These values were calculated based on the encoder hidden states (keys) and the decoder hidden state (query).
+ \end{scriptsize}
+
+ \end{enumerate}
+
+ 
+\end{itemize}
+
+
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Attention Mechanism in the Transformer}
+
+    \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/attention_concept.png}
+        \end{figure}  
+
+\begin{scriptsize}
+\begin{itemize}        
+\item In this example, the query is the word being decoded (which means dog) and both the keys and values are the source sentence. 
+\item The attention score represents the relevance, and in this case is large for the word “dog” and small for others.
+ \item When we think of attention this way, we can see that the keys, values, and queries could be anything. 
+ \item They could even be the same. 
+ \item For instance, both values and queries could be input embeddings (self attention). 
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Scaled Dot Product Attention}
+\begin{scriptsize}
+\begin{itemize}
+
+  \item  Transformer uses a particular form of attention called the “Scaled Dot-Product Attention”:
+ \begin{displaymath}
+  \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+ \end{displaymath}
+
+ \item where $Q$ is the matrix of queries packed together and $K$ and $V$ are the matrices of keys and values packed together. 
+ 
+ \item $d_k$ represents the dimensionality of the queries and keys.
+ 
+  \item The normalization over $\sqrt{d_k}$ is used to rescale the dot products between queries and keys (dot products tend to grow with the dimensionality).
+ 
+ \item Now we are in place to look at each part of the Transformer in more detail.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+
 
 
 
@@ -552,7 +554,255 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{frame}
 
 
-\begin{frame}{The Encoder}
+\begin{frame}{Self-Attention in Detail: step 2}
+
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.4]{pics/transformer_self_attention_score.png}
+        \end{figure} 
+
+
+
+
+\end{frame}
+
+
+\begin{frame}{Self-Attention in Detail: steps 3 and 4}
+\begin{scriptsize}
+\begin{itemize}
+
+
+\item The third and fourth steps are to divide the scores by 8 (the square root of the dimension of the key vectors used in the paper – 64).
+
+\item This leads to having more stable gradients. 
+
+\item There could be other possible values here, but this is the default), then pass the result through a softmax operation. 
+
+\item Softmax normalizes the scores so they’re all positive and add up to 1.
+
+\item This softmax score determines how much each word will be expressed at the current position. 
+
+\item Clearly the word at the current position will have the highest softmax score, but sometimes it’s useful to attend to another word that is relevant to the current word.
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Self-Attention in Detail: steps 3 and 4}
+
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.35]{pics/self-attention_softmax.png}
+        \end{figure} 
+
+
+\end{frame}
+
+
+
+\begin{frame}{Self-Attention in Detail: steps 5 and 6}
+\begin{scriptsize}
+\begin{itemize}
+
+
+\item The fifth step is to multiply each value vector by the softmax score (in preparation to sum them up). 
+
+\item The intuition here is to keep intact the values of the word(s) we want to focus on, and drown-out irrelevant words (by multiplying them by tiny numbers like 0.001, for example).
+
+\item The sixth step is to sum up the weighted value vectors. 
+
+\item This produces the output of the self-attention layer at the current position (for the first word in this example).
+
+\item That concludes the self-attention calculation. 
+
+\item The resulting vector is one we can send along to the feed-forward neural network.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+\end{frame}
+
+\begin{frame}{Self-Attention in Detail: steps 5 and 6}
+
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/self-attention-output.png}
+        \end{figure} 
+
+
+\end{frame}
+
+
+
+\begin{frame}{Matrix Calculation of Self-Attention}
+\begin{scriptsize}
+\begin{itemize}
+
+\item  In the actual implementation, self-attention is computed in matrix form for faster processing.
+\item So let’s look at that now that we’ve seen the intuition of the calculation on the word level.
+
+\item The first step is to calculate the Query, Key, and Value matrices. 
+
+\item We do that by packing our embeddings into a matrix $X$, and multiplying it by the weight matrices we’ve trained (\textcolor{purple}{WQ}, \textcolor{orange}{WK}, \textcolor{blue}{WV}).
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Matrix Calculation of Self-Attention}
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.25]{pics/self-attention-matrix-calculation.png}
+        \end{figure} 
+
+\begin{scriptsize}
+\begin{itemize}
+
+\item Every row in the X matrix corresponds to a word in the input sentence.
+\item We again see the difference in size of the embedding vector (512, or 4 boxes in the figure), and the q/k/v vectors (64, or 3 boxes in the figure).
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{Matrix Calculation of Self-Attention}
+
+
+
+\begin{scriptsize}
+\begin{itemize}
+
+\item Finally, since we’re dealing with matrices, we can condense steps two through six in one formula to calculate the outputs of the self-attention layer.
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.35]{pics/self-attention-matrix-calculation-2.png}
+        \end{figure} 
+
+\end{frame}
+
+
+
+\begin{frame}{Multi-Head Attention}
+\begin{scriptsize}
+\begin{itemize}
+
+ \item If we only compute a single attention weighted sum of the values, it would be difficult to capture various different aspects of the input.
+ 
+
+\item In the example above, $z1$ contains a little bit of every other encoding, but it could be dominated by the actual word itself.
+
+\item If we’re translating a sentence like ``The animal didn’t cross the street because it was too tired'', it would be useful to know which word ``it'' refers to.
+ 
+ \item To solve this problem the Transformer uses the Multi-Head Attention block. 
+
+
+\item This component expands the model's ability to focus on different positions. 
+ 
+ 
+ \item Multi-head attention computes multiple attention weighted sums instead of a single attention pass over the values.
+ 
+ \item Hence the name ``Multi-Head'' Attention.
+ 
+ 
+ 
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Multi-Head Attention}
+\begin{scriptsize}
+\begin{itemize}
+ \item To learn diverse representations, the Multi-Head Attention applies different linear transformations to the values, keys, and queries for each “head” of attention.
+ 
+ 
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.48]{pics/multi_head_attention.png}
+        \end{figure}  
+ 
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Multi-Head Attention}
+\begin{scriptsize}
+\begin{itemize}
+
+ \item A single attention applies a unique linear transformation to its input queries, keys, and values.
+ 
+ \item Then computes the attention score between each query and key.
+ 
+ \item The attention score is used to weight the values and sum them up.
+
+
+\item The Multi-Head Attention block just applies multiple blocks in parallel, concatenates their outputs, then applies one single linear transformation. 
+ 
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Multi-Head Attention}
+\begin{scriptsize}
+
+
+\begin{itemize}
+
+
+\item The multi-headed component gives the attention layer multiple ``representation subspaces''.
+\item As we’ll see next, with multi-headed attention we have not only one, but multiple sets of Query/Key/Value weight matrices (the Transformer uses eight attention heads, so we end up with eight sets for each encoder/decoder). 
+\item Each of these sets is randomly initialized. 
+
+\item Then, after training, each set is used to project the input embeddings (or vectors from lower encoders/decoders) into a different representation subspace.
+
+ 
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Residual Connections}
 \begin{scriptsize}
 \begin{itemize}
 
@@ -570,7 +820,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 
 
-\begin{frame}{The Encoder}
+\begin{frame}{The Encoder: summary}
 
      \begin{figure}[h]
         	\includegraphics[scale = 0.39]{pics/transformerencoder.png}
@@ -579,7 +829,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 \end{frame}
 
-\begin{frame}{The Encoder}
+\begin{frame}{The Encoder: summary}
 \begin{scriptsize}
 \begin{itemize}
 

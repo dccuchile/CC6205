@@ -339,7 +339,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 
   \item The normalization over $\sqrt{d}$ is used to rescale the dot products between queries and keys (dot products tend to grow with the dimensionality).
 
-  \item The attention weights are then multiplied by their corresponding values:
+  \item The attention weights are then multiplied by their corresponding values to compute a weighted sum, which is then passed to the subsequent layers of the network:
 
   \begin{displaymath}
    \alpha_1*\vec{v}_1+\cdots+\alpha_m*\vec{v}_m
@@ -532,7 +532,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{scriptsize}
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/transformer_self-attention_visualization.png}
+        	\includegraphics[scale = 0.35]{pics/transformer_self-attention_visualization.png}
         \end{figure}  
 
 
@@ -548,7 +548,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
 
-\item The \textbf{first step} in calculating self-attention is to create three vectors from each of the encoder's input vectors (in this case, the embedding of each word).
+\item The \textbf{first step} in calculating scaled dot product self-attention is to create three vectors from each of the encoder's input vectors (in this case, the embedding of each word).
 
 \item So for each word, we create a Query vector, a Key vector, and a Value vector.
 
@@ -640,7 +640,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
 
-\item The third and fourth steps are to divide the scores by 8 (the square root of the dimension of the key vectors used in the paper – 64).
+\item The \textbf{third} and \textbf{fourth} steps are to divide the scores by 8 (the square root of the dimension of the key vectors used in the paper – 64).
 
 \item This leads to having more stable gradients. 
 
@@ -679,15 +679,15 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
 
-\item The fifth step is to multiply each value vector by the softmax score (in preparation to sum them up). 
+\item The \textbf{fifth step} is to multiply each value vector by the softmax score (in preparation to sum them up).
 
 \item The intuition here is to keep intact the values of the word(s) we want to focus on, and drown-out irrelevant words (by multiplying them by tiny numbers like 0.001, for example).
 
-\item The sixth step is to sum up the weighted value vectors. 
+\item The \textbf{sixth step} is to sum up the weighted value vectors.
 
 \item This produces the output of the self-attention layer at the current position (for the first word in this example).
 
-\item That concludes the self-attention calculation. 
+\item That concludes the scaled dot product self-attention calculation.
 
 \item The resulting vector is one we can send along to the feed-forward neural network.
 
@@ -786,23 +786,15 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{scriptsize}
 \begin{itemize}
 
- \item If we only compute a single attention weighted sum of the values, it would be difficult to capture various different aspects of the input.
- 
-
+\item If we only compute a single attention weighted sum of the values, it would be difficult to capture various different aspects of the input.
 \item In the example above, $z1$ contains a little bit of every other encoding, but it could be dominated by the actual word itself.
-
 \item If we’re translating a sentence like ``The animal didn’t cross the street because it was too tired'', it would be useful to know which word ``it'' refers to.
- 
- \item To solve this problem the Transformer uses the Multi-Head Attention block. 
 
-
-\item This component expands the model's ability to focus on different positions. 
- 
- 
- \item Multi-head attention computes multiple attention weighted sums instead of a single attention pass over the values.
- 
- \item Hence the name ``Multi-Head'' Attention.
- 
+\item To solve this problem, the Transformer uses the Multi-Head Attention block.
+\item This component expands the model's ability to focus on different positions.
+\item Multi-head attention computes multiple attention weighted sums instead of a single attention pass over the values.
+\item Hence the name ``Multi-Head'' Attention.
+\item To learn diverse representations, the Multi-Head Attention applies different linear transformations to the values, keys, and queries for each ``head'' of attention.
  
  
 \end{itemize}
@@ -816,7 +808,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{frame}{Multi-Head Attention}
 \begin{scriptsize}
 \begin{itemize}
- \item To learn diverse representations, the Multi-Head Attention applies different linear transformations to the values, keys, and queries for each “head” of attention.
+ \item The Multi-Head Attention block applies multiple blocks in parallel, concatenates their outputs, then applies one single linear transformation.
  
  
      \begin{figure}[h]
@@ -834,27 +826,6 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 
 
-\begin{frame}{Multi-Head Attention}
-\begin{scriptsize}
-\begin{itemize}
-
- \item A single attention applies a unique linear transformation to its input queries, keys, and values.
- 
- \item Then computes the attention score between each query and key.
- 
- \item The attention score is used to weight the values and sum them up.
-
-
-\item The Multi-Head Attention block just applies multiple blocks in parallel, concatenates their outputs, then applies one single linear transformation. 
- 
-\end{itemize}
-
-\end{scriptsize}
-
-\end{frame}
-
-
-
 
 \begin{frame}{Multi-Head Attention}
 \begin{scriptsize}
@@ -864,11 +835,10 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 
 \item The multi-headed component gives the attention layer multiple ``representation subspaces''.
-\item As we’ll see next, with multi-headed attention we have not only one, but multiple sets of Query/Key/Value weight matrices (the Transformer uses eight attention heads, so we end up with eight sets for each encoder/decoder). 
-\item Each of these sets is randomly initialized. 
-
+\item With multi-headed attention, we have not only one, but multiple sets of Query/Key/Value weight matrices.
+\item The Transformer uses eight attention heads, so we end up with eight sets for each encoder/decoder.
+\item Each of these sets is randomly initialized.
 \item Then, after training, each set is used to project the input embeddings (or vectors from lower encoders/decoders) into a different representation subspace.
-
  
 \end{itemize}
 
@@ -877,6 +847,94 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{frame}
 
 
+
+\begin{frame}{Multi-Head Attention}
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/transformer_attention_heads_qkv.png}
+        \end{figure}
+
+
+\begin{scriptsize}
+\begin{itemize}
+ \item With multi-headed attention, we maintain separate Q/K/V weight matrices for each head resulting in different Q/K/V matrices.
+ \item As we did before, we multiply X by the WQ/WK/WV matrices to produce Q/K/V matrices.
+
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{Multi-Head Attention}
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.25]{pics/transformer_attention_heads_z.png}
+        \end{figure}
+
+
+\begin{scriptsize}
+\begin{itemize}
+ \item If we do the same self-attention calculation we outlined above, just eight different times with different weight matrices, we end up with eight different Z matrices.
+ \item This leaves us with a bit of a challenge.
+ \item The feed-forward layer is not expecting eight matrices.
+ \item It's expecting a single matrix (a vector for each word).
+ \item So we need a way to condense these eight down into a single matrix.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{Multi-Head Attention}
+
+\begin{scriptsize}
+\begin{itemize}
+ \item How do we do that? We concat the matrices then multiply them by an additional weights matrix WO.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.22]{pics/transformer_attention_heads_weight_matrix_o.png}
+        \end{figure}
+
+
+
+
+\end{frame}
+
+
+\begin{frame}{Multi-Head Attention}
+
+\begin{scriptsize}
+\begin{itemize}
+ \item Let's put all these matrices in one visual so we can look at them in one place.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.226]{pics/transformer_multi-headed_self-attention-recap.png}
+        \end{figure}
+
+
+
+
+\end{frame}
 
 
 \begin{frame}{Residual Connections}
@@ -892,6 +950,30 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{itemize}
 
 \end{scriptsize}
+
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/transformer_resideual_layer_norm.png}
+        \end{figure}
+
+
+\end{frame}
+
+\begin{frame}{Residual Connections}
+\begin{scriptsize}
+\begin{itemize}
+
+\item If we’re to visualize the vectors and the layer-norm operation associated with self attention, it would look like this:
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/transformer_resideual_layer_norm_2.png}
+        \end{figure}
+
 
 \end{frame}
 
@@ -911,13 +993,13 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
  \item  What each encoder block is doing is actually just a bunch of matrix multiplications followed by a couple of element-wise transformations.
- 
+
  \item This is why the Transformer is so fast: everything is just parallelizable matrix multiplications.
- 
- \item The point is that by stacking these transformations on top of each other, we can create a very powerful network. 
- 
+
+ \item The point is that by stacking these transformations on top of each other, we can create a very powerful network.
+
  \item The core of this is the attention mechanism which modifies and attends over a wide range of information.
- 
+
 \end{itemize}
 
 \end{scriptsize}

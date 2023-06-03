@@ -258,8 +258,67 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{frame}
 
 
+\begin{frame}{Queries}
 
 
+
+\begin{scriptsize}
+\begin{itemize}
+\item Queries are representations of the target or output sequence that the Transformer model uses to determine how much attention should be given to each word in the input sequence.
+\item Each word or token in the output sequence is associated with a query.
+\item The queries help in retrieving relevant information from the input sequence.
+\item Example: If we are generating the translation for the sentence ``Je adore les chats'' (meaning "I love cats" in French), each word in the output sequence would have its corresponding query representation.
+\item For example, ``Je'' would have a query vector, ``adore'' would have a query vector, and so on.
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{Keys}
+
+
+
+\begin{scriptsize}
+\begin{itemize}
+\item Keys are representations of the input sequence that the Transformer model uses to compute the attention scores.
+\item Each word or token in the input sequence is associated with a key.
+\item These keys capture the information needed to understand the context and relationships between words in the sequence.
+\item Example: Consider the input sequence: ``I love cats.''
+\item Each word in the sequence would have its corresponding key representation, such as ``I'' having a key vector, ``love'' having a key vector, and so on.
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Values}
+
+
+
+\begin{scriptsize}
+\begin{itemize}
+\item Values are the actual information or features associated with each word in the input sequence.
+\item These values are used to calculate the weighted sum during the attention computation, which helps determine the importance or relevance of each word.
+\item Example: Considering the same input sequence ``I love cats,'' each word would have its associated value representation.
+\item These values contain the contextual information for each word.
+\item For instance, ``I'' would have a value vector, ``love'' would have a value vector, and so forth.
+\item Keys and values are very difficult to distinguish at first sight because in RNN encoding and decoding with classical attention they are the same.
+\item We will see with the Transformer that although they come from the same sequence, they may correspond to different vectors.
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
 
 
 \begin{frame}{Scaled Dot Product Attention}
@@ -267,17 +326,26 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
   \item  Transformer uses a particular form of attention called the “Scaled Dot-Product Attention”:
- \begin{displaymath}
-  \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
- \end{displaymath}
 
- \item where $Q$ is the matrix of queries packed together and $K$ and $V$ are the matrices of keys and values packed together. 
- 
- \item $d_k$ represents the dimensionality of the queries and keys.
- 
-  \item The normalization over $\sqrt{d_k}$ is used to rescale the dot products between queries and keys (dot products tend to grow with the dimensionality).
- 
- \item Now we are in place to look at each part of the Transformer in more detail.
+  \item For a given query vector $\vec{q}$, a sequence of key vectors $\vec{k}_{1:m}$, and a sequence of value vectors $\vec{v}_{1:m}$,  the attention weights $\alpha_1,\dots,\alpha_m$  are computed as follows:
+
+
+  \begin{displaymath}
+    \alpha_1,\dots,\alpha_m = \text{softmax}\left(\frac{\vec{q} \cdot \vec{k}_{1}}{\sqrt{d}}, \dots,\frac{\vec{q} \cdot \vec{k}_{1}}{\sqrt{d}}\right)
+  \end{displaymath}
+
+
+ \item $d$ represents the dimensionality of the queries and keys.
+
+  \item The normalization over $\sqrt{d}$ is used to rescale the dot products between queries and keys (dot products tend to grow with the dimensionality).
+
+  \item The attention weights are then multiplied by their corresponding values:
+
+  \begin{displaymath}
+   \alpha_1*\vec{v}_1+\cdots+\alpha_m*\vec{v}_m
+  \end{displaymath}
+
+ \item Now we are ready to take a closer look at each part of the Transformer.
 
 
 \end{itemize}
@@ -647,12 +715,21 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{scriptsize}
 \begin{itemize}
 
-\item  In the actual implementation, self-attention is computed in matrix form for faster processing.
+\item  In the actual implementation, scaled dot product self-attention is computed in matrix form for faster processing.
 \item So let’s look at that now that we’ve seen the intuition of the calculation on the word level.
 
-\item The first step is to calculate the Query, Key, and Value matrices. 
+\item The first step is to calculate the Query, Key, and Value matrices: \textcolor{purple}{Q}, \textcolor{orange}{K}, \textcolor{blue}{V}.
 
 \item We do that by packing our embeddings into a matrix $X$, and multiplying it by the weight matrices we’ve trained (\textcolor{purple}{WQ}, \textcolor{orange}{WK}, \textcolor{blue}{WV}).
+
+
+
+ \begin{displaymath}
+  \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)*V
+ \end{displaymath}
+
+
+
 
 
 \end{itemize}

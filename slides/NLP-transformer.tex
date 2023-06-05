@@ -808,7 +808,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{frame}{Multi-Head Attention}
 \begin{scriptsize}
 \begin{itemize}
- \item The Multi-Head Attention block applies multiple blocks in parallel, concatenates their outputs, then applies one single linear transformation.
+ \item The Multi-Head Attention block applies multiple scaled dot product attention blocks in parallel, concatenates their outputs, then applies one single linear transformation.
  
  
      \begin{figure}[h]
@@ -834,11 +834,13 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
 
 
-\item The multi-headed component gives the attention layer multiple ``representation subspaces''.
+
 \item With multi-headed attention, we have not only one, but multiple sets of Query/Key/Value weight matrices.
 \item The Transformer uses eight attention heads, so we end up with eight sets for each encoder/decoder.
 \item Each of these sets is randomly initialized.
 \item Then, after training, each set is used to project the input embeddings (or vectors from lower encoders/decoders) into a different representation subspace.
+ 
+\item The multi-headed component gives the attention layer multiple ``representation subspaces''. 
  
 \end{itemize}
 
@@ -879,12 +881,8 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{scriptsize}
 \begin{itemize}
  \item If we do the same self-attention calculation we outlined above, just eight different times with different weight matrices, we end up with eight different Z matrices.
- \item This leaves us with a bit of a challenge.
- \item The feed-forward layer is not expecting eight matrices.
- \item It's expecting a single matrix (a vector for each word).
+ \item However, the feed-forward it's expecting a single matrix (a vector for each word)  not eight matrices.
  \item So we need a way to condense these eight down into a single matrix.
-
-
 \end{itemize}
 
 \end{scriptsize}
@@ -897,7 +895,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 \begin{scriptsize}
 \begin{itemize}
- \item How do we do that? We concat the matrices then multiply them by an additional weights matrix WO.
+ \item This is done by concatenating the matrices and then multiplying them by an additional weight matrix WO.
 
 
 \end{itemize}

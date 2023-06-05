@@ -1082,6 +1082,42 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{frame}
 
 
+\begin{frame}{The Final Linear and Training}
+\begin{scriptsize}
+\begin{itemize}
+ \item The decoder stack generates a vector of floats as its output.
+ \item To convert this vector into a word, the final Linear layer is used, followed by a Softmax layer. 
+ \item The Linear layer is a fully connected neural network that projects the decoder's output vector into a larger vector called a logits vector. 
+ \item The logits vector has a width equal to the size of the model's output vocabulary, which contains 10,000 unique English words.
+ \item Each cell in the logits vector represents the score of a specific word. 
+ \item The softmax layer then transforms these scores into probabilities, ensuring they are all positive and sum up to 1.0. 
+
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
+\begin{frame}{The Final Linear and Training}
+
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/transformer_decoder_output_softmax.png}
+        \end{figure}  
+
+
+\begin{scriptsize}
+\begin{itemize}
+ \item The word with the highest probability is chosen as the output for the current time step. 
+\item During the training of the Transformer, a cross-entropy loss is employed. 
+\item This loss measures the difference between the predicted distribution of words and the target word, which is represented as a one-hot vector.
+ 
+ 
+\end{itemize}
+
+\end{scriptsize}
+
+\end{frame}
+
 
 \begin{frame}{Positional Encodings}
 \begin{scriptsize}
@@ -1170,7 +1206,7 @@ The traditional attention mechanism largely solved the first dependency by givin
 
 \item The Transformer is a powerful and efficient alternative to recurrent neural networks to model dependencies using only attention mechanisms.
 
-\item A very illustrative blog post about the Transformer: \url{http://jalammar.github.io/illustrated-transformer/}.
+\item It has established itself as the de facto architecture in NLP and serves as the foundation for modern large language models.
  
 \end{itemize}
 

@@ -1012,17 +1012,14 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{scriptsize}
 \begin{itemize}
 
+\item The Transformer decoder utilizes the output of the top encoder to generate attention vectors K and V. 
+\item These attention vectors are then employed by each decoder in its ``encoder-decoder attention'' layer to enable the decoder to focus on relevant sections in the input sequence.
 
+\item By doing so, every position in the decoder is able to attend to all positions in the input sequence, replicating the typical encoder-decoder attention mechanisms found in sequence-to-sequence models. 
 
-\item The decoder has ``encoder-decoder attention'' layers in which the queries come from the previous decoder layer,and the memory keys and values come from the output of the encoder.
+\item Additionally, self-attention layers within the decoder allow each position to attend to all positions within the decoder, including itself, similar to the role played by the decoder hidden state in RNN machine translation architectures.
 
-\item This allows every position in the decoder to attend over all positions in the input sequence.
-
-\item This mimics the typical encoder-decoder attention mechanisms in sequence-to-sequence models.
-
-\item Self-attention layers in the decoder allow each position in the decoder to attend to all positions in the decoder up to and including that position.
-
- \item This plays a similar role to the decoder hidden state in RNN machine translation architectures.
+\item In summary, the ``Encoder-Decoder Attention`` layer works just like multiheaded self-attention, except it creates its Queries matrix from the layer below it, and takes the Keys and Values matrix from the output of the encoder stack.
 
 
  
@@ -1033,6 +1030,23 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{frame}
 
 
+\begin{frame}{The Decoder}
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.28]{pics/transformer_decoder.png}
+        \end{figure}  
+
+\begin{scriptsize}
+\begin{itemize}
+
+ \item Each step in the decoding phase outputs an element from the output sequence (the English translation sentence in this case). 
+ \item This process is repeated until a special symbol is reached indicating the transformer decoder has completed its output.
+\end{itemize}
+
+\end{scriptsize}
+        
+        
+\end{frame}
 
 
 
@@ -1041,13 +1055,16 @@ The traditional attention mechanism largely solved the first dependency by givin
 \begin{itemize}
  \item When we train the Transformer, we want to process all the sentences at the same time. 
  
- \item When we do this, if we give the decoder access to the entire target sentence, the model can just repeat the target sentence (in other words, it doesn't need to learn anything).
+ \item However, if we give the decoder access to the entire target sentence, the model can just repeat the target sentence (in other words, it doesn't need to learn anything).
  
- \item To prevent this from happening, the decoder masks the ``future'' tokens when decoding a certain word.
+ \item The self-attention layer should only be allowed to attend to earlier positions in the output sequence.
+ 
+ \item This is done by masking the ``future'' tokens when decoding a certain word.
 
   \item The masking is done by setting to $- \infty$ all values in the input of the softmax which correspond to illegal connections.
  \item This is why ``multi-head attention blocks'' in the decoder are referred to as ``masked'': the inputs to the decoder from future time-steps are masked.
-
+ 
+ 
 \end{itemize}
 
 \end{scriptsize}
@@ -1084,6 +1101,30 @@ The traditional attention mechanism largely solved the first dependency by givin
 \end{frame}
 
 \begin{frame}{Positional Encodings}
+
+
+   \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/transformer_positional_encoding_vectors.png}
+        \end{figure}  
+
+
+
+
+\begin{scriptsize}
+\begin{itemize}
+
+ \item To give the model a sense of the order of the words, we add positional encoding vectors -- the values of which follow a specific pattern. 
+
+
+\end{itemize}
+
+\end{scriptsize}
+
+
+\end{frame}
+
+
+\begin{frame}{Positional Encodings}
 \begin{scriptsize}
 \begin{itemize}
 
@@ -1096,12 +1137,25 @@ The traditional attention mechanism largely solved the first dependency by givin
 \item Basically, each dimension of the positional encoding is a wave with a different frequency. 
 
 
+   \begin{figure}[h]
+        	\includegraphics[scale = 0.25]{pics/transformer_positional_encoding_example.png}
+        \end{figure}  
+
+
+
+\item A real example of positional encoding with a toy embedding size of 4.
+
+
+
 \end{itemize}
 
 \end{scriptsize}
 
 
 \end{frame}
+
+
+
 
 
 \begin{frame}{Conclusions}

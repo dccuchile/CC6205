@@ -790,12 +790,12 @@ The traditional attention mechanism largely solved the first dependency by givin
 \item In the example above, $z1$ contains a little bit of every other encoding, but it could be dominated by the actual word itself.
 \item If we’re translating a sentence like ``The animal didn’t cross the street because it was too tired'', it would be useful to know which word ``it'' refers to.
 
-\item To solve this problem, the Transformer uses the Multi-Head Attention block.
-\item This component expands the model's ability to focus on different positions.
+\item To expand the model's to learn diverse representations focusing on different positions, the Transformer uses the Multi-Head Attention block.
+
 \item Multi-head attention computes multiple attention weighted sums instead of a single attention pass over the values.
-\item Hence the name ``Multi-Head'' Attention.
-\item To learn diverse representations, the Multi-Head Attention applies different linear transformations to the values, keys, and queries for each ``head'' of attention.
- 
+
+\item In essence, it applies different linear transformations to the values, keys, and queries for each ``head'' of attention.
+
  
 \end{itemize}
 

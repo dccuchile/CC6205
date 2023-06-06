@@ -1,0 +1,222 @@
+
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
+
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont}
+\usepackage{graphics}
+\usepackage{cases}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{multirow}	
+\usepackage{amstext}
+\usepackage[ruled,vlined,lined]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{fontenc}
+\usepackage{framed,color}
+\usepackage{palatino, url, multicol}
+%\algsetup{indent=2em}
+\newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+\vspace{-0.5cm}
+\title{Natural Language Processing \\ Contexutalized Embeddings, Pre-Training, Fine-Tuning and Large Language Models}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+
+
+\end{frame}
+
+
+
+\begin{frame}{ELMo: Embeddings from Language Models}
+\begin{scriptsize}
+\begin{itemize}
+\item Idea: train a large language model (LM)  with a recurrent neural network and use its hidden states as ``contextualized word embeddings'' 
+\cite{peters-etal-2018-deep}. 
+
+\item ELMO is bidirectional LM with 2 biLSTM layers and around 100 million parameters.
+\item  Uses character CNN to build initial word representation (only)
+\item  2048 char n-gram filters and 2 highway layers, 512 dim projection
+\item  User 4096 dim hidden/cell LSTM states with 512 dim projections to next input
+\item  Uses a residual connection
+\item  Parameters of token input and output (softmax) are tied
+
+
+ 
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{ELMo: Embeddings from Language Models}
+    \begin{figure}[h]
+        	\includegraphics[scale = 0.29]{pics/elmo.png}
+        \end{figure}  
+\end{frame}
+
+
+
+\begin{frame}{ELMo: Use with a task}
+\begin{scriptsize}
+\begin{itemize}
+\item First run biLM to get representations for each word
+\item Then let (whatever) end-task model use them
+\item  Freeze weights of ELMo for purposes of supervised model
+\item  Concatenate ELMo weights into task-specific model
+
+
+    \begin{figure}[h]
+        	\includegraphics[scale = 0.25]{pics/elmo2.png}
+        \end{figure}  
+
+ 
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{ELMo: Results}
+
+    \begin{figure}[h]
+        	\includegraphics[scale = 0.25]{pics/elmo_results.png}
+        \end{figure}  
+
+ 
+
+
+\end{frame}
+
+
+\begin{frame}{ULMfit}
+\begin{scriptsize}
+\begin{itemize}
+\item Howard and Ruder (2018) Universal Language Model Fine-tuning for Text Classification \cite{howard-ruder-2018-universal}. 
+\item Same general idea of transferring NLM knowledge
+\item  Here applied to text classification
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.29]{pics/ulmfit1.png}
+        \end{figure}  
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{ULMfit}
+\begin{scriptsize}
+\begin{itemize}
+\item Train LM on big general domain corpus (use biLM)
+\item Tune LM on target task data
+\item Fine-tune as classifier on target task
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/ulmfit2.png}
+        \end{figure}  
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{ULMfit emphases}
+\begin{scriptsize}
+\begin{itemize}
+\item Use reasonable-size ``1 GPU'' language model not really huge one
+\item A lot of care in LM fine-tuning
+\item Different per-layer learning rates
+\item Slanted triangular learning rate (STLR) schedule
+\item Gradual layer unfreezing and STLR when learning classifier
+\item Classify using concatenation $[h_T, $maxpool$(h),$meanpool$(h)]$
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/ulmfit3.png}
+        	Text classifier error rates
+        \end{figure}  
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\begin{frame}{ULMfit transfer learning}
+
+\begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/ulmfit4.png}
+        \end{figure}  
+
+
+\end{frame}
+
+
+\begin{frame}{BERT}
+\begin{scriptsize}
+\begin{itemize}
+\item Idea: train a large language model with a recurrent neural network and use its hidden states as ``contextualized word embeddings'' \cite{peters-etal-2018-deep}.
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.29]{pics/elmo.png}
+        \end{figure}  
+
+
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Questions?}
+%\vspace{1.5cm}
+\begin{center}\LARGE Thanks for your Attention!\\ \end{center}
+
+
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]\scriptsize
+\frametitle{References}
+\bibliography{bio}
+\bibliographystyle{apalike}
+%\bibliographystyle{flexbib}
+\end{frame}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

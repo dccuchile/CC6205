@@ -79,13 +79,14 @@
 \begin{frame}{Neural Language Models can produce Contextualized Embeddings}
 \begin{scriptsize}
 \begin{itemize}
-\item So far, we've basically had one representation of words, the word embeddings we've already learned:  Word2vec, GloVe, fastText.\footnote{These slides are based on the Stanford CS224N: Natural Language Processing with Deep Learning course: \url{http://web.stanford.edu/class/cs224n/}}.
-\item These have two problems.
-\item Problem: Always the same representation for a word type regardless of the context in which a word token occurs
-\item  We might want very fine-grained word sense disambiguation
-\item Problem 2: We just have one representation for a word, but words have different aspects, including semantics, syntactic behavior, and register/connotations
+\item In, a Neural Language Model (NLM), we immediately stuck word vectors (perhaps only trained on the corpus) through LSTM layers
+\item  Those LSTM layers are trained to predict the next word.
+\item  But these language models produce context-specific word representations in the hidden states of each position.
 
- 
+    \begin{figure}[h]
+        	\includegraphics[scale = 0.4]{pics/lstm_nlm.png}
+        \end{figure}  
+
 
 \end{itemize}
 \end{scriptsize}
@@ -105,7 +106,7 @@
 \item  2048 char n-gram filters and 2 highway layers, 512 dim projection
 \item  User 4096 dim hidden/cell LSTM states with 512 dim projections to next input
 \item  Uses a residual connection
-\item  Parameters of token input and output (softmax) are tied
+\item  Parameters of token input and output (softmax) are tied.
 
 
  
@@ -126,10 +127,10 @@
 \begin{frame}{ELMo: Use with a task}
 \begin{scriptsize}
 \begin{itemize}
-\item First run biLM to get representations for each word
-\item Then let (whatever) end-task model use them
-\item  Freeze weights of ELMo for purposes of supervised model
-\item  Concatenate ELMo weights into task-specific model
+\item First run biLM to get representations for each word.
+\item Then let (whatever) end-task model use them.
+\item  Freeze weights of ELMo for purposes of supervised model.
+\item  Concatenate ELMo weights into task-specific model.
 
 
     \begin{figure}[h]
@@ -217,6 +218,46 @@
 
 \end{frame}
 
+
+\begin{frame}{Let’s scale it up!}
+
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.28]{pics/llmscale.png}
+        \end{figure}  
+
+
+\end{frame}
+
+
+\begin{frame}{GPT-2 language model (cherry-picked) output}
+\begin{scriptsize}
+
+
+\textbf{Human provided prompt}:
+
+In a shocking finding, scientist discovered a herd of unicorns living in a remote, previously unexplored valley, in the Andes Mountains. Even more surprising to the researchers was the fact that the unicorns spoke perfect English. \\ 
+\textbf{Model Completition}: \\ 
+
+The scientist named the population, after their distinctive horn, Ovid’s Unicorn. These four-horned, silver-white unicorns were previously unknown to science.
+
+Now, after almost two centuries, the mystery of what sparked this odd phenomenon is finally solved.
+
+Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and several companions, were exploring the Andes Mountains when they found a small valley, with no other animals or humans. Pérez noticed that the valley had what appeared to be a natural fountain, surrounded by two peaks of rock and silver snow.
+
+
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Transformer models}
+
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.28]{pics/llmscale_trans.png}
+        \end{figure}  
+
+
+\end{frame}´
 
 \begin{frame}{BERT}
 \begin{scriptsize}

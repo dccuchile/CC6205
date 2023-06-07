@@ -257,15 +257,18 @@ Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and s
         \end{figure}  
 
 
-\end{frame}´
+\end{frame}
 
-\begin{frame}{BERT}
+\begin{frame}{BERT (Bidirectional Encoder Representations from Transformers)}
 \begin{scriptsize}
 \begin{itemize}
-\item Idea: train a large language model with a recurrent neural network and use its hidden states as ``contextualized word embeddings'' \cite{peters-etal-2018-deep}.
+\item Idea: combine ideas from ELMO, ULMFit and the Transformer \cite{kenton2019bert}.
+\item How: Train a large model (335 million parameters) from a large unlabeled corpus using a Transformer encoder and then fine-tune it for other downstream tasks.
+\item The parallelizable properties of the Transformer (unlike RNNs, which must be processed sequentially) allow the model to scale to more parameters.
+\item This model is related but a little bit different from a standard Language Model.
 
      \begin{figure}[h]
-        	\includegraphics[scale = 0.29]{pics/elmo.png}
+        	\includegraphics[scale = 0.4]{pics/bert.png}
         \end{figure}  
 
 

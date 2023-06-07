@@ -230,24 +230,6 @@
 \end{frame}
 
 
-\begin{frame}{GPT-2 language model (cherry-picked) output}
-\begin{scriptsize}
-
-
-\textbf{Human provided prompt}:
-
-In a shocking finding, scientist discovered a herd of unicorns living in a remote, previously unexplored valley, in the Andes Mountains. Even more surprising to the researchers was the fact that the unicorns spoke perfect English. \\ 
-\textbf{Model Completition}: \\ 
-
-The scientist named the population, after their distinctive horn, Ovid’s Unicorn. These four-horned, silver-white unicorns were previously unknown to science.
-
-Now, after almost two centuries, the mystery of what sparked this odd phenomenon is finally solved.
-
-Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and several companions, were exploring the Andes Mountains when they found a small valley, with no other animals or humans. Pérez noticed that the valley had what appeared to be a natural fountain, surrounded by two peaks of rock and silver snow.
-
-
-\end{scriptsize}
-\end{frame}
 
 \begin{frame}{Transformer models}
 
@@ -278,6 +260,225 @@ Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and s
 \end{scriptsize}
 \end{frame}
 
+
+
+\begin{frame}{BERT (Bidirectional Encoder Representations from Transformers)}
+\begin{scriptsize}
+\begin{itemize}
+\item BERT  doesn't predict the next word in a sentence like a traditional language model, but rather learns utilizes a ``\textbf{masked language modeling}'' (MLM) objective during pre-training.
+
+\item In MLM, random words in a sentence are masked and the model is trained to predict those masked words based on the surrounding context.
+\item BERT also incorporates a ``\textbf{next sentence prediction}'' task, where pairs of sentences are fed to the model, and it learns to predict whether the second sentence follows the first in the original text.
+\item \textbf{Fine-tuning} BERT involves adding a task-specific layer on top of the pre-trained model and training it on a labeled dataset for the target task.
+\item BERT achieved state-of-the-art results at the time of its release on NLP tasks, including sentence classification, named entity recognition, question answering, and more.
+
+
+
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Masked Language Modeling and Next Sentence Prediction}
+\begin{scriptsize}
+\begin{itemize}
+\item MLM: Mask out k\% of the input words, and then predict the masked words
+\item They always use k = 15\%.
+
+     \begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/MLM.png}
+        \end{figure}  
+
+\item Too little masking: Too expensive to train
+\item Too much masking: Not enough context
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Masked Language Modeling and Next Sentence Prediction}
+\begin{scriptsize}
+\begin{itemize}
+\item Next sentence prediction: To learn relationships between sentences, predict whether
+Sentence B is actual sentence that proceeds Sentence A, or a random sentence
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.23]{pics/NSP.png}
+        \end{figure}  
+
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{BERT sentence pair encoding}
+\begin{scriptsize}
+\begin{itemize}
+\item Token embeddings: Words are divided into smaller units called word pieces, and each word piece is assigned a token embedding.
+\item BERT learns a segmented embedding [SEP] to differentiate between the two sentences in a pair.
+\item BERT utilizes positional embeddings to capture the position of each word within the sentence.
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.18]{pics/BSPE.png}
+        \end{figure}  
+
+
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{BERT Model Architecture and Training}
+\begin{scriptsize}
+\begin{itemize}
+\item BERT is based on the Transformer encoder.
+\item The multi-headed self-attention block of the Transformer  allows BERT to consider long-distance context effectively.
+\item The use of self-attention also enables efficient computations on GPU/TPU, with only a single multiplication per layer.
+\item BERT was trained on a large amount of unlabeled text data from Wikipedia and BookCorpus.
+\item Two different model sizes were trained:
+\begin{enumerate}\scriptsize{
+\item BERT-Base: 12 layers, 768 hidden units, and 12 attention heads.
+\item BERT-Large: 24 layers, 1024 hidden units, and 16 attention heads.}
+\end{enumerate}
+\item The training process involved utilizing 4x4 or 8x8 TPU (Tensor Processing Unit) configurations for faster computation.
+\item Training BERT models took approximately 4 days to complete.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{BERT model fine tuning}
+\begin{scriptsize}
+\begin{itemize}
+\item Fine-tuning involves customizing the pre-trained BERT model for specific tasks.
+\item To fine-tune BERT, we add a task-specific layer on top of the pre-trained BERT model.
+\item The task-specific layer can vary depending on the task at hand, such as sequence labeling or sentence classification.
+\item We train the entire model, including the pre-trained BERT and the added task-specific layer, for the specific task.
+\end{itemize}
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/BERTFineTuning.png}
+        \end{figure}  
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{BERT results on GLUE tasks}
+\begin{scriptsize}
+\begin{itemize}
+ \item BERT was massively popular and hugely versatile; finetuning BERT led to new state-of-
+the-art results on a broad range of tasks.
+\item BERT's performance was assessed using the GLUE benchmark, a collection of diverse NLP tasks.
+\item The GLUE benchmark primarily consists of natural language inference tasks, but also includes sentence similarity and sentiment analysis tasks.
+\end{itemize}
+
+\textbf{Example Task: MultiNLI (Natural Language Inference)}
+\begin{itemize}
+\item Premise: "Hills and mountains are especially sanctified in Jainism."
+\item Hypothesis: "Jainism hates nature."
+\item Label: Contradiction
+\end{itemize}
+
+\textbf{Example Task: CoLa}
+\begin{itemize}
+\item Sentence: "The wagon rumbled down the road."
+\item Label: Acceptable
+\end{itemize}
+\begin{itemize}
+\item Sentence: "The car honked down the road."
+\item Label: Unacceptable
+\end{itemize}
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{BERT results on GLUE tasks}
+\begin{scriptsize}
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.26]{pics/BERTGLUE.png}
+        \end{figure}  
+
+
+\begin{itemize}
+
+\item QQP: Quora Question Pairs (detect paraphrase questions)
+\item QNLI: natural language inference over question answering data
+\item SST-2: sentiment analysis 
+\item CoLA: corpus of linguistic acceptability (detect whether sentences are grammatical.)
+\item STS-B: semantic textual similarity
+\item MRPC: microsoft paraphrase corpus
+\item  RTE: a small natural language inference corpus
+\end{itemize}
+
+\end{scriptsize}
+
+
+
+
+\end{frame}
+
+\begin{frame}{BERT Effect of pre-training task}
+
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/BERTeffect.png}
+        \end{figure}  
+
+
+\end{frame}
+
+
+\begin{frame}{Pre-training decoders GPT and GPT-2}
+
+
+\begin{scriptsize}
+\begin{itemize}
+\item Contemporary to BERT, OpenAI introduced an alternative approach called Generative Pretrained Transformer (GPT) \cite{radford2018improving}.
+\item The idea behind GPT is to train a large standard language model using the generative part of the Transformer, specifically the decoder.
+\item GPT is a Transformer decoder with 12 layers and 117 million parameters.
+\item It has 768-dimensional hidden states and 3072-dimensional feed-forward hidden layers.
+\item GPT utilizes byte-pair encoding with 40,000 merges to handle subword units.
+\item GPT was trained on BooksCorpus, which consists of over 7,000 unique books.
+\item OpenAI later introduced GPT-2, a larger version with 1.5 billion parameters, trained on even more data.
+\item GPT-2 has been shown to generate relatively convincing samples of natural language.
+\end{itemize}
+
+
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{GPT-2 language model (cherry-picked) output}
+\begin{scriptsize}
+
+
+\textbf{Human provided prompt}:
+
+In a shocking finding, scientist discovered a herd of unicorns living in a remote, previously unexplored valley, in the Andes Mountains. Even more surprising to the researchers was the fact that the unicorns spoke perfect English. \\ 
+\textbf{Model Completition}: \\ 
+
+The scientist named the population, after their distinctive horn, Ovid’s Unicorn. These four-horned, silver-white unicorns were previously unknown to science.
+
+Now, after almost two centuries, the mystery of what sparked this odd phenomenon is finally solved.
+
+Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and several companions, were exploring the Andes Mountains when they found a small valley, with no other animals or humans. Pérez noticed that the valley had what appeared to be a natural fountain, surrounded by two peaks of rock and silver snow.
+
+
+\end{scriptsize}
+\end{frame}
 
 \begin{frame}
 \frametitle{Questions?}

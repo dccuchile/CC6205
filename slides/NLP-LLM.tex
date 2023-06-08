@@ -580,7 +580,7 @@ soning behavior in large language models.
 
 
 
-\begin{frame}{Language Models as User Assitants}
+\begin{frame}{Language Models as User Assitants (or Chatbots)}
 
 \begin{scriptsize}
 \begin{itemize}
@@ -588,10 +588,11 @@ soning behavior in large language models.
 
 
  \begin{figure}[h]
-        	\includegraphics[scale = 0.18]{pics/lmnotuserassistant.png}
+        	\includegraphics[scale = 0.34]{pics/lmnotuserassistant.png}
         \end{figure}
 
 \item Solution: align the language model with user intent via fine-tuning.
+
 
 \end{itemize}
 \end{scriptsize}
@@ -607,17 +608,16 @@ soning behavior in large language models.
 
 \begin{scriptsize}
 \begin{itemize}
-\item Autoregressive Large Language Models are not aligned with user intent \cite{ouyang2022training}
-
-
- \begin{figure}[h]
-        	\includegraphics[scale = 0.18]{pics/lmnotuserassistant.png}
-        \end{figure}
-
-\item Solution: align the language model with user intent via fine-tuning.
-
+\item LaMDA is a language model developed by Google based on Transformer optimized for open domain dialog.
+\item It has 137 billion parameters and is trained on 1.56 billion words.
+\item It is initially pre-trained in the same way as traditional language models (predicting words) with language models (predicting words) with a strong focus on dialog data.
+\item It is then ﬁne-tuned to generate responses with respect to several other criteria.
 \end{itemize}
 \end{scriptsize}
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.5]{pics/lambda.png}
+        \end{figure}
 
 
 

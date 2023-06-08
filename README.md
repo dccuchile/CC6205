@@ -39,21 +39,23 @@ The neural network-related topics of the course are taken from the book of Yoav 
 16. [Recursive Networks and Paragraph Vectors](slides/NLP-recursive.pdf) | ([tex source file](slides/NLP-recursive.tex))
 
 
-## NLP Libraries
+## NLP Libraries and Tools
 
 1. [NLTK: Natural Language Toolkit](https://www.nltk.org/)
 2. [Gensim](https://radimrehurek.com/gensim/)
-2. [spaCy: Industrial-strength NLP](https://spacy.io/)
-3. [Torchtext](https://torchtext.readthedocs.io/en/latest/)
-9. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
-22. [Transformers: a library of state-of-the-art pre-trained models for Natural Language Processing (NLP)](https://huggingface.co/transformers/)
-31. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
-35. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
-36. [WEFE: The Word Embeddings Fairness Evaluation Framework](https://wefe.readthedocs.io/en/latest/)
-37. [WhatLies: A library that tries help you to understand. "What lies in word embeddings?"](https://rasahq.github.io/whatlies/)
-38. [LASER:a library to calculate and use multilingual sentence embeddings](https://github.com/facebookresearch/LASER)
-39. [Sentence Transformers: Multilingual Sentence Embeddings using BERT / RoBERTa / XLM-RoBERTa & Co. with PyTorch](https://github.com/UKPLab/sentence-transformers)
-40. [Datasets: a lightweight library with one-line dataloaders for many public datasets in NLP](https://github.com/huggingface/datasets)
+3. [spaCy: Industrial-strength NLP](https://spacy.io/)
+4. [Torchtext](https://torchtext.readthedocs.io/en/latest/)
+5. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
+6. [HuggingFace Transformers)](https://huggingface.co/docs/transformers/index)
+7. [ChatGPT](https://chat.openai.com/)
+8. [Google Bard](https://bard.google.com)
+9. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
+10. [FlairNLP: A very simple framework for state-of-the-art Natural Language Processing (NLP)](https://github.com/flairNLP/flair)
+11. [WEFE: The Word Embeddings Fairness Evaluation Framework](https://wefe.readthedocs.io/en/latest/)
+12. [WhatLies: A library that tries help you to understand. "What lies in word embeddings?"](https://rasahq.github.io/whatlies/)
+13. [LASER:a library to calculate and use multilingual sentence embeddings](https://github.com/facebookresearch/LASER)
+14. [Sentence Transformers: Multilingual Sentence Embeddings using BERT / RoBERTa / XLM-RoBERTa & Co. with PyTorch](https://github.com/UKPLab/sentence-transformers)
+15. [Datasets: a lightweight library with one-line dataloaders for many public datasets in NLP](https://github.com/huggingface/datasets)
 
 
 ## Notes and Books 
@@ -61,10 +63,11 @@ The neural network-related topics of the course are taken from the book of Yoav 
 2. [Michael Collins' NLP notes](http://www.cs.columbia.edu/~mcollins/).
 3. [A Primer on Neural Network Models for Natural Language Processing by Joav Goldberg](https://u.cs.biu.ac.il/~yogo/nnlp.pdf).
 4. [Natural Language Understanding with Distributed Representation by Kyunghyun Cho](https://arxiv.org/abs/1511.07916)
-5. [Natural Language Processing Book by Jacob Eisenstein](https://github.com/jacobeisenstein/gt-nlp-class/blob/master/notes/eisenstein-nlp-notes.pdf)
-8. [NLTK book](http://www.nltk.org/book/)
-9. [Embeddings in Natural Language Processing by Mohammad Taher Pilehvar and Jose Camacho-Collados](http://josecamachocollados.com/book_embNLP_draft.pdf)
-31. [Dive into Deep Learning Book](https://d2l.ai/)
+5. [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223)
+6. [Natural Language Processing Book by Jacob Eisenstein](https://github.com/jacobeisenstein/gt-nlp-class/blob/master/notes/eisenstein-nlp-notes.pdf)
+7. [NLTK book](http://www.nltk.org/book/)
+8. [Embeddings in Natural Language Processing by Mohammad Taher Pilehvar and Jose Camacho-Collados](http://josecamachocollados.com/book_embNLP_draft.pdf)
+9. [Dive into Deep Learning Book](https://d2l.ai/)
 
 ## Other NLP Courses
 1. [CS224n: Natural Language Processing with Deep Learning, Stanford course](http://web.stanford.edu/class/cs224n/)
@@ -91,36 +94,32 @@ The neural network-related topics of the course are taken from the book of Yoav 
 1. [ACL Portal](https://www.aclweb.org/portal/)
 2. [Awesome-nlp: A curated list of resources dedicated to Natural Language Processing](https://github.com/keon/awesome-nlp)
 3. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
-4. [NLP News By Sebastian Ruder](http://newsletter.ruder.io/)
-5. [Corpora Mailing List](https://mailman.uib.no/listinfo/corpora)
+4. [Corpora Mailing List](https://mailman.uib.no/listinfo/corpora)
+5. [🤗 Open LLM Leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard)
 6. [Real World NLP Book: AllenNLP tutorials](http://www.realworldnlpbook.com/)
-7. [Attention is all you need explained](http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/)
-8. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
-9. [ELMO explained](http://mlexplained.com/2018/06/15/paper-dissected-deep-contextualized-word-representations-explained/)
-13. [BERT exaplained](http://mlexplained.com/2019/01/07/paper-dissected-bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding-explained/)
-14. [Better Language Models
-    and Their Implications OpenAI Blog](https://openai.com/blog/better-language-models/)
-16. [RNN effectiveness](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
-17. [SuperGLUE: an benchmark of Natural Language Understanding Tasks](https://super.gluebenchmark.com/)
-18. [decaNLP The Natural Language Decathlon: a benchmark for studying general NLP models that can perform a variety of complex, natural language tasks](http://decanlp.com/).
-20. [Chatbot and Related Research Paper Notes with Images](https://github.com/ricsinaruto/Seq2seqChatbots/wiki/Chatbot-and-Related-Research-Paper-Notes-with-Images)
-21. [XLNet Explained](http://mlexplained.com/2019/06/30/paper-dissected-xlnet-generalized-autoregressive-pretraining-for-language-understanding-explained/)
-23. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
-24. [PLMpapers: a collection of papers about Pre-Trained Language Models](https://github.com/thunlp/PLMpapers)
-25. [The Illustrated GPT-2 (Visualizing Transformer Language Models)](https://jalammar.github.io/illustrated-gpt2/)
-26. [Linguistics, NLP, and Interdisciplinarity Or: Look at Your Data, by Emily M. Bender](https://medium.com/@emilymenonbender/linguistics-nlp-and-interdisciplinarity-or-look-at-your-data-e49e03d37c9c)
-27. [The State of NLP Literature: Part I, by Saif Mohammad](https://medium.com/@nlpscholar/state-of-nlp-cbf768492f90)
-28. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
-29. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
-30. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
-32. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
-33. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
-34. [A Primer in BERTology: What we know about how BERT works](https://arxiv.org/abs/2002.12327)
-35. [How Self-Attention with Relative Position Representations works](https://link.medium.com/wFxx3d96f7)
-46. [Deep Learning Based Text Classification: A Comprehensive Review](https://arxiv.org/pdf/2004.03705.pdf)
-47. [Teaching NLP is quite depressing, and I don't know how to do it well by Yoav Goldberg](https://twitter.com/yoavgo/status/1318567498653061122)
-48. [The NLP index](https://index.quantumstat.com/)
-49. [100 Must-Read NLP Papers](https://github.com/amanchadha/100-nlp-papers)
+7. [The Illustrated Transformer: a very illustrative blog post about the Transformer](http://jalammar.github.io/illustrated-transformer/)
+8. [Better Language Models
+   and Their Implications OpenAI Blog](https://openai.com/blog/better-language-models/)
+9. [RNN effectiveness](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+10. [SuperGLUE: an benchmark of Natural Language Understanding Tasks](https://super.gluebenchmark.com/)
+11. [decaNLP The Natural Language Decathlon: a benchmark for studying general NLP models that can perform a variety of complex, natural language tasks](http://decanlp.com/).
+12. [Chatbot and Related Research Paper Notes with Images](https://github.com/ricsinaruto/Seq2seqChatbots/wiki/Chatbot-and-Related-Research-Paper-Notes-with-Images)
+13. [Ben Trevett's torchtext tutorials](https://github.com/bentrevett/)
+14. [PLMpapers: a collection of papers about Pre-Trained Language Models](https://github.com/thunlp/PLMpapers)
+15. [The Illustrated GPT-2 (Visualizing Transformer Language Models)](https://jalammar.github.io/illustrated-gpt2/)
+16. [Linguistics, NLP, and Interdisciplinarity Or: Look at Your Data, by Emily M. Bender](https://medium.com/@emilymenonbender/linguistics-nlp-and-interdisciplinarity-or-look-at-your-data-e49e03d37c9c)
+17. [The State of NLP Literature: Part I, by Saif Mohammad](https://medium.com/@nlpscholar/state-of-nlp-cbf768492f90)
+18. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
+19. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
+20. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
+21. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
+22. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
+23. [A Primer in BERTology: What we know about how BERT works](https://arxiv.org/abs/2002.12327)
+24. [How Self-Attention with Relative Position Representations works](https://link.medium.com/wFxx3d96f7)
+25. [Deep Learning Based Text Classification: A Comprehensive Review](https://arxiv.org/pdf/2004.03705.pdf)
+26. [Teaching NLP is quite depressing, and I don't know how to do it well by Yoav Goldberg](https://twitter.com/yoavgo/status/1318567498653061122)
+27. [The NLP index](https://index.quantumstat.com/)
+28. [100 Must-Read NLP Papers](https://github.com/amanchadha/100-nlp-papers)
 
 
 

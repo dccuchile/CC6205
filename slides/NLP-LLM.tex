@@ -481,6 +481,27 @@ Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and s
 \end{frame}
 
 
+
+
+\begin{frame}{What kinds of things does pretraining learn?}
+
+
+\begin{scriptsize}
+\begin{itemize}
+\item Stanford University is located in \_\_\_\_\_, California. [Trivia]
+\item I put \_\_\_\_\_ fork down on the table. [syntax]
+\item The woman walked across the street, checking for traffic over \_\_\_\_\_ shoulder. [coreference]
+ \item I went to the ocean to see the fish, turtles, seals, and \_\_\_\_\_. [lexical semantics/topic]
+\item Overall, the value I got from the two hours watching it was the sum total of the popcorn and the drink. The movie was \_\_\_\_\_. [sentiment]
+\item Iroh went into the kitchen to make some tea. Standing next to Iroh, Zuko pondered his destiny. Zuko left the \_\_\_\_\_. [some reasoning – this is harder]
+\item I was thinking about the sequence that goes 1, 1, 2, 3, 5, 8, 13, 21, \_\_\_\_\_ [some basic arithmetic; they don’t learn the Fibonnaci sequence]
+\end{itemize}
+
+
+\end{scriptsize}
+
+\end{frame}
+
 \begin{frame}{Phase Change: GPT-3 (2020)}
 \begin{scriptsize}
 \begin{itemize}
@@ -503,10 +524,9 @@ Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and s
 \begin{frame}{Zero-shot, One-shot, and Few-shot Learning with GPT-3}
 \begin{scriptsize}
 \begin{itemize}
-\item GPT-3 showcased remarkable capabilities in NLP tasks through different learning paradigms: zero-shot, one-shot, and few-shot learning.
-\item \textbf{Zero-shot learning}: With zero-shot learning, GPT-3 can tackle tasks it has never seen before without any specific training. It achieves this by providing a prompt or instruction to guide its generation process. For example, by providing GPT-3 with a prompt like, "Translate this English sentence to French," it can generate the translated sentence without any explicit training for translation tasks.
+\item \textbf{Zero-shot learning}: With zero-shot learning, GPT-3 can tackle tasks  without any specific training. It achieves this by providing a prompt or instruction to guide its generation process. For example, by providing GPT-3 with a prompt like, ``Translate this English sentence to French,'' it can generate the translated sentence without any explicit training for translation tasks.
 \item \textbf{One-shot learning}: In one-shot learning, GPT-3 can perform a task by adding a single input-output pair to the instruction.
-\item \textbf{Few-shot learning}: providing a limited number input-outpur pairs after the instruction in the prompt.
+\item \textbf{Few-shot learning}: similar idea but providing a limited number input-output pairs after the instruction in the prompt.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -525,6 +545,36 @@ Dr. Jorge Pérez, an evolutionary biologist from the University of La Paz, and s
 \end{frame}
 
 
+\begin{frame}{GPT-3 Few-shot Learning Results}
+
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.15]{pics/fewshotresults.png}
+        \end{figure}
+
+
+
+\end{frame}
+
+
+\begin{frame}{Chain-of-thought prompting}
+
+\begin{scriptsize}
+\begin{itemize}
+\item Chain-of-thought prompting is a simple mechanism for eliciting multi-step rea-
+soning behavior in large language models.
+\item  Idea: augment each exemplar in few-shot prompting with a chain of thought for an associated answer \cite{wei2022chain}
+\end{itemize}
+\end{scriptsize}
+
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/chainoftought.png}
+        \end{figure}
+
+
+
+\end{frame}
 
 
 \begin{frame}{Prompt Engineering}

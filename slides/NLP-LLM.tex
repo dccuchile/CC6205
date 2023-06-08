@@ -608,10 +608,12 @@ soning behavior in large language models.
 
 \begin{scriptsize}
 \begin{itemize}
-\item LaMDA is a language model developed by Google based on Transformer optimized for open domain dialog.
+\item LaMDA is a language model developed by Google based on Transformer optimized for open domain dialog \cite{thoppilan2022lamda}.
 \item It has 137 billion parameters and is trained on 1.56 billion words.
 \item It is initially pre-trained in the same way as traditional language models (predicting words) with language models (predicting words) with a strong focus on dialog data.
 \item It is then ﬁne-tuned to generate responses with respect to several other criteria.
+\item In order to fit LaMBDA to all these criteria they worked with a large number of crowd-workers.
+\item These are people who manually labeled conversations from the pre-trained model.
 \end{itemize}
 \end{scriptsize}
 
@@ -624,20 +626,86 @@ soning behavior in large language models.
 \end{frame}
 
 
+\begin{frame}{LaMDA Optimization Criteria}
+\begin{scriptsize}
+
+\textbf{Quality}
+\begin{itemize}
+\item Sensibleness: give meaningful answers.
+\item Specificity: avoid vague answers.
+\item Interestingness: give insightful, unexpected or witty answers.
+\end{itemize}
+
+\textbf{Safety}
+\begin{itemize}
+\item Avoid violent language.
+\item Avoid hate speech.
+\item Avoid stereotyped speech.
+\end{itemize}
+
+\textbf{Groundedness and Informativity}
+\begin{itemize}
+\item Avoid giving answers not validated by external sources.
+\item Optimize the fraction of responses that can be validated in authoritative sources using search engines.
+
+\end{itemize}
+\end{scriptsize}
+
+
+\end{frame}
+
+
+\begin{frame}{LaMDA Evaluation}
+
+\begin{scriptsize}
+\begin{itemize}
+\item The system is compared with the original pre-trained PT model and human judgments.
+\item The evaluation is done by another group of people through questionnaires.
+\end{itemize}
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.45]{pics/lambdaresults.png}
+        \end{figure}
+
+\end{scriptsize}
+
+\end{frame}
+
+
+
+\begin{frame}{ChatGPT and RLHF}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{scriptsize}
+\begin{itemize}
+\item Model similar to Lambda launched by OpenAI at the end of 2022.
+\item It also uses Crowdsourcing to improve its responses, but its fine-tuning process uses Reinforcement Learning (RL), a different learning paradigm from supervised learning.
+\item In particular, it uses Reinforcement Learning from Human Feedback (RLHF) \cite{ouyang2022training}.
+\item It builds a preference model that assigns a score to a generated sentence and adjusts the language model accordingly.
+\end{itemize}
+\end{scriptsize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{figure}[h]
+	\includegraphics[scale = 0.25]{pics/chatgpt.png}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
 \begin{frame}{ChatGPT and RLHF}
 
 \begin{scriptsize}
-\begin{itemize}
-\item Autoregressive Large Language Models are not aligned with user intent \cite{ouyang2022training}
+
 
 
  \begin{figure}[h]
-        	\includegraphics[scale = 0.18]{pics/lmnotuserassistant.png}
+        	\includegraphics[scale = 0.12]{pics/RLHF.png}
         \end{figure}
+        Source: \url{https://huggingface.co/blog/rlhf}
 
-\item Solution: align the language model with user intent via fine-tuning.
 
-\end{itemize}
 \end{scriptsize}
 
 
@@ -645,31 +713,41 @@ soning behavior in large language models.
 \end{frame}
 
 
-\begin{frame}{GPT-4}
 
+\begin{frame}{GPT-4 (2023)}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
 \begin{scriptsize}
 \begin{itemize}
-\item Hallucination
-\item Fairness
+\item Last LM of OpenAI \cite{openai2023gpt4}, this time able to include images in the prompt.
+\item Still a Transformer LM.
+\item Able to pass exams in several disciplines being able to process the images of the questions.
+\item From ChatGPT onwards, companies have stopped making public all the details of the construction of their models.
 \end{itemize}
 \end{scriptsize}
-
-
-
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{figure}[h]
+	\includegraphics[scale = 0.35]{pics/gpt4.png}
+\end{figure}
+\end{column}
+\end{columns}
 \end{frame}
+
 
 
 \begin{frame}{Dangers of Large Language Models}
-
 \begin{scriptsize}
+The research community has raised concerns about several dangers associated with Large Language Models \cite{bender2021dangers}.
 \begin{itemize}
-\item Hallucination
-\item Fairness
+\item \textbf{Hallucination}: Probabilistic language models can generate fabricated information lacking factual basis.
+\item \textbf{Fairness}: These models can perpetuate biases present in the training data, including toxic language, racism, and gender discrimination.
+\item \textbf{Copyright infringement}: Large language models may violate copyright laws by reproducing content without proper authorization.
+\item \textbf{Lack of transparency}: The complex nature of these models makes it difficult to interpret their predictions and understand the reasoning behind specific responses.
+\item \textbf{Monopolization}: The high costs of training these models create barriers for non-big-tech companies to compete.
+\item \textbf{High carbon footprint}: The energy-intensive training process of these models contributes to a significant carbon footprint.
 \end{itemize}
 \end{scriptsize}
-
-
-
 \end{frame}
 
 

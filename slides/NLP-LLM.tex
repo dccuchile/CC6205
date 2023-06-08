@@ -62,7 +62,7 @@
 \begin{frame}{Representations for a word}
 \begin{scriptsize}
 \begin{itemize}
-\item So far, we've basically had one representation of words, the word embeddings we've already learned:  Word2vec, GloVe, fastText.\footnote{These slides are based on the Stanford CS224N: Natural Language Processing with Deep Learning course: \url{http://web.stanford.edu/class/cs224n/}}.
+\item So far, we've basically had one representation of words, the word embeddings we've already learned:  Word2vec, GloVe, fastText.\footnote{These slides are partially based on the Stanford CS224N: Natural Language Processing with Deep Learning course: \url{http://web.stanford.edu/class/cs224n/}}.
 \item These embeddings have a useful semi-supervised quality, as they can be learned from unlabeled corpora and used in our downstream task-oriented architectures (LSTM, CNN, Transformer).
 
 \item However, they exhibit two problems.
@@ -79,7 +79,7 @@
 \begin{frame}{Neural Language Models can produce Contextualized Embeddings}
 \begin{scriptsize}
 \begin{itemize}
-\item In, a Neural Language Model (NLM), we immediately stuck word vectors (perhaps only trained on the corpus) through LSTM layers
+\item In a Neural Language Model (NLM), we immediately stuck word vectors (perhaps only trained on the corpus) through LSTM layers
 \item  Those LSTM layers are trained to predict the next word.
 \item  But these language models produce context-specific word representations in the hidden states of each position.
 
@@ -735,6 +735,28 @@ soning behavior in large language models.
 \end{frame}
 
 
+\begin{frame}{Instruction finetuning}
+
+\begin{scriptsize}
+\begin{itemize}
+\item A more efficient way to fine-tune Large Language Models is Instruction Fine-Tuning  \cite{chung2022scaling}.
+\item Idea: collect examples of (instruction, output) pairs across many tasks and finetune an LM.
+\item Evaluate on unseen tasks.
+\end{itemize}
+
+\begin{figure}[h]
+	\includegraphics[scale = 0.35]{pics/instructionfinetuning.png}
+\end{figure}
+
+
+\end{scriptsize}
+
+
+
+
+
+
+\end{frame}
 
 \begin{frame}{Dangers of Large Language Models}
 \begin{scriptsize}

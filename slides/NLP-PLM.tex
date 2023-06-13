@@ -1,0 +1,193 @@
+
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
+
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont}
+\usepackage{graphics}
+\usepackage{cases}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{multirow}	
+\usepackage{amstext}
+\usepackage[ruled,vlined,lined]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{fontenc}
+\usepackage{framed,color}
+\usepackage{palatino, url, multicol}
+%\algsetup{indent=2em}
+\newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+\vspace{-0.5cm}
+\title{Natural Language Processing \\ Probabilistic Language Models}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+
+
+\end{frame}
+
+
+
+\begin{frame}{Overview}
+\begin{scriptsize}
+\begin{itemize}
+\item The language modeling problem
+\item Trigram models
+\item Evaluating language models: perplexity
+\item  Estimation techniques:
+\begin{enumerate}\scriptsize{
+\item Linear interpolation
+\item  Discounting methods}
+\end{enumerate}
+\item This slides are based on the course material by Michael Collins: \url{http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/lmslides.pdf} 
+
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{The Language Modeling Problem}
+
+\begin{scriptsize}
+\begin{itemize}
+\item We have some (finite) vocabulary, say $\mathcal{V}$ = $\{$the, a, man, telescope, Beckham, two, . . .$\}$
+\item We have an (infinite) set of strings, $\mathcal{V}^*$.
+\item For example: 
+\begin{itemize}\scriptsize{
+ \item the STOP 
+\item a STOP 
+\item the fan STOP
+\item the fan saw Beckham STOP
+\item the fan saw saw STOP
+\item the fan saw Beckham play for Real Madrid STOP}
+\end{itemize}
+\item Where STOP is a special symbol indicating the end of a sentence.
+
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{The Language Modeling Problem (Continued)}
+\begin{scriptsize}
+\begin{itemize}
+\item We have a training sample of example sentences in English.
+\item We need to "learn" a probability distribution $p$.
+\item $p$ is a function that satisfies:
+\begin{align*}
+\sum_{x\in V^*} p(x) &= 1 \\
+p(x) &\geq 0 \quad \text{for all } x \in V^*
+\end{align*}
+
+
+\item Examples of probability distributions:
+\begin{align*}
+p(\text{the STOP}) &= 10^{-12} \\
+p(\text{the fan STOP}) &= 10^{-8} \\
+p(\text{the fan saw Beckham STOP}) &= 2 \times 10^{-8} \\
+p(\text{the fan saw saw STOP}) &= 10^{-15} \\
+\ldots \\
+p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
+\end{align*}
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Why on earth would we want to do this?}
+
+\begin{scriptsize}
+\begin{itemize}
+\item Speech recognition was the original motivation.
+
+\item Consider the sentences: 1) recognize speech and 2) wreck a nice beach.
+
+\item   These two sentences sound very similar when pronounced, making it challenging for automatic speech recognition systems to accurately transcribe them.
+    
+\item Language models come into play to disambiguate the sentences by leveraging context and language patterns.
+    
+\item The language model assigns probabilities to different word sequences based on their frequency of occurrence in a large corpus of text.
+    
+\item In this case, when the speech recognition system analyzes the audio input and tries to transcribe it, it takes into account the language model probabilities to determine the most likely interpretation.
+    
+\item The language model would favor $p$(recognize speech) over $p$(wreck a nice beach) since the former is a more common and coherent word sequence in the context of speech recognition.
+    
+
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
+\begin{frame}{Why on earth would we want to do this?}
+
+\begin{scriptsize}
+\begin{itemize}
+
+\item By incorporating language models, speech recognition systems can improve accuracy by selecting the sentence that aligns better with linguistic patterns and context, even when faced with similar-sounding alternatives.
+
+
+
+\item Related problems are optical character recognition, handwriting recognition.
+
+\item Acutally, Language Models are useful in any NLP tasks involving the generation of language (e.g., machine translation, chatbots).
+
+\item The estimation techniques developed for this problem will be VERY useful for other problems in NLP.
+
+
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+ 
+
+\begin{frame}
+\frametitle{Questions?}
+%\vspace{1.5cm}
+\begin{center}\LARGE Thanks for your Attention!\\ \end{center}
+
+
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]\scriptsize
+\frametitle{References}
+\bibliography{bio}
+\bibliographystyle{apalike}
+%\bibliographystyle{flexbib}
+\end{frame}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

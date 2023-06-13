@@ -125,7 +125,7 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 \end{frame}
 
 
-\begin{frame}{Why on earth would we want to do this?}
+\begin{frame}{Why would we want to do this?}
 
 \begin{scriptsize}
 \begin{itemize}
@@ -135,13 +135,12 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 
 \item   These two sentences sound very similar when pronounced, making it challenging for automatic speech recognition systems to accurately transcribe them.
     
-\item Language models come into play to disambiguate the sentences by leveraging context and language patterns.
     
-\item The language model assigns probabilities to different word sequences based on their frequency of occurrence in a large corpus of text.
+\item When the speech recognition system analyzes the audio input and tries to transcribe it, it takes into account the language model probabilities to determine the most likely interpretation.
     
-\item In this case, when the speech recognition system analyzes the audio input and tries to transcribe it, it takes into account the language model probabilities to determine the most likely interpretation.
-    
-\item The language model would favor $p$(recognize speech) over $p$(wreck a nice beach) since the former is a more common and coherent word sequence in the context of speech recognition.
+\item The language model would favor $p$(recognize speech) over $p$(wreck a nice beach).
+
+\item This is because the former is a more common sentence and should occur more frequently in the training corpus.
     
 
 \end{itemize}
@@ -214,11 +213,13 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 \begin{frame}{Second-Order Markov Processes}
     \scriptsize
     \begin{align*}
-        P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = 
-        \\ P(X_1 = x_1) \cdot P(X_2 = x_2|X_1 = x_1) \cdot \prod_{i=3}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) \\
+        P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \\  P(X_1 = x_1) \cdot P(X_2 = x_2|X_1 = x_1) \cdot \prod_{i=3}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) \\
         = \prod_{i=1}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) \\
         \quad \text{(For convenience, we assume $x_0 = x_{-1} = *$, where $*$ is a special "start" symbol.)}
     \end{align*}
+    
+    
+    
 \end{frame}
 
 \begin{frame}{Modeling Variable Length Sequences}
@@ -238,9 +239,9 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
     \scriptsize
     \begin{itemize}
         \item A trigram language model consists of:
-            \begin{enumerate}
+            \begin{enumerate}\scriptsize{
                 \item A finite set $V$
-                \item A parameter $q(w|u, v)$ for each trigram $u, v, w$ such that $w \in V \cup \{\text{STOP}\}$, and $u, v \in V \cup \{*\}$
+                \item A parameter $q(w|u, v)$ for each trigram $u, v, w$ such that $w \in V \cup \{\text{STOP}\}$, and $u, v \in V \cup \{*\}$}
             \end{enumerate}
         \item For any sentence $x_1 \ldots x_n$ where $x_i \in V$ for $i = 1 \ldots (n-1)$, and $x_n = \text{STOP}$, the probability of the sentence under the trigram language model is:
         \[
@@ -329,17 +330,29 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 \begin{frame}{Some Intuition about Perplexity}
     \scriptsize
     \begin{itemize}
-        \item \textbf{Proof:} Let's consider the log probability of a sentence $s = w_1 w_2 \dots w_m$ under the model:
+        
+        
+        \item \textbf{Proof:}  Let's asume we have $m$ sentences of length $n$ in the corpus, and $M$ the amount of tokens in the corpus, $M=m \cdot n$.
+        
+        \item Let's consider the log (base 2) probability of a sentence $s = w_1 w_2 \dots w_n$ under the model:
         \[
-            \log p(s) = \log \prod_{i=1}^{m} q(w_i|w_{i-2}, w_{i-1}) = \sum_{i=1}^{m} \log q(w_i|w_{i-2}, w_{i-1})
+            \log p(s) = \log \prod_{i=1}^{n} q(w_i|w_{i-2}, w_{i-1}) = \sum_{i=1}^{n} \log q(w_i|w_{i-2}, w_{i-1})
         \]
         \item Since each $q(w_i|w_{i-2}, w_{i-1})$ is equal to $\frac{1}{N}$, we have:
         \[
-            \log p(s) = \sum_{i=1}^{m} \log \frac{1}{N} = m \cdot \log \frac{1}{N} = -m \cdot \log N
+            \log p(s) = \sum_{i=1}^{n} \log \frac{1}{N} = n \cdot \log \frac{1}{N} = -n \cdot \log N
         \]
+        
+        
+        \[
+            l =  \frac{1}{M} \sum_{i=1}^{m} \log p(s_i) = \frac{1}{M} \sum_{i=1}^{m} -n \cdot \log N  = \frac{1}{M} \cdot -m \cdot n \cdot \log N = - \log N 
+        \]
+        
+        
+        
         \item Therefore, the perplexity is given by:
         \[
-            \text{Perplexity} = 2^{-l} = 2^{-(-m \cdot \log N)} = N
+            \text{Perplexity} = 2^{-l} = 2^{-(- \log N)} = N
         \]
     \end{itemize}
 \end{frame}
@@ -348,7 +361,7 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
     \scriptsize
     \begin{itemize}
         \item Shannon conducted experiments on the entropy of English, specifically investigating how well people perform in the perplexity game.
-        \item Reference: C. Shannon. "Prediction and entropy of printed English." \textit{Bell Systems Technical Journal}, 30:50–64, 1951.
+        \item Reference: C. Shannon. ``Prediction and entropy of printed English.'' \textit{Bell Systems Technical Journal}, 30:50–64, 1951. \cite{shannon1951prediction}
     \end{itemize}
     
     
@@ -361,7 +374,7 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 \begin{frame}{Some History}
     \scriptsize
     \begin{itemize}
-        \item Chomsky, in his book \textit{Syntactic Structures} (1957), made several important points regarding grammar.
+        \item Chomsky, in his book \textit{Syntactic Structures} (1957), made several important points regarding grammar. \cite{chomsky2009syntactic}
         \item According to Chomsky, the notion of "grammatical" cannot be equated with "meaningful" or "significant" in a semantic sense.
         \item He illustrated this with two nonsensical sentences:
         \begin{itemize}
@@ -459,16 +472,16 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
         \textbf{Sentence} & \textbf{Count} & \textbf{$q_{\text{ML}}(w_i | w_{i-1})$} \\
         \hline
         the & 48 & \\
-        the, dog & 15 & $\frac{15}{48}$ \\
-        the, woman & 11 & $\frac{11}{48}$ \\
-        the, man & 10 & $\frac{10}{48}$ \\
-        the, park & 5 & $\frac{5}{48}$ \\
-        the, job & 2 & $\frac{2}{48}$ \\
-        the, telescope & 1 & $\frac{1}{48}$ \\
-        the, manual & 1 & $\frac{1}{48}$ \\
-        the, afternoon & 1 & $\frac{1}{48}$ \\
-        the, country & 1 & $\frac{1}{48}$ \\
-        the, street & 1 & $\frac{1}{48}$ \\
+        the, dog & 15 & $15/48$ \\
+        the, woman & 11 & $11/48$ \\
+        the, man & 10 & $10/48$ \\
+        the, park & 5 & $5/48$ \\
+        the, job & 2 & $2/48$ \\
+        the, telescope & 1 & $1/48$ \\
+        the, manual & 1 & $1/48$ \\
+        the, afternoon & 1 & $1/48$ \\
+        the, country & 1 & $1/48$ \\
+        the, street & 1 & $1/48$ \\
     \end{tabular}
 \end{table}
 
@@ -496,16 +509,16 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
         \textbf{Sentence} & \textbf{Count} & \textbf{Count}*$\mathbf{(x)}$ & $\mathbf{q_{\text{ML}}(w_i | w_{i-1})}$ \\
         \hline
         the & 48 & & \\
-        the, dog & 15 & 14.5 & $\frac{14.5}{48}$ \\
-        the, woman & 11 & 10.5 & $\frac{10.5}{48}$ \\
-        the, man & 10 & 9.5 & $\frac{9.5}{48}$ \\
-        the, park & 5 & 4.5 & $\frac{4.5}{48}$ \\
-        the, job & 2 & 1.5 & $\frac{1.5}{48}$ \\
-        the, telescope & 1 & 0.5 & $\frac{0.5}{48}$ \\
-        the, manual & 1 & 0.5 & $\frac{0.5}{48}$ \\
-        the, afternoon & 1 & 0.5 & $\frac{0.5}{48}$ \\
-        the, country & 1 & 0.5 & $\frac{0.5}{48}$ \\
-        the, street & 1 & 0.5 & $\frac{0.5}{48}$ \\
+        the, dog & 15 & 14.5 & $14.5/48$ \\
+        the, woman & 11 & 10.5 & $10.5/48$ \\
+        the, man & 10 & 9.5 & $9.5/48$ \\
+        the, park & 5 & 4.5 & $4.5/48$ \\
+        the, job & 2 & 1.5 & $1.5/48$ \\
+        the, telescope & 1 & 0.5 & $0.5/48$ \\
+        the, manual & 1 & 0.5 & $0.5/48$ \\
+        the, afternoon & 1 & 0.5 & $0.5/48$ \\
+        the, country & 1 & 0.5 & $0.5/48$ \\
+        the, street & 1 & 0.5 & $0.5/48$ \\
     \end{tabular}
 \end{table}
 
@@ -584,19 +597,19 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 \begin{frame}{Summary}
     \scriptsize
     \begin{itemize}
-        \item Three steps in deriving the language model probabilities:
-        \begin{enumerate}
-            \item Expand $p(w_1, w_2, \ldots, w_n)$ using Chain rule.
-            \item Make Markov Independence Assumptions \\
-            $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1}) = p(w_i | w_{i-2}, w_{i-1})$
-            \item Smooth the estimates using low order counts.
+        \item Deriving probabilities in probabilistic language models involves three steps:
+        \begin{enumerate}\scriptsize{
+            \item Expand $p(w_1, w_2, \ldots, w_n)$ using the Chain rule.
+            \item Apply Markov Independence Assumptions \\
+            $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1}) = p(w_i | w_{i-2}, w_{i-1})$.
+            \item Smooth the estimates using low order counts.}
         \end{enumerate}
-        \item Other methods used to improve language models:
-        \begin{itemize}
-            \item "Topic" or "long-range" features.
-            \item Syntactic models.
+        \item Other methods for improving language models include:
+        \begin{itemize}\scriptsize{
+            \item Introducing latent variables to represent topics, known as topic models. \cite{blei2003latent}
+            \item Replacing $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1})$ with a predictive neural network and an ``embedding layer'' to better represent larger contexts and leverage similarities between words in the context. \cite{bengio2000neural}}
         \end{itemize}
-        \item It's generally hard to improve on trigram models though!!
+        \item Modern language models utilize deep neural networks in their backbone and have a vast parameter space.
     \end{itemize}
 \end{frame}
 

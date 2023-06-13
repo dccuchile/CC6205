@@ -125,6 +125,22 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 \end{frame}
 
 
+
+\begin{frame}{The Language Modeling Problem (Continued)}
+\begin{scriptsize}
+\begin{itemize}
+\item Idea 1: The model assigns a higher probability to fluent sentences (those that make sense and are grammatically correct).
+\item Idea 2: Estimating this probability function from text (corpus).
+\item The language model helps text generation models distinguish between good and bad sentences.
+\end{itemize}
+\end{scriptsize}
+
+\begin{figure}[h]
+\includegraphics[scale = 0.4]{pics/lmdiagram.png}
+\end{figure}
+\end{frame}
+
+
 \begin{frame}{Why would we want to do this?}
 
 \begin{scriptsize}
@@ -159,13 +175,33 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 
 \item Related problems are optical character recognition, handwriting recognition.
 
-\item Acutally, Language Models are useful in any NLP tasks involving the generation of language (e.g., machine translation, chatbots).
+\item Acutally, Language Models are useful in any NLP tasks involving the generation of language (e.g., machine translation, summarization, chatbots).
 
 \item The estimation techniques developed for this problem will be VERY useful for other problems in NLP.
 
 
 \end{itemize}
 \end{scriptsize}
+
+\end{frame}
+
+\begin{frame}{Language Models are Generative}
+\begin{scriptsize}
+\begin{itemize}
+ \item Language models can generate sentences by sequentially sampling from probabilities.
+
+  \item This is analogous to drawing balls (words) from an urn where their sizes are proportional to their relative frequencies.
+
+ \item Alternatively, one could always draw the most probable word, which is equivalent to predicting the next word.
+\end{itemize}
+
+
+\end{scriptsize}
+
+\begin{figure}[h]
+\includegraphics[scale = 0.6]{pics/lmsampling.png}
+\end{figure}
+
 
 \end{frame}
  

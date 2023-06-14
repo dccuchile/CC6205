@@ -393,6 +393,21 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Typical Values of Perplexity}
+    \scriptsize
+    \begin{itemize}
+        \item Results from Goodman ("A bit of progress in language modeling"), where $|V| = 50,000$ \cite{goodman2001bit}.
+        \item A trigram model: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-2}, x_{i-1})$ \\
+        Perplexity = 74
+        \item A bigram model: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-1})$ \\
+        Perplexity = 137
+        \item A unigram model: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i)$ \\
+        Perplexity = 955
+    \end{itemize}
+\end{frame}
+
+
+
 \begin{frame}{Some History}
     \scriptsize
     \begin{itemize}

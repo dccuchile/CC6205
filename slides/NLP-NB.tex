@@ -521,8 +521,208 @@ Positive & The most fun film of the summer. \\
 \end{frame}
 
 
+\begin{frame}{Naive Bayes as a Language Model}
+\scriptsize
+\begin{itemize}
+ \item When using individual word features and considering all words in the text, naive Bayes has an important similarity to language modeling. 
+ \item Specifically, a naive Bayes model can be viewed as a set of class-specific unigram language models, in which the model for each class instantiates a unigram language model.
+ \item The likelihood features from the naive Bayes model assign a probability to each word $P(word|c)$, and the model also assigns a probability to each sentence:
+\[P(s|c) = \prod_{i\in positions} P(w_i|c)\]
+\end{itemize}
+Consider a naive Bayes model with the classes positive (+) and negative (-) and the following model parameters:
+\begin{center}
+\begin{tabular}{ccc}
+\textbf{w} & $P(w|+)$ & $P(w|-)$ \\
+I & 0.1 & 0.2 \\
+love & 0.1 & 0.001 \\
+this & 0.01 & 0.01 \\
+fun & 0.05 & 0.005 \\
+film & 0.1 & 0.1 \\
+... & ... & ...
+\end{tabular}
+\end{center}
 
 
+\end{frame}
+
+
+
+\begin{frame}{Naive Bayes as a Language Model}
+\scriptsize
+
+
+\begin{itemize}
+ \item  Each of the two columns above instantiates a language model that can assign a probability to the sentence "I love this fun film":
+\[P("\text{I love this fun film}"|+) = 0.1 \times 0.1 \times 0.01 \times 0.05 \times 0.1 = 0.0000005\]
+\[P("\text{I love this fun film}"|-) = 0.2 \times 0.001 \times 0.01 \times 0.005 \times 0.1 = 0.0000000010\]
+
+\item As it happens, the positive model assigns a higher probability to the sentence:
+\[P(s|pos) > P(s|neg)\]
+
+\item Note that this is just the likelihood part of the naive Bayes model; once we multiply in the prior, a full naive Bayes model might well make a different classification decision.
+\end{itemize}
+
+
+
+
+\end{frame}
+
+\begin{frame}{Evaluation}
+
+\begin{itemize}
+ \item Let's consider just binary text classification tasks. 
+ \item Imagine you're the CEO of Delicious Pie Company. 
+\item You want to know what people are saying about your pies. 
+\item So you build a "Delicious Pie" tweet detector with the following classes:
+\begin{itemize}
+\item Positive class: tweets about Delicious Pie Co
+\item Negative class: all other tweets
+\end{itemize}
+\end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{The 2-by-2 Confusion Matrix}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{} & \textbf{System Positive} & \textbf{System Negative} \\
+\hline
+\textbf{Gold Positive} & True Positive (TP) & False Negative (FN) \\
+\hline
+\textbf{Gold Negative} & False Positive (FP) & True Negative (TN) \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Recall} (also known as \textbf{Sensitivity} or \textbf{True Positive Rate}):
+\[ \text{Recall} = \frac{TP}{TP + FN} \]
+
+\textbf{Precision}:
+\[ \text{Precision} = \frac{TP}{TP + FP} \]
+
+\textbf{Accuracy}:
+\[ \text{Accuracy} = \frac{TP + TN}{TP + FP + TN + FN} \]
+
+\end{frame}
+
+
+\begin{frame}{Evaluation: Accuracy}
+Why don't we use accuracy as our metric?
+
+Imagine we saw 1 million tweets:
+\begin{itemize}
+\item 100 of them talked about Delicious Pie Co.
+\item 999,900 talked about something else.
+\end{itemize}
+
+We could build a dumb classifier that just labels every tweet "not about pie":
+\begin{itemize}
+\item It would get 99.99\% accuracy!!! Wow!!!!
+\item But it would be useless! It doesn't return the comments we are looking for!
+\end{itemize}
+
+That's why we use precision and recall instead.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Evaluation: Precision and Recall}
+\textbf{Precision} measures the percentage of items the system detected (i.e., items the system labeled as positive) that are in fact positive (according to the human gold labels).
+
+\[
+\text{Precision} = \frac{\text{True Positives}}{\text{True Positives + False Positives}}
+\]
+
+
+\textbf{Recall} measures the percentage of items that were correctly identified by the system out of all the items that should have been identified.
+
+\[
+\text{Recall} = \frac{\text{True Positives}}{\text{True Positives + False Negatives}}
+\]
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Why Precision and Recall?}
+Consider our dumb pie-classifier that just labels nothing as "about pie."
+
+\begin{itemize}
+  \item Accuracy = 99.99\% (it correctly labels most tweets as not about pie)
+  \item Recall = 0 (it doesn't detect any of the 100 pie-related tweets)
+\end{itemize}
+
+Precision and recall, unlike accuracy, emphasize true positives:
+\begin{itemize}
+  \item They focus on finding the things that we are supposed to be looking for.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{A Combined Measure: F-measure}
+The F-measure is a single number that combines precision (P) and recall (R), defined as:
+\[
+F_\beta = \frac{(\beta^2+1)PR}{\beta^2P + R}
+\]
+
+The F-measure, defined with the parameter $\beta$, differentially weights the importance of recall and precision. 
+\begin{itemize}
+  \item $\beta > 1$ favors recall
+  \item $\beta < 1$ favors precision
+\end{itemize}
+
+When $\beta = 1$, precision and recall are equal, and we have the balanced $F_1$ measure:
+\[
+F_1 = \frac{2PR}{P + R}
+\]
+\end{frame}
+
+
+\begin{frame}{Development Test Sets ("Devsets")}
+\scriptsize
+
+\begin{itemize}
+ \item To avoid overfitting and provide a more conservative estimate of performance, we commonly use a three-set approach: training set, devset, and testset.
+\begin{figure}[h]
+\includegraphics[scale = 0.23]{pics/devsets.png}
+\end{figure}
+
+\begin{itemize}\scriptsize
+\item \textbf{Training set}: Used to train the model.
+\item \textbf{Devset}: Used to tune the model and select the best hyperparameters.
+\item \textbf{Testset}: Used to report the final performance of the model.
+\end{itemize}
+
+
+\item This approach ensures that the model is not tuned specifically to the test set, avoiding overfitting.
+\item However, it creates a paradox: we want as much data as possible for training, but also for the devset.
+\item How do we split the data?
+
+\end{itemize}
+
+
+
+\end{frame}
+
+
+\begin{frame}{Cross-validation: Multiple Splits}
+\scriptsize
+When working with limited data and wanting to gain insights from the corpus, a common approach is to create a fixed training set and test set. Then, perform 10-fold cross-validation within the training set while evaluating the error rate in the test set.
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{pics/cv.png}
+\end{center}
+
+This approach allows us to pool the results over the splits and compute the pooled dev performance of our system. It provides a balance between utilizing the available data for training and gaining insights from the corpus.
+
+\end{frame}
 
 \begin{frame}
 \frametitle{Questions?}

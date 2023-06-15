@@ -58,20 +58,29 @@
 \end{frame}
 
 
+\begin{frame}{Text Classification}
+    \scriptsize
+    \begin{itemize}
+        \item Classification lies at the heart of both human and machine intelligence. 
+        \item Deciding what letter, word, or image has been presented to our senses, recognizing faces or voices, sorting mail, assigning grades to homeworks.
+        \item These are all examples of assigning a category to an input.
+        \item The goal of classification is to take a single observation, extract some useful features, and thereby classify the observation into one of a set of discrete classes.
+        \item  Most cases of classification in language processing are done via supervised machine learning. 
+        \item This slides are based on the course material by Daniel Jurafsky : \url{https://web.stanford.edu/~jurafsky/slp3/4.pdf} 
+    \end{itemize}   
+\end{frame}
 
-\begin{frame}{Is this spam?}
+
+\begin{frame}{Example 1: Spam Classification}
 
 \begin{figure}[h]
 \includegraphics[scale = 0.35]{pics/spam.png}
 \end{figure}
 
 
-\begin{scriptsize}
-This slides are based on the course material by Daniel Jurafsky : \url{https://web.stanford.edu/~jurafsky/slp3/4.pdf} 
-\end{scriptsize}
 \end{frame}
 
-\begin{frame}{Who wrote which Federalist papers?}
+\begin{frame}{Example 2: Who wrote which Federalist papers?}
     \scriptsize
     \begin{itemize}
         \item 1787-8: Anonymous essays attempted to convince New York to ratify the U.S Constitution: Jay, Madison, Hamilton.
@@ -95,7 +104,7 @@ This slides are based on the course material by Daniel Jurafsky : \url{https://w
     \end{center}
 \end{frame}
 
-\begin{frame}{What is the subject of this medical article?}
+\begin{frame}{Example 3: What is the subject of this medical article?}
 
 \begin{figure}[h]
 \includegraphics[scale = 0.2]{pics/medarticle.png}
@@ -105,7 +114,7 @@ This slides are based on the course material by Daniel Jurafsky : \url{https://w
 \end{frame}
 
 
-\begin{frame}{Positive or negative movie review?}
+\begin{frame}{Example 4: Positive or negative movie review?}
     \begin{itemize}
      \item  \textcolor{blue}{\textbf{+}}   ...zany characters and \textcolor{blue}{richly} applied satire, and some \textcolor{blue}{great} plot twists 
      \item   \textcolor{red}{\textbf{-}} It was \textcolor{red}{pathetic}. The \textcolor{red}{worst} part about it was the boxing scenes... 
@@ -125,31 +134,6 @@ This slides are based on the course material by Daniel Jurafsky : \url{https://w
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Scherer Typology of Affective States}
-    \scriptsize
-    \begin{itemize}\scriptsize
-        \item Emotion: Brief organically synchronized ... evaluation of a major event
-        \begin{itemize}\scriptsize
-            \item Angry, sad, joyful, fearful, ashamed, proud, elated
-        \end{itemize}
-        \item Mood: Diffuse non-caused low-intensity long-duration change in subjective feeling
-        \begin{itemize}\scriptsize
-            \item Cheerful, gloomy, irritable, listless, depressed, buoyant
-        \end{itemize}
-        \item Interpersonal stances: Affective stance toward another person in a specific interaction
-        \begin{itemize}\scriptsize
-            \item Friendly, flirtatious, distant, cold, warm, supportive, contemptuous
-        \end{itemize}
-        \item Attitudes: Enduring, affectively colored beliefs, dispositions towards objects or persons
-        \begin{itemize}\scriptsize
-            \item Liking, loving, hating, valuing, desiring
-        \end{itemize}
-        \item Personality traits: Stable personality dispositions and typical behavior tendencies
-        \begin{itemize}\scriptsize
-            \item Nervous, anxious, reckless, morose, hostile, jealous
-        \end{itemize}
-    \end{itemize}
-\end{frame}
 
 \begin{frame}{Basic Sentiment Classification}
     Sentiment analysis is the detection of attitudes.
@@ -279,14 +263,15 @@ This slides are based on the course material by Daniel Jurafsky : \url{https://w
 \begin{frame}{Naïve Bayes Classifier (IV)}
 \scriptsize
 \begin{itemize}
-    \item The Naïve Bayes classifier calculates the MAP estimate by considering the likelihood and prior probabilities:
+    \item The Naïve Bayes classifier \cite{mccallum1998comparison} calculates the MAP estimate by considering the likelihood and prior probabilities:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
     \]
     \item The probability of the features given the class, $P(x_1, x_2, \ldots, x_n | c)$, can be estimated by counting the relative frequencies in a corpus.
     \item The prior probability of the class, $P(c)$, represents how often this class occurs.
-    \item The Naïve Bayes classifier requires estimating $O(|X|^n \cdot |C|)$ parameters, where $|X|$ is the number of distinct features and n is the length of the document.
-    \item Accurate estimation of these parameters would require a very large number of training examples.
+    \item Without some simplifying assumptions, estimating the probability of every possible combination of
+features in $P(x_1, x_2, \ldots, x_n | c)$ would require huge numbers of parameters and impossibly large training sets. 
+\item Naive Bayes classifiers therefore make two simplifying assumptions.
 \end{itemize}
 \end{frame}
 
@@ -714,15 +699,74 @@ F_1 = \frac{2PR}{P + R}
 
 \begin{frame}{Cross-validation: Multiple Splits}
 \scriptsize
-When working with limited data and wanting to gain insights from the corpus, a common approach is to create a fixed training set and test set. Then, perform 10-fold cross-validation within the training set while evaluating the error rate in the test set.
+\begin{itemize}
+\item Cross-validation allows us to use all our data for training and testing without having a fixed training set, devset, and test set.
+\item We choose a number $k$ and partition our data into $k$ disjoint subsets called folds.
+\item For each iteration, one fold is selected as the test set while the remaining $k-1$ folds are used to train the classifier.
+\item We compute the error rate on the test set and repeat this process $k$ times.
+\item Finally, we average the error rates from these $k$ runs to obtain an average error rate.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cross-validation: Multiple Splits}
+\scriptsize
+\begin{itemize}
+\item 10-fold cross-validation, for example, involves training 10 models on 90\% of the data and testing each model separately.
+\item The resulting error rates are averaged to obtain the final performance estimate.
+\item However, cross-validation requires the entire corpus to be blind, preventing examination of the data for feature suggestion or understanding system behavior.
+\item To address this, a fixed training set and test set are created, and 10-fold cross-validation is performed within the training set.
+\item The error rate is computed conventionally in the test set.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Cross-validation: Multiple Splits}
+\scriptsize 
 
 \begin{center}
-\includegraphics[width=0.8\textwidth]{pics/cv.png}
+\includegraphics[scale=0.28]{pics/cv.png}
 \end{center}
 
-This approach allows us to pool the results over the splits and compute the pooled dev performance of our system. It provides a balance between utilizing the available data for training and gaining insights from the corpus.
+\end{frame}
+
+
+\begin{frame}{Confusion Matrix for 3-class classification}
+
+
+\begin{center}
+\includegraphics[scale=0.23]{pics/confmatrix.png}
+\end{center}
 
 \end{frame}
+
+
+\begin{frame}{Combining Binary Metrics}
+
+How to combine binary metrics (Precision, Recall, $F_1$) from more than 2 classes to get one metric:
+\begin{itemize}
+ \item Macroaveraging:
+ \begin{itemize}
+    \item Compute the performance metrics (Precision, Recall, $F_1$) for each class individually.
+    \item Average the metrics over all classes.
+ \end{itemize}
+ \item Microaveraging:
+ \begin{itemize}
+    \item Collect the decisions for all classes into one confusion matrix.
+    \item Compute Precision and Recall from the confusion matrix.
+ \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Macroaveraging and Microaveraging}
+
+
+\begin{center}
+\includegraphics[scale=0.23]{pics/confmatrixmulti.png}
+\end{center}
+
+\end{frame}
+
 
 \begin{frame}
 \frametitle{Questions?}

@@ -31,7 +31,7 @@ Receso |  | |  |  |
 13 | Jueves 15/06 |  | |  Auxiliar 4: RNNs con Pytorch para NLP. |
 Receso |  | |  |  |
 14 | Martes 27/06 | Transformer | [Video 1](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-transformer.pdf) | Clase Resumen Presencial |
-14 | Jueves 29/06 | Contextualized Embeddings, Pre-Training, Fine-Tuning and Large Language Models | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-LLM.pdf) |  |
+14 | Jueves 29/06 | Contextualized Embeddings and Large Language Models | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-LLM.pdf) |  |
 15 | Martes 04/07 | Feriado | |  |
 15 | Jueves 06/07 |  | |  Auxiliar 5: BERT. |
 Exámenes (este curso no contempla examenes) | | | | |

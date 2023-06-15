@@ -14,9 +14,10 @@ This is a course on natural language processing.
 
 
 ### Info
-The neural network-related topics of the course are taken from the book of Yoav Goldberg: 
-[Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037). The non-neural network topics (e.g., grammars, HMMS) are taken from the course of [Michael Collins](http://www.cs.columbia.edu/~mcollins/). 
 
+This course aims to provide a comprehensive introduction to Natural Language Processing (NLP) by covering essential concepts. We strive to strike a balance between traditional techniques, such as N-gram language models, Naive Bayes, and Hidden Markov Models (HMMs), and modern deep neural networks, including embeddings, recurrent neural networks (RNNs), and transformers.
+
+The course material draws from various sources. In many instances, sentences from these sources are directly incorporated into the slides. The neural network topics primarily rely on the book [Neural Network Methods for Natural Language Processing](https://www.morganclaypool.com/doi/abs/10.2200/S00762ED1V01Y201703HLT037) by Goldberg. Non-neural network topics, such as Probabilistic Language Models, Naive Bayes, and HMMs, are sourced from [Michael Collins' course](http://www.cs.columbia.edu/~mcollins/) and [Dan Jurafsky's book](http://www.cs.columbia.edu/~mcollins/). Additionally, some slides are adapted from online tutorials and other courses, such as [Manning's Stanford course](http://web.stanford.edu/class/cs224n/).
 
 
 ## Slides

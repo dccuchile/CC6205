@@ -34,9 +34,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 11. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex)), [video 1](https://youtu.be/BmhjUkzz3nk), [video 2](https://youtu.be/z43YFR1iIvk), [video 3](https://youtu.be/7L5JxQdwNJk)
 12. [Sequence to Sequence Models and Attention](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/OpKxRjISqmM), [video 2](https://youtu.be/WQ7ihm5voB0)
 13. [Transformer Architecture](slides/NLP-transformer.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/8RE23Uq8rU0)
-14. [Contextualized Embeddings, Pre-Training, Fine-Tuning and Large Language Models](slides/NLP-LLM.pdf), [video 1](https://youtu.be/sSGbgZpHymI), [video 2](https://youtu.be/C-QfzWU6eUE), [video 3](https://youtu.be/5j4Mgl3GuVY), [notes](https://arxiv.org/pdf/1902.06006.pdf)
-15. Constituency Parsing [slides 1](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing1.pdf), [slides 2](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.pdf), [slides 3](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing2.2.pdf), [slides 4](http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/parsing3.pdf)    (slides by Michael Collins), [notes 1](http://www.cs.columbia.edu/~mcollins/courses/nlp2011/notes/pcfgs.pdf), [notes 2](http://www.cs.columbia.edu/~mcollins/courses/nlp2011/notes/lexpcfgs.pdf), [videos 1](https://www.youtube.com/watch?v=0tGFWbc2834&list=PLlQBy7xY8mbK9Uy9i7MTGSwyLJPii3w1L), [videos 2](https://www.youtube.com/watch?v=2hLBHSKbS44&list=PLlQBy7xY8mbKypSJe_AjVtCuXXsdODiDi), [videos 3](https://www.youtube.com/watch?v=8rD1Y6rz4Q0&list=PLlQBy7xY8mbKz9QvQU_IsOlbhshjkOwR9), [videos 4](https://www.youtube.com/watch?v=qDiVCxLq2As&list=PLlQBy7xY8mbI5o81CWHt50RtFDLYrlaKN) 
-16. [Recursive Networks and Paragraph Vectors](slides/NLP-recursive.pdf) | ([tex source file](slides/NLP-recursive.tex))
+14. [Contextualized Embeddings and Large Language Models](slides/NLP-LLM.pdf), [video 1](https://youtu.be/sSGbgZpHymI), [video 2](https://youtu.be/C-QfzWU6eUE), [video 3](https://youtu.be/5j4Mgl3GuVY)
 
 
 ## NLP Libraries and Tools
@@ -46,7 +44,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 3. [spaCy: Industrial-strength NLP](https://spacy.io/)
 4. [Torchtext](https://torchtext.readthedocs.io/en/latest/)
 5. [AllenNLP: Open source project for designing deep leaning-based NLP models](https://allennlp.org/)
-6. [HuggingFace Transformers)](https://huggingface.co/docs/transformers/index)
+6. [HuggingFace Transformers](https://huggingface.co/docs/transformers/index)
 7. [ChatGPT](https://chat.openai.com/)
 8. [Google Bard](https://bard.google.com)
 9. [Stanza - A Python NLP Library for Many Human Languages](https://stanfordnlp.github.io/stanza/)
@@ -68,6 +66,7 @@ The neural network-related topics of the course are taken from the book of Yoav 
 7. [NLTK book](http://www.nltk.org/book/)
 8. [Embeddings in Natural Language Processing by Mohammad Taher Pilehvar and Jose Camacho-Collados](http://josecamachocollados.com/book_embNLP_draft.pdf)
 9. [Dive into Deep Learning Book](https://d2l.ai/)
+10. [Contextual Word Representations: A Contextual Introduction by Noah A. Smith](https://arxiv.org/pdf/1902.06006.pdf)
 
 ## Other NLP Courses
 1. [CS224n: Natural Language Processing with Deep Learning, Stanford course](http://web.stanford.edu/class/cs224n/)

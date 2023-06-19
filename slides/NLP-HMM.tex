@@ -1,0 +1,575 @@
+
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
+
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont}
+\usepackage{graphics}
+\usepackage{cases}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{multirow}	
+\usepackage{amstext}
+\usepackage[ruled,vlined,lined]{algorithm2e}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{fontenc}
+\usepackage{framed,color}
+\usepackage{palatino, url, multicol}
+%\algsetup{indent=2em}
+\newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+\vspace{-0.5cm}
+\title{Natural Language Processing \\ Tagging Problems, and Hidden Markov Models}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+
+
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Overview}
+  \begin{itemize}
+    \item The Tagging Problem
+    \item Generative models, and the noisy-channel model, for supervised learning
+    \item Hidden Markov Model (HMM) taggers
+    \item Basic definitions
+    \item Parameter estimation
+    \item The Viterbi algorithm
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Part-of-Speech Tagging}
+  \textbf{INPUT:}
+  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
+
+  \textbf{OUTPUT:}
+  Profits/N soared/V at/P Boeing/N Co./N ,/, easily/ADV topping/V forecasts/N on/P Wall/N Street/N ,/, as/P their/POSS CEO/N Alan/N Mulally/N announced/V first/ADJ quarter/N results/N ./.
+
+  \begin{itemize}
+    \item N = Noun
+    \item V = Verb
+    \item P = Preposition
+    \item Adv = Adverb
+    \item Adj = Adjective
+    \item ...
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Named Entity Recognition}
+  \textbf{INPUT:}
+  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
+
+  \textbf{OUTPUT:}
+  Profits soared at [Company Boeing Co.], easily topping forecasts on [Location Wall Street], as their CEO [Person Alan Mulally] announced first quarter results.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Named Entity Extraction as Tagging}
+  \textbf{INPUT:}
+  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
+
+  \textbf{OUTPUT:}
+  Profits/NA soared/NA at/NA Boeing/SC Co./CC ,/NA easily/NA topping/NA forecasts/NA on/NA Wall/SL Street/CL ,/NA as/NA their/NA CEO/NA Alan/SP Mulally/CP announced/NA first/NA quarter/NA results/NA ./NA
+
+  \begin{itemize}
+    \item NA = No entity
+    \item SC = Start Company
+    \item CC = Continue Company
+    \item SL = Start Location
+    \item CL = Continue Location
+    \item ...
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Our Goal}
+  \textbf{Training set:}
+  \begin{enumerate}
+    \item Pierre/NNP Vinken/NNP ,/, 61/CD years/NNS old/JJ ,/, will/MD join/VB the/DT board/NN as/IN a/DT nonexecutive/JJ director/NN Nov./NNP 29/CD ./.
+    \item Mr./NNP Vinken/NNP is/VBZ chairman/NN of/IN Elsevier/NNP N.V./NNP ,/, the/DT Dutch/NNP publishing/VBG group/NN ./.
+    \item Rudolph/NNP Agnew/NNP ,/, 55/CD years/NNS old/JJ and/CC chairman/NN of/IN Consolidated/NNP Gold/NNP Fields/NNP PLC/NNP ,/, was/VBD named/VBN a/DT nonexecutive/JJ director/NN of/IN this/DT British/JJ industrial/JJ conglomerate/NN ./.
+    \item ...
+  \end{enumerate}
+
+  \textbf{Our Goal:} From the training set, induce a function/algorithm that maps new sentences to their tag sequences.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Two Types of Constraints}
+  Influential/JJ members/NNS of/IN the/DT House/NNP Ways/NNP and/CC Means/NNP Committee/NNP introduced/VBD legislation/NN that/WDT would/MD restrict/VB how/WRB the/DT new/JJ savings-and-loan/NN bailout/NN agency/NN can/MD raise/VB capital/NN ./.
+
+  \textbf{"Local":}
+  \begin{itemize}
+    \item e.g., "can" is more likely to be a modal verb MD rather than a noun NN
+  \end{itemize}
+
+  \textbf{"Contextual":}
+  \begin{itemize}
+    \item e.g., a noun is much more likely than a verb to follow a determiner
+  \end{itemize}
+
+  \textbf{Sometimes these preferences are in conflict:}
+  \begin{itemize}
+    \item The trash can is in the garage
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Supervised Learning Problems}
+  \begin{itemize}
+    \item We have training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. Each $x^{(i)}$ is an input, each $y^{(i)}$ is a label.
+    \item Task is to learn a function $f$ mapping inputs $x$ to labels $f(x)$.
+    \item Conditional models:
+    \begin{itemize}
+      \item Learn a distribution $p(y|x)$ from training examples.
+      \item For any test input $x$, define $f(x) = \arg \max_y p(y|x)$.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Generative Models}
+  \begin{itemize}
+    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
+    \item Generative models:
+    \begin{itemize}
+      \item Learn the joint distribution $p(x, y)$ from the training examples.
+      \item Often, we have $p(x, y) = p(y)p(x|y)$.
+      \item Note: We then have
+      \[
+        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{where} \quad p(x) = \sum_y p(y)p(x|y).
+      \]
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Decoding with Generative Models}
+  \begin{itemize}
+    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
+    \item Generative models:
+    \begin{itemize}
+      \item Learn the joint distribution $p(x, y)$ from the training examples.
+      \item Often, we have $p(x, y) = p(y)p(x|y)$.
+    \end{itemize}
+    \item Output from the model:
+    \[
+      f(x) = \arg\max_y p(y|x) = \arg\max_y \frac{p(y)p(x|y)}{p(x)} = \arg\max_y p(y)p(x|y)
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hidden Markov Models}
+  \begin{itemize}
+    \item We have an input sentence $x = x_1, x_2, \ldots, x_n$ ($x_i$ is the $i$-th word in the sentence).
+    \item We have a tag sequence $y = y_1, y_2, \ldots, y_n$ ($y_i$ is the $i$-th tag in the sentence).
+    \item We'll use an HMM to define $p(x_1, x_2, \ldots, x_n, y_1, y_2, \ldots, y_n)$ for any sentence $x_1, \ldots, x_n$ and tag sequence $y_1, \ldots, y_n$ of the same length.
+    \item Then, the most likely tag sequence for $x$ is:
+    \[
+      \arg\max_{y_1,\ldots,y_n} p(x_1, \ldots, x_n, y_1, \ldots, y_n)
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Trigram Hidden Markov Models (Trigram HMMs)}
+  For any sentence $x_1, \ldots, x_n$ where $x_i \in V$ for $i = 1, \ldots, n$, and any tag sequence $y_1, \ldots, y_{n+1}$ where $y_i \in S$ for $i = 1, \ldots, n$, and $y_{n+1} = \text{STOP}$, the joint probability of the sentence and tag sequence is:
+  \[
+    p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = \prod_{i=1}^{n+1} q(y_i | y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i | y_i)
+  \]
+  where we have assumed that $x_0 = x_{-1} = *$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Parameters of the Model}
+  \begin{itemize}
+    \item $q(s|u, v)$ for any $s \in S \cup \{\text{STOP}\}$, $u, v \in S \cup \{*\}$
+    \item $e(x|s)$ for any $s \in S$, $x \in V$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{An Example}
+  If we have $n = 3$, $x_1, x_2, x_3$ equal to the sentence "the dog laughs", and $y_1, y_2, y_3, y_4$ equal to the tag sequence "D N V STOP", then:
+  \[
+    p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = q(D|*,*) \times q(N|*,D) \times q(V|D,N) \times q(\text{STOP}|N,V) \times e(\text{the}|D) \times e(\text{dog}|N) \times e(\text{laughs}|V)
+  \]
+  \begin{itemize}
+    \item STOP is a special tag that terminates the sequence.
+    \item We take $y_0 = y_{-1} = *$, where $*$ is a special "padding" symbol.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Why the Name?}
+  \[
+    p(x_1, \ldots, x_n, y_1, \ldots, y_n) = q(\text{STOP}|y_{n-1}, y_n) \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1}) \prod_{j=1}^{n} e(x_j | y_j)
+  \]
+  \begin{itemize}
+    \item Markov Chain:
+    \[
+      q(y_j | y_{j-2}, y_{j-1})
+    \]
+    \item Observed:
+    \[
+      e(x_j | y_j)
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dealing with Low-Frequency Words: An Example}
+  \[
+    \begin{array}{l|l}
+      \text{Word class} & \text{Example} \\
+      \hline
+      \text{twoDigitNum} & 90 \quad \text{Two-digit year} \\
+      \text{fourDigitNum} & 1990 \quad \text{Four-digit year} \\
+      \text{containsDigitAndAlpha} & A8956-67 \quad \text{Product code} \\
+      \text{containsDigitAndDash} & 09-96 \quad \text{Date} \\
+      \text{containsDigitAndSlash} & 11/9/89 \quad \text{Date} \\
+      \text{containsDigitAndComma} & 23,000.00 \quad \text{Monetary amount} \\
+      \text{containsDigitAndPeriod} & 1.00 \quad \text{Monetary amount, percentage} \\
+      \text{othernum} & 456789 \quad \text{Other number} \\
+      \text{allCaps} & BBN \quad \text{Organization} \\
+      \text{capPeriod} & M. \quad \text{Person name initial} \\
+      \text{firstWord} & \text{First word of sentence} \quad \text{No useful capitalization information} \\
+      \text{initCap} & \text{Sally} \quad \text{Capitalized word} \\
+      \text{lowercase} & \text{can} \quad \text{Uncapitalized word} \\
+      \text{other} & , \quad \text{Punctuation marks, all other words} \\
+    \end{array}
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dealing with Low-Frequency Words: An Example}
+  Original sentence:
+  \[
+    \text{Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.}
+  \]
+  Transformed sentence:
+  \[
+    \text{firstword/NA soared/NA at/NA initCap/SC Co./CC ,/NA easily/NA lowercase/NA forecasts/NA on/NA initCap/SL Street/CL ,/NA as/NA their/NA CEO/NA Alan/SP initCap/CP announced/NA first/NA quarter/NA results/NA ./NA}
+  \]
+  \begin{itemize}
+    \item NA = No entity
+    \item SC = Start Company
+    \item CC = Continue Company
+    \item SL = Start Location
+    \item CL = Continue Location
+    \item ...
+  \end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Dynamic Programming}
+
+  \begin{itemize}
+    \item Dynamic programming is a technique used to solve optimization problems by breaking them down into overlapping subproblems.
+    \item It stores the solutions to these subproblems in a table, so they do not need to be recalculated.
+    \item Dynamic programming can greatly improve the efficiency of algorithms.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Factorial}
+
+  \begin{itemize}
+    \item Recursive implementation:
+
+    \begin{lstlisting}[language=Python]
+def recur_factorial(n):
+    # Base case
+    if n == 1:
+        return n
+    else:
+        return n * recur_factorial(n-1)
+    \end{lstlisting}
+
+    \item Dynamic programming implementation:
+
+    \begin{lstlisting}[language=Python]
+def dynamic_factorial(n):
+    table = [0 for i in range(0, n+1)]
+
+    # Base case
+    table[0] = 1
+
+    for i in range(1, len(table)):
+        table[i] = i * table[i-1]
+
+    return table[n]
+    \end{lstlisting}
+
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Fibonacci}
+
+  \begin{itemize}
+    \item Recursive implementation:
+
+    \begin{lstlisting}[language=Python]
+def recur_fibonacci(n):
+    if n == 1 or n == 0:
+        return 1
+    else:
+        return recur_fibonacci(n-1) + recur_fibonacci(n-2)
+    \end{lstlisting}
+
+    \item Dynamic programming implementation:
+
+    \begin{lstlisting}[language=Python]
+def dynamic_fibonacci(n):
+    table = [0 for i in range(0, n+1)]
+
+    # Base case
+    table[0] = 1
+    table[1] = 1
+
+    for i in range(2, len(table)):
+        table[i] = table[i-1] + table[i-2]
+
+    return table[n]
+    \end{lstlisting}
+
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Complexity}
+
+  \begin{itemize}
+    \item Recursive factorial: Exponential complexity
+    \item Dynamic factorial: Linear complexity
+    \item Recursive Fibonacci: Exponential complexity
+    \item Dynamic Fibonacci: Linear complexity
+  \end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{The Viterbi Algorithm}
+  Problem: For an input $x_1 \ldots x_n$, find
+  \[
+    \arg \max_{y_1 \ldots y_{n+1}} p(x_1 \ldots x_n, y_1 \ldots y_{n+1})
+  \]
+  where the $\arg \max$ is taken over all sequences $y_1 \ldots y_{n+1}$ such that $y_i \in S$ for $i = 1 \ldots n$, and $y_{n+1} = \text{STOP}$.
+
+  We assume that $p$ takes the form:
+  \[
+    p(x_1 \ldots x_n, y_1 \ldots y_{n+1}) = \prod_{i=1}^{n+1} q(y_i|y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i|y_i)
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Brute Force Search is Hopelessly Inefficient}
+  Problem: For an input $x_1 \ldots x_n$, find
+  \[
+    \arg \max_{y_1 \ldots y_{n+1}} p(x_1 \ldots x_n, y_1 \ldots y_{n+1})
+  \]
+  where the $\arg \max$ is taken over all sequences $y_1 \ldots y_{n+1}$ such that $y_i \in S$ for $i = 1 \ldots n$, and $y_{n+1} = \text{STOP}$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Viterbi Algorithm}
+  The Viterbi algorithm efficiently computes the maximum probability of a tag sequence by using dynamic programming.
+
+  \textbf{Steps:}
+  \begin{itemize}
+    \item Define $n$ as the length of the sentence.
+    \item Define $S_k$ for $k = -1 \ldots n$ as the set of possible tags at position $k$: $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+    \item Define $r(y_{-1}, y_0, y_1, \ldots, y_k) = \prod_{i=1}^k q(y_i|y_{i-2}, y_{i-1}) \prod_{i=1}^k e(x_i|y_i)$.
+    \item Define a dynamic programming table: $\pi(k, u, v)$ = maximum probability of a tag sequence ending in tags $u$, $v$ at position $k$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{An Example}
+  $\pi(k, u, v)$ = maximum probability of a tag sequence ending in tags $u$, $v$ at position $k$
+
+  \textbf{The man saw the dog with the telescope}
+
+
+
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{An Example}
+
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.7]{pics/viterbi1.pdf}
+        \end{figure}
+
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{A Recursive Definition}
+  \textbf{Base case:}
+  \[
+    \pi(0, *, *) = 1
+  \]
+
+  \textbf{Recursive definition:}
+  For any $k \in \{1 \ldots n\}$, for any $u \in S_{k-1}$ and $v \in S_k$:
+  \[
+    \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Justification for the Recursive Definition}
+  For any $k \in \{1 \ldots n\}$, for any $u \in S_{k-1}$ and $v \in S_k$:
+  \[
+    \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+  \]
+
+  \textbf{The man saw the dog with the telescope}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Justification for the Recursive Definition}
+
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.65]{pics/viterbi2.pdf}
+        \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Viterbi Algorithm}
+  \textbf{Input:} a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$.
+
+  \textbf{Initialization:} Set $\pi(0, *, *) = 1$.
+
+  Define $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+
+  \textbf{Algorithm:}
+  \begin{itemize}
+    \item For $k = 1 \ldots n$,
+    \item For $u \in S_{k-1}$, $v \in S_k$,
+    \[
+      \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+    \]
+    \item Return $\max_{u \in S_{n-1}, v \in S_n} (\pi(n, u, v) \times q(\text{STOP}|u, v))$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Viterbi Algorithm with Backpointers}
+  \textbf{Input:} a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$.
+
+  \textbf{Initialization:} Set $\pi(0, *, *) = 1$.
+
+  Define $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+
+  \textbf{Algorithm:}
+  \begin{itemize}
+    \item For $k = 1 \ldots n$,
+    \item For $u \in S_{k-1}$, $v \in S_k$,
+    \[
+      \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+    \]
+    \[
+      \text{bp}(k, u, v) = \arg \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+    \]
+    \item Set $(y_{n-1}, y_n) = \arg \max_{(u,v)} (\pi(n, u, v) \times q(\text{STOP}|u, v))$
+    \item For $k = (n - 2) \ldots 1$, $y_k = \text{bp}(k + 2, y_{k+1}, y_{k+2})$
+    \item Return the tag sequence $y_1 \ldots y_n$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Viterbi Algorithm: Running Time}
+  \begin{itemize}
+    \item $O(n|S|^3)$ time to calculate $q(s|u, v) \times e(x_k|s)$ for all $k, s, u, v$.
+    \item $n|S|^2$ entries in $\pi$ to be filled in.
+    \item $O(|S|)$ time to fill in one entry.
+  \end{itemize}
+  $\Rightarrow$ $O(n|S|^3)$ time in total.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pros and Cons}
+  \begin{itemize}
+    \item Hidden Markov Model (HMM) taggers are simple to train (compile counts from training corpus).
+    \item They perform relatively well (over 90% performance on named entity recognition).
+    \item Main difficulty is modeling $e(\text{word} | \text{tag})$, which can be very complex if "words" are complex.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Questions?}
+%\vspace{1.5cm}
+\begin{center}\LARGE Thanks for your Attention!\\ \end{center}
+
+
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]\scriptsize
+\frametitle{References}
+\bibliography{bio}
+\bibliographystyle{apalike}
+%\bibliographystyle{flexbib}
+\end{frame}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

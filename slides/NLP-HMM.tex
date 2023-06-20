@@ -559,31 +559,6 @@ def dynamic_fibonacci(n):
 
 \begin{frame}
   \frametitle{The Viterbi Algorithm}
-  
-  
-  
-  
-  \textbf{Input:} a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$.
-
-  \textbf{Initialization:} Set $\pi(0, *, *) = 1$.
-
-  Define $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
-
-  \textbf{Algorithm:}
-  \begin{itemize}
-    \item For $k = 1 \ldots n$,
-    \item For $u \in S_{k-1}$, $v \in S_k$,
-    \[
-      \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
-    \]
-    \item Return $\max_{u \in S_{n-1}, v \in S_n} (\pi(n, u, v) \times q(\text{STOP}|u, v))$
-  \end{itemize}
-\end{frame}
-
-
-
-\begin{frame}
-  \frametitle{The Viterbi Algorithm}
 \begin{algorithm}[H]
 \SetKwInput{Input}{Input}
 \SetKwInput{Initialization}{Initialization}

@@ -202,6 +202,58 @@
     \end{itemize}
 \end{frame}
 
+
+\begin{frame}
+  \frametitle{Supervised Learning Problems}
+  \begin{itemize}
+    \item We have training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. Each $x^{(i)}$ is an input, each $y^{(i)}$ is a label.
+    \item Task is to learn a function $f$ mapping inputs $x$ to labels $f(x)$.
+    \item Conditional models:
+    \begin{itemize}
+      \item Learn a distribution $p(y|x)$ from training examples.
+      \item For any test input $x$, define $f(x) = \arg \max_y p(y|x)$.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Generative Models}
+  \begin{itemize}
+    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
+    \item Generative models:
+    \begin{itemize}
+      \item Learn the joint distribution $p(x, y)$ from the training examples.
+      \item Often, we have $p(x, y) = p(y)p(x|y)$.
+      \item Note: We then have
+      \[
+        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{where} \quad p(x) = \sum_y p(y)p(x|y).
+      \]
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Classification with Generative Models}
+  \begin{itemize}
+    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
+    \item Generative models:
+    \begin{itemize}
+      \item Learn the joint distribution $p(x, y)$ from the training examples.
+      \item Often, we have $p(x, y) = p(y)p(x|y)$.
+    \end{itemize}
+    \item Output from the model:
+\[
+\begin{aligned}
+f(x) = \arg\max_y p(y|x) &= \arg\max_y \frac{p(y)p(x|y)}{p(x)} \\
+&= \arg\max_y p(y)p(x|y)
+\end{aligned}
+\]
+  \end{itemize}
+\end{frame}
+
+
+
+
 \begin{frame}{Naive Bayes Intuition}
     Naive Bayes is a simple ("naive") classification method based on Bayes' rule.
     \begin{itemize}

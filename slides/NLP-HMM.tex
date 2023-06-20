@@ -574,6 +574,10 @@ def dynamic_fibonacci(n):
 
 \begin{frame}
   \frametitle{The Viterbi Algorithm}
+  
+  
+  
+  
   \textbf{Input:} a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$.
 
   \textbf{Initialization:} Set $\pi(0, *, *) = 1$.
@@ -591,29 +595,84 @@ def dynamic_fibonacci(n):
   \end{itemize}
 \end{frame}
 
+
+
 \begin{frame}
-  \frametitle{The Viterbi Algorithm with Backpointers}
-  \textbf{Input:} a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$.
+  \frametitle{The Viterbi Algorithm}
+\begin{algorithm}[H]
+\SetKwInput{Input}{Input}
+\SetKwInput{Initialization}{Initialization}
+\SetKwFunction{Max}{max}
+\SetKwFunction{Return}{return}
 
-  \textbf{Initialization:} Set $\pi(0, *, *) = 1$.
+\Input{a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$}
 
-  Define $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+\Initialization{ Set $\pi(0, *, *) = 1$;  $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+}
 
-  \textbf{Algorithm:}
-  \begin{itemize}
-    \item For $k = 1 \ldots n$,
-    \item For $u \in S_{k-1}$, $v \in S_k$,
-    \[
-      \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
-    \]
-    \[
-      \text{bp}(k, u, v) = \arg \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
-    \]
-    \item Set $(y_{n-1}, y_n) = \arg \max_{(u,v)} (\pi(n, u, v) \times q(\text{STOP}|u, v))$
-    \item For $k = (n - 2) \ldots 1$, $y_k = \text{bp}(k + 2, y_{k+1}, y_{k+2})$
-    \item Return the tag sequence $y_1 \ldots y_n$
-  \end{itemize}
+\BlankLine
+\SetAlgoLined
+\caption{Viterbi Algorithm}
+\label{algo:prob_inference}
+\BlankLine
+
+\For{$k = 1$ \KwTo $n$}{
+\For{$u \in S_{k-1}, v \in S_k$}{\[\pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))\]} 
+}
+
+
+
+\BlankLine
+\Return{$\max_{u \in S_{n-1}, v \in S_n} (\pi(n, u, v) \times q(\text{STOP}|u, v))$} 
+\end{algorithm}
 \end{frame}
+
+
+
+\begin{frame}{The Viterbi Algorithm with Backpointers}
+\scriptsize
+\begin{algorithm}[H]
+\SetKwInput{Input}{Input}
+\SetKwInput{Initialization}{Initialization}
+\SetKwFunction{Max}{max}
+\SetKwFunction{ArgMax}{argmax}
+\SetKwFunction{Return}{return}
+
+\Input{a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$}
+
+\Initialization{Set $\pi(0, *, *) = 1$;  $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+}
+
+\BlankLine
+\SetAlgoLined
+\caption{Viterbi Algorithm with Backpointers}
+\label{algo:viterbi}
+\BlankLine
+
+\For{$k = 1$ \KwTo $n$}{
+\For{$u \in S_{k-1}, v \in S_k$}{
+\[
+\pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+\]    
+\[
+\text{bp}(k, u, v) = \arg \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+    \]} 
+}
+
+
+
+\BlankLine
+$(y_{n-1}, y_n) = \arg \max_{(u,v)} (\pi(n, u, v) \times q(\text{STOP}|u, v))$ \tcp*[r]{Find maximum probability and corresponding tags}
+\For{$k = (n - 2)$ \KwTo $1$}{
+$y_k = \text{bp}(k + 2, y_{k+1}, y_{k+2})$ \tcp*[r]{Retrieve tag sequence using backpointers}
+}
+
+\BlankLine
+\Return{the tag sequence $y_1 \ldots y_n$} \tcp*[r]{Return the final tag sequence}
+\end{algorithm}
+\end{frame}
+
+
 
 \begin{frame}
   \frametitle{The Viterbi Algorithm: Running Time}

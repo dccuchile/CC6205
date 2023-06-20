@@ -60,14 +60,13 @@
 
 
 
-\begin{frame}
-  \frametitle{Overview}
+\begin{frame}{Overview}
   \scriptsize
   \begin{itemize}
     \item The Sequence Labeling (or Tagging) Problem
     \item Generative models, and the noisy-channel model, for supervised learning
     \item Hidden Markov Model (HMM) taggers
-    \begin{itemize}
+    \begin{itemize}\scriptsize
     \item Basic definitions
     \item Parameter estimation
     \item The Viterbi algorithm
@@ -77,15 +76,28 @@
 
 \end{frame}
 
+\begin{frame}{Sequence Labeling or Tagging Tasks}
+
+  \begin{itemize}
+    \item Sequence Labeling or Tagging is a task in NLP different from document classification.
+    \item Here the goal is to map a sentence represented as a sequence of tokens $x_1,x_2,\dots,x_n$ into a sequence of tags or labels $y_1,y_2,\dots,y_n$.
+    \item Well known examples of this task are Part-of-Speech (POS) tagging and Named Entity Recognition (NER) to be presented next.
+    \end{itemize}
+
+\end{frame}
+
+
+
+
 \begin{frame}
   \frametitle{Part-of-Speech Tagging}
   \scriptsize
   \textcolor{green}{\textbf{INPUT:}}
-  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
-
+  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.  \vspace{0.5cm}
+  
   \textcolor{green}{\textbf{OUTPUT:}}
   Profits\textcolor{red}{/N} soared\textcolor{red}{/V} at\textcolor{red}{/P} Boeing\textcolor{red}{/N} Co.\textcolor{red}{/N} ,\textcolor{red}{/,} easily\textcolor{red}{/ADV} topping\textcolor{red}{/V} forecasts\textcolor{red}{/N} on\textcolor{red}{/P} Wall\textcolor{red}{/N} Street\textcolor{red}{/N} ,\textcolor{red}{/,} as\textcolor{red}{/P} their\textcolor{red}{/POSS} CEO\textcolor{red}{/N} Alan\textcolor{red}{/N} Mulally\textcolor{red}{/N} announced\textcolor{red}{/V} first\textcolor{red}{/ADJ} quarter\textcolor{red}{/N} results\textcolor{red}{/N} .\textcolor{red}{/.}
-
+   \vspace{0.5cm}
   \begin{itemize}
     \item \textcolor{red}{N} = \textcolor{blue}{Noun}
     \item \textcolor{red}{V} = \textcolor{blue}{Verb}
@@ -98,28 +110,30 @@
 
 \begin{frame}
   \frametitle{Named Entity Recognition}
-  \textbf{INPUT:}
-  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
+  \textcolor{green}{\textbf{INPUT:}}
+  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.    \vspace{0.5cm}
 
-  \textbf{OUTPUT:}
-  Profits soared at [Company Boeing Co.], easily topping forecasts on [Location Wall Street], as their CEO [Person Alan Mulally] announced first quarter results.
+  \textcolor{green}{\textbf{OUTPUT:}}
+  Profits soared at \textcolor{red}{[Company} Boeing Co.\textcolor{red}{]}, easily topping forecasts on \textcolor{red}{[Location} Wall Street\textcolor{red}{]}, as their CEO \textcolor{red}{[Person} Alan Mulally\textcolor{red}{]} announced first quarter results.
 \end{frame}
 
 \begin{frame}
   \frametitle{Named Entity Extraction as Sequence Labeling}
-  \textbf{INPUT:}
-  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
+  \scriptsize
+   \textcolor{green}{\textbf{INPUT:}}
+  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results. \vspace{0.5cm}
 
-  \textbf{OUTPUT:}
-  Profits/NA soared/NA at/NA Boeing/SC Co./CC ,/NA easily/NA topping/NA forecasts/NA on/NA Wall/SL Street/CL ,/NA as/NA their/NA CEO/NA Alan/SP Mulally/CP announced/NA first/NA quarter/NA results/NA ./NA
+  \textcolor{green}{\textbf{OUTPUT:}}
+  Profits\textcolor{red}{/NA} soared\textcolor{red}{/NA} at\textcolor{red}{/NA} Boeing\textcolor{purple}{/SC} Co.\textcolor{purple}{/CC} ,\textcolor{red}{/NA} easily\textcolor{red}{/NA} topping\textcolor{red}{/NA} forecasts\textcolor{red}{/NA} on\textcolor{red}{/NA} Wall\textcolor{purple}{/SL} Street\textcolor{purple}{/CL} ,\textcolor{red}{/NA} as\textcolor{red}{/NA} their\textcolor{red}{/NA} CEO\textcolor{red}{/NA} Alan\textcolor{purple}{/SP} Mulally\textcolor{purple}{/CP} announced\textcolor{red}{/NA} first\textcolor{red}{/NA} quarter\textcolor{red}{/NA} results\textcolor{red}{/NA} .\textcolor{red}{/NA} \vspace{0.5cm}
 
   \begin{itemize}
-    \item NA = No entity
-    \item SC = Start Company
-    \item CC = Continue Company
-    \item SL = Start Location
-    \item CL = Continue Location
-    \item ...
+    \item \textcolor{red}{NA} = \textcolor{blue}{No entity}
+    \item \textcolor{purple}{SC} = \textcolor{blue}{Start Company}
+    \item \textcolor{purple}{CC} = \textcolor{blue}{Continue Company}
+    \item \textcolor{purple}{SL} = \textcolor{blue}{Start Location}
+    \item \textcolor{purple}{CL} = \textcolor{blue}{Continue Location}
+    \item \textcolor{purple}{SP} = \textcolor{blue}{Start Person}
+    \item \textcolor{purple}{CP} = \textcolor{blue}{Continue Person}
   \end{itemize}
 \end{frame}
 
@@ -141,12 +155,12 @@
   \frametitle{Two Types of Constraints}
   Influential/JJ members/NNS of/IN the/DT House/NNP Ways/NNP and/CC Means/NNP Committee/NNP introduced/VBD legislation/NN that/WDT would/MD restrict/VB how/WRB the/DT new/JJ savings-and-loan/NN bailout/NN agency/NN can/MD raise/VB capital/NN ./.
 
-  \textbf{"Local":}
+  \textbf{``Local'':}
   \begin{itemize}
     \item e.g., "can" is more likely to be a modal verb MD rather than a noun NN
   \end{itemize}
 
-  \textbf{"Contextual":}
+  \textbf{``Contextual'':}
   \begin{itemize}
     \item e.g., a noun is much more likely than a verb to follow a determiner
   \end{itemize}
@@ -315,24 +329,28 @@ A common method is as follows:
 
 \begin{frame}
   \frametitle{Dealing with Low-Frequency Words: An Example}
+  \scriptsize
+  
+ Below is an example of word classes for named entity recognition \cite{bikelSW99}:
+  
   \[
-    \begin{array}{l|l}
-      \text{Word class} & \text{Example} \\
+    \begin{array}{l|l|l}
+      \text{Word class} & \text{Example}  & \text{Intuition} \\
       \hline
-      \text{twoDigitNum} & 90 \quad \text{Two-digit year} \\
-      \text{fourDigitNum} & 1990 \quad \text{Four-digit year} \\
-      \text{containsDigitAndAlpha} & A8956-67 \quad \text{Product code} \\
-      \text{containsDigitAndDash} & 09-96 \quad \text{Date} \\
-      \text{containsDigitAndSlash} & 11/9/89 \quad \text{Date} \\
-      \text{containsDigitAndComma} & 23,000.00 \quad \text{Monetary amount} \\
-      \text{containsDigitAndPeriod} & 1.00 \quad \text{Monetary amount, percentage} \\
-      \text{othernum} & 456789 \quad \text{Other number} \\
-      \text{allCaps} & BBN \quad \text{Organization} \\
-      \text{capPeriod} & M. \quad \text{Person name initial} \\
-      \text{firstWord} & \text{First word of sentence} \quad \text{No useful capitalization information} \\
-      \text{initCap} & \text{Sally} \quad \text{Capitalized word} \\
-      \text{lowercase} & \text{can} \quad \text{Uncapitalized word} \\
-      \text{other} & , \quad \text{Punctuation marks, all other words} \\
+      \text{twoDigitNum} & 90 & \text{Two-digit year} \\
+      \text{fourDigitNum} & 1990 & \text{Four-digit year} \\
+      \text{containsDigitAndAlpha} & A8956-67 & \text{Product code} \\
+      \text{containsDigitAndDash} & 09-96 & \text{Date} \\
+      \text{containsDigitAndSlash} & 11/9/89 & \text{Date} \\
+      \text{containsDigitAndComma} & 23,000.00 & \text{Monetary amount} \\
+      \text{containsDigitAndPeriod} & 1.00 & \text{Monetary amount, percentage} \\
+      \text{othernum} & 456789 & \text{Other number} \\
+      \text{allCaps} & BBN & \text{Organization} \\
+      \text{capPeriod} & M. & \text{Person name initial} \\
+      \text{firstWord} & \text{First word of sentence} & \text{No useful capitalization information} \\
+      \text{initCap} & \text{Sally} & \text{Capitalized word} \\
+      \text{lowercase} & \text{can} & \text{Uncapitalized word} \\
+      \text{other} & , & \text{Punctuation marks, all other words} \\
     \end{array}
   \]
 \end{frame}
@@ -340,31 +358,26 @@ A common method is as follows:
 \begin{frame}
   \frametitle{Dealing with Low-Frequency Words: An Example}
   \scriptsize
-Original Sentence:
-\[
-\begin{aligned}
-&\text{Profits soared at Boeing Co.,} \\
-&\text{easily topping forecasts on Wall Street,} \\
-&\text{as their CEO Alan Mulally announced first quarter results.}
-\end{aligned}
-\]
+  
+  
+\textbf{Original Sentence:}
 
-Transformed Sentence:
-\[
-\begin{aligned}
-&\text{firstword/NA soared/NA at/NA initCap/SC Co./CC ,/NA} \\
-&\text{easily/NA lowercase/NA forecasts/NA on/NA initCap/SL Street/CL ,/NA} \\
-&\text{as/NA their/NA CEO/NA Alan/SP initCap/CP announced/NA} \\
-&\text{first/NA quarter/NA results/NA ./NA}
-\end{aligned}
-\]
+  Profits\textcolor{red}{/NA} soared\textcolor{red}{/NA} at\textcolor{red}{/NA} Boeing\textcolor{purple}{/SC} Co.\textcolor{purple}{/CC} ,\textcolor{red}{/NA} easily\textcolor{red}{/NA} topping\textcolor{red}{/NA} forecasts\textcolor{red}{/NA} on\textcolor{red}{/NA} Wall\textcolor{purple}{/SL} Street\textcolor{purple}{/CL} ,\textcolor{red}{/NA} as\textcolor{red}{/NA} their\textcolor{red}{/NA} CEO\textcolor{red}{/NA} Alan\textcolor{purple}{/SP} Mulally\textcolor{purple}{/CP} announced\textcolor{red}{/NA} first\textcolor{red}{/NA} quarter\textcolor{red}{/NA} results\textcolor{red}{/NA} .\textcolor{red}{/NA} \vspace{0.5cm}
+
+
+\textbf{Transformed Sentence:}
+
+firstword/NA soared/NA at/NA initCap/SC Co./CC ,/NA easily/NA lowercase/NA forecasts/NA on/NA initCap/SL Street/CL ,/NA as/NA their/NA CEO/NA Alan/SP initCap/CP announced/NA first/NA quarter/NA results/NA ./NA \vspace{0.5cm}
+
+
   \begin{itemize}
-    \item NA = No entity
-    \item SC = Start Company
-    \item CC = Continue Company
-    \item SL = Start Location
-    \item CL = Continue Location
-    \item ...
+    \item \textcolor{red}{NA} = \textcolor{blue}{No entity}
+    \item \textcolor{purple}{SC} = \textcolor{blue}{Start Company}
+    \item \textcolor{purple}{CC} = \textcolor{blue}{Continue Company}
+    \item \textcolor{purple}{SL} = \textcolor{blue}{Start Location}
+    \item \textcolor{purple}{CL} = \textcolor{blue}{Continue Location}
+    \item \textcolor{purple}{SP} = \textcolor{blue}{Start Person}
+    \item \textcolor{purple}{CP} = \textcolor{blue}{Continue Person}
   \end{itemize}
 \end{frame}
 

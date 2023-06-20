@@ -41,7 +41,7 @@
 {\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
 \newcommand{\bigtimes}{\BIGOP{\times}}
 \vspace{-0.5cm}
-\title{Natural Language Processing \\ Tagging Problems, and Hidden Markov Models}
+\title{Natural Language Processing \\ Sequence Labeling and Hidden Markov Models}
 \vspace{-0.5cm}
 \author[Felipe Bravo Márquez]{\footnotesize
 %\author{\footnotesize  
@@ -62,30 +62,36 @@
 
 \begin{frame}
   \frametitle{Overview}
+  \scriptsize
   \begin{itemize}
-    \item The Tagging Problem
+    \item The Sequence Labeling (or Tagging) Problem
     \item Generative models, and the noisy-channel model, for supervised learning
     \item Hidden Markov Model (HMM) taggers
+    \begin{itemize}
     \item Basic definitions
     \item Parameter estimation
     \item The Viterbi algorithm
+    \end{itemize}
   \end{itemize}
+ This slides are based on the course material by Michael Collins: \url{http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf}
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Part-of-Speech Tagging}
-  \textbf{INPUT:}
+  \scriptsize
+  \textcolor{green}{\textbf{INPUT:}}
   Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
 
-  \textbf{OUTPUT:}
-  Profits/N soared/V at/P Boeing/N Co./N ,/, easily/ADV topping/V forecasts/N on/P Wall/N Street/N ,/, as/P their/POSS CEO/N Alan/N Mulally/N announced/V first/ADJ quarter/N results/N ./.
+  \textcolor{green}{\textbf{OUTPUT:}}
+  Profits\textcolor{red}{/N} soared\textcolor{red}{/V} at\textcolor{red}{/P} Boeing\textcolor{red}{/N} Co.\textcolor{red}{/N} ,\textcolor{red}{/,} easily\textcolor{red}{/ADV} topping\textcolor{red}{/V} forecasts\textcolor{red}{/N} on\textcolor{red}{/P} Wall\textcolor{red}{/N} Street\textcolor{red}{/N} ,\textcolor{red}{/,} as\textcolor{red}{/P} their\textcolor{red}{/POSS} CEO\textcolor{red}{/N} Alan\textcolor{red}{/N} Mulally\textcolor{red}{/N} announced\textcolor{red}{/V} first\textcolor{red}{/ADJ} quarter\textcolor{red}{/N} results\textcolor{red}{/N} .\textcolor{red}{/.}
 
   \begin{itemize}
-    \item N = Noun
-    \item V = Verb
-    \item P = Preposition
-    \item Adv = Adverb
-    \item Adj = Adjective
+    \item \textcolor{red}{N} = \textcolor{blue}{Noun}
+    \item \textcolor{red}{V} = \textcolor{blue}{Verb}
+    \item \textcolor{red}{P} = \textcolor{blue}{Preposition}
+    \item \textcolor{red}{Adv} = \textcolor{blue}{Adverb}
+    \item \textcolor{red}{Adj} = \textcolor{blue}{Adjective}
     \item ...
   \end{itemize}
 \end{frame}
@@ -100,7 +106,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Named Entity Extraction as Tagging}
+  \frametitle{Named Entity Extraction as Sequence Labeling}
   \textbf{INPUT:}
   Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.
 
@@ -190,9 +196,12 @@
       \item Often, we have $p(x, y) = p(y)p(x|y)$.
     \end{itemize}
     \item Output from the model:
-    \[
-      f(x) = \arg\max_y p(y|x) = \arg\max_y \frac{p(y)p(x|y)}{p(x)} = \arg\max_y p(y)p(x|y)
-    \]
+\[
+\begin{aligned}
+f(x) = \arg\max_y p(y|x) &= \arg\max_y \frac{p(y)p(x|y)}{p(x)} \\
+&= \arg\max_y p(y)p(x|y)
+\end{aligned}
+\]
   \end{itemize}
 \end{frame}
 
@@ -201,7 +210,7 @@
   \begin{itemize}
     \item We have an input sentence $x = x_1, x_2, \ldots, x_n$ ($x_i$ is the $i$-th word in the sentence).
     \item We have a tag sequence $y = y_1, y_2, \ldots, y_n$ ($y_i$ is the $i$-th tag in the sentence).
-    \item We'll use an HMM to define $p(x_1, x_2, \ldots, x_n, y_1, y_2, \ldots, y_n)$ for any sentence $x_1, \ldots, x_n$ and tag sequence $y_1, \ldots, y_n$ of the same length.
+    \item We'll use an HMM to define $p(x_1, x_2, \ldots, x_n, y_1, y_2, \ldots, y_n)$ for any sentence $x_1, \ldots, x_n$ and tag sequence $y_1, \ldots, y_n$ of the same length. \cite{kupiec1992robust}
     \item Then, the most likely tag sequence for $x$ is:
     \[
       \arg\max_{y_1,\ldots,y_n} p(x_1, \ldots, x_n, y_1, \ldots, y_n)
@@ -228,10 +237,15 @@
 
 \begin{frame}
   \frametitle{An Example}
+  \scriptsize
   If we have $n = 3$, $x_1, x_2, x_3$ equal to the sentence "the dog laughs", and $y_1, y_2, y_3, y_4$ equal to the tag sequence "D N V STOP", then:
-  \[
-    p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = q(D|*,*) \times q(N|*,D) \times q(V|D,N) \times q(\text{STOP}|N,V) \times e(\text{the}|D) \times e(\text{dog}|N) \times e(\text{laughs}|V)
-  \]
+\[
+\begin{aligned}
+p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = & q(D|*,*) \times q(N|*,D) \\
+& \times q(V|D,N) \times q(\text{STOP}|N,V) \\
+& \times e(\text{the}|D) \times e(\text{dog}|N) \times e(\text{laughs}|V)
+\end{aligned}
+\]
   \begin{itemize}
     \item STOP is a special tag that terminates the sequence.
     \item We take $y_0 = y_{-1} = *$, where $*$ is a special "padding" symbol.
@@ -240,13 +254,17 @@
 
 \begin{frame}
   \frametitle{Why the Name?}
-  \[
-    p(x_1, \ldots, x_n, y_1, \ldots, y_n) = q(\text{STOP}|y_{n-1}, y_n) \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1}) \prod_{j=1}^{n} e(x_j | y_j)
-  \]
+\[
+\begin{aligned}
+p(x_1, \ldots, x_n, y_1, \ldots, y_n) = & q(\text{STOP}|y_{n-1}, y_n) \\
+& \times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1}) \\
+& \times \prod_{j=1}^{n} e(x_j | y_j)
+\end{aligned}
+\]
   \begin{itemize}
     \item Markov Chain:
     \[
-      q(y_j | y_{j-2}, y_{j-1})
+      q(\text{STOP}|y_{n-1}, y_n)\times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1})
     \]
     \item Observed:
     \[
@@ -254,6 +272,46 @@
     \]
   \end{itemize}
 \end{frame}
+
+
+
+\begin{frame}
+\frametitle{Smoothed Estimation}
+
+\[
+\begin{aligned}
+q(Vt | DT, JJ) = & \lambda_1 \times \frac{{\text{Count}(Dt, JJ, Vt)}}{{\text{Count}(Dt, JJ)}} \\
+& + \lambda_2 \times \frac{{\text{Count}(JJ, Vt)}}{{\text{Count}(JJ)}} \\
+& + \lambda_3 \times \frac{{\text{Count}(Vt)}}{{\text{Count}()}}
+\end{aligned}
+\]
+
+where $\lambda_1 + \lambda_2 + \lambda_3 = 1$, and for all $i$, $\lambda_i \geq 0$.
+
+\vspace{0.5cm}
+
+\[
+e(\text{base} | Vt) = \frac{{\text{Count}(Vt, \text{base})}}{{\text{Count}(Vt)}}
+\]
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Dealing with Low-Frequency Words}
+
+A common method is as follows:
+\begin{itemize}
+  \item Step 1: Split vocabulary into two sets
+    \begin{itemize}
+      \item Frequent words = words occurring $\geq 5$ times in training
+      \item Low frequency words = all other words
+    \end{itemize}
+  \item Step 2: Map low frequency words into a small, finite set, depending on prefixes, suffixes, etc.
+\end{itemize}
+
+\end{frame}
+
+
 
 \begin{frame}
   \frametitle{Dealing with Low-Frequency Words: An Example}
@@ -281,14 +339,25 @@
 
 \begin{frame}
   \frametitle{Dealing with Low-Frequency Words: An Example}
-  Original sentence:
-  \[
-    \text{Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.}
-  \]
-  Transformed sentence:
-  \[
-    \text{firstword/NA soared/NA at/NA initCap/SC Co./CC ,/NA easily/NA lowercase/NA forecasts/NA on/NA initCap/SL Street/CL ,/NA as/NA their/NA CEO/NA Alan/SP initCap/CP announced/NA first/NA quarter/NA results/NA ./NA}
-  \]
+  \scriptsize
+Original Sentence:
+\[
+\begin{aligned}
+&\text{Profits soared at Boeing Co.,} \\
+&\text{easily topping forecasts on Wall Street,} \\
+&\text{as their CEO Alan Mulally announced first quarter results.}
+\end{aligned}
+\]
+
+Transformed Sentence:
+\[
+\begin{aligned}
+&\text{firstword/NA soared/NA at/NA initCap/SC Co./CC ,/NA} \\
+&\text{easily/NA lowercase/NA forecasts/NA on/NA initCap/SL Street/CL ,/NA} \\
+&\text{as/NA their/NA CEO/NA Alan/SP initCap/CP announced/NA} \\
+&\text{first/NA quarter/NA results/NA ./NA}
+\end{aligned}
+\]
   \begin{itemize}
     \item NA = No entity
     \item SC = Start Company

@@ -230,7 +230,16 @@
   \frametitle{Parameters of the Model}
   \begin{itemize}
     \item $q(s|u, v)$ for any $s \in S \cup \{\text{STOP}\}$, $u, v \in S \cup \{*\}$
-    \item $e(x|s)$ for any $s \in S$, $x \in V$
+    \begin{itemize}
+     \item The value for $q(s|u,v)$ can be interpreted as the probability of seeing the tag $s$ immediately after the bigram of tags $(u, v)$.
+    \end{itemize}    
+    \item $e(x|s)$ for any $s \in S$, $x \in V$ 
+    \begin{itemize}
+     \item The value for $e(x|s)$ can be interpreted as the probability of seeing observation $x$ paired with state $s$.
+    \end{itemize}
+
+    
+    
   \end{itemize}
 \end{frame}
 
@@ -250,6 +259,61 @@ p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = & q(D|*,*) \times q(N|*,D) \\
     \item We take $y_0 = y_{-1} = *$, where $*$ is a special "padding" symbol.
   \end{itemize}
 \end{frame}
+
+
+
+\begin{frame}
+\frametitle{Independence Assumptions in Trigram HMMs}
+\scriptsize
+
+\begin{itemize}
+    \item Trigram Hidden Markov Models (HMMs) are derived by making specific independence assumptions in the model.
+    
+    \item Consider two sequences of random variables: $X_1, \ldots, X_n$ and $Y_1, \ldots, Y_n$, where $n$ is the length of the sequences.
+    
+    \item Each $X_i$ can take any value in a finite set $V$ of words, and each $Y_i$ can take any value in a finite set $K$ of possible tags (e.g., $K=\{D,N,V\dots \}$).
+    
+    \item Our goal is to model the joint probability:
+    \[P(X_1 = x_1, \ldots, X_n = x_n, Y_1 = y_1, \ldots, Y_n = y_n)\]
+    
+    \item We define an additional random variable $Y_{n+1}$ that always takes the value "STOP."
+    
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Independence Assumptions in Trigram HMMs}
+\scriptsize
+
+\begin{itemize}
+    
+    \item The key idea in HMMs is the factorization of the joint probability:
+    \[P(X_1 = x_1, \ldots, X_n = x_n, Y_1 = y_1, \ldots, Y_{n+1} = y_{n+1})\]
+    \[= \prod_{i=1}^{n+1} P(Y_i = y_i | Y_{i-2} = y_{i-2}, Y_{i-1} = y_{i-1}) \times \prod_{i=1}^{n} P(X_i = x_i | Y_i = y_i)\]
+    
+    \item We first assume that:
+    \[P(Y_i = y_i | Y_{i-2} = y_{i-2}, Y_{i-1} = y_{i-1}) = q(y_i | y_{i-2}, y_{i-1})\]
+    
+    \item This assumes that the sequence $Y_1, \ldots, Y_{n+1}$ is a second-order Markov sequence, where each state depends only on the previous two states.
+    
+    \item And we also assume that:
+      \[P(X_i = x_i | Y_i = y_i) = e(x_i | y_i)\]
+    
+  \item This assumes that the value of the random variable $X_i$ depends only on the value of $Y_i$.
+    
+    
+    \item These independence assumptions allow for the derivation of the joint probability equation.
+    
+
+\end{itemize}
+
+\end{frame}
+
+
+
 
 \begin{frame}
   \frametitle{Why the Name?}
@@ -371,19 +435,92 @@ firstword\textcolor{red}{/NA} soared\textcolor{red}{/NA} at\textcolor{red}{/NA} 
 
 
 
-\begin{frame}[fragile]
-  \frametitle{Dynamic Programming}
+
+
+
+\begin{frame}
+  \frametitle{Decoding Problem}
+  Decoding Problem: For an input $x_1 \ldots x_n$, find
+  \[
+    \arg \max_{y_1 \ldots y_{n+1}} p(x_1 \ldots x_n, y_1 \ldots y_{n+1})
+  \]
+  where the $\arg \max$ is taken over all sequences $y_1 \ldots y_{n+1}$ such that $y_i \in S$ for $i = 1 \ldots n$, and $y_{n+1} = \text{STOP}$.
+
+  We assume that $p$ takes the form:
+  \[
+    p(x_1 \ldots x_n, y_1 \ldots y_{n+1}) = \prod_{i=1}^{n+1} q(y_i|y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i|y_i)
+  \]
+  
+  
+  Recall that we have assumed in this definition that $y_0 = y_{-1} = *,$ and $y_{n+1} =$ STOP.
+  
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Naive Brute Force Method}
+\scriptsize
+
+The naive, brute force method for finding the highest scoring tag sequence is to enumerate all possible tag sequences $y_1, \ldots, y_{n+1}$, score them under the function $p$, and select the sequence with the highest score.
+
+\begin{itemize}
+    \item Example:
+    \begin{itemize}
+        \item Input sentence: \textit{the dog barks}
+        \item Set of possible tags: $K = \{D, N, V\}$
+    \end{itemize}
+    
+    \item Enumerate all possible tag sequences:
+    \begin{itemize}
+        \item $D\ D\ D\ STOP$
+        \item $D\ D\ N\ STOP$
+        \item $D\ D\ V\ STOP$
+        \item $D\ N\ D\ STOP$
+        \item $D\ N\ N\ STOP$
+        \item $D\ N\ V\ STOP$
+        \item ...
+    \end{itemize}
+   
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Naive Brute Force Method}
+\scriptsize
+
+\begin{itemize}
+
+    
+    \item In this case, there are $3^3 = 27$ possible sequences.
+    
+    \item However, for longer sentences, this method becomes inefficient.
+    
+    \item For an input sentence of length $n$, there are $|K|^n$ possible tag sequences.
+    
+    \item The exponential growth makes brute-force search infeasible for reasonable length sentences.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Viterbi Decoding Dynamic Programming}
+\scriptsize
 
   \begin{itemize}
-    \item Dynamic programming is a technique used to solve optimization problems by breaking them down into overlapping subproblems.
-    \item It stores the solutions to these subproblems in a table, so they do not need to be recalculated.
+    \item The algorithm used by HMMs to perform efficient decoding is called Viterbi decoding.
+    \item Viterbi decoding uses dynamic programming.
+    \item Dynamic programming is a technique for solving optimization problems by breaking them down into overlapping subproblems.
+    \item It stores the solutions to these subproblems in a table so that they do not have to be recalculated.
     \item Dynamic programming can greatly improve the efficiency of algorithms.
+    \item Next, we show how dynamic programming works with two examples: Factorial and Fibonacci
   \end{itemize}
 
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Factorial}
+  \scriptsize
 
   \begin{itemize}
     \item Recursive implementation:
@@ -418,6 +555,7 @@ def dynamic_factorial(n):
 
 \begin{frame}[fragile]
   \frametitle{Fibonacci}
+  \scriptsize
 
   \begin{itemize}
     \item Recursive implementation:
@@ -450,43 +588,20 @@ def dynamic_fibonacci(n):
 
 \end{frame}
 
-\begin{frame}
-  \frametitle{Complexity}
+\begin{frame}{Complexity}
+\scriptsize
 
   \begin{itemize}
-    \item Recursive factorial: Exponential complexity
-    \item Dynamic factorial: Linear complexity
-    \item Recursive Fibonacci: Exponential complexity
-    \item Dynamic Fibonacci: Linear complexity
+  
+  \item In recursive implementations, the complexity can be quite high due to repeated calculations of the same subproblems. 
+  \item However, dynamic programming can significantly reduce the complexity by storing the solutions to subproblems in a table or array and reusing them when needed. 
+  \item This approach eliminates the redundant calculations and allows for a more efficient computation.
+  \item For the case of Fibonacci the complexity is reduced from exponential to linear. 
   \end{itemize}
 
 \end{frame}
 
 
-
-
-\begin{frame}
-  \frametitle{The Viterbi Algorithm}
-  Problem: For an input $x_1 \ldots x_n$, find
-  \[
-    \arg \max_{y_1 \ldots y_{n+1}} p(x_1 \ldots x_n, y_1 \ldots y_{n+1})
-  \]
-  where the $\arg \max$ is taken over all sequences $y_1 \ldots y_{n+1}$ such that $y_i \in S$ for $i = 1 \ldots n$, and $y_{n+1} = \text{STOP}$.
-
-  We assume that $p$ takes the form:
-  \[
-    p(x_1 \ldots x_n, y_1 \ldots y_{n+1}) = \prod_{i=1}^{n+1} q(y_i|y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i|y_i)
-  \]
-\end{frame}
-
-\begin{frame}
-  \frametitle{Brute Force Search is Hopelessly Inefficient}
-  Problem: For an input $x_1 \ldots x_n$, find
-  \[
-    \arg \max_{y_1 \ldots y_{n+1}} p(x_1 \ldots x_n, y_1 \ldots y_{n+1})
-  \]
-  where the $\arg \max$ is taken over all sequences $y_1 \ldots y_{n+1}$ such that $y_i \in S$ for $i = 1 \ldots n$, and $y_{n+1} = \text{STOP}$.
-\end{frame}
 
 \begin{frame}
   \frametitle{The Viterbi Algorithm}

@@ -142,9 +142,9 @@
   \frametitle{Our Goal}
   \textbf{Training set:}
   \begin{enumerate}
-    \item Pierre/NNP Vinken/NNP ,/, 61/CD years/NNS old/JJ ,/, will/MD join/VB the/DT board/NN as/IN a/DT nonexecutive/JJ director/NN Nov./NNP 29/CD ./.
-    \item Mr./NNP Vinken/NNP is/VBZ chairman/NN of/IN Elsevier/NNP N.V./NNP ,/, the/DT Dutch/NNP publishing/VBG group/NN ./.
-    \item Rudolph/NNP Agnew/NNP ,/, 55/CD years/NNS old/JJ and/CC chairman/NN of/IN Consolidated/NNP Gold/NNP Fields/NNP PLC/NNP ,/, was/VBD named/VBN a/DT nonexecutive/JJ director/NN of/IN this/DT British/JJ industrial/JJ conglomerate/NN ./.
+    \item Pierre\textcolor{red}{/NNP} Vinken\textcolor{red}{/NNP} ,\textcolor{red}{/,} 61\textcolor{red}{/CD} years\textcolor{red}{/NNS} old\textcolor{red}{/JJ} ,\textcolor{red}{/,} will\textcolor{red}{/MD} join\textcolor{red}{/VB} the\textcolor{red}{/DT} board\textcolor{red}{/NN} as\textcolor{red}{/IN} a\textcolor{red}{/DT} nonexecutive\textcolor{red}{/JJ} director\textcolor{red}{/NN} Nov.\textcolor{red}{/NNP} 29\textcolor{red}{/CD} .\textcolor{red}{/.}
+    \item Mr.\textcolor{red}{/NNP} Vinken\textcolor{red}{/NNP} is\textcolor{red}{/VBZ} chairman\textcolor{red}{/NN} of\textcolor{red}{/IN} Elsevier\textcolor{red}{/NNP} N.V.\textcolor{red}{/NNP} ,\textcolor{red}{/,} the\textcolor{red}{/DT} Dutch\textcolor{red}{/NNP} publishing\textcolor{red}{/VBG} group\textcolor{red}{/NN} .\textcolor{red}{/.}
+    \item Rudolph\textcolor{red}{/NNP} Agnew\textcolor{red}{/NNP} ,\textcolor{red}{/,} 55\textcolor{red}{/CD} years\textcolor{red}{/NNS} old\textcolor{red}{/JJ} and\textcolor{red}{/CC} chairman\textcolor{red}{/NN} of\textcolor{red}{/IN} Consolidated\textcolor{red}{/NNP} Gold\textcolor{red}{/NNP} Fields\textcolor{red}{/NNP} PLC\textcolor{red}{/NNP} ,\textcolor{red}{/,} was\textcolor{red}{/VBD} named\textcolor{red}{/VBN} a\textcolor{red}{/DT} nonexecutive\textcolor{red}{/JJ} director\textcolor{red}{/NN} of\textcolor{red}{/IN} this\textcolor{red}{/DT} British\textcolor{red}{/JJ} industrial\textcolor{red}{/JJ} conglomerate\textcolor{red}{/NN} .\textcolor{red}{/.}
     \item ...
   \end{enumerate}
 
@@ -153,11 +153,11 @@
 
 \begin{frame}
   \frametitle{Two Types of Constraints}
-  Influential/JJ members/NNS of/IN the/DT House/NNP Ways/NNP and/CC Means/NNP Committee/NNP introduced/VBD legislation/NN that/WDT would/MD restrict/VB how/WRB the/DT new/JJ savings-and-loan/NN bailout/NN agency/NN can/MD raise/VB capital/NN ./.
+  Influential\textcolor{red}{/JJ} members\textcolor{red}{/NNS} of\textcolor{red}{/IN} the\textcolor{red}{/DT} House\textcolor{red}{/NNP} Ways\textcolor{red}{/NNP} and\textcolor{red}{/CC} Means\textcolor{red}{/NNP} Committee\textcolor{red}{/NNP} introduced\textcolor{red}{/VBD} legislation\textcolor{red}{/NN} that\textcolor{red}{/WDT} would\textcolor{red}{/MD} restrict\textcolor{red}{/VB} how\textcolor{red}{/WRB} the\textcolor{red}{/DT} new\textcolor{red}{/JJ} savings-and-loan\textcolor{red}{/NN} bailout\textcolor{red}{/NN} agency\textcolor{red}{/NN} can\textcolor{red}{/MD} raise\textcolor{red}{/VB} capital\textcolor{red}{/NN} .\textcolor{red}{/.} \vspace{0.5cm}
 
   \textbf{``Local'':}
   \begin{itemize}
-    \item e.g., "can" is more likely to be a modal verb MD rather than a noun NN
+    \item e.g., ``can'' is more likely to be a modal verb \textcolor{red}{MD} rather than a noun \textcolor{red}{NN}
   \end{itemize}
 
   \textbf{``Contextual'':}
@@ -187,7 +187,7 @@
   \frametitle{Generative Approach for Sequence Labeling}
   \scriptsize
   \begin{itemize}
-    \item Generative models such as Naive Bayes can be used for sequence labeling tasks in NLP.
+    \item Generative models such as Naive Bayes was used for classification can also be used for sequence labeling tasks in NLP.
     \item Approach:
     \begin{itemize}\scriptsize
       \item Training: Learn the joint distribution $p(x_1,x_2, \ldots, x_n,y_1, y_2, \ldots, y_n)$ of input sequences.
@@ -206,7 +206,7 @@
   \frametitle{Hidden Markov Models}
   \scriptsize
   \begin{itemize}
-    \item  HMMs provide a principled way to handle sequence labeling problems using generative modeling and efficient decoding algorithms.
+    \item  Hidden Markov Models (HMMs) provide a principled way to handle sequence labeling problems using generative modeling and efficient decoding algorithms.
     \item We have an input sentence $x = x_1, x_2, \ldots, x_n$ ($x_i$ is the $i$-th word in the sentence).
     \item We have a tag sequence $y = y_1, y_2, \ldots, y_n$ ($y_i$ is the $i$-th tag in the sentence).
     \item We'll use an HMM to define $p(x_1, x_2, \ldots, x_n, y_1, y_2, \ldots, y_n)$ for any sentence $x_1, \ldots, x_n$ and tag sequence $y_1, \ldots, y_n$ of the same length. \cite{kupiec1992robust}
@@ -352,7 +352,7 @@ A common method is as follows:
 
 \textbf{Transformed Sentence:}
 
-firstword/NA soared/NA at/NA initCap/SC Co./CC ,/NA easily/NA lowercase/NA forecasts/NA on/NA initCap/SL Street/CL ,/NA as/NA their/NA CEO/NA Alan/SP initCap/CP announced/NA first/NA quarter/NA results/NA ./NA \vspace{0.5cm}
+firstword\textcolor{red}{/NA} soared\textcolor{red}{/NA} at\textcolor{red}{/NA} initCap\textcolor{purple}{/SC} Co.\textcolor{purple}{/CC} ,\textcolor{red}{/NA} easily\textcolor{red}{/NA} lowercase\textcolor{red}{/NA} forecasts\textcolor{red}{/NA} on\textcolor{red}{/NA} initCap\textcolor{purple}{/SL} Street\textcolor{purple}{/CL} ,\textcolor{red}{/NA} as\textcolor{red}{/NA} their\textcolor{red}{/NA} CEO\textcolor{red}{/NA} Alan\textcolor{purple}{/SP} initCap\textcolor{purple}{/CP} announced\textcolor{red}{/NA} first\textcolor{red}{/NA} quarter\textcolor{red}{/NA} results\textcolor{red}{/NA} .\textcolor{red}{/NA} \vspace{0.5cm}
 
 
   \begin{itemize}

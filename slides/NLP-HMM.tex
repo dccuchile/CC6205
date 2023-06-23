@@ -108,6 +108,18 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Part-of-Speech Tag Descriptions}
+
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.34]{pics/posTags.png}
+        \end{figure}
+Source: \cite{JurafskyBook}
+
+\end{frame}
+
+
+
+
 \begin{frame}
   \frametitle{Named Entity Recognition}
   \textcolor{green}{\textbf{INPUT:}}
@@ -605,39 +617,45 @@ def dynamic_fibonacci(n):
 
 \begin{frame}
   \frametitle{The Viterbi Algorithm}
+  \scriptsize
   The Viterbi algorithm efficiently computes the maximum probability of a tag sequence by using dynamic programming.
 
-  \textbf{Steps:}
+  \textbf{Definitions:}
   \begin{itemize}
     \item Define $n$ as the length of the sentence.
     \item Define $S_k$ for $k = -1 \ldots n$ as the set of possible tags at position $k$: $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
-    \item Define $r(y_{-1}, y_0, y_1, \ldots, y_k) = \prod_{i=1}^k q(y_i|y_{i-2}, y_{i-1}) \prod_{i=1}^k e(x_i|y_i)$.
-    \item Define a dynamic programming table: $\pi(k, u, v)$ = maximum probability of a tag sequence ending in tags $u$, $v$ at position $k$.
+\item Define a truncated version of the probability encoded by the HMM until position $k$, $r(y_{-1}, y_0, y_1, \ldots, y_k)$ as:
+  \[
+    r(y_{-1}, y_0, y_1, \ldots, y_k) = \prod_{i=1}^{k} q(y_i | y_{i-2}, y_{i-1})
+  \]
+  
+  \item Define a dynamic programming table $\pi(k, u, v)$ as the maximum probability of a tag sequence ending in tags $u, v$ at position $k$:
+  \[
+    \pi(k, u, v) = \max_{y_{-1}, y_0, y_1, \ldots, y_k : y_{k-1} = u, y_k = v} r(y_{-1}, y_0, y_1, \ldots, y_k)
+  \]
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{An Example}
-  $\pi(k, u, v)$ = maximum probability of a tag sequence ending in tags $u$, $v$ at position $k$
-
-  \textbf{The man saw the dog with the telescope}
-
-
-
-
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{An Example}
+\begin{frame}{An Example}
+\scriptsize
+Recall that   $\pi(k, u, v)$ is maximum probability of a tag sequence ending in tags $u$, $v$ at position $k$
 
   \begin{figure}[h]
-        	\includegraphics[scale = 0.7]{pics/viterbi1.pdf}
+        	\includegraphics[scale = 0.6]{pics/viterbi1.pdf}
         \end{figure}
+
+\begin{itemize}
+ \item There are many possible sequences of tags.
+ \item Each of them has a probability calculated from the parameters $q$ and $e$.
+ \item $\pi(7, P, D)$ is the maximum probability that one of these tag sequences ends in $P$ $D$ at position $7$.
+ \item The path represents the sequence with the maximum probability.
+\end{itemize}
 
 
 
 \end{frame}
+
+
 
 \begin{frame}
   \frametitle{A Recursive Definition}
@@ -655,22 +673,27 @@ def dynamic_fibonacci(n):
 
 \begin{frame}
   \frametitle{Justification for the Recursive Definition}
+  \scriptsize
   For any $k \in \{1 \ldots n\}$, for any $u \in S_{k-1}$ and $v \in S_k$:
   \[
     \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
   \]
 
-  \textbf{The man saw the dog with the telescope}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{Justification for the Recursive Definition}
-
+  
   \begin{figure}[h]
-        	\includegraphics[scale = 0.65]{pics/viterbi2.pdf}
+        	\includegraphics[scale = 0.6]{pics/viterbi2.pdf}
         \end{figure}
+        
+  \begin{itemize}
+   \item Let's consider an arbitrary tag sequence that ends with tags $P$ and $D$ at position $7$.
+   \item It must contain some tag at position $5$.
+\item We are basically searching for the tag that maximizes the probability at position $5$.
+  \end{itemize}
+      
+        
 \end{frame}
+
+
 
 \begin{frame}
   \frametitle{The Viterbi Algorithm}
@@ -763,7 +786,7 @@ $y_k = \text{bp}(k + 2, y_{k+1}, y_{k+2})$ \tcp*[r]{Retrieve tag sequence using 
   \frametitle{Pros and Cons}
   \begin{itemize}
     \item Hidden Markov Model (HMM) taggers are simple to train (compile counts from training corpus).
-    \item They perform relatively well (over 90% performance on named entity recognition).
+    \item They perform relatively well (over 90\% performance on named entity recognition).
     \item Main difficulty is modeling $e(\text{word} | \text{tag})$, which can be very complex if "words" are complex.
   \end{itemize}
 \end{frame}

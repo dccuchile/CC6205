@@ -121,31 +121,44 @@ Source: \cite{JurafskyBook}
 
 
 \begin{frame}
-  \frametitle{Named Entity Recognition}
+  \frametitle{Named Entity Recognition (NER)}
+  \scriptsize
+  A \textbf{named entity} is, roughly speaking, anything that can be referred to with a named entity proper name: a person, a location, an organization.\vspace{0.5cm}
+
+
   \textcolor{green}{\textbf{INPUT:}}
   Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.    \vspace{0.5cm}
 
   \textcolor{green}{\textbf{OUTPUT:}}
-  Profits soared at \textcolor{red}{[Company} Boeing Co.\textcolor{red}{]}, easily topping forecasts on \textcolor{red}{[Location} Wall Street\textcolor{red}{]}, as their CEO \textcolor{red}{[Person} Alan Mulally\textcolor{red}{]} announced first quarter results.
+  Profits soared at \textcolor{red}{[Company} Boeing Co.\textcolor{red}{]}, easily topping forecasts on \textcolor{red}{[Location} Wall Street\textcolor{red}{]}, as their CEO \textcolor{red}{[Person} Alan Mulally\textcolor{red}{]} announced first quarter results. \vspace{0.5cm}
+
+  \begin{itemize}
+   \item  Since entities can span multiple words (i.e., a span recognition problem), we can use BIO tagging \cite{ramshaw1999text} to turn the problem into a sequence labeling problem.
+   \item   BIO tagging: use tags that capture both the boundary and the named entity type.
+  \end{itemize}
+
+
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{Named Entity Extraction as Sequence Labeling}
+  \frametitle{BIO tagging: NER as Sequence Labeling}
   \scriptsize
    \textcolor{green}{\textbf{INPUT:}}
   Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results. \vspace{0.5cm}
 
   \textcolor{green}{\textbf{OUTPUT:}}
-  Profits\textcolor{red}{/NA} soared\textcolor{red}{/NA} at\textcolor{red}{/NA} Boeing\textcolor{purple}{/SC} Co.\textcolor{purple}{/CC} ,\textcolor{red}{/NA} easily\textcolor{red}{/NA} topping\textcolor{red}{/NA} forecasts\textcolor{red}{/NA} on\textcolor{red}{/NA} Wall\textcolor{purple}{/SL} Street\textcolor{purple}{/CL} ,\textcolor{red}{/NA} as\textcolor{red}{/NA} their\textcolor{red}{/NA} CEO\textcolor{red}{/NA} Alan\textcolor{purple}{/SP} Mulally\textcolor{purple}{/CP} announced\textcolor{red}{/NA} first\textcolor{red}{/NA} quarter\textcolor{red}{/NA} results\textcolor{red}{/NA} .\textcolor{red}{/NA} \vspace{0.5cm}
+Profits\textcolor{red}{/O} soared\textcolor{red}{/O} at\textcolor{red}{/O} Boeing\textcolor{purple}{/B-C} Co.\textcolor{purple}{/I-C} ,\textcolor{red}{/O} easily\textcolor{red}{/O} topping\textcolor{red}{/O} forecasts\textcolor{red}{/O} on\textcolor{red}{/O} Wall\textcolor{purple}{/B-L} Street\textcolor{purple}{/I-L} ,\textcolor{red}{/O} as\textcolor{red}{/O} their\textcolor{red}{/O} CEO\textcolor{red}{/O} Alan\textcolor{purple}{/B-P} Mulally\textcolor{purple}{/I-P} announced\textcolor{red}{/O} first\textcolor{red}{/O} quarter\textcolor{red}{/O} results\textcolor{red}{/O} .\textcolor{red}{/O} \vspace{0.5cm}
+
 
   \begin{itemize}
-    \item \textcolor{red}{NA} = \textcolor{blue}{No entity}
-    \item \textcolor{purple}{SC} = \textcolor{blue}{Start Company}
-    \item \textcolor{purple}{CC} = \textcolor{blue}{Continue Company}
-    \item \textcolor{purple}{SL} = \textcolor{blue}{Start Location}
-    \item \textcolor{purple}{CL} = \textcolor{blue}{Continue Location}
-    \item \textcolor{purple}{SP} = \textcolor{blue}{Start Person}
-    \item \textcolor{purple}{CP} = \textcolor{blue}{Continue Person}
+    \item \textcolor{red}{O} = \textcolor{blue}{Outside (no entity)}
+    \item \textcolor{purple}{B-C} = \textcolor{blue}{Begin Company}
+    \item \textcolor{purple}{I-C} = \textcolor{blue}{Inside Company}
+    \item \textcolor{purple}{B-L} = \textcolor{blue}{Begin Location}
+    \item \textcolor{purple}{I-L} = \textcolor{blue}{Inside Location}
+    \item \textcolor{purple}{B-P} = \textcolor{blue}{Begin Person}
+    \item \textcolor{purple}{I-P} = \textcolor{blue}{Inside Person}
   \end{itemize}
 \end{frame}
 
@@ -286,9 +299,23 @@ p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = & q(D|*,*) \times q(N|*,D) \\
     \item Each $X_i$ can take any value in a finite set $V$ of words, and each $Y_i$ can take any value in a finite set $K$ of possible tags (e.g., $K=\{D,N,V\dots \}$).
     
     \item Our goal is to model the joint probability:
-    \[P(X_1 = x_1, \ldots, X_n = x_n, Y_1 = y_1, \ldots, Y_n = y_n)\]
+
+    \begin{align*}
+  P(x_1,x_2,\dots,x_n,&y_1,\dots,y_n) \\
+  &= p(y_1) \times p(y_2|y_1) \\
+  &\quad \times \dots \\
+  &\quad \times p(y_n|y_{n-1},y_{n-2},\dots y_1) \\
+  &\quad \times p(x_1|y_{n},y_{n-1},\dots y_1) \\
+  &\quad \times p(x_2|x_1,y_{n},y_{n-1},\dots y_1) \\
+  &\quad \times p(x_n|x_{n-1},\dots,x_1,y_{n},y_{n-1},\dots y_1)
+  \end{align*}
+
     
     \item We define an additional random variable $Y_{n+1}$ that always takes the value "STOP."
+
+
+
+
     
 \end{itemize}
 
@@ -327,26 +354,32 @@ p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = & q(D|*,*) \times q(N|*,D) \\
 
 
 
+
 \begin{frame}
   \frametitle{Why the Name?}
-\[
-\begin{aligned}
-p(x_1, \ldots, x_n, y_1, \ldots, y_n) = & q(\text{STOP}|y_{n-1}, y_n) \\
-& \times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1}) \\
-& \times \prod_{j=1}^{n} e(x_j | y_j)
-\end{aligned}
-\]
+  \scriptsize
+  \[
+  \begin{aligned}
+    p(x_1, \ldots, x_n, y_1, \ldots, y_n) = & q(\text{STOP}|y_{n-1}, y_n) \\
+    & \times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1}) \\
+    & \times \prod_{j=1}^{n} e(x_j | y_j)
+  \end{aligned}
+  \]
   \begin{itemize}
-    \item Markov Chain:
+    \item Markov Chain component:
     \[
-      q(\text{STOP}|y_{n-1}, y_n)\times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1})
+    q(\text{STOP}|y_{n-1}, y_n)\times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1})
     \]
-    \item Observed:
+These transitions are not directly observed for a given sequence of words $(x_1, \ldots, x_n)$, hence the name ``hidden''.
+
+    \item Observed component:
     \[
-      e(x_j | y_j)
+    \prod_{j=1}^{n} e(x_j | y_j)
     \]
+    The observed component of HMMs models the emission probabilities of observed symbols ($x$'s) conditioned on the corresponding hidden states ($y$'s).
   \end{itemize}
 \end{frame}
+
 
 
 
@@ -422,23 +455,22 @@ A common method is as follows:
   
   
 \textbf{Original Sentence:}
-
-  Profits\textcolor{red}{/NA} soared\textcolor{red}{/NA} at\textcolor{red}{/NA} Boeing\textcolor{purple}{/SC} Co.\textcolor{purple}{/CC} ,\textcolor{red}{/NA} easily\textcolor{red}{/NA} topping\textcolor{red}{/NA} forecasts\textcolor{red}{/NA} on\textcolor{red}{/NA} Wall\textcolor{purple}{/SL} Street\textcolor{purple}{/CL} ,\textcolor{red}{/NA} as\textcolor{red}{/NA} their\textcolor{red}{/NA} CEO\textcolor{red}{/NA} Alan\textcolor{purple}{/SP} Mulally\textcolor{purple}{/CP} announced\textcolor{red}{/NA} first\textcolor{red}{/NA} quarter\textcolor{red}{/NA} results\textcolor{red}{/NA} .\textcolor{red}{/NA} \vspace{0.5cm}
+Profits\textcolor{red}{/O} soared\textcolor{red}{/O} at\textcolor{red}{/O} Boeing\textcolor{purple}{/B-C} Co.\textcolor{purple}{/I-C} ,\textcolor{red}{/O} easily\textcolor{red}{/O} topping\textcolor{red}{/O} forecasts\textcolor{red}{/O} on\textcolor{red}{/O} Wall\textcolor{purple}{/B-L} Street\textcolor{purple}{/I-L} ,\textcolor{red}{/O} as\textcolor{red}{/O} their\textcolor{red}{/O} CEO\textcolor{red}{/O} Alan\textcolor{purple}{/B-P} Mulally\textcolor{purple}{/I-P} announced\textcolor{red}{/O} first\textcolor{red}{/O} quarter\textcolor{red}{/O} results\textcolor{red}{/O} .\textcolor{red}{/O} \vspace{0.5cm}
 
 
 \textbf{Transformed Sentence:}
 
-firstword\textcolor{red}{/NA} soared\textcolor{red}{/NA} at\textcolor{red}{/NA} initCap\textcolor{purple}{/SC} Co.\textcolor{purple}{/CC} ,\textcolor{red}{/NA} easily\textcolor{red}{/NA} lowercase\textcolor{red}{/NA} forecasts\textcolor{red}{/NA} on\textcolor{red}{/NA} initCap\textcolor{purple}{/SL} Street\textcolor{purple}{/CL} ,\textcolor{red}{/NA} as\textcolor{red}{/NA} their\textcolor{red}{/NA} CEO\textcolor{red}{/NA} Alan\textcolor{purple}{/SP} initCap\textcolor{purple}{/CP} announced\textcolor{red}{/NA} first\textcolor{red}{/NA} quarter\textcolor{red}{/NA} results\textcolor{red}{/NA} .\textcolor{red}{/NA} \vspace{0.5cm}
+firstword\textcolor{red}{/O} soared\textcolor{red}{/O} at\textcolor{red}{/O} initCap\textcolor{purple}{/B-C} Co.\textcolor{purple}{/I-C} ,\textcolor{red}{/O} easily\textcolor{red}{/O} lowercase\textcolor{red}{/O} forecasts\textcolor{red}{/O} on\textcolor{red}{/O} initCap\textcolor{purple}{/B-L} Street\textcolor{purple}{/I-L} ,\textcolor{red}{/O} as\textcolor{red}{/O} their\textcolor{red}{/O} CEO\textcolor{red}{/O} Alan\textcolor{purple}{/B-P} initCap\textcolor{purple}{/I-P} announced\textcolor{red}{/O} first\textcolor{red}{/O} quarter\textcolor{red}{/O} results\textcolor{red}{/O} .\textcolor{red}{/O} \vspace{0.5cm}
 
 
   \begin{itemize}
-    \item \textcolor{red}{NA} = \textcolor{blue}{No entity}
-    \item \textcolor{purple}{SC} = \textcolor{blue}{Start Company}
-    \item \textcolor{purple}{CC} = \textcolor{blue}{Continue Company}
-    \item \textcolor{purple}{SL} = \textcolor{blue}{Start Location}
-    \item \textcolor{purple}{CL} = \textcolor{blue}{Continue Location}
-    \item \textcolor{purple}{SP} = \textcolor{blue}{Start Person}
-    \item \textcolor{purple}{CP} = \textcolor{blue}{Continue Person}
+    \item \textcolor{red}{O} = \textcolor{blue}{Outside (no entity)}
+    \item \textcolor{purple}{B-C} = \textcolor{blue}{Begin Company}
+    \item \textcolor{purple}{I-C} = \textcolor{blue}{Inside Company}
+    \item \textcolor{purple}{B-L} = \textcolor{blue}{Begin Location}
+    \item \textcolor{purple}{I-L} = \textcolor{blue}{Inside Location}
+    \item \textcolor{purple}{B-P} = \textcolor{blue}{Begin Person}
+    \item \textcolor{purple}{I-P} = \textcolor{blue}{Inside Person}
   \end{itemize}
 \end{frame}
 

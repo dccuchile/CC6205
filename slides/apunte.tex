@@ -150,19 +150,19 @@ Existen tres propiedades desafiantes del lenguaje: la discreción, la composicio
 
 
 
-\section{Example NLP Tasks}
+\section{Ejemplo de tareas NLP}
 
-\subsection{Topic Classification}
-Topic classification is an NLP task where a document is classified into one of several categories, such as sports, politics, gossip, or economy. Words in the documents provide strong hints about their topic. However, writing rules for this task is challenging due to the complexity of language. Data annotation, where readers categorize documents into topics, can help create training data for supervised machine learning algorithms. These algorithms learn patterns of word usage that aid in document categorization \cite{jacobbook}.
+\paragraph{Clasificación de temas}
+La clasificación por temas es una tarea de PLN en la que un documento se clasifica en una de varias categorías, como deportes, política, cotilleos o economía. Las palabras de los documentos proporcionan pistas importantes sobre su tema. Sin embargo, escribir reglas para esta tarea es un reto debido a la complejidad del lenguaje. La anotación de datos, en la que los lectores clasifican los documentos por temas, puede ayudar a crear datos de entrenamiento para algoritmos de aprendizaje automático supervisado. Estos algoritmos aprenden patrones de uso de palabras que ayudan en la categorización de documentos.
 
-\subsection{Sentiment Analysis}
-Sentiment analysis is the application of NLP techniques to identify and extract subjective information from textual datasets. One common problem in sentiment analysis is message-level polarity classification (MPC), where sentences are automatically classified as positive, negative, or neutral. State-of-the-art solutions use supervised machine learning models trained on manually annotated examples \cite{Mohammad2013}.
+\paragraph{Análisis de Sentimiento}
+El análisis de sentimientos es la aplicación de técnicas de PLN para identificar y extraer información subjetiva de conjuntos de datos textuales. Un problema común en el análisis de sentimientos es la clasificación de la polaridad a nivel de mensaje (MPC), en la que las frases se clasifican automáticamente como positivas, negativas o neutras. Las soluciones más avanzadas utilizan modelos de aprendizaje automático supervisado entrenados con ejemplos anotados manualmente.
 
-In sentiment classification, supervised learning is often used, with Support Vector Machines (SVMs) being a popular choice. SVMs aim to find a hyperplane that separates the classes with the maximum margin, achieving the best separation between positive, negative, and neutral classes \cite{jacobbook}.
+En la clasificación de sentimientos, se suele utilizar el aprendizaje supervisado, siendo las máquinas de vectores de soporte (SVM) una opción popular. El objetivo de las SVM es encontrar un hiperplano que separe las clases con el máximo margen, logrando la mejor separación entre clases positivas, negativas y neutras \cite{jacobbook}.
 
-Knowledge about linguistic structures is important for feature design and error analysis in NLP. Machine learning approaches in NLP rely on features that describe and generalize language use instances. Linguistic knowledge guides the selection and design of features, helping the machine learning algorithm find correlations between language use and the target labels \cite{bender2013linguistic}.
+El conocimiento de las estructuras lingüísticas es importante para el diseño de características y el análisis de errores en PNL. Los enfoques de aprendizaje automático en PNL se basan en características que describen y generalizan las instancias de uso del lenguaje. Los conocimientos lingüísticos guían la selección y el diseño de los rasgos, ayudando al algoritmo de aprendizaje automático a encontrar correlaciones entre el uso de la lengua y las etiquetas de destino \cite{bender2013linguistic}.
 
-NLP poses several challenges, including annotation costs, domain variations, and the need for continuous updates. Manual annotation is labor-intensive and time-consuming. Domain variations require different patterns to be learned for different corpora. Models trained on one domain may not work well on another. Additionally, NLP models can become outdated as language use evolves over time \cite{jacobbook}.
+La PNL plantea varios retos, como los costes de anotación, las variaciones de dominio y la necesidad de actualizaciones continuas. La anotación manual requiere mucho trabajo y tiempo. Las variaciones de dominio exigen el aprendizaje de patrones diferentes para los distintos corpus. Los modelos entrenados en un dominio pueden no funcionar bien en otro. Además, los modelos de PNL pueden quedar obsoletos a medida que el uso del lenguaje evoluciona con el tiempo.
 
 
 

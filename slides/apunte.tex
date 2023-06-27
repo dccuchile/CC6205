@@ -54,7 +54,6 @@
 Felipe Bravo-Márquez
 \end{center}
 
-\include{portada}
 
 \newpage
 \thispagestyle{empty}
@@ -81,679 +80,54 @@ Felipe Bravo-Márquez
 
 
 \chapter{Introducción}
+\label{cap:intro}
+\input{cap_intro}
 
-El volumen de datos textuales digitalizados que se genera cada día es enorme (por ejemplo, la web, redes sociales, registros médicos, libros digitalizados). Por lo tanto, también crece la necesidad de traducir, analizar y gestionar esta avalancha de palabras y texto.
-
-El procesamiento del lenguaje natural (PLN) es el campo que se encarga de diseñar métodos y algoritmos que toman como entrada o producen como salida datos de \textbf{lenguaje natural} no estructurado \cite{goldberg2017neural}. El PLN se centra en el diseño y análisis de algoritmos computacionales y representaciones para procesar el lenguaje humano \cite{jacobbook}.
-
-
-
-
-
-Una tarea común de PLN es el Reconocimiento de Entidades Nombradas (NER, por sus siglas en inglés). Por ejemplo:
-
-\begin{figure}[h]
-	\includegraphics[scale=0.4]{pics/NER.png}
-	\caption{Reconocimiento de Entidades Nombradas}
-\end{figure}
-
-El lenguaje humano es altamente ambiguo, como en las frases: "Comí pizza con amigos", "Comí pizza con aceitunas" o "Comí pizza con un tenedor". Además, el lenguaje está en constante cambio y evolución, como ocurre con los hashtags en Twitter.
-
-\section{PLN y Lingüística Computacional}
-PLN suele confundirse con otra disciplina hermana llamada Lingüística Computacional (LC). Si bien ambas están estrechamente relacionadas, tienen un foco distinto. La LC busca responder preguntas fundamentales sobre el lenguaje mediante el uso de la computación, es decir, cómo entendemos el lenguaje, cómo producimos lenguaje o cómo aprendemos lenguaje. Mientras que en PLN el foco está en resolver problemas específicos, tales como las transcripción automática del habla, la traducción automática, la extracción de información de documentos y el análisis de opiniones en redes sociales. Es importante señalar que en PLN, el éxito de una solución se mide en base métricas concretas (Ej: qué tan similar es la traducción automática a una hecha por un humano) independientemente si el modelo hace uso de alguna teoría lingüística.
-
-
-
-El procesamiento del lenguaje natural (PLN) desarrolla métodos para resolver problemas prácticos relacionados con el lenguaje \cite{JohnsonMLSS}.
-
-Algunos ejemplos son:
-
-\begin{itemize}
-  \item Reconocimiento automático del habla.
-  \item Traducción automática.
-  \item Extracción de información de documentos.
-\end{itemize}
-
-La lingüística computacional (LC) estudia los procesos computacionales subyacentes al lenguaje (humano).
-
-\begin{itemize}
-  \item ¿Cómo comprendemos el lenguaje?
-  \item ¿Cómo producimos el lenguaje?
-  \item ¿Cómo aprendemos el lenguaje?
-\end{itemize}
-
-El PLN y la LC utilizan métodos y modelos similares.
-
-
-Aunque existe una superposición sustancial, hay una diferencia importante en el enfoque. La LC se centra en la lingüística respaldada por métodos computacionales (similar a la biología computacional o la astronomía computacional). En lingüística, el lenguaje es el objeto de estudio. El PLN se centra en resolver tareas bien definidas relacionadas con el lenguaje humano (como la traducción, la respuesta a consultas, las conversaciones). Si bien los conocimientos lingüísticos fundamentales pueden ser cruciales para realizar estas tareas, el éxito se mide en función de si y cómo se logra el objetivo (según una métrica de evaluación) \cite{jacobbook}.
-
-
-
-El procesamiento del lenguaje natural y la lingüística computacional están estrechamente relacionados y se superponen en muchos aspectos. Ambos campos utilizan métodos y modelos similares para abordar problemas relacionados con el lenguaje humano. Sin embargo, la diferencia principal radica en el enfoque: la lingüística computacional se centra en la lingüística respaldada por métodos computacionales, mientras que el procesamiento del lenguaje natural se centra en resolver tareas prácticas relacionadas con el lenguaje. Ambos campos son fundamentales para comprender y aprovechar el poder del lenguaje humano en la era digital.
-
-
-\section{Niveles de descripción lingüística}
-
-El campo de la \textbf{descripción lingüística} abarca diferentes niveles:
-
-\begin{itemize}
-  \item \textbf{Fonética y fonología:} estudio de los sonidos del habla.
-  \item \textbf{Morfología:} estudio de la estructura de las palabras.
-  \item \textbf{Sintaxis:} estudio de la estructura de las oraciones.
-  \item \textbf{Semántica:} estudio del significado de las palabras y oraciones.
-  \item \textbf{Pragmática:} estudio del uso del lenguaje en el contexto.
-\end{itemize}
-
-El PLN puede abordar tareas en cada uno de estos niveles, pero a menudo se enfoca en niveles más altos de representación y comprensión.
-
-
-
-
-\subsection{Fonética}
-
-La fonética es la rama de la lingüística que se ocupa del estudio de los sonidos del lenguaje. Examina los órganos utilizados en la producción de sonidos, como la boca, la lengua, la garganta, la nariz, los labios y el paladar. Los sonidos del lenguaje se dividen en vocales y consonantes. Las vocales se producen con poca restricción del flujo de aire desde los pulmones, mientras que las consonantes implican alguna restricción o cierre en el tracto vocal \cite{JohnsonMLSS, fromkin2018introduction}. Además, el Alfabeto Fonético Internacional (AFI) proporciona una notación alfabética para representar los sonidos fonéticos.
-
-\subsection{Fonología}
-
-La fonología se centra en el estudio de cómo los sonidos del habla forman patrones y construyen significado. Los fonemas son las unidades básicas de sonido que diferencian el significado de las palabras. Por ejemplo, en inglés, la "p" y la "b" son fonemas distintos porque cambian el significado de las palabras en las que se encuentran. La fonología también examina las variaciones en la pronunciación de los sonidos en diferentes contextos y dialectos \cite{fromkin2018introduction}.
-
-\subsection{Morfología}
-
-La morfología se ocupa del estudio de la estructura interna de las palabras. Los morfemas son las unidades mínimas de significado que componen las palabras. Por ejemplo, en la palabra "deshacer", los morfemas son "des-", "hacer" y "-er". La morfología también se interesa por los procesos de formación de palabras, como la derivación, donde se agregan prefijos o sufijos a una palabra existente para formar una nueva palabra con un significado diferente \cite{JohnsonMLSS}.
-
-\begin{itemize}
-\item La morfología estudia la estructura de las palabras (por ejemplo, re+estructur+ando, in+olvid+able) \cite{JohnsonMLSS}
-\item Morfema: el término lingüístico para la unidad más elemental de forma gramatical \cite{fromkin2018introduction}. Por ejemplo, morfología = morf + ología (la ciencia de).
-\item Morfología derivativa: proceso de formar una nueva palabra a partir de una palabra existente, a menudo mediante la adición de un prefijo o sufijo.
-\item La morfología derivativa exhibe una estructura jerárquica. Ejemplo: re+vital+iz+ación
-\begin{figure}[h]
-\includegraphics[scale = 0.2]{pics/morphology.png}
-\end{figure}
-\item El sufijo generalmente determina la categoría sintáctica (part-of-speech) de la palabra derivada.
-\end{itemize}
-
-\subsection{Sintaxis}
-
-La sintaxis es el estudio de cómo las palabras se combinan para formar frases y oraciones gramaticales. Examina las reglas y estructuras que determinan la organización de las palabras en una oración y cómo influyen en el significado. La sintaxis también se ocupa de la relación entre las palabras y las funciones que desempeñan dentro de una oración. Por ejemplo, en la oración "El perro persigue al gato", "el perro" es el sujeto, "persigue" es el verbo y "al gato" es el complemento directo \cite{JohnsonMLSS}.
-
-\begin{itemize}
-\item La sintaxis estudia las formas en que las palabras se combinan para formar frases y oraciones \cite{JohnsonMLSS}
-\begin{figure}[h]
-\includegraphics[scale = 0.3]{pics/parseTree1.png}
-\end{figure}
-\item El análisis sintáctico ayuda a identificar \textbf{quién hizo qué a quién}, un paso clave para comprender una oración.
-\end{itemize}
-
-
-\subsection{Semántica}
-
-La semántica es el estudio del significado de las palabras, frases y oraciones, examinando cómo se construye e interpreta este significado en el contexto del lenguaje. Además, la semántica se interesa por los roles semánticos, que indican la función de cada entidad en una oración. Por ejemplo, en la oración "El niño cortó la cuerda con una navaja", "el niño" es el agente, "la cuerda" es el tema y "una navaja" es el instrumento \cite{JohnsonMLSS}.
-
-La semántica se enfoca en el significado de las palabras, frases y oraciones. Estudia cómo se construye e interpreta este significado en el contexto del lenguaje. Además, dentro de la semántica, se analizan los roles semánticos, los cuales indican la función que desempeña cada entidad en una oración. Por ejemplo, en la oración "El niño cortó la cuerda con una navaja", se identifican distintos roles semánticos: "el niño" como el agente, "la cuerda" como el tema y "una navaja" como el instrumento utilizado \cite{JohnsonMLSS}.
-
-
-En resumen:
-\begin{itemize}
-\item La semántica estudia el significado de las palabras, frases y oraciones \cite{JohnsonMLSS}.
-\item Dentro de la semántica, se analizan los roles semánticos, que indican el papel desempeñado por cada entidad en una oración.
-\item Algunos ejemplos de roles semánticos son: \textcolor[rgb]{0.00,0.00,1.00}{\textbf{agente}} (la entidad que realiza la acción), \textcolor[rgb]{1.00,0.00,0.00}{\textbf{tema}} (la entidad involucrada en la acción) y \textcolor[rgb]{0.00,1.00,0.00}{\textbf{instrumento}} (otra entidad utilizada por el agente para llevar a cabo la acción).
-\item En la oración "El niño cortó la cuerda con una navaja", se puede identificar el agente como \textcolor[rgb]{0.00,0.00,1.00}{\textbf{el niño}}, el tema como \textcolor[rgb]{1.00,0.00,0.00}{\textbf{la cuerda}} y el instrumento como \textcolor[rgb]{0.00,1.00,0.00}{\textbf{una navaja}}.
-\item Además de los roles semánticos, la semántica también abarca las relaciones léxicas, que son las relaciones entre diferentes palabras \cite{yule2016study}.
-\item Algunos ejemplos de relaciones léxicas incluyen la sinonimia (conceal/hide), la antonimia (shallow/deep) y la hiponimia (perro/animal).
-\end{itemize}
-
-
-\subsection{Pragmática}
-
-La pragmática se centra en cómo el contexto influye en la interpretación y el significado de las expresiones lingüísticas. Examina cómo se utilizan las expresiones lingüísticas en situaciones reales y cómo los hablantes interpretan el significado implícito. Por ejemplo, la oración "Hace frío aquí" puede interpretarse como una sugerencia implícita de cerrar las ventanas \cite{fromkin2018introduction}.
-
-
-\section{Procesamiento del Lenguaje Natural y Aprendizaje Automático}
-
-Comprender y producir el lenguaje computacionalmente es extremadamente complejo.  La tecnología más exitosa actualmente para abordar PLN es el aprendizaje automático supervisado que consiste en una familia de algoritmos que “aprenden” a construir la respuesta del problema en cuestión en base a encontrar patrones en datos de entrenamiento etiquetados. Por ejemplo, si queremos tener un modelo que nos diga si un tweet tiene un sentimiento positivo o negativo respecto a un producto, primero necesito  etiquetar manualmente un conjunto de tweets con su sentimiento asociado. Luego debo entrenar un algoritmo de aprendizaje sobre estos datos para poder predecir de manera automática el sentimiento asociado a tweets desconocidos. Como se podrán imaginar, el etiquetado de datos es una parte fundamental de la solución y puede ser un proceso muy costoso, especialmente cuando se requiere conocimiento especializado para definir la etiqueta.
-
-Aunque los seres humanos somos grandes usuarios del lenguaje, también somos muy malos para comprender y describir formalmente las reglas que rigen el lenguaje.
-
-Entender y producir lenguaje utilizando computadoras es altamente desafiante. Los métodos más conocidos para lidiar con datos de lenguaje se basan en el aprendizaje automático supervisado.
-
-El aprendizaje automático supervisado consiste en intentar inferir patrones y regularidades a partir de un conjunto de pares de entrada y salida preanotados (también conocido como conjunto de datos de entrenamiento).
-
-\paragraph{Conjunto de Datos de Entrenamiento: Datos de NER CoNLL-2003}
-
-Cada línea contiene un token, una etiqueta de parte de la oración, una etiqueta de sintagma y una etiqueta de entidad nombrada.
-\begin{center}
-\begin{verbatim}
-U.N.         NNP  I-NP  I-ORG
-official     NN   I-NP  O
-Ekeus        NNP  I-NP  I-PER
-heads        VBZ  I-VP  O
-for          IN   I-PP  O
-Baghdad      NNP  I-NP  I-LOC
-.            .    O     O
-\end{verbatim}
-\end{center}
-
-\footnotemark{Fuente: \url{https://www.clips.uantwerpen.be/conll2003/ner/}}
-
-\section{Desafíos del Lenguaje}
-
-Existen tres propiedades desafiantes del lenguaje: la discreción, la composicionalidad y la dispersión.
-
-\textbf{Discreción}: no podemos inferir la relación entre dos palabras a partir de las letras que las componen (por ejemplo, hamburguesa y pizza).
-
-\textbf{Composicionalidad}: el significado de una oración va más allá del significado individual de sus palabras.
-
-\textbf{Dispersión}: la forma en que las palabras (símbolos discretos) pueden combinarse para formar significados es prácticamente infinita.
-
-
-
-\section{Ejemplo de tareas NLP}
-
-
-\paragraph{Clasificación de temas}
-
-La clasificación de temas es una tarea de Procesamiento del Lenguaje Natural (PLN) en la cual se asigna a un documento una de varias categorías, como deportes, política, cotilleos o economía. Las palabras presentes en los documentos brindan pistas importantes sobre su tema. Sin embargo, redactar reglas para esta tarea es un desafío debido a la complejidad del lenguaje. La anotación de datos, en la cual los lectores clasifican los documentos por temas, puede ayudar a generar conjuntos de datos de entrenamiento para algoritmos de aprendizaje automático supervisado. Estos algoritmos aprenden patrones de uso de palabras que facilitan la categorización de los documentos.
-
-\begin{itemize}
-\item Clasificar un documento en una de las cuatro categorías: Deportes, Política, Cotilleos y Economía.
-\item Las palabras en los documentos proporcionan indicios muy sólidos.
-\item ¿Qué palabras brindan qué indicios?
-\item Elaborar reglas para esta tarea resulta bastante desafiante.
-\item No obstante, los lectores pueden categorizar fácilmente varios documentos según su tema (anotación de datos).
-\item Un algoritmo de aprendizaje automático supervisado puede identificar los patrones de uso de palabras que ayudan a categorizar los documentos.
-\end{itemize}
-\paragraph{Análisis de Sentimiento}
-
-El análisis de sentimientos se refiere a la aplicación de técnicas de Procesamiento del Lenguaje Natural (PLN) para identificar y extraer información subjetiva de conjuntos de datos textuales. Un desafío común en el análisis de sentimientos es la clasificación de la polaridad a nivel de mensaje (MPC), donde las frases se clasifican automáticamente en categorías positivas, negativas o neutrales. Las soluciones más avanzadas utilizan modelos de aprendizaje automático supervisado entrenados con ejemplos anotados manualmente.
-
-En este tipo de clasificación, es habitual emplear el aprendizaje supervisado, siendo las Máquinas de Vectores de Soporte (SVM) una opción popular. El objetivo de las SVM es encontrar un hiperplano que separe las clases con el margen máximo, logrando la mejor separación entre las clases positivas, negativas y neutrales \cite{jacobbook}.
-
-\begin{itemize}
-  \item Aplicación de técnicas de \textbf{PLN} para identificar y extraer información subjetiva de conjuntos de datos textuales.
-  \item Clasificación automática de frases en las categorías \textcolor[rgb]{0.00,0.00,1.00}{\textbf{positiva}}, \textcolor[rgb]{1.00,0.00,0.00}{\textbf{negativa}} o \textcolor[rgb]{0.00,1.00,0.00}{\textbf{neutral}}.
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.15]{pics/sent.png}
-        \end{figure}
-
-  \item Las soluciones más avanzadas emplean modelos de aprendizaje automático \textbf{supervisado}, entrenados con ejemplos \textbf{anotados manualmente} \cite{Mohammad2013}.
-\end{itemize}
-
-
-\begin{figure}[h]
-        	\includegraphics[scale = 0.5]{pics/bagOfwordsClassification.pdf}
-        \end{figure}
-
-
-\begin{itemize}
-
-
-\item Idea: Encontrar un hiperplano que separe las clases con el margen máximo (mayor separación).
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.15]{pics/SVM.png}
-        \end{figure}
-
-\item $H_3$ separa las clases con el margen máximo.
-
-\end{itemize}
-
-
-\subsection{Lingüística y Procesamiento del Lenguaje Natural (PNL)}
-
-El conocimiento de las estructuras lingüísticas es fundamental para el diseño de características y el análisis de errores en el Procesamiento del Lenguaje Natural (PNL). Los enfoques de aprendizaje automático en PNL se basan en características que describen y generalizan las instancias de uso del lenguaje. El conocimiento lingüístico orienta la selección y el diseño de estas características, ayudando al algoritmo de aprendizaje automático a encontrar correlaciones entre el uso del lenguaje y las etiquetas objetivo \cite{bender2013linguistic}.
-
-\begin{itemize}
-  \item El conocimiento de las estructuras lingüísticas es importante para el diseño de características y el análisis de errores en PNL \cite{bender2013linguistic}.
-  \item Los enfoques de aprendizaje automático en PNL requieren características que puedan describir y generalizar el uso del lenguaje.
-  \item El objetivo es guiar al algoritmo de aprendizaje automático para encontrar correlaciones entre el uso del lenguaje y el conjunto de etiquetas objetivo.
-  \item El conocimiento sobre las estructuras lingüísticas puede influir en el diseño de características para los enfoques de aprendizaje automático en PNL.
-\end{itemize}
-
-El PNL plantea diversos desafíos, como los costos de anotación, las variaciones de dominio y la necesidad de actualizaciones continuas. La anotación manual requiere mucho trabajo y tiempo. Las variaciones de dominio implican aprender patrones diferentes para diferentes corpus de texto. Los modelos entrenados en un dominio pueden no funcionar bien en otro. Además, los modelos de PNL pueden volverse obsoletos a medida que el uso del lenguaje evoluciona con el tiempo.
-
-
-
-
-\section{Desafíos en el Procesamiento del Lenguaje Natural (PNL)}
-
-\begin{itemize}
-   \item \textbf{Costos de Anotación}: la anotación manual es \textbf{laboriosa} y \textbf{consume mucho tiempo}.
-   \item \textbf{Variaciones de Dominio}: el patrón que queremos aprender puede variar de un corpus a otro (por ejemplo, deportes, política).
-
-   \item ¡Un modelo entrenado con datos anotados de un dominio no necesariamente funcionará en otro!
-   \item Los modelos entrenados pueden quedar desactualizados con el tiempo (por ejemplo, nuevos hashtags).
-\end{itemize}
-
-\paragraph{Variación de Dominio en el Análisis de Sentimiento}
-\begin{enumerate}
-   \item Para mí, la cola era bastante \textcolor[rgb]{0.00,0.00,1.00}{\textbf{pequeña}} y solo tuve que esperar unos 20 minutos, ¡pero valió la pena! :D @raynwise
-   \item Extraña espacialidad en Stuttgart. La habitación del hotel es tan \textcolor[rgb]{1.00,0.00,0.00}{\textbf{pequeña}} que apenas puedo moverme, pero los alrededores son inhumanamente vastos y largos bajo construcción.
-\end{enumerate}
-
-\paragraph{Superando los costos de anotación de datos}
-Supervisión Distant:
-\begin{itemize}
-   \item Etiquetar automáticamente datos no etiquetados (\textbf{API de Twitter}) utilizando un método heurístico.
-   \item \textbf{Enfoque de Anotación de Emoticonos (EAA)}: los tweets con emoticonos positivos \textcolor[rgb]{0.00,0.00,1.00}{\textbf{:)}} o negativos \textcolor[rgb]{1.00,0.00,0.00}{\textbf{:(}} se etiquetan según la polaridad indicada por el emoticono~\cite{Read2005}.
-   \item El emoticono se \textbf{elimina} del contenido.
-   \item Este enfoque también se ha ampliado utilizando hashtags como \#anger y emojis.
-   \item No es trivial encontrar técnicas de supervisión distante para todo tipo de problemas de PNL.
-\end{itemize}
-
-\paragraph{Crowdsourcing}
-\begin{itemize}
-   \item Confiar en servicios como \textbf{Amazon Mechanical Turk} o \textbf{Crowdflower} para solicitar a la \textbf{multitud} que anote datos.
-   \item Esto puede resultar costoso.
-   \item Es difícil garantizar la calidad de las anotaciones.
-\end{itemize}
-
-\section{Estudio de caso: Clasificación de sentimientos en tweets}
-
-\begin{itemize}
-   \item En 2013, el taller de Evaluación Semántica (SemEval) organizó la tarea de "Análisis de sentimientos en Twitter" \cite{Semeval2013}.
-   \item La tarea se dividió en dos sub-tareas: el nivel de expresión y el nivel del mensaje.
-   \item Nivel de expresión: se centró en determinar la polaridad del sentimiento de un mensaje según una entidad marcada dentro de su contenido.
-   \item Nivel del mensaje: se debía determinar la polaridad según el mensaje en general.
-   \item Los organizadores lanzaron conjuntos de datos de entrenamiento y prueba para ambas tareas \cite{Semeval2013}.
-\end{itemize}
-
-\paragraph{El sistema NRC}
-\begin{itemize}
-   \item El equipo que logró el mejor rendimiento en ambas tareas, entre 44 equipos, fue el equipo \emph{NRC-Canada} \cite{Mohammad2013}.
-   \item El equipo propuso un enfoque supervisado utilizando un clasificador SVM lineal con las siguientes características hechas a mano para representar los tweets:
-   \begin{enumerate}
-      \item N-gramas de palabras.
-      \item N-gramas de caracteres.
-      \item Etiquetas de partes del discurso.
-      \item Agrupaciones de palabras entrenadas con el método de agrupamiento de Brown \cite{brown1992class}.
-      \item El número de palabras alargadas (palabras con un carácter repetido más de dos veces).
-      \item El número de palabras con todas las letras en mayúscula.
-      \item La presencia de emoticonos positivos o negativos.
-      \item El número de negaciones individuales.
-      \item El número de secuencias contiguas de puntos, signos de interrogación y signos de exclamación.
-      \item Características derivadas de lexicones de polaridad \cite{Mohammad2013}. Dos de estos lexicones se generaron utilizando el método PMI a partir de tweets anotados con hashtags y emoticonos.
-   \end{enumerate}
-\end{itemize}
-
-\section{Ingeniería de características y Aprendizaje Profundo}
-
-\begin{itemize}
-   \item Hasta 2014, la mayoría de los sistemas de PNL de última generación se basaban en ingeniería de características + modelos de aprendizaje automático superficiales (por ejemplo, SVM, HMM).
-   \item Diseñar las características de un sistema de PNL ganador requiere mucho conocimiento específico del dominio.
-   \item El sistema NRC se construyó antes de que el aprendizaje profundo se hiciera popular en PNL.
-   \item Por otro lado, los sistemas de Aprendizaje Profundo se basan en redes neuronales para aprender automáticamente buenas representaciones.
-\end{itemize}
-
-\paragraph{Ingeniería de características y Aprendizaje Profundo}
-
-\begin{figure}[h]
-   \includegraphics[scale = 0.25]{pics/MLvsDL.png}
-\end{figure}
-
-\begin{itemize}
-   \item El Aprendizaje Profundo proporciona resultados de última generación en la mayoría de las tareas de PNL.
-   \item Grandes cantidades de datos de entrenamiento y máquinas GPU
-
- multicore más rápidas son clave en el éxito del aprendizaje profundo.
-   \item Las \textbf{redes neuronales} y las \textbf{incrustaciones de palabras} desempeñan un papel fundamental en los modelos modernos de PNL.
-
-\end{itemize}
-
-\paragraph{Aprendizaje Profundo y Conceptos Lingüísticos}
-\begin{itemize}
-   \item Si los modelos de aprendizaje profundo pueden aprender representaciones automáticamente, ¿siguen siendo útiles los conceptos lingüísticos (por ejemplo, sintaxis, morfología)?
-   \item Algunos defensores del aprendizaje profundo argumentan que estas propiedades lingüísticas inferidas y diseñadas manualmente no son necesarias, y que la red neuronal aprenderá estas representaciones intermedias (o equivalentes o mejores) por sí misma \cite{goldberg2016primer}.
-   \item Aún no hay un consenso definitivo al respecto.
-   \item Goldberg cree que muchos de estos conceptos lingüísticos pueden ser inferidos por la red por sí misma si se le proporciona suficiente cantidad de datos.
-   \item Sin embargo, en muchos otros casos no disponemos de suficientes datos de entrenamiento para la tarea que nos interesa, y en estos casos proporcionar a la red los conceptos generales más explícitos puede ser muy valioso.
-\end{itemize}
-
-\section{Historia}
-
-Los orígenes de PLN se remontan a los años 50 con el famoso test de Alan Turing: una máquina será considerada inteligente cuando sea capaz de conversar con una persona sin que esta pueda determinar si está hablando con una máquina o un ser humano. A lo largo de su historia la disciplina ha tenido tres grandes períodos: 1) el racionalismo, 2) el empirismo, y 3) el aprendizaje profundo [Deng y Liu, 2018] que describimos a continuación.
-
-El racionalismo abarca desde 1950 a 1990, donde las soluciones consistían en diseñar reglas manuales para incorporar mecanismos de conocimiento y razonamiento. Un ejemplo emblemático es el agente de conversación (o chatbot) ELIZA desarrollado por Joseph Weizenbaum que simulaba  un psicoterapeuta rogeriano. Luego, a partir de la década de los 90s, el diseño de métodos estadísticos y de aprendizaje automático construidos sobre corpus llevan a PLN hacia un enfoque empirista. Las reglas ya no se construyen sino que se “aprenden” a partir de datos etiquetados.  Algunos modelos representativos de esta época son los filtros de spam basados en modelos lineales, las cadenas de Markov ocultas para la extracción de categorías sintácticas y los modelos probabilísticos de IBM para la traducción automática. Estos modelos se caracterizaban por ser poco profundos en su estructura de parámetros y por depender de características manualmente diseñadas para representar la entrada.
-
-A partir del año 2010, las redes neuronales artificiales, que son una familia de modelos de aprendizaje automático, comienzan a mostrar resultados muy superiores en varias tareas emblemáticas de PLN [Collobert et al., 2011]. La idea de estos modelos es representar la entrada (el texto) con una jerarquía de parámetros (o capas) que permiten encontrar representaciones idóneas para la tarea en cuestión, proceso al cual se refiere como “aprendizaje profundo”. Estos modelos se caracterizan por tener muchos más parámetros que los modelos anteriores (superando la barrera del millón en algunos casos) y requerir grandes volúmenes de datos para su entrenamiento. Una gracia de estos modelos es que pueden ser pre-entrenados con texto no etiquetado como libros, Wikipedia, texto de redes sociales y de la Web para encontrar representaciones iniciales de palabras y oraciones (a lo que conocemos como word embeddings),  las cuales pueden ser posteriormente adaptadas para la tarea objetivo donde sí se tienen datos etiquetados (Proceso conocido como transfer learning). Aquí destacamos modelos como Word2Vec [Mikolov 2013], BERT  [Devlin 2018] y GPT-3  [Brown 2020].
-
-Este tipo de modelos ha ido perfeccionándose en los últimos años, llegando a obtener resultados cada vez mejores para casi todos los problemas del área [NLPProgress]. Sin embargo, este progreso no ha sido libre de controversias. El  aumento exponencial en la cantidad de parámetros de cada nuevo modelo respecto a su predecesor, hace que los recursos computacionales y energéticos necesarios para construirlos sólo estén al alcance de unos pocos. Además, varios estudios han mostrado que estos modelos aprenden y reproducen los sesgos y prejuicios (ej: género, religión, racial) presentes en los textos a partir de los cuales se entrenan. Sin ir más lejos, la investigadora  Timmnit Gebru fue despedida de Google  cuando se le negó el permiso para publicar un artículo que ponía de manifiesto estos problemas [Bender 2021].
-
-
-El progreso de la PNL se puede dividir en tres oleadas principales: 1) racionalismo, 2) empirismo y 3) aprendizaje profundo \cite{deng2018deep}.
-\begin{itemize}
-   \item [1950 - 1990] Racionalismo: se enfocaba en diseñar reglas hechas a mano para incorporar conocimiento y mecanismos de razonamiento en sistemas de PNL inteligentes (por ejemplo, ELIZA para simular a un psicoterapeuta Rogeriano, MARGIE para estructurar información del mundo real en ontologías de conceptos).
-   \item [1991 - 2009] Empirismo: se caracteriza por la explotación de corpora de datos y modelos de aprendizaje automático y estadísticos (superficiales) (por ejemplo, Naive Bayes, HMMs, modelos de traducción IBM).
-   \item [2010 - ] Aprendizaje Profundo: la ingeniería de características (considerada como un cuello de botella) se reemplaza con el aprendizaje de representaciones y/o redes neuronales profundas (por ejemplo, \url{https://www.deepl.com/translator}). Un artículo muy influyente en esta revolución: \cite{collobert2011natural}.
-\end{itemize}
-
-\footnotetext{Las fechas son aproximadas.}
-
-\section{Conclusiones}
-
-
-En este capítulo, hemos explorado el desafío de entender y producir lenguaje utilizando computadoras. El aprendizaje automático supervisado es una de las principales técnicas utilizadas para abordar este desafío. Además, hemos discutido las propiedades desafiantes del lenguaje, como la discreción, la composicionalidad y la dispersión. Estos aspectos nos muestran la complejidad inherente al procesamiento del lenguaje natural y nos desafían a encontrar soluciones efectivas.
 
 
 \chapter{Modelo de Espacio Vectorial y Recuperación de Información}
+\label{cap_ir}
+\input{cap_ir}
 
-\begin{itemize}
-   \item ¿Cómo recupera un motor de búsqueda, como Duckduckgo o Google, los documentos relevantes a partir de una consulta dada?
-   \item ¿Cómo puede una empresa procesar las reclamaciones dejadas por sus usuarios en sus portales web?
-\end{itemize}
-
-Estos problemas se estudian en los siguientes campos:
-
-\begin{itemize}
-   \item \emph{Recuperación de Información}: ciencia de buscar información en colecciones de documentos.
-   \item \emph{Minería de Texto}: extracción automática de conocimiento a partir de texto.
-\end{itemize}
-
-¡Ambos están estrechamente relacionados con el Procesamiento del Lenguaje Natural (NLP, por sus siglas en inglés)! (las fronteras entre estos campos no están claras).
-
-\section{Tokens y Tipos}
-
-Tokenización: la tarea de dividir una oración o documento en fragmentos llamados \emph{tokens}. \\
-Se pueden emplear transformaciones adicionales, como la eliminación de caracteres especiales (por ejemplo, puntuación), minúsculas, etc. ~\cite{manning2008}.
-
-\paragraph{Ejemplo}
-Entrada: Me gustan los lenguajes humanos y los lenguajes de programación.\\
-Tokens: [Me] [gustan] [los] [lenguajes] [humanos] [y] [los] [lenguajes] [de] [programación]
-
-
-\paragraph{Tipos}
-\begin{itemize}
-\item Un \emph{tipo} es una clase de \emph{token} que contiene una única secuencia de caracteres.
-\item Se obtienen identificando los tokens únicos dentro del documento.
-\end{itemize}
-
-Tipos para la oración anterior: [Me] [gustan] [los] [lenguajes] [humanos] [y] [de] [programación] \
-El token \emph{lenguajes} se repitió en la oración.
-
-\paragraph{Extracción de Vocabulario}
-
-\begin{itemize}
-\item Un \emph{término} es un \emph{tipo} normalizado.
-\item La normalización es el proceso de crear clases de equivalencia de diferentes \emph{tipos}. Esto quedará claro en las siguientes diapositivas.
-\item El vocabulario $V$ es el conjunto de términos (tokens únicos normalizados) dentro de una colección de documentos o corpus $D$.
-\end{itemize}
-
-\paragraph{Eliminación de stopwords}
-\begin{itemize}
-\item Con el fin de reducir el tamaño del vocabulario y eliminar términos que no aportan mucha información, se eliminan los términos que ocurren con alta frecuencia en el corpus.
-\item Estos términos se llaman \emph{stopwords} e incluyen artículos, pronombres, preposiciones y conjunciones. \
-Ejemplo: [un, una, y, cualquier, tiene, hacer, no, hizo, el, en].
-\end{itemize}
-
-¡La eliminación de stopwords puede ser inconveniente en muchas tareas de procesamiento del lenguaje natural!
-
-Ejemplo: No me gusta la pizza $=>$ pizza (se eliminaron "no", "me" y "gusta")
-
-\paragraph{Stemming}
-
-Es un proceso de normalización de términos en el cual los términos se transforman a su raíz con el objetivo de reducir el tamaño del vocabulario. Se lleva a cabo aplicando reglas de reducción de palabras. \
-Ejemplo: Algoritmo de Porter.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{pics/porter.png}
-\end{figure}
-
-Ejemplo: $d$ = Me gustan los lenguajes humanos y los lenguajes de programación $=>$ Me gustan los lenguaj y los program lenguaj\footnote{\url{http://9ol.es/porter_js_demo.html}}
-
-El vocabulario del documento $d$ después de eliminar stopwords y realizar stemming:
-
-\begin{table}
-\centering
-\begin{tabular}{c|c}
-\hline
-termId & value \\
-\hline
-t1 & human \\
-t2 & languag \\
-t3 & program\\
-\hline
-\end{tabular}
-\end{table}
-
-
-\paragraph{Lematización}
-
-\begin{itemize}
-   \item Otra estrategia de normalización de términos.
-   \item También transforma las palabras en sus raíces.
-   \item Realiza un análisis morfológico utilizando diccionarios de referencia (tablas de búsqueda) para crear clases de equivalencia entre \emph{tipos}.
-   \item Por ejemplo, para el token \emph{estudios}, una regla de stemming devolvería el término \emph{estudi}, mientras que a través de la lematización obtendríamos el término \emph{study}\footnote{\url{https://blog.bitext.com/what-is-the-difference-between-stemming-and-lemmatization/}}.
-\end{itemize}
-
-\subsection{Ley de Zipf}
-\begin{itemize}
-   \item La Ley de Zipf, propuesta por \emph{George Kingsley Zipf} en \cite{zipf1935}, es una ley empírica sobre la frecuencia de los términos dentro de una colección de documentos (\textbf{corpus}).
-   \item Establece que la frecuencia $f$ de un término en un corpus es inversamente proporcional a su posición $r$ en una tabla de frecuencia ordenada:
-   \begin{equation}
-      f = \frac{cf}{r^{\beta}}
-   \end{equation}
-   \item Donde $cf$ es una constante dependiente de la colección y $\beta > 0$ es un factor de decaimiento.
-   \item Si $\beta = 1$, entonces $f$ sigue exactamente la Ley de Zipf; de lo contrario, sigue una distribución similar a la de Zipf.
-   \item La ley se relaciona con el principio del mínimo esfuerzo. A menudo utilizamos pocas palabras para expresar ideas.
-   \item La Ley de Zipf es un tipo de distribución de ley de potencia (distribuciones de cola larga).
-\end{itemize}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{pics/zipf1.png}
-	\caption{Ley de Zipf}
-\end{figure}
-
-\begin{itemize}
-   \item Si trazamos un gráfico de $log$-$log$, obtenemos una línea recta con una pendiente de $-\beta$.
-   \item Enumerar las palabras más frecuentes de un corpus se puede utilizar para construir una lista de \emph{stopwords}.
-\end{itemize}
-\subsection{Listas de publicaciones y el índice invertido}
-Sea $D$ una colección de documentos y $V$ el vocabulario de todos los términos extraídos de la colección:
-
-\begin{itemize}
-\item La lista de publicaciones de un término es la lista de todos los documentos donde el término aparece al menos una vez. Los documentos se identifican por sus identificadores.
-\item Un índice invertido es una estructura de datos tipo diccionario que mapea los términos $t_{i} \in V$ con sus listas de publicaciones correspondientes.
-\begin{displaymath}
-<\text{término}> \rightarrow <\text{idDocumento}>^*
-\end{displaymath}
-\end{itemize}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.6]{pics/invFile.png}
-\caption{Índice invertido}
-\end{figure}
-
-\subsection{Motores de búsqueda web}
-
-Un motor de búsqueda es un sistema de recuperación de información diseñado para buscar información en la web (satisfacer necesidades de información) \cite{manning2008}. Sus componentes básicos son:
-
-\begin{itemize}
-\item Rastreador: un robot que navega por la web según una estrategia definida. Por lo general, comienza navegando por un conjunto de sitios web iniciales y continúa navegando a través de sus enlaces.
-\item Indexador: se encarga de mantener un índice invertido con el contenido de las páginas recorridas por el rastreador.
-\item Procesador de consultas: se encarga de procesar las consultas de los usuarios y buscar en el índice los documentos más relevantes para una consulta.
-\item Función de clasificación: la función utilizada por el procesador de consultas para clasificar los documentos indexados en la colección por relevancia según una consulta.
-\item Interfaz de usuario: recibe la consulta como entrada y devuelve los documentos clasificados por relevancia.
-\end{itemize}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.25]{pics/searchengine.png}
-\caption{Los diversos componentes de un motor de búsqueda web \cite{manning2008}.}
-\end{figure}
-\section{El modelo de espacio vectorial}
-
-\begin{itemize}
-\item Para clasificar consultas o medir la similitud entre dos documentos, necesitamos una métrica de similitud.
-\item Los documentos pueden ser \textit{representados} como vectores de términos, donde cada término es una dimensión del vector \cite{salton1975vector}.
-\item Documentos con diferentes palabras y longitudes residirán en el mismo espacio vectorial.
-\item Este tipo de representaciones se llaman \emph{Bolsa de Palabras} (Bag of Words).
-\item En las representaciones de bolsa de palabras, se pierde el orden de las palabras y la estructura lingüística de una oración.
-\item El valor de cada dimensión es un peso que representa la relevancia del término $t_{i}$ en el documento $d$.
-\begin{equation}
-d_{j} \rightarrow \overrightarrow{d_{j}}=(w(t_{1},d_{j}),...,w(t_{|V|},d_{j}))
-\end{equation}
-\item ¿Cómo podemos modelar la información que aporta un término a un documento?
-\end{itemize}
-
-\paragraph{Frecuencia de Término - Frecuencia Inversa de Documento}
-
-\begin{itemize}
-\item Sea $tf_{i,j}$ la frecuencia del término $t_{i}$ en el documento $d_{j}$.
-\item Un término que ocurre 10 veces debería proporcionar más información que uno que ocurre solo una vez.
-\item ¿Qué ocurre cuando tenemos documentos que son mucho más largos que otros?
-\item Podemos normalizar dividiendo por la frecuencia máxima del término en el documento.
-\begin{displaymath}
-ntf_{i,j}=\frac{tf_{i,j}}{\max_i (tf_{i,j})}
-\end{displaymath}
-\item ¿Un término que ocurre en muy pocos documentos proporciona más o menos información que uno que ocurre varias veces?
-\item Por ejemplo, el documento \emph{El respetado alcalde de Pelotillehue}. El término \emph{Pelotillehue} ocurre en menos documentos que el término \emph{alcalde}, por lo que debería ser más descriptivo.
-\item Sea $N$ el número de documentos en la colección y $n_{i}$ el número de documentos que contienen el término $t_{i}$, definimos la frecuencia inversa de documento ($idf$) de $t_{i}$ de la siguiente manera:
-\begin{displaymath}
-idf_{t_{i}}= \log_{10}\left(\frac{N}{n_{i}}\right)
-\end{displaymath}
-\item Un término que aparece en todos los documentos tendría $idf=0$, y uno que aparece en el $10\%$ de los documentos tendría $idf=1$.
-\item El modelo de puntuación $tf$-$idf$ combina las puntuaciones de $tf$ e $idf$, y resulta en los siguientes pesos $w$ para un término en un documento:
-\begin{displaymath}
-w(t_{i},d_{j})=tf_{i}\times \log_{10}\left(\frac{N}{n_{i}}\right)
-\end{displaymath}
-\item Las consultas de los motores de búsqueda también pueden ser modeladas como vectores. Sin embargo, en promedio, las consultas suelen tener entre 2 y 3 términos. Para evitar tener demasiadas dimensiones nulas, los vectores de consulta pueden suavizarse de la siguiente manera:
-\begin{displaymath}
-w(t_{i},d_{j})=(0.5+0.5\times tf_{i,j})\log_{10}\left(\frac{N}{n_{i}}\right)
-\end{displaymath}
-\end{itemize}
-
-\subsection{Similitud entre vectores}
-\begin{itemize}
-\item Representar consultas y documentos como vectores permite calcular su similitud.
-\item Un enfoque podría ser utilizar la distancia euclidiana.
-\item El enfoque común es calcular el coseno del ángulo entre los dos vectores.
-\item Si ambos documentos son iguales, el ángulo sería $0$ y su coseno sería $1$. Por otro lado, si son ortogonales, el coseno es $0$.
-\item La similitud del coseno se calcula de la siguiente manera:
-\begin{displaymath}
-\text{similitud del coseno}(\vec{d}{1},\vec{d}{2})= \frac{\vec{d}{1}\cdot \vec{d}{2}}{|\vec{d}{1}|\times|\vec{d}{2}|} = \frac{\sum_{i=1}^{|V|}(w(t_{i},d_{1})\times w(t_{i},d_{2}))}{\sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{1})^2}\times \sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{2})^2}}
-\end{displaymath}
-\item Esto se llama incorrectamente "distancia del coseno". En realidad, es una métrica de similitud.
-\item Observa que la similitud del coseno normaliza los vectores por su norma euclidiana $||\vec{d}||_{2}$.
-
-\end{itemize}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.5]{pics/cos.png}
-\caption{Similitud del coseno.}
-\end{figure}
-\paragraph{Ejercicio}
-\begin{itemize}
-\item Supongamos que tenemos $3$ documentos formados a partir de las siguientes secuencias de términos: \
-$d_{1}\rightarrow t_{4}t_{3}t_{1}t_{4}$ \
-$d_{2}\rightarrow t_{5}t_{4}t_{2}t_{3}t_{5}$ \
-$d_{3}\rightarrow t_{2}t_{1}t_{4}t_{4}$ \
-\item Construye una matriz término-documento de dimensiones $5\times3$ utilizando pesos simples de $tf$-$idf$ (sin normalización).
-\item Recomendamos que primero construyas una lista con el número de documentos en los que aparece cada término (útil para calcular los valores de $idf$).
-\item Luego, calcula los valores de $idf$ para cada término.
-\item Rellena las celdas de la matriz con los valores de $tf$-$idf$.
-\item ¿Cuál es el documento más cercano a $d_{1}$?
-\end{itemize}
-
- \begin{table}[htbp]
- \centering
-\begin{tabular}{|l|r|r|r|}
-\hline
- & \multicolumn{1}{l|}{d1} & \multicolumn{1}{l|}{d2} & \multicolumn{1}{l|}{d3} \\ \hline
-t1 & 0.176 & 0.000 & 0.176 \\ \hline
-t2 & 0.000 & 0.176 & 0.176 \\ \hline
-t3 & 0.176 & 0.176 & 0.000 \\ \hline
-t4 & 0.000 & 0.000 & 0.000 \\ \hline
-t5 & 0.000 & 0.954 & 0.000 \\ \hline
-\end{tabular}
-\caption{Matriz tf-idf}
-\end{table}
-
-\section{Agrupamiento de Documentos}
-
-\begin{itemize}
-\item ¿Cómo podemos agrupar documentos que son similares entre sí?
-\item El agrupamiento es el proceso de agrupar documentos que son similares entre sí.
-\item Cada grupo de documentos se llama \emph{cluster} o grupo.
-\item En el agrupamiento, intentamos identificar grupos de documentos en los que la similitud entre documentos en el mismo grupo se maximiza y la similitud de documentos en diferentes grupos se minimiza.
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.6]{pics/cluster.png}
-\caption{ Conjunto de documentos donde los grupos se pueden identificar claramente.}
-\end{figure}
-\item El agrupamiento de documentos permite identificar temas en un corpus y reducir el espacio de búsqueda en un motor de búsqueda, es decir, el índice invertido se organiza según los grupos.
-\item K-means es un algoritmo de agrupamiento simple que recibe el número de grupos $k$ como parámetro.
-\item El algoritmo se basa en la idea de \emph{centroide}, que es el vector promedio de los documentos que pertenecen al mismo grupo.
-\item Sea $S$ un conjunto de vectores bidimensionales ${3,6}, {1,2}, {5,1}$, el centroide de $S$ es ${(3+1+5)/3,(6+2+1)/3} = {3,3}$.
-
-\end{itemize}
-
-\subsection{K-Means}
-\begin{enumerate}
-\item Comenzamos con $k$ centroides aleatorios.
-\item Calculamos la similitud entre cada documento y cada centroide.
-\item Asignamos cada documento a su centroide más cercano formando un grupo.
-\item Se recalculan los centroides de acuerdo a los documentos asignados a ellos.
-\item Este proceso se repite hasta la convergencia.
-\end{enumerate}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.6]{pics/kmeans.png}
-\caption{ Algoritmo K-means}
-\end{figure}
-
-\section{Conclusiones y Conceptos Adicionales}
-\begin{itemize}
-\item Representar documentos como vectores es fundamental para calcular similitudes entre pares de documentos.
-\item Los vectores de "bag of words" carecen de estructura lingüística.
-\item Los vectores de "bag of words" son de alta dimensionalidad y dispersos.
-\item Los n-gramas de palabras pueden ayudar a capturar expresiones de múltiples palabras (por ejemplo, New York $=>$ new\_york)
-\item Los sistemas modernos de recuperación de información van más allá de la similitud de vectores (PageRank, Retroalimentación de relevancia, Minería de registros de consultas, Grafo de conocimiento de Google, Aprendizaje automático).
-\item La recuperación de información y la minería de textos se preocupan menos por la estructura lingüística y más por producir algoritmos rápidos y escalables \cite{jacobbook}.
-\end{itemize}
 
 \chapter{Modelos de Lenguaje Probabilísticos}
-
-\section{The Language Modeling Problem}
+\label{cap_plm}
+\input{cap_plm}
+\section{El Problema del Modelado del Lenguaje}
 
 \begin{itemize}
-\item We have some (finite) vocabulary, say $\mathcal{V}$ = $\{$the, a, man, telescope, Beckham, two, . . .$\}$
-\item We have an (infinite) set of strings, $\mathcal{V}^*$.
-\item For example: 
+\item Tenemos un vocabulario (finito), digamos $\mathcal{V} = \{$el, un, hombre, telescopio, Beckham, dos, . . .$\}$
+\item Tenemos un conjunto (infinito) de cadenas, $\mathcal{V}^*$.
+\item Por ejemplo:
 \begin{itemize}
- \item the STOP 
-\item a STOP 
-\item the fan STOP
-\item the fan saw Beckham STOP
-\item the fan saw saw STOP
-\item the fan saw Beckham play for Real Madrid STOP
+\item el STOP
+\item un STOP
+\item el fan STOP
+\item el fan vio a Beckham STOP
+\item el fan vio vio STOP
+\item el fan vio a Beckham jugar para el Real Madrid STOP
 \end{itemize}
-\item Where STOP is a special symbol indicating the end of a sentence.
-\item We have a training sample of example sentences in English.
-\item We need to ``learn'' a probability distribution $p$.
-\item $p$ is a function that satisfies:
+\item Donde STOP es un símbolo especial que indica el final de una oración.
+\item Tenemos una muestra de entrenamiento de ejemplos de oraciones en inglés.
+\item Necesitamos ``aprender'' una distribución de probabilidad $p$.
+\item $p$ es una función que satisface:
 \begin{align*}
 \sum_{x\in V^*} p(x) &= 1 \\
-p(x) &\geq 0 \quad \text{for all } x \in V^*
+p(x) &\geq 0 \quad \text{para todo } x \in V^*
 \end{align*}
 
-
-\item Examples of probabilities assigned to sentences:
+\item Ejemplos de probabilidades asignadas a las oraciones:
 \begin{align*}
-p(\text{the STOP}) &= 10^{-12} \\
-p(\text{the fan STOP}) &= 10^{-8} \\
-p(\text{the fan saw Beckham STOP}) &= 2 \times 10^{-8} \\
-p(\text{the fan saw saw STOP}) &= 10^{-15} \\
+p(\text{el STOP}) &= 10^{-12} \\
+p(\text{el fan STOP}) &= 10^{-8} \\
+p(\text{el fan vio a Beckham STOP}) &= 2 \times 10^{-8} \\
+p(\text{el fan vio vio STOP}) &= 10^{-15} \\
 \ldots \\
-p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
+p(\text{el fan vio a Beckham jugar para el Real Madrid STOP}) &= 2 \times 10^{-9}
 \end{align*}
-\item Idea 1: The model assigns a higher probability to fluent sentences (those that make sense and are grammatically correct).
-\item Idea 2: Estimating this probability function from text (corpus).
-\item The language model helps text generation models distinguish between good and bad sentences.
+\item Idea 1: El modelo asigna una probabilidad más alta a las oraciones fluidas (aquellas que tienen sentido y son gramaticalmente correctas).
+\item Idea 2: Estimar esta función de probabilidad a partir del texto (corpus).
+\item El modelo de lenguaje ayuda a los modelos de generación de texto a distinguir entre buenas y malas oraciones.
 \end{itemize}
 
 
@@ -763,332 +137,296 @@ p(\text{the fan saw Beckham play for Real Madrid STOP}) &= 2 \times 10^{-9}
 
 
 
-\subsection{Why would we want to do this?}
-
+\subsection{¿Por qué querríamos hacer esto?}
 
 \begin{itemize}
-\item Speech recognition was the original motivation.
+\item El reconocimiento del habla fue la motivación original.
 
-\item Consider the sentences: 1) recognize speech and 2) wreck a nice beach.
+\item Considera las oraciones: 1) reconocer el habla y 2) arruinar una playa bonita.
 
-\item   These two sentences sound very similar when pronounced, making it challenging for automatic speech recognition systems to accurately transcribe them.
-    
-    
-\item When the speech recognition system analyzes the audio input and tries to transcribe it, it takes into account the language model probabilities to determine the most likely interpretation.
-    
-\item The language model would favor $p$(recognize speech) over $p$(wreck a nice beach).
-
-\item This is because the former is a more common sentence and should occur more frequently in the training corpus.
-    
-item By incorporating language models, speech recognition systems can improve accuracy by selecting the sentence that aligns better with linguistic patterns and context, even when faced with similar-sounding alternatives.
+\item Estas dos oraciones suenan muy similares al ser pronunciadas, lo que dificulta que los sistemas automáticos de reconocimiento del habla las transcriban con precisión.
 
 
+\item Cuando el sistema de reconocimiento del habla analiza la entrada de audio e intenta transcribirlo, tiene en cuenta las probabilidades del modelo de lenguaje para determinar la interpretación más probable.
 
-\item Related problems are optical character recognition, handwriting recognition.
+\item El modelo de lenguaje favorecería $p$(reconocer el habla) sobre $p$(arruinar una playa bonita).
 
-\item Acutally, Language Models are useful in any NLP tasks involving the generation of language (e.g., machine translation, summarization, chatbots).
+\item Esto se debe a que la primera oración es más común y debería ocurrir con más frecuencia en el corpus de entrenamiento.
 
-\item The estimation techniques developed for this problem will be VERY useful for other problems in NLP.
+\item Al incorporar modelos de lenguaje, los sistemas de reconocimiento del habla pueden mejorar
 
-    
+ la precisión al seleccionar la oración que se alinea mejor con los patrones lingüísticos y el contexto, incluso cuando se enfrentan a alternativas que suenan similar.
+
+
+\item Problemas relacionados son el reconocimiento óptico de caracteres y el reconocimiento de escritura a mano.
+
+\item De hecho, los modelos de lenguaje son útiles en cualquier tarea de procesamiento del lenguaje natural que involucre la generación de lenguaje (por ejemplo, traducción automática, resumen, chatbots).
+
+\item Las técnicas de estimación desarrolladas para este problema serán MUY útiles para otros problemas en el procesamiento del lenguaje natural.
+
+
 \end{itemize}
 
 
 
-\subsection{Language Models are Generative}
+\subsection{Los Modelos de Lenguaje son Generativos}
 \begin{itemize}
- \item Language models can generate sentences by sequentially sampling from probabilities.
+\item Los modelos de lenguaje pueden generar oraciones al muestrear secuencialmente a partir de las probabilidades.
 
-  \item This is analogous to drawing balls (words) from an urn where their sizes are proportional to their relative frequencies.
+\item Esto es análogo a extraer bolas (palabras) de una urna donde sus tamaños son proporcionales a sus frecuencias relativas.
 
- \item Alternatively, one could always draw the most probable word, which is equivalent to predicting the next word.
+\item Alternativamente, uno siempre podría extraer la palabra más probable, lo cual es equivalente a predecir la siguiente palabra.
 \end{itemize}
 
 \begin{figure}[h]
 \includegraphics[scale = 0.6]{pics/lmsampling.png}
 \end{figure}
 
- 
-\subsection{A Naive Method}
+\section{¿Por qué los modelos de lenguaje son importantes?}
+
+Los modelos de lenguaje son fundamentales en el procesamiento del lenguaje natural. Ayudan a abordar desafíos como el reconocimiento del habla, la transcripción automática y la generación de texto. Al comprender y estimar la probabilidad de ocurrencia de las secuencias de palabras, los modelos de lenguaje mejoran la precisión y la calidad en diversas aplicaciones de procesamiento del lenguaje natural.
+
+Los modelos de lenguaje permiten a los sistemas de reconocimiento del habla distinguir entre diferentes interpretaciones de palabras o frases que suenan similar pero tienen significados distintos. Esto es especialmente importante en situaciones en las que la ambigüedad podría llevar a una interpretación errónea. Al utilizar las probabilidades del modelo de lenguaje, los sistemas de reconocimiento del habla pueden seleccionar la interpretación más probable y coherente en función del contexto.
+
+Además, los modelos de lenguaje son esenciales en tareas generativas, como la traducción automática, la generación de resúmenes y la creación de chatbots. Estos modelos ayudan a generar texto coherente y natural al muestrear secuencialmente palabras de acuerdo con sus probabilidades estimadas.
+
+Las técnicas desarrolladas para el problema del modelado del lenguaje son también aplicables a otros desafíos en el procesamiento del lenguaje natural. Los avances en la estimación de probabilidades y en la generación de texto tienen un impacto significativo en campos como la inteligencia artificial, la lingüística computacional y la comunicación basada en texto.
+
+En resumen, los modelos de lenguaje desempeñan un papel crucial en la comprensión y generación de texto, mejorando la precisión, la coherencia y la calidad en diversas aplicaciones de procesamiento del lenguaje natural. Son herramientas fundamentales para avanzar en la comprensión y la capacidad de interacción de las máquinas con el lenguaje humano.
+\subsection{Un Método Ingenuo}
 \begin{itemize}
-\item A very naive method for estimating the probability of a sentence is to count the occurrences of the sentence in the training data and divide it by the total number of training sentences ($N$) to estimate the probability.
-\item We have $N$ training sentences.
-\item For any sentence $x_1, x_2, \ldots, x_n$, $c(x_1, x_2, \ldots, x_n)$ is the number of times the sentence is seen in our training data.
-\item A naive estimate: \begin{displaymath}
-                        p(x1,x2,…,xn)=\frac{c(x_1,x_2 \dots,x_n)}{N}
-                        \end{displaymath}
+\item Un método muy ingenuo para estimar la probabilidad de una oración es contar las apariciones de la oración en los datos de entrenamiento y dividirlo por el número total de oraciones de entrenamiento ($N$) para estimar la probabilidad.
+\item Tenemos $N$ oraciones de entrenamiento.
+\item Para cualquier oración $x_1, x_2, \ldots, x_n$, $c(x_1, x_2, \ldots, x_n)$ es el número de veces que se ha visto la oración en nuestros datos de entrenamiento.
+\item Una estimación ingenua: \begin{displaymath}
+p(x1,x2,…,xn)=\frac{c(x_1,x_2 \dots,x_n)}{N}
+\end{displaymath}
 
-                        
-\item Problem: As the number of possible sentences grows exponentially with sentence length and vocabulary size, it becomes increasingly unlikely for a specific sentence to appear in the training data. 
+\item Problema: A medida que el número de posibles oraciones crece de manera exponencial con la longitud de las oraciones y el tamaño del vocabulario, se vuelve cada vez más improbable que una oración específica aparezca en los datos de entrenamiento.
 
-\item Consequently, many sentences will have a probability of zero according to the naive model, leading to poor generalization.                      
+\item En consecuencia, muchas oraciones tendrán una probabilidad cero según el modelo ingenuo, lo que lleva a una mala generalización.
 \end{itemize}
 
+\section{Procesos de Markov}
+\begin{itemize}
+\item Considera una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$.
+\item Cada variable aleatoria puede tomar cualquier valor en un conjunto finito $V$.
+\item Por ahora, asumimos que la longitud $n$ está fija (por ejemplo, $n = 100$).
+\item Nuestro objetivo: modelar $P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$
+\end{itemize}
 
-\section{Markov Processes}
-    \begin{itemize}
-        \item Consider a sequence of random variables $X_1, X_2, \ldots, X_n$.
-        \item Each random variable can take any value in a finite set $V$.
-        \item For now, we assume the length $n$ is fixed (e.g., $n = 100$).
-        \item Our goal: model $P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$
-    \end{itemize}
+\paragraph{Procesos de Markov de primer orden}
 
+Un proceso de Markov de primer orden asume que la probabilidad de que una variable aleatoria tome un valor depende únicamente del valor inmediatamente anterior en la secuencia. En el contexto del modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende solo de la palabra anterior. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado su predecesor inmediato. Esta es la suposición de Markov de primer orden:
 
-\paragraph{First-Order Markov Processes}
+\[
+P(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = P(X_i = x_i|X_{i-1} = x_{i-1})
+\]
 
-    \begin{align*}
-        P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) &= P(X_1 = x_1) \prod_{i=2}^{n} P(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) \\
-        &= P(X_1 = x_1) \prod_{i=2}^{n} P(X_i = x_i|X_{i-1} = x_{i-1})
-    \end{align*}
+\paragraph{Procesos de Markov de segundo orden}
+
+Un proceso de Markov de segundo orden amplía la suposición de Markov de primer orden y considera el valor de dos variables anteriores en la secuencia. En el modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende de las dos palabras anteriores. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado sus dos predecesores inmediatos. La suposición de Markov de segundo orden es la siguiente:
+
+\[
+P(X_i = x_i|X_1 = x_1, \ldots, X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) = P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
+\]
+
+\subsection{Modelado de secuencias de longitud variable}
+
+Si queremos modelar secuencias de longitud variable, podemos considerar que la longitud de la secuencia, $n$, también es una variable aleatoria. Una forma simple de abordar esto es siempre definir $X_n = \text{STOP}$, donde "STOP" es un símbolo especial que marca el final de la secuencia. Luego, podemos usar un proceso de Markov como antes para modelar la probabilidad conjunta de las palabras en la secuencia:
+
+\[
+P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \prod_{i=1}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
+\]
+
+Aquí, asumimos que $x_0 = x_{-1} = *$ por conveniencia, donde "*" es un símbolo especial de "inicio".
+
+\section{Modelos de lenguaje trigram}
+
+Un modelo de lenguaje trigram consiste en:
+
+\begin{enumerate}
+  \item Un conjunto finito $V$ de palabras.
+  \item Un parámetro $q(w|u, v)$ para cada trigram $u, v, w$ donde $w \in V \cup \{\text{STOP}\}$ y $u, v \in V \cup \{*\}$.
+\end{enumerate}
+
+Para cualquier oración $x_1 \ldots x_n$, donde $x_i \in V$ para $i = 1 \ldots (n-1)$ y $x_n = \text{STOP}$, la probabilidad de la oración según el modelo de lenguaje trigram es:
+
+\[
+p(x_1 \ldots x_n) = \prod_{i=1}^{n} q(x_i|x_{i-2}, x_{i-1})
+\]
+
+Aquí, definimos $x_0 = x_{-1} = *$ por conveniencia.
+
+\paragraph{Un ejemplo}
+
+Para la oración "the dog barks STOP", tendríamos:
+\[
+p(\text{the dog barks STOP}) = q(\text{the}|*, *) \times q(\text{dog}|*, \text{the}) \times q(\text{barks}|\text{the, dog}) \times q(\text{STOP}|\text{dog, barks})
+\]
+
+\subsection{El problema de estimación trigram}
+
+El problema de estimación restante es determinar los valores de los parámetros $q(w_i | w_{i-2}, w_{i-1})$. Por ejemplo:
+\[
+q(\text{laughs} | \text{the, dog})
+\]
+Una estimación natural (la "estimación de máxima verosimilitud") es la siguiente:
+\[
+q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
+\]
+Por ejemplo:
+\[
+q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs})}}{{\text{Count}(\text{the, dog})}}
+\]
+
+\paragraph{Problemas de datos dispersos}
+
+Una estimación natural (la "estimación de máxima verosimilitud") es la siguiente:
+\[
+q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
+\]
+\[
+q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs})}}{{\text{Count}(\text{the, dog})}}
+\]
+\begin{itemize}
+    \item Supongamos que el tamaño del vocabulario es $N = |V|$, entonces hay $N^3$ parámetros en el modelo.
+    \item Por ejemplo, si $N = 20,000$, entonces $20,000^3 = 8 \times 10^{12}$ parámetros.
+\end{itemize}
+
+\section{Evaluación de un modelo de lenguaje: Perplejidad}
+
+\begin{itemize}
+    \item Tenemos algunos datos de prueba, $m$ oraciones: $s_1, s_2, s_3, ..., s_m$
+    \item Podemos analizar la probabilidad bajo nuestro modelo $\prod_{i=1}^{m} p(s_i)$. O más convenientemente, la probabilidad logarítmica:
+    \[
+        \log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
+    \]
+    \item De hecho, la medida de evaluación habitual es la perplejidad:
+    \[
+        \text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \frac{1}{M} \sum_{i=1}^{m} \log p(s_i)
+    \]
+    \item $M$ es el número total de palabras en los datos de prueba.
+\end{itemize}
+
+\paragraph{Algo de intuición sobre la perplejidad}
+
+\begin{itemize}
+    \item Supongamos que tenemos un vocabulario $V$, y $N = |V| + 1$, y un modelo que predice:
+    \[
+        q(w|u, v) = \frac{1}{N} \quad \text{para todo } w \in V \cup \{\text{STOP}\}, \text{ para todo } u, v \in V \cup \{*\}
+    \]
+    \item Es fácil calcular la perplejidad en este caso:
+    \[
+        \text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \log \frac{1}{N} \Rightarrow \text{Perplejidad} = N
+    \]
+    \item La perplejidad se puede ver como una medida del "factor de ramificación" efectivo.
     
-    The first-order Markov assumption: For any $i \in \{2, \ldots, n\}$ and any $x_1, \ldots, x_i$,
-    \[
-    P(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = P(X_i = x_i|X_{i-1} = x_{i-1})
-    \]
-
-
-\paragraph{Second-Order Markov Processes}
-    \scriptsize
-    \begin{align*}
-        P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \\  P(X_1 = x_1) \cdot P(X_2 = x_2|X_1 = x_1) \cdot \prod_{i=3}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) \\
-        = \prod_{i=1}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) \\
-        \quad \text{(For convenience, we assume $x_0 = x_{-1} = *$, where $*$ is a special "start" symbol.)}
-    \end{align*}
+    \item \textbf{Demostración:} Supongamos que tenemos $m$ oraciones de longitud $n$ en el corpus, y $M$ es la cantidad de tokens en el corpus, $M = m \cdot n$.
     
-    
-  
-\subsection{Modeling Variable Length Sequences}
-       \begin{itemize}
-        \item We would like the length of the sequence, $n$, to also be a random variable.
-        \item A simple solution: always define $X_n = \text{STOP}$, where STOP is a special symbol.
-        \item Then use a Markov process as before:
-        \[
-            P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \prod_{i=1}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
-        \]
-        \item (For convenience, we assume $x_0 = x_{-1} = *$, where $*$ is a special "start" symbol.)
-    \end{itemize}
-
-
-
-\section{Trigram Language Models}
-    \begin{itemize}
-        \item A trigram language model consists of:
-            \begin{enumerate}\scriptsize{
-                \item A finite set $V$
-                \item A parameter $q(w|u, v)$ for each trigram $u, v, w$ such that $w \in V \cup \{\text{STOP}\}$, and $u, v \in V \cup \{*\}$}
-            \end{enumerate}
-        \item For any sentence $x_1 \ldots x_n$ where $x_i \in V$ for $i = 1 \ldots (n-1)$, and $x_n = \text{STOP}$, the probability of the sentence under the trigram language model is:
-        \[
-            p(x_1 \ldots x_n) = \prod_{i=1}^{n} q(x_i|x_{i-2}, x_{i-1})
-        \]
-        \item We define $x_0 = x_{-1} = *$ for convenience.
-    \end{itemize}
-
-
-\paragraph{An Example}
-  
-    For the sentence \texttt{the dog barks STOP}, we would have:
+    \item Consideremos el logaritmo (base 2) de la probabilidad de una oración $s = w_1 w_2 \dots w_n$ bajo el modelo:
     \[
-        p(\text{the dog barks STOP}) = q(\text{the}|*, *) \times q(\text{dog}|*, \text{the}) \times q(\text{barks}|\text{the, dog}) \times q(\text{STOP}|\text{dog, barks})
+        \log p(s) = \log \prod_{i=1}^{n} q(w_i|w_{i-2}, w_{i-1}) = \sum_{i=1}^{n} \log q(w_i|w_{i-2}, w_{i-1})
     \]
-
-
-\subsection{The Trigram Estimation Problem}
- 
-    Remaining estimation problem:
+    \item Dado que cada $q(w_i|w_{i-2}, w_{i-1})$ es igual a $\frac{1}{N}$, tenemos:
     \[
-        q(w_i | w_{i-2}, w_{i-1})
+        \log p(s) = \sum_{i=1}^{n} \log \frac{1}{N} = n \cdot \log \frac{1}{N} = -n \cdot \log N
     \]
-    For example:
-    \[
-        q(\text{laughs} | \text{the, dog})
-    \]
-    A natural estimate (the "maximum likelihood estimate"):
-    \[
-        q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
-    \]
-    For instance,
-    \[
-        q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs})}}{{\text{Count}(\text{the, dog})}}
-    \]
-
-
-\paragraph{Sparse Data Problems}
-   
-    A natural estimate (the "maximum likelihood estimate"):
-    \[
-        q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
-    \]
-    \[
-        q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs})}}{{\text{Count}(\text{the, dog})}}
-    \]
-    \begin{itemize}
-     \item     Say our vocabulary size is $N = |V|$, then there are $N^3$ parameters in the model.
-     \item     For example, $N = 20,000 \Rightarrow 20,000^3 = 8 \times 10^{12}$ parameters.
-    \end{itemize}
-
-
-
-\section{Evaluating a Language Model: Perplexity}
-  
-    \begin{itemize}
-        \item We have some test data, $m$ sentences: $s_1, s_2, s_3, ..., s_m$
-        \item We could look at the probability under our model $\prod_{i=1}^{m} p(s_i)$. Or more conveniently, the log probability:
-        \[
-            \log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
-        \]
-        \item In fact, the usual evaluation measure is perplexity:
-        \[
-            \text{Perplexity} = 2^{-l} \quad \text{where} \quad l = \frac{1}{M} \sum_{i=1}^{m} \log p(s_i)
-        \]
-        \item $M$ is the total number of words in the test data
-    \end{itemize}
-
-
-\paragraph{Some Intuition about Perplexity}
-
-    \begin{itemize}
-        \item Say we have a vocabulary $V$, and $N = |V| + 1$, and a model that predicts:
-        \[
-            q(w|u, v) = \frac{1}{N} \quad \text{for all } w \in V \cup \{\text{STOP}\}, \text{ for all } u, v \in V \cup \{*\}
-        \]
-        \item It's easy to calculate the perplexity in this case:
-        \[
-            \text{Perplexity} = 2^{-l} \quad \text{where} \quad l = \log \frac{1}{N} \Rightarrow \text{Perplexity} = N
-        \]
-        \item Perplexity can be seen as a measure of the effective "branching factor".       
-        
-        \item \textbf{Proof:}  Let's asume we have $m$ sentences of length $n$ in the corpus, and $M$ the amount of tokens in the corpus, $M=m \cdot n$.
-        
-        \item Let's consider the log (base 2) probability of a sentence $s = w_1 w_2 \dots w_n$ under the model:
-        \[
-            \log p(s) = \log \prod_{i=1}^{n} q(w_i|w_{i-2}, w_{i-1}) = \sum_{i=1}^{n} \log q(w_i|w_{i-2}, w_{i-1})
-        \]
-        \item Since each $q(w_i|w_{i-2}, w_{i-1})$ is equal to $\frac{1}{N}$, we have:
-        \[
-            \log p(s) = \sum_{i=1}^{n} \log \frac{1}{N} = n \cdot \log \frac{1}{N} = -n \cdot \log N
-        \]
-        
-        
-        \[
-            l =  \frac{1}{M} \sum_{i=1}^{m} \log p(s_i) = \frac{1}{M} \sum_{i=1}^{m} -n \cdot \log N  = \frac{1}{M} \cdot -m \cdot n \cdot \log N = - \log N 
-        \]
-        
-                
-        \item Therefore, the perplexity is given by:
-        \[
-            \text{Perplexity} = 2^{-l} = 2^{-(- \log N)} = N
-        \]
-    \end{itemize}
-
-
-\paragraph{Typical Values of Perplexity}
-    \begin{itemize}
-        \item Results from Goodman ("A bit of progress in language modeling"), where $|V| = 50,000$ \cite{goodman2001bit}.
-        \item A trigram model: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-2}, x_{i-1})$ \\
-        Perplexity = 74
-        \item A bigram model: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-1})$ \\
-        Perplexity = 137
-        \item A unigram model: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i)$ \\
-        Perplexity = 955
-    \end{itemize}
-
-
-
-\section{Some History}
-     \begin{itemize}
-        \item Shannon conducted experiments on the entropy of English, specifically investigating how well people perform in the perplexity game.
-        \item Reference: C. Shannon. ``Prediction and entropy of printed English.'' \textit{Bell Systems Technical Journal}, 30:50–64, 1951. \cite{shannon1951prediction}
-    \end{itemize}
     
     
- \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/shannon.png}
-        \end{figure}  
+    \[
+        l =  \frac{1}{M} \sum_{i=1}^{m} \log p(s_i) = \frac{1}{M} \sum_{i=1}^{m} -n \cdot \log N  = \frac{1}{M} \cdot -m \cdot n \cdot \log N = - \log N 
+    \]
     
-    \begin{itemize}
-        \item Chomsky, in his book \textit{Syntactic Structures} (1957), made several important points regarding grammar. \cite{chomsky2009syntactic}
-        \item According to Chomsky, the notion of "grammatical" cannot be equated with "meaningful" or "significant" in a semantic sense.
-        \item He illustrated this with two nonsensical sentences:
-        \begin{itemize}
-            \scriptsize
-            \item (1) Colorless green ideas sleep furiously.
-            \item (2) Furiously sleep ideas green colorless.
-        \end{itemize}
-        \item While both sentences lack meaning, Chomsky argued that only the first one is considered grammatical by English speakers.
-        \item Chomsky also emphasized that grammaticality in English cannot be determined solely based on statistical approximations.
-        \item Even though neither sentence (1) nor (2) has likely occurred in English discourse, a statistical model would consider them equally "remote" from English.
-        \item However, sentence (1) is grammatical, while sentence (2) is not, highlighting the limitations of statistical approaches in capturing grammaticality.
-    \end{itemize}
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/chomsky.png}
-        \end{figure}      
+            
+    \item Por lo tanto, la perplejidad está dada por:
+    \[
+        \text{Perplejidad} = 2^{-l} = 2^{-(- \log N)} = N
+    \]
+\end{itemize}
 
+\subsection{El trade-off entre sesgo y varianza}
 
-\section{The Bias-Variance Trade-Off}
- 
-    \begin{itemize}
-        \item Trigram maximum-likelihood estimate:
-        \[
-        q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
-        \]
-        \item Bigram maximum-likelihood estimate:
-        \[
-        q_{\text{ML}}(w_i | w_{i-1}) = \frac{{\text{Count}(w_{i-1}, w_i)}}{{\text{Count}(w_{i-1})}}
-        \]
-        \item Unigram maximum-likelihood estimate:
-        \[
-        q_{\text{ML}}(w_i) = \frac{{\text{Count}(w_i)}}{{\text{Count()}}}
-        \]
-    \end{itemize}
+En el contexto de los modelos de lenguaje, el trade-off entre sesgo y varianza se refiere a la compensación entre la simplicidad del modelo y su capacidad para capturar la complejidad y la variabilidad de los datos de lenguaje.
 
+\begin{itemize}
+    \item Modelos más simples, como los modelos de n-gramas de orden inferior, tienen un sesgo más alto pero una varianza más baja. Estos modelos asumen independencia condicional entre las palabras y simplifican la estructura del lenguaje.
+    
+    \item Modelos más complejos, como los modelos basados en redes neuronales, tienen una varianza más alta pero un sesgo más bajo. Estos modelos pueden capturar relaciones más complejas entre las palabras, pero también son más propensos a sobreajustar los datos de entrenamiento y tener dificultades para generalizar a nuevas muestras.
+\end{itemize}
 
-\section{Linear Interpolation}
-    \begin{itemize}
-     \item Take our estimate $q(w_i | w_{i-2}, w_{i-1})$ to be
+\subsection{Estimación de máxima verosimilitud y overfitting}
+
+La estimación de máxima verosimilitud (MLE) es una técnica común para estimar los parámetros de un modelo de lenguaje. Sin embargo, los modelos de lenguaje basados en MLE pueden sufrir de overfitting (sobreajuste) a los datos de entrenamiento.
+
+\begin{itemize}
+    \item Cuando se entrena un modelo de lenguaje con MLE, se maximiza la probabilidad de los datos de entrenamiento. Esto puede llevar a la asignación de probabilidades altas a secuencias específicas que aparecen en los datos de entrenamiento, incluso si esas secuencias son poco probables en la distribución real del lenguaje.
+    
+    \item Como resultado, el modelo puede tener un rendimiento deficiente en datos de prueba que contienen secuencias diferentes a las del conjunto de entrenamiento. Esto se debe a que el modelo se ha sobreajustado a los datos de entrenamiento y ha capturado sus características específicas en lugar de aprender patrones más generales del lenguaje.
+\end{itemize}
+
+\subsection{Técnicas de regularización}
+
+Para abordar el problema del overfitting en modelos de lenguaje, se utilizan diversas técnicas de regularización. Estas técnicas ayudan a reducir la varianza del modelo y mejorar su capacidad de generalización.
+
+Algunas técnicas comunes de regularización para modelos de lenguaje incluyen:
+
+\begin{itemize}
+    \item \textbf{Suavizado de Laplace (Laplace smoothing):} Se agrega una cantidad pequeña a todas las cuentas de n-gramas para evitar la asignación de una probabilidad cero a n-gramas no observados en los datos de entrenamiento.
+    
+    \item \textbf{Suavizado de interpolación (Interpolation smoothing):} Se combina la distribución de probabilidad estimada por un modelo de n-gramas con las distribuciones estimadas por modelos de orden inferior. Esto permite incorporar información de n-gramas de orden inferior y reduce la varianza del modelo.
+    
+    \item \textbf{Modelos de interpolación de Kneser-Ney (Kneser-Ney interpolation models):} Estos modelos utilizan una técnica de suavizado específica (Kneser-Ney) que considera la frecuencia de unigramas y la frecuencia de n-gramas en context
+
+os específicos para asignar probabilidades a n-gramas no observados.
+    
+    \item \textbf{Regularización de peso máximo (Weighted maximum likelihood regularization):} Se aplica una regularización que reduce los pesos de las cuentas de n-gramas más frecuentes. Esto ayuda a reducir la varianza y mejorar el rendimiento en datos de prueba.
+\end{itemize}
+
+Estas técnicas de regularización ayudan a controlar la varianza del modelo y a mitigar el overfitting, permitiendo un mejor equilibrio entre el sesgo y la varianza y mejorando la generalización a nuevas muestras.
+
+\section{Interpolación Lineal}
+\begin{itemize}
+    \item Tomamos nuestra estimación $q(w_i | w_{i-2}, w_{i-1})$ como:
     \[
     q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
     \]
-    where $\lambda_1 + \lambda_2 + \lambda_3 = 1$, and $\lambda_i \geq 0$ for all $i$.
-    
-    \item Our estimate correctly defines a distribution (define $V' = V \cup \{\text{STOP}\}$):
+    donde $\lambda_1 + \lambda_2 + \lambda_3 = 1$, y $\lambda_i \geq 0$ para todo $i$.    
+    \item Nuestra estimación define correctamente una distribución (definimos $V' = V \cup \{\text{STOP}\}$):
     \[
     \begin{aligned}
         & \sum_{w \in V'} q(w | u, v) \\
-        = & \sum_{w \in V'} [\lambda_1 \cdot q_{\text{ML}}(w | u, v) + \lambda_2 \cdot q_{\text{ML}}(w | v) + \lambda_3 \cdot q_{\text{ML}}(w)] \\
-        = & \lambda_1 \sum_{w} q_{\text{ML}}(w | u, v) + \lambda_2 \sum_{w} q_{\text{ML}}(w | v) + \lambda_3 \sum_{w} q_{\text{ML}}(w) \\
-        = & \lambda_1 + \lambda_2 + \lambda_3 = 1
+        &= \sum_{w \in V'} [\lambda_1 \cdot q_{\text{ML}}(w | u, v) + \lambda_2 \cdot q_{\text{ML}}(w | v) + \lambda_3 \cdot q_{\text{ML}}(w)] \\
+        &= \lambda_1 \sum_{w} q_{\text{ML}}(w | u, v) + \lambda_2 \sum_{w} q_{\text{ML}}(w | v) + \lambda_3 \sum_{w} q_{\text{ML}}(w) \\
+        &= \lambda_1 + \lambda_2 + \lambda_3 = 1
     \end{aligned}
     \]
-    \item We can also show that $q(w | u, v) \geq 0$ for all $w \in V'$.
-    \end{itemize}    
-
-\section{Estimating $\lambda$ Values}
-\begin{itemize}
-  \item Hold out part of the training set as \textit{validation} data.
-  \item Define $c'(w_1, w_2, w_3)$ to be the number of times the trigram $(w_1, w_2, w_3)$ is seen in the validation set.
-  \item Choose $\lambda_1$, $\lambda_2$, $\lambda_3$ to maximize:
-  \[
-  L(\lambda_1, \lambda_2, \lambda_3) = \sum_{w_1,w_2,w_3} c'(w_1, w_2, w_3) \log q(w_3 | w_1, w_2)
-  \]
-  such that $\lambda_1 + \lambda_2 + \lambda_3 = 1$, and $\lambda_i \geq 0$ for all $i$, and where
-  \[
-  q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
-  \]
+    \item También podemos demostrar que $q(w | u, v) \geq 0$ para todo $w \in V'$.
 \end{itemize}
 
-
-
-\section{Discounting Methods}
-
+\section{Estimación de los Valores $\lambda$}
 \begin{itemize}
-\item Consider the following counts and maximum-likelihood estimates:
+    \item Reservamos parte del conjunto de entrenamiento como datos de \textit{validación}.
+    \item Definimos $c'(w_1, w_2, w_3)$ como el número de veces que se observa el trigram $(w_1, w_2, w_3)$ en el conjunto de validación.
+    \item Elegimos $\lambda_1$, $\lambda_2$, $\lambda_3$ para maximizar:
+    \[
+    L(\lambda_1, \lambda_2, \lambda_3) = \sum_{w_1,w_2,w_3} c'(w_1, w_2, w_3) \log q(w_3 | w_1, w_2)
+    \]
+    sujetos a $\lambda_1 + \lambda_2 + \lambda_3 = 1$, y $\lambda_i \geq 0$ para todo $i$, donde
+    \[
+    q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
+    \]
+\end{itemize}
+
+\section{Métodos de Descuento}
+\begin{itemize}
+    \item Consideremos los siguientes recuentos y estimaciones de máxima verosimilitud:
 \end{itemize}
 
 \begin{table}[h]
     \centering
     \begin{tabular}{lll}
-        \textbf{Sentence} & \textbf{Count} & \textbf{$q_{\text{ML}}(w_i | w_{i-1})$} \\
+        \textbf{Frase} & \textbf{Recuento} & \textbf{$q_{\text{ML}}(w_i | w_{i-1})$} \\
         \hline
         the & 48 & \\
         the, dog & 15 & $15/48$ \\
@@ -1105,18 +443,17 @@ item By incorporating language models, speech recognition systems can improve ac
 \end{table}
 
 \begin{itemize}
-    \item The maximum-likelihood estimates are high, particularly for low count items.
-   \item Define ``discounted'' counts as follows:
-\begin{displaymath}
-\text{Count}^*(x) =\text{Count}(x)-0.5
-\end{displaymath}
-
+    \item Las estimaciones de máxima verosimilitud son altas, especialmente para los elementos con recuentos bajos.
+    \item Definimos los recuentos "descontados" de la siguiente manera:
+    \[
+    \text{Recuento}^*(x) = \text{Recuento}(x) - 0.5
+    \]
 \end{itemize}
 
 \begin{table}[h]
     \centering
     \begin{tabular}{llll}
-        \textbf{Sentence} & \textbf{Count} & \textbf{Count}*$\mathbf{(x)}$ & $\mathbf{q_{\text{ML}}(w_i | w_{i-1})}$ \\
+        \textbf{Frase} & \textbf{Recuento} & \textbf{Recuento}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{ML}}(w_i | w_{i-1})}$ \\
         \hline
         the & 48 & & \\
         the, dog & 15 & 14.5 & $14.5/48$ \\
@@ -1133,762 +470,96 @@ item By incorporating language models, speech recognition systems can improve ac
 \end{table}
 
 \begin{itemize}
-    \item The new estimates are based on the discounted counts.
-   \item We now have some "missing probability mass":
-        \[
-        \alpha(w_{i-1}) = 1 - \sum_{w} \frac{{\text{{Count}}^*(w_{i-1}, w)}}{{\text{{Count}}(w_{i-1})}}
-        \]
-        \item For example, in our case:
-        \[
-        \alpha(\text{{the}}) = \frac{{10 \times 0.5}}{{48}} = \frac{{5}}{{48}}
-        \]
-    \end{itemize}
+    \item Las nuevas estimaciones se basan en los recuentos descontados.
+    \item Ahora tenemos cierta ``masa de probabilidad faltante'':
+    \[
+    \alpha(w_{i-1}) = 1 - \sum_{w} \frac{{\text{{Recuento}}^*(w_{i-1}, w)}}{{\text{{Recuento}}(w_{i-1})}}
+    \]
+    Por ejemplo, en nuestro caso:
+    \[
+    \alpha(\text{{the}}) = \frac{{10 \times 0.5}}{{48}} = \frac{{5}}{{48}}
+    \]
+\end{itemize}
 
 
-\subsection{Katz Back-Off Models (Bigrams)}
+\subsection{Modelos de Katz Back-Off (Bigramas)}
+\begin{itemize}
+    \item Para un modelo de bigrama, definimos dos conjuntos:
+    \[
+    A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
+    \]
+    \[
+    B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
+    \]
+    \item Un modelo de bigrama:
+    \[
+    q_{\text{BO}}(w_i | w_{i-1}) =
+    \begin{cases}
+        \frac{\text{Count}^*(w_{i-1}, w_i)}{\text{Count}(w_{i-1})} & \text{si } w_i \in A(w_{i-1}) \\
+        \frac{\alpha(w_{i-1}) q_{\text{ML}}(w_i)}{\sum_{w \in B(w_{i-1})} q_{\text{ML}}(w)} & \text{si } w_i \in B(w_{i-1})
+    \end{cases}
+    \]
+    \item Donde:
+    \[
+    \alpha(w_{i-1}) = 1 - \sum_{w \in A(w_{i-1})} \frac{\text{Count}^*(w_{i-1}, w)}{\text{Count}(w_{i-1})}
+    \]
+    \item Para un modelo de trigramas, primero definimos dos conjuntos:
+    \[
+    A(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) > 0\}
+    \]
+    \[
+    B(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) = 0\}
+    \]
+    \item Un modelo de trigramas se define en términos del modelo de bigramas:
+    \[
+    q_{\text{BO}}(w_i | w_{i-2}, w_{i-1}) =
+    \begin{cases}
+        \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w_i)}{\text{Count}(w_{i-2}, w_{i-1})} & \text{si } w_i \in A(w_{i-2}, w_{i-1}) \\
+        \frac{\alpha(w_{i-2}, w_{i-1}) q_{\text{BO}}(w_i|w_{i-1})}{\sum_{w \in B(w_{i-2}, w_{i-1})} q_{\text{BO}}(w|w_{i-1})} & \text{si } w_i \in B(w_{i-2}, w_{i-1})
+    \end{cases}
+    \]
+    \item Donde:
+    \[
+    \alpha(w_{i-2}, w_{i-1}) = 1 - \sum_{w \in A(w_{i-2}, w_{i-1})} \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w)}{\text{Count}(w_{i-2}, w_{i-1})}
+    \]
+\end{itemize}
+
+
+Los modelos de Katz Back-Off son una técnica utilizada en modelos de lenguaje para abordar el desafío de la escasez de datos. Estos modelos permiten estimar las probabilidades condicionales de palabras en función de contextos más pequeños cuando no hay suficientes datos disponibles para estimar directamente las probabilidades completas.
+
+En un modelo de bigrama, se define el conjunto $A(w_{i-1})$ como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es mayor que cero, es decir, $\text{Count}(w_{i-1}, w) > 0$. Por otro lado, el conjunto $B(w_{i-1})$ se define como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es igual a cero, es decir, $\text{Count}(w_{i-1}, w) = 0$.
+
+En un modelo de bigrama, la probabilidad condicional $q_{\text{BO}}(w_i | w_{i-1})$ se calcula de la siguiente manera: si la palabra $w_i$ está en el conjunto $A(w_{i-1})$, se utiliza una estimación basada en las frecuencias relativas de la secuencia $(w_{i-1}, w_i)$ dividida por la frecuencia de $w_{i-1}$. Por otro lado, si $w_i$ está en el conjunto $B(w_{i-1})$, se utiliza una estimación suavizada que combina una constante de suavizado $\alpha(w_{i-1})$ y las probabilidades condicionales de máxima verosimilitud $q_{\text{ML}}(w_i)$ de las palabras en el conjunto $B(w_{i-1})$.
+
+La constante de suavizado $\alpha(w_{i-1})$ se calcula restando la suma de las frecuencias relativas de las palabras en $A(w_{i-1})$ de uno.
+
+En el caso de un modelo de trigramas, se definen conjuntos similares $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$ para las secuencias trigramas. La probabilidad condicional $q_{\text{BO}}(w_i | w_{i-2}, w_{i-1})$ en un modelo de trigramas se calcula utilizando el modelo de bigrama correspondiente y aplicando la misma lógica de suavizado basado en los conjuntos $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$.
+
+Estos modelos de Katz Back-Off permiten aproximar las probabilidades condicionales en situaciones donde la información disponible es limitada, al aprovechar información de contextos más pequeños cuando no se dispone de suficientes datos para estimaciones directas.
+
+\section{Resumen}
+\begin{itemize}
+    \item La derivación de probabilidades en modelos de lenguaje probabilísticos implica tres pasos:
+    \begin{enumerate}
+        \item Expandir $p(w_1, w_2, \ldots, w_n)$ usando la regla de la Cadena.
+        \item Aplicar las Asunciones de Independencia de Markov \\
+        $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1}) = p(w_i | w_{i-2}, w_{i-1})$.
+        \item Suavizar las estimaciones utilizando conteos de orden inferior.
+    \end{enumerate}
+    \item Otros métodos para mejorar los modelos de lenguaje incluyen:
     \begin{itemize}
-        \item For a bigram model, define two sets:
-        \[
-        A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
-        \]
-        \[
-        B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
-        \]
-        \item A bigram model:
-        \[
-        q_{\text{BO}}(w_i | w_{i-1}) =
-        \begin{cases}
-            \frac{\text{Count}^*(w_{i-1}, w_i)}{\text{Count}(w_{i-1})} & \text{if } w_i \in A(w_{i-1}) \\
-            \frac{\alpha(w_{i-1}) q_{\text{ML}}(w_i)}{\sum_{w \in B(w_{i-1})} q_{\text{ML}}(w)} & \text{if } w_i \in B(w_{i-1})
-        \end{cases}
-        \]
-        \item Where:
-        \[
-        \alpha(w_{i-1}) = 1 - \sum_{w \in A(w_{i-1})} \frac{\text{Count}^*(w_{i-1}, w)}{\text{Count}(w_{i-1})}
-        \]
-        \item For a trigram model, first define two sets:
-        \[
-        A(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) > 0\}
-        \]
-        \[
-        B(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) = 0\}
-        \]
-        \item A trigram model is defined in terms of the bigram model:
-        \[
-        q_{\text{BO}}(w_i | w_{i-2}, w_{i-1}) =
-        \begin{cases}
-            \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w_i)}{\text{Count}(w_{i-2}, w_{i-1})} & \text{if } w_i \in A(w_{i-2}, w_{i-1}) \\
-            \frac{\alpha(w_{i-2}, w_{i-1}) q_{\text{BO}}(w_i|w_{i-1})}{\sum_{w \in B(w_{i-2}, w_{i-1})} q_{\text{BO}}(w|w_{i-1})} & \text{if } w_i \in B(w_{i-2}, w_{i-1})
-        \end{cases}
-        \]
-        \item Where:
-        \[
-        \alpha(w_{i-2}, w_{i-1}) = 1 - \sum_{w \in A(w_{i-2}, w_{i-1})} \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w)}{\text{Count}(w_{i-2}, w_{i-1})}
-        \]
+        \item Introducir variables latentes para representar temas, conocidos como modelos de temas. \cite{blei2003latent}
+        \item Reemplazar $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1})$ con una red neuronal predictiva y una "capa de embedding" para representar mejor contextos más grandes y aprovechar similitudes entre palabras en el contexto. \cite{bengio2000neural}
     \end{itemize}
-    
-  
-
-
-\section{Summary}
- 
-    \begin{itemize}
-        \item Deriving probabilities in probabilistic language models involves three steps:
-        \begin{enumerate}\scriptsize{
-            \item Expand $p(w_1, w_2, \ldots, w_n)$ using the Chain rule.
-            \item Apply Markov Independence Assumptions \\
-            $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1}) = p(w_i | w_{i-2}, w_{i-1})$.
-            \item Smooth the estimates using low order counts.}
-        \end{enumerate}
-        \item Other methods for improving language models include:
-        \begin{itemize}\scriptsize{
-            \item Introducing latent variables to represent topics, known as topic models. \cite{blei2003latent}
-            \item Replacing $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1})$ with a predictive neural network and an ``embedding layer'' to better represent larger contexts and leverage similarities between words in the context. \cite{bengio2000neural}}
-        \end{itemize}
-        \item Modern language models utilize deep neural networks in their backbone and have a vast parameter space.
-    \end{itemize}
+    \item Los modelos de lenguaje modernos utilizan redes neuronales profundas en su estructura principal y tienen un vasto espacio de parámetros.
+\end{itemize}
 
 
 \chapter{Text Classification and Naïve Bayes}
+\label{cap_nb}
+\input{cap_nb}
 
-    \begin{itemize}
-        \item Classification lies at the heart of both human and machine intelligence. 
-        \item Deciding what letter, word, or image has been presented to our senses, recognizing faces or voices, sorting mail, assigning grades to homeworks.
-        \item These are all examples of assigning a category to an input.
-        \item The goal of classification is to take a single observation, extract some useful features, and thereby classify the observation into one of a set of discrete classes.
-        \item  Most cases of classification in language processing are done via supervised machine learning. 
-        \item This slides are based on the course material by Daniel Jurafsky : \url{https://web.stanford.edu/~jurafsky/slp3/4.pdf} 
-    \end{itemize}   
 
-Example 1: Spam Classification
-
-\begin{figure}[h]
-\includegraphics[scale = 0.35]{pics/spam.png}
-\end{figure}
-
-
-Example 2: Who wrote which Federalist papers?
-
-    \begin{itemize}
-        \item 1787-8: Anonymous essays attempted to convince New York to ratify the U.S Constitution: Jay, Madison, Hamilton.
-        \item Authorship of 12 of the letters is in dispute.
-        \item 1963: Solved by Mosteller and Wallace using Bayesian methods.
-    \end{itemize}
-
-    \begin{center}
-        \begin{figure}[h]
-            \begin{minipage}{0.3\textwidth}
-                \centering
-                \includegraphics[width=\linewidth]{pics/madison.png}
-                \caption{James Madison}
-            \end{minipage}\hfill
-            \begin{minipage}{0.3\textwidth}
-                \centering
-                \includegraphics[width=\linewidth]{pics/hamilton.png}
-                \caption{Alexander Hamilton}
-            \end{minipage}
-        \end{figure}
-    \end{center}
-
-
-Example 3: What is the subject of this medical article?
-
-\begin{figure}[h]
-\includegraphics[scale = 0.2]{pics/medarticle.png}
-\end{figure}
-
-
-
-Example 4: Positive or negative movie review?
-    \begin{itemize}
-     \item  \textcolor{blue}{\textbf{+}}   ...zany characters and \textcolor{blue}{richly} applied satire, and some \textcolor{blue}{great} plot twists 
-     \item   \textcolor{red}{\textbf{-}} It was \textcolor{red}{pathetic}. The \textcolor{red}{worst} part about it was the boxing scenes... 
-    \item   \textcolor{blue}{\textbf{+}}  ...\textcolor{blue}{awesome} caramel sauce and sweet toasty almonds. I \textcolor{blue}{love} this place! \\
-     \item \textcolor{red}{\textbf{-}} ...\textcolor{red}{awful} pizza and \textcolor{red}{ridiculously} overpriced... 
-    \end{itemize}
-
-
-
-\paragraph{Why sentiment analysis?}
-    \begin{itemize}
-        \item Movie: Is this review positive or negative?
-        \item Products: What do people think about the new iPhone?
-        \item Public sentiment: How is consumer confidence?
-        \item Politics: What do people think about this candidate or issue?
-        \item Prediction: Predict election outcomes or market trends from sentiment.
-    \end{itemize}
-
-
-\paragraph{Basic Sentiment Classification}
-    Sentiment analysis is the detection of attitudes.
-    \begin{itemize}
-        \item Simple task we focus on in this class
-        \begin{itemize}
-            \item Is the attitude of this text positive or negative?
-        \end{itemize}
-    \end{itemize}
-
-
-
-\paragraph{Summary: Text Classification}
-    Text classification can be applied to various tasks, including:
-    \begin{itemize}
-        \item Sentiment analysis
-        \item Spam detection
-        \item Authorship identification
-        \item Language identification
-        \item Assigning subject categories, topics, or genres
-        \item ...
-    \end{itemize}
-
-
-\section{Text Classification: Definition}
-    \textbf{Input}:
-    \begin{itemize}
-        \item A document $d$
-        \item A fixed set of classes $C = \{c_1, c_2, \ldots, c_J\}$
-    \end{itemize}
-    
-    \textbf{Output}: A predicted class $c \in C$
-
-
-\subsection{Classification Methods: Hand-coded rules}
-    Rules based on combinations of words or other features
-    \begin{itemize}
-        \item Spam: \textit{black-list-address} OR (\textit{“dollars” AND “you have been selected”})
-        \item Accuracy can be high if rules carefully refined by experts
-        \item But building and maintaining these rules is expensive
-    \end{itemize}
-
-\subsection{Classification Methods: Supervised Machine Learning}
-    \textbf{Input}:
-    \begin{itemize}
-        \item A document $d$
-        \item A fixed set of classes $C = \{c_1, c_2, \ldots, c_J\}$
-        \item A training set of $m$ hand-labeled documents: $(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m)$
-    \end{itemize}
-    
-    \textbf{Output}:
-    \begin{itemize}
-        \item A learned classifier $\gamma: d \to c$
-    \end{itemize}
-
-    Any kind of classifier can be used:
-    \begin{itemize}
-        \item Naïve Bayes
-        \item Logistic regression
-        \item Neural networks
-        \item k-Nearest Neighbors
-        % Add more classifiers as needed
-    \end{itemize}
-
- \subsection{Supervised Learning Problems}
-  \begin{itemize}
-    \item We have training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. Each $x^{(i)}$ is an input, each $y^{(i)}$ is a label.
-    \item Task is to learn a function $f$ mapping inputs $x$ to labels $f(x)$.
-    \item Conditional models:
-    \begin{itemize}
-      \item Learn a distribution $p(y|x)$ from training examples.
-      \item For any test input $x$, define $f(x) = \arg \max_y p(y|x)$.
-    \end{itemize}
-  \end{itemize}
-
-  \subsection{Generative Models}
-  \begin{itemize}
-    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
-    \item Generative models:
-    \begin{itemize}
-      \item Learn the joint distribution $p(x, y)$ from the training examples.
-      \item Often, we have $p(x, y) = p(y)p(x|y)$.
-      \item Note: We then have
-      \[
-        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{where} \quad p(x) = \sum_y p(y)p(x|y).
-      \]
-    \end{itemize}
-  \end{itemize}
-
-
-\subsection{Classification with Generative Models}
-  \begin{itemize}
-    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
-    \item Generative models:
-    \begin{itemize}
-      \item Learn the joint distribution $p(x, y)$ from the training examples.
-      \item Often, we have $p(x, y) = p(y)p(x|y)$.
-    \end{itemize}
-    \item Output from the model:
-\[
-\begin{aligned}
-f(x) = \arg\max_y p(y|x) &= \arg\max_y \frac{p(y)p(x|y)}{p(x)} \\
-&= \arg\max_y p(y)p(x|y)
-\end{aligned}
-\]
-  \end{itemize}
-
-
-
-\section{Naive Bayes Intuition}
-    Naive Bayes is a simple ("naive") classification method based on Bayes' rule.
-    \begin{itemize}
-        \item Relies on a very simple representation of a document: \textit{Bag of words}
-    \end{itemize}
-
-
-\paragraph{The Bag of Words Representation}
-
-\begin{figure}[h]
-\includegraphics[scale = 0.22]{pics/bow.png}
-\end{figure}
-
-
-\subsection{Bayes' Rule Applied to Documents and Classes}
-    For a document $d$ and a class $c$:
-    \[
-    P(c | d) = \frac{P(d | c)P(c)}{P(d)}
-    \]
-
-
-\section{Naive Bayes Classifier}
-\scriptsize
-\begin{itemize}
-    \item MAP stands for "maximum a posteriori," which represents the most likely class:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(c | d)
-    \]
-    \item To calculate the most likely class, we apply Bayes' rule:
-    \[
-    = \arg\max_{c \in C} \frac{P(d | c)P(c)}{P(d)}
-    \]
-    \item Finally, we can drop the denominator since it remains constant for all classes:
-    \[
-    = \arg\max_{c \in C} P(d | c)P(c)
-    \]
-    \item To classify document $d$, we use the MAP estimate:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(d | c)P(c)
-    \]
-    \item The document $d$ is represented as a set of features $x_1, x_2, \ldots, x_n$.
-    \item The classifier calculates the conditional probability of the features given a class and the prior probability of the class:
-    \[
-    = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
-    \]
-    \item The term $P(x_1, x_2, \ldots, x_n | c)$ represents the "likelihood" of the features given the class.
-    \item The term $P(c)$ represents the "prior" probability of the class.
-    \item The Naïve Bayes classifier \cite{mccallum1998comparison} calculates the MAP estimate by considering the likelihood and prior probabilities:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
-    \]
-    \item The probability of the features given the class, $P(x_1, x_2, \ldots, x_n | c)$, can be estimated by counting the relative frequencies in a corpus.
-    \item The prior probability of the class, $P(c)$, represents how often this class occurs.
-    \item Without some simplifying assumptions, estimating the probability of every possible combination of
-features in $P(x_1, x_2, \ldots, x_n | c)$ would require huge numbers of parameters and impossibly large training sets. 
-\item Naive Bayes classifiers therefore make two simplifying assumptions.
-\end{itemize}
-
-
-\subsection{Multinomial Naive Bayes Independence Assumptions}
-
-\begin{itemize}
-    \item Bag of Words assumption: We assume that the position of words in the document does not matter.
-    \item Conditional Independence assumption: We assume that the feature probabilities $P(x_i | c_j)$ are independent given the class $c_j$.
-    \item In the Multinomial Naive Bayes classifier, the probability of a document with features $x_1, x_2, \ldots, x_n$ given class $c$ can be calculated as:
-    \[
-    P(x_1, x_2, \ldots, x_n | c) = P(x_1 | c) \cdot P(x_2 | c) \cdot P(x_3 | c) \cdot \ldots \cdot P(x_n | c)
-    \]
-\end{itemize}
-
-\subsection{Multinomial Naive Bayes Classifier}
-\begin{itemize}
-    \item The Maximum A Posteriori (MAP) estimate for class $c$ in the Multinomial Naive Bayes classifier is given by:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
-    \]
-    \item Alternatively, we can write it as:
-    \[
-    c_{\text{NB}} = \arg\max_{c \in C} P(c_j) \prod_{x \in X} P(x | c)
-    \]
-    \item $P(c_j)$ represents the prior probability of class $c_j$.
-    \item $\prod_{x \in X} P(x | c)$ represents the likelihood of the features $x_1, x_2, \ldots, x_n$ given class $c$.
-\end{itemize}
-
-
-\subsection{Applying Multinomial Naive Bayes Classifiers to Text Classification}
-\begin{itemize}
-    \item The Multinomial Naive Bayes classifier for text classification can be applied as follows:
-    \[
-    c_{\text{NB}} = \arg\max_{c_j \in C} P(c_j) \prod_{i \in \text{positions}} P(x_i | c_j)
-    \]
-    \item $c_{\text{NB}}$ represents the predicted class for the test document.
-    \item $C$ is the set of all possible classes.
-    \item $P(c_j)$ is the prior probability of class $c_j$.
-    \item $\prod_{i \in \text{positions}} P(x_i | c_j)$ calculates the likelihood of each feature $x_i$ at position $i$ given class $c_j$.
-    \item The product is taken over all word positions in the test document.
-\end{itemize}
-
-
-\subsection{Problems with Multiplying Lots of Probabilities}
-\begin{itemize}
-    \item Multiplying lots of probabilities can result in floating-point underflow, especially when dealing with small probabilities.
-    \item Example: $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$
-    \item Idea: Use logarithms, as $\log(ab) = \log(a) + \log(b)$.
-    \item Instead of multiplying probabilities, we can sum the logarithms of probabilities.
-    \item The Multinomial Naive Bayes classifier can be expressed using logarithms as follows:
-    \[
-    c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{position}} \log(P(x_i | c_j))\right)
-    \]
-    \item By taking logarithms, we avoid the issue of floating-point underflow and perform calculations in the log space.
-     \item The classifier becomes a linear model, where the prediction is the argmax of a sum of weights (log probabilities) and the inputs (log conditional probabilities):
-    \item Thus, Naïve Bayes is a linear classifier, operating in the log space.
-    
-    
-\end{itemize}
-
-\subsection{Learning the Multinomial Naive Bayes Model}
-First attempt: Maximum Likelihood Estimates
-\begin{itemize}
-    \item The probabilities are estimated using the observed counts in the training data.
-    \item The prior probability of a class $c_j$ is estimated as:
-    \[
-    \hat{P}(c_j) = \frac{N_{c_j}}{N_{\text{total}}}
-    \]
-    where $N_{c_j}$ is the number of documents in class $c_j$ and $N_{\text{total}}$ is the total number of documents.
-    \item The estimate of the probability of word $w_i$ given class $c_j$ is calculated as:
-    \[
-    \hat{P}(w_i | c_j) = \frac{{\text{{count}}(w_i, c_j)}}{\sum_{w\in V}{\text{{count}}(w, c_j)}}
-    \]
-    where $w \in V$ represents a word in the vocabulary $V$.
-    \item The denominator is the sum of counts of all words in the vocabulary within class $c_j$.
-\end{itemize}
-
-
-\subsection{Parameter Estimation}
-
-To estimate the parameters of the Multinomial Naive Bayes model, we follow these steps:
-
-\begin{itemize}
-  \item Create a mega-document for each topic $c_j$ by concatenating all the documents in that topic.
-  \item We calculate the frequency of word $w_i$ in the mega-document, which represents the fraction of times word $w_i$ appears among all words in the documents of topic $c_j$.
-  \item The estimated probability $\hat{P}(w_i | c_j)$ of word $w_i$ given class $c_j$ is obtained by dividing the count of occurrences of $w_i$ in the mega-document of topic $c_j$ by the total count of words in the mega-document:
-  \[
-  \hat{P}(w_i | c_j) = \frac{{\text{{count}}(w_i, c_j)}}{\sum_{w\in V}{\text{{count}}(w, c_j)}}
-  \]
-  Here, $\text{{count}}(w_i, c_j)$ represents the number of times word $w_i$ appears in the mega-document of topic $c_j$, and $\text{{count}}(w, c_j)$ is the total count of words in the mega-document.
-\end{itemize}
-
-
-\subsection{Zero Probabilities and the Issue of Unseen Words}
-\begin{itemize}
-    \item Consider the scenario where we have not encountered the word ``fantastic'' in any training documents classified as positive (thumbs-up).
-    \item Using maximum likelihood estimation, the probability $\hat{P}(\text{``fantastic''} \mid \text{positive})$ would be calculated as:
-    \[
-    \hat{P}(\text{``fantastic''} \mid \text{positive}) = \frac{\text{count}(\text{``fantastic''}, \text{positive})}{\sum_{w \in V} \text{count}(w, \text{positive})}
-    \]
-    \item In this case, the count of the word ``fantastic'' in positive documents is zero, leading to a zero probability:
-    \[
-    \hat{P}(\text{``fantastic''} \mid \text{positive}) = \frac{0}{\sum_{w \in V} \text{count}(w, \text{positive})} = 0
-    \]
-    \item However, zero probabilities cannot be conditioned away, regardless of the other evidence present.
-    \item This poses a problem when calculating the maximum a posteriori (MAP) estimate, which is used for classification:
-    \[
-    c_{\text{MAP}} = \arg\max_c \left(\hat{P}(c) \prod_{i} \hat{P}(x_i \mid c)\right)
-    \]
-    \item With a zero probability for a word, the entire expression becomes zero, regardless of other evidence.
-\end{itemize}
-
-
-
-
-\subsection{Laplace (Add-1) Smoothing for Naïve Bayes}
-Handling zero probabilities with Laplace (Add-1) smoothing
-\begin{itemize}
-    \item To address the problem of zero probabilities, we can employ Laplace (Add-1) smoothing technique.
-    \item The smoothed estimate $\hat{P}(w_i \mid c)$ is calculated as:
-    \[
-    \hat{P}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)}
-    \]
-    \item Here, an additional count of 1 is added to both the numerator and the denominator.
-    \item The denominator is adjusted by adding the size of the vocabulary $V$ to ensure proper normalization.
-    \item By doing so, we prevent zero probabilities and allow some probability mass to be distributed to unseen words.
-    \item This smoothing technique helps to mitigate the issue of unseen words and avoids the complete elimination of certain classes during classification.
-\end{itemize}
-
-
-
-
-
-
-\subsection{Multinomial Naïve Bayes: Learning}
-Learning the Multinomial Naïve Bayes Model
-\begin{itemize}
-    \item In order to learn the parameters of the model, we need to calculate the terms $P(c_j)$ and $P(w_k \mid c_j)$.
-    \item For each class $c_j$ in the set of classes $C$, we perform the following steps:
-    \begin{itemize}
-        \item Retrieve all the documents $docs_j$ that belong to class $c_j$.
-        \item Calculate the term $P(w_k \mid c_j)$ for each word $w_k$ in the vocabulary $V$:
-        \[
-        P(w_k \mid c_j) = \frac{{n_k + \alpha}}{{n + \alpha \cdot \lvert \text{Vocabulary} \rvert}}
-        \]
-        where $n_k$ represents the number of occurrences of word $w_k$ in the concatenated document $Text_j$.
-        \item Calculate the prior probability $P(c_j)$:
-        \[
-        P(c_j) = \frac{{\lvert docs_j \rvert}}{{\lvert \text{total number of documents} \rvert}}
-        \]
-    \end{itemize}
-    \item To calculate $P(w_k \mid c_j)$, we need to extract the vocabulary $V$ from the training corpus.
-\end{itemize}
-
-
-\subsection{Unknown Words}
-Dealing with unknown words in the test data:
-\begin{itemize}
-    \item When we encounter unknown words in the test data that do not appear in the training data or vocabulary, we ignore them.
-    \item We remove these unknown words from the test document as if they were not present at all.
-    \item We do not assign any probability to these unknown words in the classification process.
-\end{itemize}
-
-Why don't we build an unknown word model?
-\begin{itemize}
-    \item Building a separate model for unknown words is not generally helpful.
-    \item Knowing which class has more unknown words does not provide useful information for classification.
-\end{itemize}
-
-\subsection{Stop Words}
-
-Stop words are frequently used words like "the" and "a" that are often considered to have little or no significance in text classification. Some systems choose to ignore stop words in the classification process. Here is how it is typically done:
-
-\begin{itemize}
-    \item Sort the vocabulary by word frequency in the training set.
-    \item Create a stopword list by selecting the top 10 or 50 most frequent words.
-    \item Remove all stop words from both the training and test sets, treating them as if they were never there.
-\end{itemize}
-
-However, removing stop words doesn't usually improve the performance of Naive Bayes classifiers. Therefore, in practice, most Naive Bayes algorithms use all words and do not utilize stopword lists.
-
-
-\section{Worked Sentiment Example}
-
-\textbf{Training data:} 
-
-\begin{table}[h]
-\centering
-\begin{tabular}{|c|p{0.7\textwidth}|}
-\hline
-\textbf{Category} & \textbf{Text} \\
-\hline
-Negative & Just plain boring, entirely predictable and lacks energy. \\
-\hline
-Negative & No surprises and very few laughs. \\
-\hline
-Positive & Very powerful. \\
-\hline
-Positive & The most fun film of the summer. \\
-\hline
-\end{tabular}
-\end{table}
-
-
-\textbf{Test:} 
-\begin{table}[h]
-\centering
-\begin{tabular}{|c|p{0.7\textwidth}|}
-\hline
-\textbf{Category} & \textbf{Text} \\
-\hline
-? & Predictable with no fun. \\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{figure}[h]
-\includegraphics[scale = 0.23]{pics/naive_example.png}
-\end{figure}
-
-
-\section{Naive Bayes as a Language Model}
-
-\begin{itemize}
- \item When using individual word features and considering all words in the text, naive Bayes has an important similarity to language modeling. 
- \item Specifically, a naive Bayes model can be viewed as a set of class-specific unigram language models, in which the model for each class instantiates a unigram language model.
- \item The likelihood features from the naive Bayes model assign a probability to each word $P(word|c)$, and the model also assigns a probability to each sentence:
-\[P(s|c) = \prod_{i\in positions} P(w_i|c)\]
-\end{itemize}
-Consider a naive Bayes model with the classes positive (+) and negative (-) and the following model parameters:
-\begin{center}
-\begin{tabular}{ccc}
-\textbf{w} & $P(w|+)$ & $P(w|-)$ \\
-I & 0.1 & 0.2 \\
-love & 0.1 & 0.001 \\
-this & 0.01 & 0.01 \\
-fun & 0.05 & 0.005 \\
-film & 0.1 & 0.1 \\
-... & ... & ...
-\end{tabular}
-\end{center}
-
-
-
-\begin{itemize}
- \item  Each of the two columns above instantiates a language model that can assign a probability to the sentence "I love this fun film":
-\[P("\text{I love this fun film}"|+) = 0.1 \times 0.1 \times 0.01 \times 0.05 \times 0.1 = 0.0000005\]
-\[P("\text{I love this fun film}"|-) = 0.2 \times 0.001 \times 0.01 \times 0.005 \times 0.1 = 0.0000000010\]
-
-\item As it happens, the positive model assigns a higher probability to the sentence:
-\[P(s|pos) > P(s|neg)\]
-
-\item Note that this is just the likelihood part of the naive Bayes model; once we multiply in the prior, a full naive Bayes model might well make a different classification decision.
-\end{itemize}
-
-
-
-
-\section{Evaluation}
-
-\begin{itemize}
- \item Let's consider just binary text classification tasks. 
- \item Imagine you're the CEO of Delicious Pie Company. 
-\item You want to know what people are saying about your pies. 
-\item So you build a "Delicious Pie" tweet detector with the following classes:
-\begin{itemize}
-\item Positive class: tweets about Delicious Pie Co
-\item Negative class: all other tweets
-\end{itemize}
-\end{itemize}
-
-
-
-\subsection{The 2-by-2 Confusion Matrix}
-\begin{table}[h]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{} & \textbf{System Positive} & \textbf{System Negative} \\
-\hline
-\textbf{Gold Positive} & True Positive (TP) & False Negative (FN) \\
-\hline
-\textbf{Gold Negative} & False Positive (FP) & True Negative (TN) \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{Recall} (also known as \textbf{Sensitivity} or \textbf{True Positive Rate}):
-\[ \text{Recall} = \frac{TP}{TP + FN} \]
-
-\textbf{Precision}:
-\[ \text{Precision} = \frac{TP}{TP + FP} \]
-
-\textbf{Accuracy}:
-\[ \text{Accuracy} = \frac{TP + TN}{TP + FP + TN + FN} \]
-
-
-\subsection{Evaluation: Accuracy}
-Why don't we use accuracy as our metric?
-
-Imagine we saw 1 million tweets:
-\begin{itemize}
-\item 100 of them talked about Delicious Pie Co.
-\item 999,900 talked about something else.
-\end{itemize}
-
-We could build a dumb classifier that just labels every tweet "not about pie":
-\begin{itemize}
-\item It would get 99.99\% accuracy!!! Wow!!!!
-\item But it would be useless! It doesn't return the comments we are looking for!
-\end{itemize}
-
-That's why we use precision and recall instead.
-
-\subsection{Evaluation: Precision and Recall}
-\textbf{Precision} measures the percentage of items the system detected (i.e., items the system labeled as positive) that are in fact positive (according to the human gold labels).
-
-\[
-\text{Precision} = \frac{\text{True Positives}}{\text{True Positives + False Positives}}
-\]
-
-
-\textbf{Recall} measures the percentage of items that were correctly identified by the system out of all the items that should have been identified.
-
-\[
-\text{Recall} = \frac{\text{True Positives}}{\text{True Positives + False Negatives}}
-\]
-
-
-
-\subsection{Why Precision and Recall?}
-Consider our dumb pie-classifier that just labels nothing as "about pie."
-
-\begin{itemize}
-  \item Accuracy = 99.99\% (it correctly labels most tweets as not about pie)
-  \item Recall = 0 (it doesn't detect any of the 100 pie-related tweets)
-\end{itemize}
-
-Precision and recall, unlike accuracy, emphasize true positives:
-\begin{itemize}
-  \item They focus on finding the things that we are supposed to be looking for.
-\end{itemize}
-
-
-
-
-\subsection{A Combined Measure: F-measure}
-The F-measure is a single number that combines precision (P) and recall (R), defined as:
-\[
-F_\beta = \frac{(\beta^2+1)PR}{\beta^2P + R}
-\]
-
-The F-measure, defined with the parameter $\beta$, differentially weights the importance of recall and precision. 
-\begin{itemize}
-  \item $\beta > 1$ favors recall
-  \item $\beta < 1$ favors precision
-\end{itemize}
-
-When $\beta = 1$, precision and recall are equal, and we have the balanced $F_1$ measure:
-\[
-F_1 = \frac{2PR}{P + R}
-\]
-
-
-\subsection{Development Test Sets ("Devsets")}
-
-
-\begin{itemize}
- \item To avoid overfitting and provide a more conservative estimate of performance, we commonly use a three-set approach: training set, devset, and testset.
-\begin{figure}[h]
-\includegraphics[scale = 0.23]{pics/devsets.png}
-\end{figure}
-
-\begin{itemize}\scriptsize
-\item \textbf{Training set}: Used to train the model.
-\item \textbf{Devset}: Used to tune the model and select the best hyperparameters.
-\item \textbf{Testset}: Used to report the final performance of the model.
-\end{itemize}
-
-
-\item This approach ensures that the model is not tuned specifically to the test set, avoiding overfitting.
-\item However, it creates a paradox: we want as much data as possible for training, but also for the devset.
-\item How do we split the data?
-
-\end{itemize}
-
-
-
-
-
-
-\subsection{Cross-validation: Multiple Splits}
-
-\begin{itemize}
-\item Cross-validation allows us to use all our data for training and testing without having a fixed training set, devset, and test set.
-\item We choose a number $k$ and partition our data into $k$ disjoint subsets called folds.
-\item For each iteration, one fold is selected as the test set while the remaining $k-1$ folds are used to train the classifier.
-\item We compute the error rate on the test set and repeat this process $k$ times.
-\item Finally, we average the error rates from these $k$ runs to obtain an average error rate.
-\item 10-fold cross-validation, for example, involves training 10 models on 90\% of the data and testing each model separately.
-\item The resulting error rates are averaged to obtain the final performance estimate.
-\item However, cross-validation requires the entire corpus to be blind, preventing examination of the data for feature suggestion or understanding system behavior.
-\item To address this, a fixed training set and test set are created, and 10-fold cross-validation is performed within the training set.
-\item The error rate is computed conventionally in the test set.
-\end{itemize}
-
-
-
-
-\begin{center}
-\includegraphics[scale=0.28]{pics/cv.png}
-\end{center}
-
-
-
-
-\subsection{Confusion Matrix for 3-class classification}
-
-
-\begin{center}
-\includegraphics[scale=0.23]{pics/confmatrix.png}
-\end{center}
-
-
-How to combine binary metrics (Precision, Recall, $F_1$) from more than 2 classes to get one metric:
-\begin{itemize}
- \item Macroaveraging:
- \begin{itemize}
-    \item Compute the performance metrics (Precision, Recall, $F_1$) for each class individually.
-    \item Average the metrics over all classes.
- \end{itemize}
- \item Microaveraging:
- \begin{itemize}
-    \item Collect the decisions for all classes into one confusion matrix.
-    \item Compute Precision and Recall from the confusion matrix.
- \end{itemize}
-\end{itemize}
-
-
-
-\subsection{Macroaveraging and Microaveraging}
-
-
-\begin{center}
-\includegraphics[scale=0.23]{pics/confmatrixmulti.png}
-\end{center}
 
 
 

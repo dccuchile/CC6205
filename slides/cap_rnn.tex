@@ -76,7 +76,49 @@ p(e = j|\vec{x}_{1:n}) = \text{softmax}(RNN(\vec{x}_{1:n})\cdot W +\vec{b})_{[j]
 \end{itemize}
 
 
+\section{Elman Network or Simple-RNN}
+\begin{itemize}
+\item After describing the RNN abstraction, we are now in place to discuss the simplest instantiations of it.
+\item Recall that we are interested in a recursive function $\vec{s}_i =  R(\vec{x}_i, \vec{s}_{i-1})$ such that $\vec{s}_i$ encodes the sequence $\vec{x}_{1:n}$.
+\item The simplest RNN formulation is known as an Elman Network or Simple-RNN (S-RNN).
+\end{itemize}
 
+\begin{equation}
+\begin{split}
+\vec{s}_i & = R_{SRNN}(\vec{x}_{i},\vec{s}_{i-1}) = g(\vec{s}_{i-1}W^{s}+\vec{x}_{i}W^{x}+\vec{b}) \\
+\vec{y}_i & = O_{SRNN}(\vec{s}_i) = \vec{s}_i \\
+\vec{s}_i, \vec{y}_i \in  \mathcal{R}^{d_{s}}, & \quad  \vec{x}_i  \in \mathcal{R}^{d_{x}}, \quad W^{x} \in \mathcal{R}^{d_{x}\times d_{s}}, \quad W^{s} \in \mathcal{R}^{d_{s}\times d_{s}}, \vec{b} \in \mathcal{R}^{d_{s}} 
+\end{split}
+\end{equation}
+
+
+\begin{itemize}
+\item The state $\vec{s}_i$ and the input $\vec{x}_i$ are each linearly transformed.
+\item The results are added (together with a bias term) and then passed through a nonlinear activation function g (commonly tanh or ReLU).
+\item The Simple RNN provides strong results for sequence tagging as well as language modeling.
+\end{itemize}
+
+
+  \begin{figure}[h]
+        	\includegraphics[scale = 0.55]{pics/elman.pdf}
+        \end{figure}
+
+
+
+\section{RNN Training}
+\begin{itemize}
+\item An unrolled RNN is just a very deep neural network.
+\item The same parameters are shared across many parts of the computation.
+\item Additional input is added at various layers.
+\item To train an RNN network, need to create the unrolled computation graph for a given input sequence, add a loss node to the unrolled graph.
+\item Then use the backward (backpropagation) algorithm to compute the gradients with respect to that loss.
+\item This procedure is referred to in the RNN literature as backpropagation through time (BPTT).
+\item The RNN does not do much on its own, but serves as a trainable component in a larger network.
+\item The final prediction and loss computation are performed by that larger network, and the error is back-propagated through the RNN.
+\item This way, the RNN learns to encode properties of the input sequences that are
+useful for the further prediction task.
+\item The supervision signal is not applied to the RNN directly, but through the larger network.
+\end{itemize}
 
 \section{RNN usage-patterns: Acceptor}
 \begin{itemize}
@@ -119,93 +161,6 @@ weighted average
 
 \end{itemize}
 
-
-
-\section{RNN usage-patterns: Acceptor}
-\begin{itemize}
-\item A common RNN usage-pattern is the acceptor.
-\item This pattern is used for text classification.
-\item The supervision signal is only based on the final output vector $\vec{y}_n$.
-
-\item The RNN's output vector $\vec{y}_n$ is fed into a fully connected layer or an MLP, which produce a prediction.
-
-\item The error gradients are then backpropagated through the
-rest of the sequence.
-\item The loss can take any familiar form: cross entropy, hinge, etc.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/acceptor.png}
-        	\caption{Acceptor RNN training graph.}
-        \end{figure}
-\item Example 1: an RNN that reads the characters of a word one by one and then use the final state to predict the part-of-speech of that word.
-
-\item Example 2: an RNN that reads in a sentence and, based on the final state decides if it conveys positive or negative sentiment.
-
-\end{itemize}
-
-
-\section{RNN usage-patterns: Transducer}
-\begin{itemize}
-\item Another option is to treat the RNN as a transducer, producing an output $\hat{t}_i$ for each input it reads in.
-\item This pattern is very handy for sequence labeling tasks (e.g, POS tagging, NER).
-\item We compute a local loss signal (e.g., cross-entropy)  $L_{\text{local}}(\hat{t}_{i},{t}_{i})$ for each of the outputs $\hat{t}_{i}$ based on a true label $t_i$.
-\item The loss for unrolled sequence will then be: $L(\hat{t}_{i:n},{t}_{i:n}) =  \sum_{i} L_{\text{local}}(\hat{t}_{i},{t}_{i})$ , or using another combination rather than a sum such as an average or a
-weighted average
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.25]{pics/transducer.png}
-        	\caption{Transducer RNN training graph.}
-        \end{figure}
-\item Example 1: a sequence tagger (e.g., NER, POS), in which we take $\vec{x}_{i:n}$ to be feature representations for the $n$ words of a sentence, and $t_i$ as an input for predicting the tag assignment of word $i$ based on words $1:i$.
-\item Example 2: language modeling, in which the sequence of words $x_{1:n}$ is used to predict a distribution over the $(i+1)th$ word. 
-\item RNN-based language models are shown to provide vastly better perplexities than traditional language models.
-
-\item Using RNNs as transducers allows us to relax the Markov assumption that is traditionally taken in language models and HMM taggers, and condition on the entire prediction history.
-
-\end{itemize}
-
-
-
-
-
-\section{RNN usage-patterns: Acceptor}
-\begin{itemize}
-\item A common RNN usage-pattern is the acceptor.
-\item This pattern is used for text classification.
-\item The supervision signal is only based on the final output vector $\vec{y}_n$.
-
-\item The RNN's output vector $\vec{y}_n$ is fed into a fully connected layer or an MLP, which produce a prediction.
-
-\item The error gradients are then backpropagated through the
-rest of the sequence.
-\item The loss can take any familiar form: cross entropy, hinge, etc.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/acceptor.png}
-        	\caption{Acceptor RNN training graph.}
-        \end{figure}
-\item Example 1: an RNN that reads the characters of a word one by one and then use the final state to predict the part-of-speech of that word.
-
-\item Example 2: an RNN that reads in a sentence and, based on the final state decides if it conveys positive or negative sentiment.
-
-\end{itemize}
-
-
-\section{RNN usage-patterns: Transducer}
-\begin{itemize}
-\item Another option is to treat the RNN as a transducer, producing an output $\hat{t}_i$ for each input it reads in.
-\item This pattern is very handy for sequence labeling tasks (e.g, POS tagging, NER).
-\item We compute a local loss signal (e.g., cross-entropy)  $L_{\text{local}}(\hat{t}_{i},{t}_{i})$ for each of the outputs $\hat{t}_{i}$ based on a true label $t_i$.
-\item The loss for unrolled sequence will then be: $L(\hat{t}_{i:n},{t}_{i:n}) =  \sum_{i} L_{\text{local}}(\hat{t}_{i},{t}_{i})$ , or using another combination rather than a sum such as an average or a
-weighted average
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.25]{pics/transducer.png}
-        	\caption{Transducer RNN training graph.}
-        \end{figure}
-\item Example 1: a sequence tagger (e.g., NER, POS), in which we take $\vec{x}_{i:n}$ to be feature representations for the $n$ words of a sentence, and $t_i$ as an input for predicting the tag assignment of word $i$ based on words $1:i$.
-\item Example 2: language modeling, in which the sequence of words $x_{1:n}$ is used to predict a distribution over the $(i+1)th$ word. 
-\item RNN-based language models are shown to provide vastly better perplexities than traditional language models.
-
-\item Using RNNs as transducers allows us to relax the Markov assumption that is traditionally taken in language models and HMM taggers, and condition on the entire prediction history.
-
-\end{itemize}
 
 
 

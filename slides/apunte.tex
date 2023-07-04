@@ -20,13 +20,20 @@
 \usepackage{fontenc}
 \usepackage{framed,color}
 \usepackage{palatino, url, multicol}
+\usepackage{hyperref}
 
 
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
 
 \begin{document}
 
 
-\pagestyle{empty}
+\thispagestyle{empty}
 
 \begin{titlepage}
     \begin{center}
@@ -52,6 +59,7 @@
 \end{titlepage}
 
 \newpage
+
 \thispagestyle{empty}
 
 \newpage
@@ -73,7 +81,11 @@
 
 %..................................................
 
+\chapter*{Prefacio}
+\addcontentsline{toc}{chapter}{Preface}
+Este apunte pretende ofrecer una introducción completa al Procesamiento del Lenguaje Natural (PLN), cubriendo los conceptos esenciales. Nos esforzamos por lograr un equilibrio entre las técnicas tradicionales, como los modelos de lenguaje de N-gramas, Naive Bayes y los modelos ocultos de Markov (HMM), y las modernas redes neuronales profundas, como los vectores de palabras, las redes neuronales recurrentes (RNN) y los transformers.
 
+El material del curso procede de diversas fuentes. Los temas sobre redes neuronales se basan principalmente en el libro Neural Network Methods for Natural Language Processing de Goldberg. Los temas no relacionados con las redes neuronales, como los modelos probabilísticos del lenguaje, Naive Bayes y HMM, proceden del curso de Michael Collins y del libro de Dan Jurafsky. Además, algunas capítulos se han adaptado de tutoriales en línea y otros cursos, como el curso de Stanford de Manning.
 
 \chapter{Introducción}
 \label{cap:intro}
@@ -110,14 +122,10 @@
 \input{cap_embeddings}
 
 
-\chapter{Etiquetado de Secuencias y Cadenas de Markov Ocultas}
-\label{cap_hmm}
-\input{cap_hmm}
+\chapter{Etiquetado de Secuencias}
+\label{cap_etisec}
+\input{cap_etisec}
 
-
-\chapter{Modelos de Markov de Máxima Entropía y Condtional Random Fields}
-\label{cap_crf}
-\input{cap_crf}
 
 
 \chapter{Redes Neuronales Convolucionales}
@@ -140,9 +148,18 @@
 \label{cap_trans}
 \input{cap_trans}
 
-\chapter{Vectores de Palabra Contextualizados y Grandes Modelos de Lenguaje}
+
+
+        
+        
+\chapter{Grandes Modelos de Lenguaje}
 \label{cap_llm}
 \input{cap_llm}
+
+
+
+
+
 
 \bibliography{bio}
 \bibliographystyle{apalike}

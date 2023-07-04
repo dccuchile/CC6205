@@ -1,45 +1,44 @@
+\begin{itemize}
+    \item La clasificación es fundamental tanto para la inteligencia humana como para la artificial.
+    \item Decidir qué letra, palabra o imagen se ha presentado a nuestros sentidos, reconocer caras o voces, clasificar el correo, asignar calificaciones a las tareas.
+    \item Estos son ejemplos de asignar una categoría a una entrada.
+    \item El objetivo de la clasificación es tomar una única observación, extraer algunas características útiles y así clasificar la observación en una de las clases discretas establecidas.
+    \item La mayoría de los casos de clasificación en el procesamiento del lenguaje se realizan mediante aprendizaje automático supervisado.
+    \item Estas diapositivas se basan en el material del curso de Daniel Jurafsky: \url{https://web.stanford.edu/~jurafsky/slp3/4.pdf}
+\end{itemize}
 
-    \begin{itemize}
-        \item Classification lies at the heart of both human and machine intelligence. 
-        \item Deciding what letter, word, or image has been presented to our senses, recognizing faces or voices, sorting mail, assigning grades to homeworks.
-        \item These are all examples of assigning a category to an input.
-        \item The goal of classification is to take a single observation, extract some useful features, and thereby classify the observation into one of a set of discrete classes.
-        \item  Most cases of classification in language processing are done via supervised machine learning. 
-        \item This slides are based on the course material by Daniel Jurafsky : \url{https://web.stanford.edu/~jurafsky/slp3/4.pdf} 
-    \end{itemize}   
-
-Example 1: Spam Classification
+Ejemplo 1: Clasificación de spam
 
 \begin{figure}[h]
 \includegraphics[scale = 0.35]{pics/spam.png}
 \end{figure}
 
 
-Example 2: Who wrote which Federalist papers?
+Ejemplo 2: ¿Quién escribió los documentos Federalist?
 
-    \begin{itemize}
-        \item 1787-8: Anonymous essays attempted to convince New York to ratify the U.S Constitution: Jay, Madison, Hamilton.
-        \item Authorship of 12 of the letters is in dispute.
-        \item 1963: Solved by Mosteller and Wallace using Bayesian methods.
-    \end{itemize}
+\begin{itemize}
+    \item 1787-8: Ensayos anónimos intentaron convencer a Nueva York de ratificar la Constitución de EE. UU.: Jay, Madison, Hamilton.
+    \item La autoría de 12 de las cartas está en disputa.
+    \item 1963: Resuelto por Mosteller y Wallace mediante métodos bayesianos.
+\end{itemize}
 
-    \begin{center}
-        \begin{figure}[h]
-            \begin{minipage}{0.3\textwidth}
-                \centering
-                \includegraphics[width=\linewidth]{pics/madison.png}
-                \caption{James Madison}
-            \end{minipage}\hfill
-            \begin{minipage}{0.3\textwidth}
-                \centering
-                \includegraphics[width=\linewidth]{pics/hamilton.png}
-                \caption{Alexander Hamilton}
-            \end{minipage}
-        \end{figure}
-    \end{center}
+\begin{center}
+    \begin{figure}[h]
+        \begin{minipage}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{pics/madison.png}
+            \caption{James Madison}
+        \end{minipage}\hfill
+        \begin{minipage}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{pics/hamilton.png}
+            \caption{Alexander Hamilton}
+        \end{minipage}
+    \end{figure}
+\end{center}
 
 
-Example 3: What is the subject of this medical article?
+Ejemplo 3: ¿Cuál es el tema de este artículo médico?
 
 \begin{figure}[h]
 \includegraphics[scale = 0.2]{pics/medarticle.png}
@@ -47,380 +46,359 @@ Example 3: What is the subject of this medical article?
 
 
 
-Example 4: Positive or negative movie review?
+Ejemplo 4: ¿Reseña de película positiva o negativa?
+
+\begin{itemize}
+    \item \textcolor{blue}{\textbf{+}} ...personajes extravagantes y sátira \textcolor{blue}{rico} aplicada, y algunos \textcolor{blue}{grandes} giros de la trama.
+    \item \textcolor{red}{\textbf{-}} Fue \textcolor{red}{patético}. La peor parte fue las escenas de boxeo...
+    \item \textcolor{blue}{\textbf{+}} ...salsa de caramelo \textcolor{blue}{increíble} y almendras dulces y tostadas. ¡Me \textcolor{blue}{encanta} este lugar!
+    \item \textcolor{red}{\textbf{-}} ...pizza \textcolor{red}{horrible} y \textcolor{red}{ridículamente} cara...
+\end{itemize}
+
+
+
+\paragraph{¿Por qué el análisis de sentimientos?}
+
+\begin{itemize}
+    \item Película: ¿Esta reseña es positiva o negativa?
+    \item Productos: ¿Qué opinan las personas sobre el nuevo iPhone?
+    \item Sentimiento público: ¿Cómo está la confianza del consumidor?
+    \item Política: ¿Qué opinan las personas sobre este candidato o tema?
+    \item Predicción: Predecir resultados electorales o tendencias del mercado a partir del sentimiento.
+\end{itemize}
+
+
+\paragraph{Clasificación básica de sentimientos}
+
+El análisis de sentimientos es la detección de actitudes.
+
+\begin{itemize}
+    \item Tarea simple en la que nos enfocamos en esta clase.
     \begin{itemize}
-     \item  \textcolor{blue}{\textbf{+}}   ...zany characters and \textcolor{blue}{richly} applied satire, and some \textcolor{blue}{great} plot twists 
-     \item   \textcolor{red}{\textbf{-}} It was \textcolor{red}{pathetic}. The \textcolor{red}{worst} part about it was the boxing scenes... 
-    \item   \textcolor{blue}{\textbf{+}}  ...\textcolor{blue}{awesome} caramel sauce and sweet toasty almonds. I \textcolor{blue}{love} this place! \\
-     \item \textcolor{red}{\textbf{-}} ...\textcolor{red}{awful} pizza and \textcolor{red}{ridiculously} overpriced... 
+        \item ¿Es la actitud de este texto positiva o negativa?
     \end{itemize}
+\end{itemize}
 
 
 
-\paragraph{Why sentiment analysis?}
+\paragraph{Resumen: Clasificación de texto}
+
+La clasificación de texto se puede aplicar a varias tareas, incluyendo:
+
+\begin{itemize}
+    \item Análisis de sentimientos
+    \item Detección de spam
+    \item Identificación de autoría
+    \item Identificación de idioma
+    \item Asignación de categorías, temas o géneros
+    \item ...
+\end{itemize}
+
+
+\section{Clasificación de texto: Definición}
+
+\textbf{Entrada}:
+\begin{itemize}
+    \item Un documento $d$
+    \item Un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$
+\end{itemize}
+
+\textbf{Salida}: Una clase predicha $c \in C$
+
+
+\subsection{Métodos de clasificación: Reglas codificadas a mano}
+
+Reglas basadas en combinaciones de palabras u otras características.
+
+\begin{itemize}
+    \item Spam: \textit{dirección-en-lista-negra} O (\textit{“dólares” Y “has sido seleccionado”})
+    \item La precisión puede ser alta si las reglas se refinan cuidadosamente por expertos
+    \item Pero construir y mantener estas reglas es costoso
+\end{itemize}
+
+\subsection{Métodos de clasificación: Aprendizaje automático supervisado}
+
+\textbf{Entrada}:
+\begin{itemize}
+    \item Un documento $d$
+    \item Un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$
+    \item Un conjunto de entrenamiento de $m$ documentos etiquetados manualmente: $(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m)$
+\end{itemize}
+
+\textbf{Salida}:
+\begin{itemize}
+    \item Un clasificador aprendido $\gamma: d \to c$
+\end{itemize}
+
+Cualquier tipo de clasificador se puede utilizar:
+\begin{itemize}
+    \item Naïve Bayes
+    \item Regresión logística
+    \item Redes neuronales
+    \item k-vecinos más cercanos
+    % Agrega más clasificadores según sea necesario
+\end{itemize}
+
+\subsection{Problemas de aprendizaje supervisado}
+\begin{itemize}
+    \item Tenemos ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$. Cada $x^{(i)}$ es una entrada, cada $y^{(i)}$ es una etiqueta.
+    \item La tarea es aprender una función $f$ que asigna las entradas $x$ a las etiquetas $f(x)$.
+    \item Modelos condicionales:
     \begin{itemize}
-        \item Movie: Is this review positive or negative?
-        \item Products: What do people think about the new iPhone?
-        \item Public sentiment: How is consumer confidence?
-        \item Politics: What do people think about this candidate or issue?
-        \item Prediction: Predict election outcomes or market trends from sentiment.
+        \item Aprender una distribución $p(y|x)$ a partir de ejemplos de entrenamiento.
+        \item Para cualquier entrada de prueba $x$, definir $f(x) = \arg \max_y p(y|x)$.
     \end{itemize}
+\end{itemize}
 
-
-\paragraph{Basic Sentiment Classification}
-    Sentiment analysis is the detection of attitudes.
+\subsection{Modelos generativos}
+\begin{itemize}
+    \item Dados ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$, la tarea es aprender una función $f$ que asigna las entradas $x$ a las etiquetas $f(x)$.
+    \item Modelos generativos:
     \begin{itemize}
-        \item Simple task we focus on in this class
-        \begin{itemize}
-            \item Is the attitude of this text positive or negative?
-        \end{itemize}
+        \item Aprender la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
+        \item A menudo, tenemos $p(x, y) = p(y)p(x|y)$.
+        \item Nota: Luego tenemos
+        \[
+        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{donde} \quad p(x) = \sum_y p(y)p(x|y).
+        \]
     \end{itemize}
+\end{itemize}
 
-
-
-\paragraph{Summary: Text Classification}
-    Text classification can be applied to various tasks, including:
+\subsection{Clasificación con Modelos Generativos}
+\begin{itemize}
+    \item Dados ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$. La tarea consiste en aprender una función $f$ que mapee las entradas $x$ a las etiquetas $f(x)$.
+    \item Modelos generativos:
     \begin{itemize}
-        \item Sentiment analysis
-        \item Spam detection
-        \item Authorship identification
-        \item Language identification
-        \item Assigning subject categories, topics, or genres
-        \item ...
+        \item Aprenden la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
+        \item A menudo, tenemos $p(x, y) = p(y)p(x|y)$.
     \end{itemize}
+    \item La salida del modelo es:
+    \[
+    \begin{aligned}
+    f(x) = \arg\max_y p(y|x) &= \arg\max_y \frac{p(y)p(x|y)}{p(x)} \\
+    &= \arg\max_y p(y)p(x|y)
+    \end{aligned}
+    \]
+\end{itemize}
 
 
-\section{Text Classification: Definition}
-    \textbf{Input}:
-    \begin{itemize}
-        \item A document $d$
-        \item A fixed set of classes $C = \{c_1, c_2, \ldots, c_J\}$
-    \end{itemize}
-    
-    \textbf{Output}: A predicted class $c \in C$
+\section{Intuición del Bayes Ingenuo}
+El Bayes Ingenuo es un método de clasificación simple ("ingenuo") basado en la regla de Bayes.
+\begin{itemize}
+    \item Se basa en una representación muy simple de un documento: \textit{Bolsa de palabras}.
+\end{itemize}
 
-
-\subsection{Classification Methods: Hand-coded rules}
-    Rules based on combinations of words or other features
-    \begin{itemize}
-        \item Spam: \textit{black-list-address} OR (\textit{“dollars” AND “you have been selected”})
-        \item Accuracy can be high if rules carefully refined by experts
-        \item But building and maintaining these rules is expensive
-    \end{itemize}
-
-\subsection{Classification Methods: Supervised Machine Learning}
-    \textbf{Input}:
-    \begin{itemize}
-        \item A document $d$
-        \item A fixed set of classes $C = \{c_1, c_2, \ldots, c_J\}$
-        \item A training set of $m$ hand-labeled documents: $(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m)$
-    \end{itemize}
-    
-    \textbf{Output}:
-    \begin{itemize}
-        \item A learned classifier $\gamma: d \to c$
-    \end{itemize}
-
-    Any kind of classifier can be used:
-    \begin{itemize}
-        \item Naïve Bayes
-        \item Logistic regression
-        \item Neural networks
-        \item k-Nearest Neighbors
-        % Add more classifiers as needed
-    \end{itemize}
-
- \subsection{Supervised Learning Problems}
-  \begin{itemize}
-    \item We have training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. Each $x^{(i)}$ is an input, each $y^{(i)}$ is a label.
-    \item Task is to learn a function $f$ mapping inputs $x$ to labels $f(x)$.
-    \item Conditional models:
-    \begin{itemize}
-      \item Learn a distribution $p(y|x)$ from training examples.
-      \item For any test input $x$, define $f(x) = \arg \max_y p(y|x)$.
-    \end{itemize}
-  \end{itemize}
-
-  \subsection{Generative Models}
-  \begin{itemize}
-    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
-    \item Generative models:
-    \begin{itemize}
-      \item Learn the joint distribution $p(x, y)$ from the training examples.
-      \item Often, we have $p(x, y) = p(y)p(x|y)$.
-      \item Note: We then have
-      \[
-        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{where} \quad p(x) = \sum_y p(y)p(x|y).
-      \]
-    \end{itemize}
-  \end{itemize}
-
-
-\subsection{Classification with Generative Models}
-  \begin{itemize}
-    \item Given training examples $x^{(i)}$, $y^{(i)}$ for $i = 1, \ldots, m$. The task is to learn a function $f$ that maps inputs $x$ to labels $f(x)$.
-    \item Generative models:
-    \begin{itemize}
-      \item Learn the joint distribution $p(x, y)$ from the training examples.
-      \item Often, we have $p(x, y) = p(y)p(x|y)$.
-    \end{itemize}
-    \item Output from the model:
-\[
-\begin{aligned}
-f(x) = \arg\max_y p(y|x) &= \arg\max_y \frac{p(y)p(x|y)}{p(x)} \\
-&= \arg\max_y p(y)p(x|y)
-\end{aligned}
-\]
-  \end{itemize}
-
-
-
-\section{Naive Bayes Intuition}
-    Naive Bayes is a simple ("naive") classification method based on Bayes' rule.
-    \begin{itemize}
-        \item Relies on a very simple representation of a document: \textit{Bag of words}
-    \end{itemize}
-
-
-\paragraph{The Bag of Words Representation}
+\paragraph{La Representación de Bolsa de Palabras}
 
 \begin{figure}[h]
 \includegraphics[scale = 0.22]{pics/bow.png}
 \end{figure}
 
 
-\subsection{Bayes' Rule Applied to Documents and Classes}
-    For a document $d$ and a class $c$:
-    \[
-    P(c | d) = \frac{P(d | c)P(c)}{P(d)}
-    \]
+\subsection{Aplicación de la Regla de Bayes a Documentos y Clases}
+Para un documento $d$ y una clase $c$:
+\[
+P(c | d) = \frac{P(d | c)P(c)}{P(d)}
+\]
 
 
-\section{Naive Bayes Classifier}
+\section{Clasificador Bayes Ingenuo}
 \begin{itemize}
-    \item MAP stands for "maximum a posteriori," which represents the most likely class:
+    \item MAP significa "máximo a posteriori," que representa la clase más probable:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(c | d)
     \]
-    \item To calculate the most likely class, we apply Bayes' rule:
+    \item Para calcular la clase más probable, aplicamos la regla de Bayes:
     \[
     = \arg\max_{c \in C} \frac{P(d | c)P(c)}{P(d)}
     \]
-    \item Finally, we can drop the denominator since it remains constant for all classes:
+    \item Finalmente, podemos eliminar el denominador ya que permanece constante para todas las clases:
     \[
     = \arg\max_{c \in C} P(d | c)P(c)
     \]
-    \item To classify document $d$, we use the MAP estimate:
+    \item Para clasificar el documento $d$, usamos la estimación MAP:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(d | c)P(c)
     \]
-    \item The document $d$ is represented as a set of features $x_1, x_2, \ldots, x_n$.
-    \item The classifier calculates the conditional probability of the features given a class and the prior probability of the class:
+    \item El documento $d$ se representa como un conjunto de características $x_1, x_2, \ldots, x_n$.
+    \item El clasificador calcula la probabilidad condicional de las características dada una clase y la probabilidad a priori de la clase:
     \[
     = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
     \]
-    \item The term $P(x_1, x_2, \ldots, x_n | c)$ represents the "likelihood" of the features given the class.
-    \item The term $P(c)$ represents the "prior" probability of the class.
-    \item The Naïve Bayes classifier \cite{mccallum1998comparison} calculates the MAP estimate by considering the likelihood and prior probabilities:
+    \item El término $P(x_1, x_2, \ldots, x_n | c)$ representa la
+
+ "verosimilitud" de las características dada la clase.
+    \item El término $P(c)$ representa la probabilidad "a priori" de la clase.
+    \item El clasificador Bayes Ingenuo \cite{mccallum1998comparison} calcula la estimación MAP considerando las probabilidades de verosimilitud y a priori:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
     \]
-    \item The probability of the features given the class, $P(x_1, x_2, \ldots, x_n | c)$, can be estimated by counting the relative frequencies in a corpus.
-    \item The prior probability of the class, $P(c)$, represents how often this class occurs.
-    \item Without some simplifying assumptions, estimating the probability of every possible combination of
-features in $P(x_1, x_2, \ldots, x_n | c)$ would require huge numbers of parameters and impossibly large training sets. 
-\item Naive Bayes classifiers therefore make two simplifying assumptions.
+    \item La probabilidad de las características dada la clase, $P(x_1, x_2, \ldots, x_n | c)$, puede estimarse contando las frecuencias relativas en un corpus.
+    \item La probabilidad a priori de la clase, $P(c)$, representa con qué frecuencia ocurre esta clase.
+    \item Sin algunas suposiciones simplificadoras, estimar la probabilidad de cada posible combinación de características en $P(x_1, x_2, \ldots, x_n | c)$ requeriría un gran número de parámetros y conjuntos de entrenamiento imposiblemente grandes.
+    \item Por lo tanto, los clasificadores Bayes Ingenuo realizan dos suposiciones simplificadoras.
 \end{itemize}
 
 
-\subsection{Multinomial Naive Bayes Independence Assumptions}
-
+\subsection{Suposiciones de Independencia del Bayes Ingenuo Multinomial}
 \begin{itemize}
-    \item Bag of Words assumption: We assume that the position of words in the document does not matter.
-    \item Conditional Independence assumption: We assume that the feature probabilities $P(x_i | c_j)$ are independent given the class $c_j$.
-    \item In the Multinomial Naive Bayes classifier, the probability of a document with features $x_1, x_2, \ldots, x_n$ given class $c$ can be calculated as:
+    \item Suposición de Bolsa de Palabras: asumimos que la posición de las palabras en el documento no importa.
+    \item Suposición de Independencia Condicional: asumimos que las probabilidades de las características $P(x_i | c_j)$ son independientes dada la clase $c_j$.
+    \item En el clasificador Bayes Ingenuo Multinomial, la probabilidad de un documento con características $x_1, x_2, \ldots, x_n$ dada la clase $c$ se puede calcular como:
     \[
     P(x_1, x_2, \ldots, x_n | c) = P(x_1 | c) \cdot P(x_2 | c) \cdot P(x_3 | c) \cdot \ldots \cdot P(x_n | c)
     \]
 \end{itemize}
 
-\subsection{Multinomial Naive Bayes Classifier}
+\subsection{Clasificador Bayes Ingenuo Multinomial}
 \begin{itemize}
-    \item The Maximum A Posteriori (MAP) estimate for class $c$ in the Multinomial Naive Bayes classifier is given by:
+    \item La estimación del Máximo A Posteriori (MAP) para la clase $c$ en el clasificador Bayes Ingenuo Multinomial se calcula como:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
     \]
-    \item Alternatively, we can write it as:
+    \item Alternativamente, podemos escribirlo como:
     \[
     c_{\text{NB}} = \arg\max_{c \in C} P(c_j) \prod_{x \in X} P(x | c)
     \]
-    \item $P(c_j)$ represents the prior probability of class $c_j$.
-    \item $\prod_{x \in X} P(x | c)$ represents the likelihood of the features $x_1, x_2, \ldots, x_n$ given class $c$.
+    \item $P(c_j)$ representa la probabilidad a priori de la clase $c_j$.
+    \item $\prod_{x \in X} P(x | c)$ representa la verosimilitud de las características $x_1, x_2, \ldots, x_n$ dadas la clase $c$.
 \end{itemize}
 
 
-\subsection{Applying Multinomial Naive Bayes Classifiers to Text Classification}
+\subsection{Aplicación de los clasificadores Naive Bayes multinomiales a la clasificación de texto}
+
+El clasificador Naive Bayes multinomial para la clasificación de texto se puede aplicar de la siguiente manera:
+\[
+c_{\text{NB}} = \arg\max_{c_j \in C} P(c_j) \prod_{i \in \text{positions}} P(x_i | c_j)
+\]
+Donde:
 \begin{itemize}
-    \item The Multinomial Naive Bayes classifier for text classification can be applied as follows:
-    \[
-    c_{\text{NB}} = \arg\max_{c_j \in C} P(c_j) \prod_{i \in \text{positions}} P(x_i | c_j)
-    \]
-    \item $c_{\text{NB}}$ represents the predicted class for the test document.
-    \item $C$ is the set of all possible classes.
-    \item $P(c_j)$ is the prior probability of class $c_j$.
-    \item $\prod_{i \in \text{positions}} P(x_i | c_j)$ calculates the likelihood of each feature $x_i$ at position $i$ given class $c_j$.
-    \item The product is taken over all word positions in the test document.
+    \item $c_{\text{NB}}$ representa la clase predicha para el documento de prueba.
+    \item $C$ es el conjunto de todas las clases posibles.
+    \item $P(c_j)$ es la probabilidad previa de la clase $c_j$.
+    \item $\prod_{i \in \text{positions}} P(x_i | c_j)$ calcula la probabilidad de cada característica $x_i$ en la posición $i$ dada la clase $c_j$.
+    \item El producto se toma sobre todas las posiciones de palabras en el documento de prueba.
 \end{itemize}
 
+\subsection{Problemas al multiplicar muchas probabilidades}
 
-\subsection{Problems with Multiplying Lots of Probabilities}
-\begin{itemize}
-    \item Multiplying lots of probabilities can result in floating-point underflow, especially when dealing with small probabilities.
-    \item Example: $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$
-    \item Idea: Use logarithms, as $\log(ab) = \log(a) + \log(b)$.
-    \item Instead of multiplying probabilities, we can sum the logarithms of probabilities.
-    \item The Multinomial Naive Bayes classifier can be expressed using logarithms as follows:
-    \[
-    c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{position}} \log(P(x_i | c_j))\right)
-    \]
-    \item By taking logarithms, we avoid the issue of floating-point underflow and perform calculations in the log space.
-     \item The classifier becomes a linear model, where the prediction is the argmax of a sum of weights (log probabilities) and the inputs (log conditional probabilities):
-    \item Thus, Naïve Bayes is a linear classifier, operating in the log space.
-    
-    
-\end{itemize}
+Multiplicar muchas probabilidades puede resultar en un desbordamiento de punto flotante, especialmente cuando se manejan probabilidades pequeñas. Por ejemplo, $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$.
 
-\subsection{Learning the Multinomial Naive Bayes Model}
-First attempt: Maximum Likelihood Estimates
+Para solucionar este problema, podemos utilizar logaritmos, ya que $\log(ab) = \log(a) + \log(b)$. En lugar de multiplicar las probabilidades, podemos sumar los logaritmos de las probabilidades. Así, el clasificador Naive Bayes multinomial se puede expresar utilizando logaritmos de la siguiente manera:
+\[
+c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{position}} \log(P(x_i | c_j))\right)
+\]
+
+Al tomar logaritmos, evitamos el problema del desbordamiento de punto flotante y realizamos cálculos en el espacio logarítmico. El clasificador se convierte en un modelo lineal, donde la predicción es el argmax de la suma de pesos (logaritmos de probabilidades) y las entradas (logaritmos de probabilidades condicionales). Por lo tanto, Naive Bayes es un clasificador lineal que opera en el espacio logarítmico.
+
+\subsection{Aprendizaje del modelo Naive Bayes multinomial}
+
+El primer intento: Estimaciones de máxima verosimilitud
 \begin{itemize}
-    \item The probabilities are estimated using the observed counts in the training data.
-    \item The prior probability of a class $c_j$ is estimated as:
+    \item Las probabilidades se estiman utilizando las frecuencias observadas en los datos de entrenamiento.
+    \item La probabilidad previa de una clase $c_j$ se estima como:
     \[
     \hat{P}(c_j) = \frac{N_{c_j}}{N_{\text{total}}}
     \]
-    where $N_{c_j}$ is the number of documents in class $c_j$ and $N_{\text{total}}$ is the total number of documents.
-    \item The estimate of the probability of word $w_i$ given class $c_j$ is calculated as:
+    donde $N_{c_j}$ es el número de documentos en la clase $c_j$ y $N_{\text{total}}$ es el número total de documentos.
+    \item La estimación de la probabilidad de la palabra $w_i$ dada la clase $c_j$ se calcula como:
     \[
-    \hat{P}(w_i | c_j) = \frac{{\text{{count}}(w_i, c_j)}}{\sum_{w\in V}{\text{{count}}(w, c_j)}}
+    \hat{P}(w_i | c_j) = \frac{{\text{count}(w_i, c_j)}}{\sum_{w\in V}{\text{count}(w, c_j)}}
     \]
-    where $w \in V$ represents a word in the vocabulary $V$.
-    \item The denominator is the sum of counts of all words in the vocabulary within class $c_j$.
+    donde $w \in V$ representa una palabra en el vocabulario $V$.
+    \item El denominador es la suma de las frecuencias de todas las palabras en el vocabulario dentro de la clase $c_j$.
 \end{itemize}
 
+\subsection{Estimación de parámetros}
 
-\subsection{Parameter Estimation}
-
-To estimate the parameters of the Multinomial Naive Bayes model, we follow these steps:
+Para estimar los parámetros del modelo Naive Bayes multinomial, seguimos estos pasos:
 
 \begin{itemize}
-  \item Create a mega-document for each topic $c_j$ by concatenating all the documents in that topic.
-  \item We calculate the frequency of word $w_i$ in the mega-document, which represents the fraction of times word $w_i$ appears among all words in the documents of topic $c_j$.
-  \item The estimated probability $\hat{P}(w_i | c_j)$ of word $w_i$ given class $c_j$ is obtained by dividing the count of occurrences of $w_i$ in the mega-document of topic $c_j$ by the total count of words in the mega-document:
+  \item Creamos un mega-documento para cada tema $c_j$ concatenando todos los documentos de ese tema.
+  \item Calculamos la frecuencia de la palabra $w_i$ en el mega-documento, que representa la fracción de veces que la palabra $w_i$ aparece entre todas las palabras en los documentos del tema $c_j$.
+  \item La probabilidad estimada $\hat{P}(w_i | c_j)$ de la palabra $w_i$ dada la clase $c_j$ se obtiene dividiendo el recuento de ocurrencias de $w_i$ en el mega-documento del tema $c_j$ por el recuento total de palabras en el mega-documento:
   \[
-  \hat{P}(w_i | c_j) = \frac{{\text{{count}}(w_i, c_j)}}{\sum_{w\in V}{\text{{count}}(w, c_j)}}
+  \hat{P}(w_i | c_j) = \frac{{\text{count}(w_i, c_j)}}{\sum_{w\in V}{\text{count}(w, c_j)}}
   \]
-  Here, $\text{{count}}(w_i, c_j)$ represents the number of times word $w_i$ appears in the mega-document of topic $c_j$, and $\text{{count}}(w, c_j)$ is the total count of words in the mega-document.
+  Aquí, $\text{count}(w_i, c_j)$ representa el número de veces que la palabra $w_i$ aparece en el mega-documento del tema $c_j$, y $\text{count}(w, c_j)$ es el recuento total de palabras en el mega-documento.
 \end{itemize}
 
+\subsection{Probabilidades cero y el problema de las palabras no vistas}
 
-\subsection{Zero Probabilities and the Issue of Unseen Words}
+Consideremos el escenario en el que no hemos encontrado la palabra "fantástico" en ningún documento de entrenamiento clasificado como positivo (pulgar hacia arriba). Utilizando la estimación de máxima verosimilitud, la probabilidad $\hat{P}(\text{``fantástico''} \mid \text{positivo})$ se calcularía como:
+\[
+\hat{P}(\text{``fantástico''} \mid \text{positivo}) = \frac{\text{count}(\text{``fantástico''}, \text{positivo})}{\sum_{w \in V} \text{count}(w, \text{positivo})}
+\]
+
+En este caso, el recuento de la palabra ``fantástico'' en los documentos positivos es cero, lo que conduce a una probabilidad cero:
+\[
+\hat{P}(\text{``fantástico''} \mid \text{positivo}) = \frac{0}{\sum_{w \in V} \text{count}(w, \text{positivo})} = 0
+\]
+
+Sin embargo, las probabilidades cero no pueden eliminarse, independientemente de la evidencia adicional presente. Esto plantea un problema al calcular la estimación del máximo a posteriori (MAP), que se utiliza para la clasificación:
+\[
+c_{\text{MAP}} = \arg\max_c \left(\hat{P}(c) \prod_{i} \hat{P}(x_i \mid c)\right)
+\]
+
+Con una probabilidad cero para una palabra, toda la expresión se vuelve cero, independientemente de la otra evidencia.
+
+\subsection{Suavizado Laplaciano (Add-1) para Naïve Bayes}
+
+Manejo de probabilidades cero con el suavizado Laplaciano (Add-1):
 \begin{itemize}
-    \item Consider the scenario where we have not encountered the word ``fantastic'' in any training documents classified as positive (thumbs-up).
-    \item Using maximum likelihood estimation, the probability $\hat{P}(\text{``fantastic''} \mid \text{positive})$ would be calculated as:
-    \[
-    \hat{P}(\text{``fantastic''} \mid \text{positive}) = \frac{\text{count}(\text{``fantastic''}, \text{positive})}{\sum_{w \in V} \text{count}(w, \text{positive})}
-    \]
-    \item In this case, the count of the word ``fantastic'' in positive documents is zero, leading to a zero probability:
-    \[
-    \hat{P}(\text{``fantastic''} \mid \text{positive}) = \frac{0}{\sum_{w \in V} \text{count}(w, \text{positive})} = 0
-    \]
-    \item However, zero probabilities cannot be conditioned away, regardless of the other evidence present.
-    \item This poses a problem when calculating the maximum a posteriori (MAP) estimate, which is used for classification:
-    \[
-    c_{\text{MAP}} = \arg\max_c \left(\hat{P}(c) \prod_{i} \hat{P}(x_i \mid c)\right)
-    \]
-    \item With a zero probability for a word, the entire expression becomes zero, regardless of other evidence.
-\end{itemize}
-
-
-
-
-\subsection{Laplace (Add-1) Smoothing for Naïve Bayes}
-Handling zero probabilities with Laplace (Add-1) smoothing
-\begin{itemize}
-    \item To address the problem of zero probabilities, we can employ Laplace (Add-1) smoothing technique.
-    \item The smoothed estimate $\hat{P}(w_i \mid c)$ is calculated as:
+    \item Para abordar el problema de las probabilidades cero, podemos utilizar la técnica de suavizado Laplaciano (Add-1).
+    \item La estimación suavizada $\hat{P}(w_i \mid c)$ se calcula como:
     \[
     \hat{P}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)}
     \]
-    \item Here, an additional count of 1 is added to both the numerator and the denominator.
-    \item The denominator is adjusted by adding the size of the vocabulary $V$ to ensure proper normalization.
-    \item By doing so, we prevent zero probabilities and allow some probability mass to be distributed to unseen words.
-    \item This smoothing technique helps to mitigate the issue of unseen words and avoids the complete elimination of certain classes during classification.
+    \item Aquí, se agrega un recuento adicional de 1 tanto al numerador como al denominador.
+    \item El denominador se ajusta agregando el tamaño del vocabulario $V$ para garantizar una normalización adecuada.
+    \item Al hacerlo, evitamos las probabilidades cero y permitimos que cierta masa de probabilidad se distribuya a palabras no vistas.
+    \item Esta técnica de suavizado ayuda a mitigar el problema de las palabras no vistas y evita la eliminación completa de ciertas clases durante la clasificación.
 \end{itemize}
 
+\subsection{Naïve Bayes multinomial: aprendizaje}
 
-
-
-
-
-\subsection{Multinomial Naïve Bayes: Learning}
-Learning the Multinomial Naïve Bayes Model
+Aprendiendo el modelo Naïve Bayes multinomial:
 \begin{itemize}
-    \item In order to learn the parameters of the model, we need to calculate the terms $P(c_j)$ and $P(w_k \mid c_j)$.
-    \item For each class $c_j$ in the set of classes $C$, we perform the following steps:
+    \item Para aprender los parámetros del modelo, necesitamos calcular los términos $P(c_j)$ y $P(w_k \mid c_j)$.
+    \item Para cada clase $c_j$ en el conjunto de clases $C$, realizamos los siguientes pasos:
     \begin{itemize}
-        \item Retrieve all the documents $docs_j$ that belong to class $c_j$.
-        \item Calculate the term $P(w_k \mid c_j)$ for each word $w_k$ in the vocabulary $V$:
+        \item Recuperamos todos los documentos $docs_j$ que pertenecen a la clase $c_j$.
+        \item Calculamos el término $P(w_k \mid c_j)$ para cada palabra $w_k$ en el vocabulario $V$:
         \[
         P(w_k \mid c_j) = \frac{{n_k + \alpha}}{{n + \alpha \cdot \lvert \text{Vocabulary} \rvert}}
         \]
-        where $n_k$ represents the number of occurrences of word $w_k$ in the concatenated document $Text_j$.
-        \item Calculate the prior probability $P(c_j)$:
+        donde $n_k$ representa el número de ocurrencias de la palabra $w_k$ en el documento concatenado $Text_j$.
+        \item Calculamos la probabilidad a priori $P(c_j)$:
         \[
         P(c_j) = \frac{{\lvert docs_j \rvert}}{{\lvert \text{total number of documents} \rvert}}
         \]
     \end{itemize}
-    \item To calculate $P(w_k \mid c_j)$, we need to extract the vocabulary $V$ from the training corpus.
+    \item Para calcular $P(w_k \mid c_j)$, necesitamos extraer el vocabulario $V$ del corpus de entrenamiento.
 \end{itemize}
 
+\subsection{Palabras desconocidas}
 
-\subsection{Unknown Words}
-Dealing with unknown words in the test data:
+Tratamiento de palabras desconocidas en los datos de prueba:
 \begin{itemize}
-    \item When we encounter unknown words in the test data that do not appear in the training data or vocabulary, we ignore them.
-    \item We remove these unknown words from the test document as if they were not present at all.
-    \item We do not assign any probability to these unknown words in the classification process.
+    \item Cuando encontramos palabras desconocidas en los datos de prueba que no aparecen en los datos de entrenamiento o en el vocabulario, las ignoramos.
+    \item Eliminamos estas palabras desconocidas del documento de prueba como si no estuvieran presentes en absoluto.
+    \item No asignamos ninguna probabilidad a estas palabras desconocidas en el proceso de clasificación.
 \end{itemize}
 
-Why don't we build an unknown word model?
-\begin{itemize}
-    \item Building a separate model for unknown words is not generally helpful.
-    \item Knowing which class has more unknown words does not provide useful information for classification.
-\end{itemize}
-
-\subsection{Stop Words}
-
-Stop words are frequently used words like "the" and "a" that are often considered to have little or no significance in text classification. Some systems choose to ignore stop words in the classification process. Here is how it is typically done:
-
-\begin{itemize}
-    \item Sort the vocabulary by word frequency in the training set.
-    \item Create a stopword list by selecting the top 10 or 50 most frequent words.
-    \item Remove all stop words from both the training and test sets, treating them as if they were never there.
-\end{itemize}
-
-However, removing stop words doesn't usually improve the performance of Naive Bayes classifiers. Therefore, in practice, most Naive Bayes algorithms use all words and do not utilize stopword lists.
+Esto es una visión general del modelo Naive Bayes multinomial y su aplicación a la clasificación de texto. Cabe destacar que existen variantes y extensiones más sofisticadas de Naive Bayes que se adaptan a diferentes requisitos y características de los datos.
 
 
-\section{Worked Sentiment Example}
+\section{Ejemplo}
 
-\textbf{Training data:} 
+\textbf{Datos de Entrenamiento:} 
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
 \hline
-\textbf{Category} & \textbf{Text} \\
+\textbf{Categoría} & \textbf{Texto} \\
 \hline
 Negative & Just plain boring, entirely predictable and lacks energy. \\
 \hline
@@ -439,7 +417,7 @@ Positive & The most fun film of the summer. \\
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
 \hline
-\textbf{Category} & \textbf{Text} \\
+\textbf{Categoría} & \textbf{Texto} \\
 \hline
 ? & Predictable with no fun. \\
 \hline
@@ -451,15 +429,20 @@ Positive & The most fun film of the summer. \\
 \end{figure}
 
 
-\section{Naive Bayes as a Language Model}
+%Translate this Latex book chapter to Spanish. Output in latex format. Turn bullet points (items) into full paragraphs when appropriate:
 
-\begin{itemize}
- \item When using individual word features and considering all words in the text, naive Bayes has an important similarity to language modeling. 
- \item Specifically, a naive Bayes model can be viewed as a set of class-specific unigram language models, in which the model for each class instantiates a unigram language model.
- \item The likelihood features from the naive Bayes model assign a probability to each word $P(word|c)$, and the model also assigns a probability to each sentence:
-\[P(s|c) = \prod_{i\in positions} P(w_i|c)\]
-\end{itemize}
-Consider a naive Bayes model with the classes positive (+) and negative (-) and the following model parameters:
+\section{Naive Bayes como modelo de lenguaje}
+
+Cuando utilizamos características de palabras individuales y consideramos todas las palabras en el texto, el naive Bayes tiene una similitud importante con la modelización del lenguaje.
+
+Específicamente, un modelo naive Bayes se puede ver como un conjunto de modelos de lenguaje de unigramas específicos de cada clase, en el que el modelo para cada clase instancia un modelo de lenguaje de unigrama.
+
+Las características de verosimilitud del modelo naive Bayes asignan una probabilidad a cada palabra $P(\text{word}|c)$, y el modelo también asigna una probabilidad a cada oración:
+
+\[P(s|c) = \prod_{i\in \text{positions}} P(w_i|c)\]
+
+Consideremos un modelo naive Bayes con las clases positiva (+) y negativa (-) y los siguientes parámetros del modelo:
+
 \begin{center}
 \begin{tabular}{ccc}
 \textbf{w} & $P(w|+)$ & $P(w|-)$ \\
@@ -472,18 +455,16 @@ film & 0.1 & 0.1 \\
 \end{tabular}
 \end{center}
 
+Cada una de las dos columnas anteriores instancian un modelo de lenguaje que puede asignar una probabilidad a la oración "I love this fun film":
 
-
-\begin{itemize}
- \item  Each of the two columns above instantiates a language model that can assign a probability to the sentence "I love this fun film":
 \[P("\text{I love this fun film}"|+) = 0.1 \times 0.1 \times 0.01 \times 0.05 \times 0.1 = 0.0000005\]
 \[P("\text{I love this fun film}"|-) = 0.2 \times 0.001 \times 0.01 \times 0.005 \times 0.1 = 0.0000000010\]
 
-\item As it happens, the positive model assigns a higher probability to the sentence:
-\[P(s|pos) > P(s|neg)\]
+Como sucede, el modelo positivo asigna una probabilidad más alta a la oración:
+\[P(s|\text{pos}) > P(s|\text{neg})\]
 
-\item Note that this is just the likelihood part of the naive Bayes model; once we multiply in the prior, a full naive Bayes model might well make a different classification decision.
-\end{itemize}
+Cabe destacar que esto es solo la parte de verosimilitud del modelo naive Bayes; una vez que multiplicamos por la probabilidad a priori, un modelo naive Bayes completo podría tomar una decisión de clasificación diferente.
+
 
 
 
@@ -668,9 +649,6 @@ How to combine binary metrics (Precision, Recall, $F_1$) from more than 2 classe
  \end{itemize}
 \end{itemize}
 
-
-
-\subsection{Macroaveraging and Microaveraging}
 
 
 \begin{center}

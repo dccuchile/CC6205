@@ -204,7 +204,7 @@ P(c | d) = \frac{P(d | c)P(c)}{P(d)}
 
 \section{Clasificador Bayes Ingenuo}
 \begin{itemize}
-    \item MAP significa "máximo a posteriori," que representa la clase más probable:
+    \item MAP significa ``máximo a posteriori'', que representa la clase más probable:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(c | d)
     \]
@@ -428,9 +428,6 @@ Positive & The most fun film of the summer. \\
 \includegraphics[scale = 0.23]{pics/naive_example.png}
 \end{figure}
 
-
-%Translate this Latex book chapter to Spanish. Output in latex format. Turn bullet points (items) into full paragraphs when appropriate:
-
 \section{Naive Bayes como modelo de lenguaje}
 
 Cuando utilizamos características de palabras individuales y consideramos todas las palabras en el texto, el naive Bayes tiene una similitud importante con la modelización del lenguaje.
@@ -467,157 +464,145 @@ Cabe destacar que esto es solo la parte de verosimilitud del modelo naive Bayes;
 
 
 
-
-
-\section{Evaluation}
+\section{Evaluación}
 
 \begin{itemize}
- \item Let's consider just binary text classification tasks. 
- \item Imagine you're the CEO of Delicious Pie Company. 
-\item You want to know what people are saying about your pies. 
-\item So you build a "Delicious Pie" tweet detector with the following classes:
+ \item Consideremos solo tareas de clasificación de texto binario.
+ \item Imagina que eres el CEO de Delicious Pie Company.
+ \item Quieres saber lo que la gente está diciendo sobre tus pasteles.
+ \item Por lo tanto, construyes un detector de tweets de "Delicious Pie" con las siguientes clases:
 \begin{itemize}
-\item Positive class: tweets about Delicious Pie Co
-\item Negative class: all other tweets
+\item Clase positiva: tweets sobre Delicious Pie Co.
+\item Clase negativa: todos los demás tweets.
 \end{itemize}
 \end{itemize}
 
 
 
-\subsection{The 2-by-2 Confusion Matrix}
+\subsection{La Matriz de Confusión 2x2}
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
-\textbf{} & \textbf{System Positive} & \textbf{System Negative} \\
+\textbf{} & \textbf{Sistema Positivo} & \textbf{Sistema Negativo} \\
 \hline
-\textbf{Gold Positive} & True Positive (TP) & False Negative (FN) \\
+\textbf{Oro Positivo} & Verdadero Positivo (VP) & Falso Negativo (FN) \\
 \hline
-\textbf{Gold Negative} & False Positive (FP) & True Negative (TN) \\
+\textbf{Oro Negativo} & Falso Positivo (FP) & Verdadero Negativo (VN) \\
 \hline
 \end{tabular}
 \end{table}
 
-\textbf{Recall} (also known as \textbf{Sensitivity} or \textbf{True Positive Rate}):
-\[ \text{Recall} = \frac{TP}{TP + FN} \]
+\textbf{Recall} (también conocido como \textbf{Sensibilidad} o \textbf{Tasa de Verdaderos Positivos}):
+\[ \text{Recall} = \frac{VP}{VP + FN} \]
 
-\textbf{Precision}:
-\[ \text{Precision} = \frac{TP}{TP + FP} \]
+\textbf{Precisión}:
+\[ \text{Precisión} = \frac{VP}{VP + FP} \]
 
-\textbf{Accuracy}:
-\[ \text{Accuracy} = \frac{TP + TN}{TP + FP + TN + FN} \]
+\textbf{Exactitud}:
+\[ \text{Exactitud} = \frac{VP + VN}{VP + FP + VN + FN} \]
 
 
-\subsection{Evaluation: Accuracy}
-Why don't we use accuracy as our metric?
+\subsection{Evaluación: Exactitud}
+¿Por qué no usamos la exactitud como nuestra métrica?
 
-Imagine we saw 1 million tweets:
+Imagina que vimos 1 millón de tweets:
 \begin{itemize}
-\item 100 of them talked about Delicious Pie Co.
-\item 999,900 talked about something else.
+\item 100 de ellos hablaban sobre Delicious Pie Co.
+\item 999,900 hablaban de otra cosa.
 \end{itemize}
 
-We could build a dumb classifier that just labels every tweet "not about pie":
+Podríamos construir un clasificador tonto que simplemente etiquete todos los tweets como "no sobre pasteles":
 \begin{itemize}
-\item It would get 99.99\% accuracy!!! Wow!!!!
-\item But it would be useless! It doesn't return the comments we are looking for!
+\item ¡¡¡Obtendría una exactitud del 99.99\%!!! ¡¡¡Wow!!!
+\item ¡Pero sería inútil! ¡No devuelve los comentarios que estamos buscando!
 \end{itemize}
 
-That's why we use precision and recall instead.
+Por eso usamos precisión y recall en su lugar.
 
-\subsection{Evaluation: Precision and Recall}
-\textbf{Precision} measures the percentage of items the system detected (i.e., items the system labeled as positive) that are in fact positive (according to the human gold labels).
+\subsection{Evaluación: Precisión y Recall}
+\textbf{Precisión} mide el porcentaje de elementos que el sistema detectó (es decir, los elementos que el sistema etiquetó como positivos) que son realmente positivos (según las etiquetas de oro humanas).
 
 \[
-\text{Precision} = \frac{\text{True Positives}}{\text{True Positives + False Positives}}
+\text{Precisión} = \frac{\text{Verdaderos Positivos}}{\text{Verdaderos Positivos + Falsos Positivos}}
 \]
 
-
-\textbf{Recall} measures the percentage of items that were correctly identified by the system out of all the items that should have been identified.
+\textbf{Recall} mide el porcentaje de elementos que el sistema identificó correctamente de todos los elementos que deberían haber sido identificados.
 
 \[
-\text{Recall} = \frac{\text{True Positives}}{\text{True Positives + False Negatives}}
+\text{Recall} = \frac{\text{Verdaderos Positivos}}{\text{Verdaderos Positivos + Falsos Negativos}}
 \]
 
+\subsection{¿Por qué Precisión y Recall?}
+Considera nuestro clasificador tonto de pasteles que simplemente etiqu
 
-
-\subsection{Why Precision and Recall?}
-Consider our dumb pie-classifier that just labels nothing as "about pie."
+eta nada como "sobre pasteles".
 
 \begin{itemize}
-  \item Accuracy = 99.99\% (it correctly labels most tweets as not about pie)
-  \item Recall = 0 (it doesn't detect any of the 100 pie-related tweets)
+  \item Exactitud = 99.99\% (etiqueta correctamente la mayoría de los tweets como no relacionados con pasteles)
+  \item Recall = 0 (no detecta ninguno de los 100 tweets relacionados con pasteles)
 \end{itemize}
 
-Precision and recall, unlike accuracy, emphasize true positives:
+La precisión y el recall, a diferencia de la exactitud, enfatizan los verdaderos positivos:
 \begin{itemize}
-  \item They focus on finding the things that we are supposed to be looking for.
+  \item Se centran en encontrar las cosas que se supone que debemos buscar.
 \end{itemize}
 
-
-
-
-\subsection{A Combined Measure: F-measure}
-The F-measure is a single number that combines precision (P) and recall (R), defined as:
+\subsection{Una Medida Combinada: Medida F}
+La medida F es un número único que combina la precisión (P) y el recall (R), definida como:
 \[
 F_\beta = \frac{(\beta^2+1)PR}{\beta^2P + R}
 \]
 
-The F-measure, defined with the parameter $\beta$, differentially weights the importance of recall and precision. 
+La medida F, definida con el parámetro $\beta$, pondera diferencialmente la importancia del recall y la precisión.
 \begin{itemize}
-  \item $\beta > 1$ favors recall
-  \item $\beta < 1$ favors precision
+  \item $\beta > 1$ favorece al recall
+  \item $\beta < 1$ favorece a la precisión
 \end{itemize}
 
-When $\beta = 1$, precision and recall are equal, and we have the balanced $F_1$ measure:
+Cuando $\beta = 1$, la precisión y el recall son iguales, y tenemos la medida $F_1$ equilibrada:
 \[
 F_1 = \frac{2PR}{P + R}
 \]
 
-
-\subsection{Development Test Sets ("Devsets")}
-
+\subsection{Conjuntos de Prueba de Desarrollo ("Devsets")}
 
 \begin{itemize}
- \item To avoid overfitting and provide a more conservative estimate of performance, we commonly use a three-set approach: training set, devset, and testset.
+ \item Para evitar el sobreajuste y proporcionar una estimación más conservadora del rendimiento, comúnmente utilizamos un enfoque de tres conjuntos: conjunto de entrenamiento, conjunto de desarrollo y conjunto de prueba.
 \begin{figure}[h]
 \includegraphics[scale = 0.23]{pics/devsets.png}
 \end{figure}
 
 \begin{itemize}
-\item \textbf{Training set}: Used to train the model.
-\item \textbf{Devset}: Used to tune the model and select the best hyperparameters.
-\item \textbf{Testset}: Used to report the final performance of the model.
+\item \textbf{Conjunto de entrenamiento}: Se utiliza para entrenar el modelo.
+\item \textbf{Conjunto de desarrollo}: Se utiliza para ajustar el modelo y seleccionar los mejores hiperparámetros.
+\item \textbf{Conjunto de prueba}: Se utiliza para informar el rendimiento final del modelo.
+\end{itemize}
+
+\item Este enfoque garantiza que el modelo no esté ajustado específicamente al conjunto de prueba, evitando el sobreajuste.
+\item Sin embargo, crea una paradoja: queremos la mayor cantidad de datos posible para el entrenamiento, pero también para el conjunto de desarrollo.
+\item ¿Cómo dividimos los datos?
+
 \end{itemize}
 
 
-\item This approach ensures that the model is not tuned specifically to the test set, avoiding overfitting.
-\item However, it creates a paradox: we want as much data as possible for training, but also for the devset.
-\item How do we split the data?
-
-\end{itemize}
 
 
 
-
-
-
-\subsection{Cross-validation: Multiple Splits}
+\subsection{Validación Cruzada: Múltiples Divisiones}
 
 \begin{itemize}
-\item Cross-validation allows us to use all our data for training and testing without having a fixed training set, devset, and test set.
-\item We choose a number $k$ and partition our data into $k$ disjoint subsets called folds.
-\item For each iteration, one fold is selected as the test set while the remaining $k-1$ folds are used to train the classifier.
-\item We compute the error rate on the test set and repeat this process $k$ times.
-\item Finally, we average the error rates from these $k$ runs to obtain an average error rate.
-\item 10-fold cross-validation, for example, involves training 10 models on 90\% of the data and testing each model separately.
-\item The resulting error rates are averaged to obtain the final performance estimate.
-\item However, cross-validation requires the entire corpus to be blind, preventing examination of the data for feature suggestion or understanding system behavior.
-\item To address this, a fixed training set and test set are created, and 10-fold cross-validation is performed within the training set.
-\item The error rate is computed conventionally in the test set.
+\item La validación cruzada nos permite utilizar todos nuestros datos para el entrenamiento y la prueba sin tener un conjunto de entrenamiento, conjunto de desarrollo y conjunto de prueba fijos.
+\item Elegimos un número $k$ y dividimos nuestros datos en $k$ subconjuntos disjuntos llamados pliegues.
+\item En cada iteración, uno de los pliegues se selecciona como conjunto de prueba mientras que los $k-1$ pliegues restantes se utilizan para entrenar el clasificador.
+\item Calculamos la tasa de error en el conjunto de prueba y repetimos este proceso $k$ veces.
+\item Finalmente, promediamos las tasas de error de estas $k$ ejecuciones para obtener una tasa de error promedio.
+\item Por ejemplo, la validación cruzada de 10 pliegues implica entrenar 10 modelos con el 90\% de los datos y probar cada modelo por separado.
+\item Las tasas de error resultantes se promedian para obtener la estimación final del rendimiento.
+\item Sin embargo, la validación cruzada requiere que todo el corpus sea ciego, lo que impide examinar los datos para sugerir características o comprender el comportamiento del sistema.
+\item Para abordar esto, se crea un conjunto de entrenamiento y un conjunto de prueba fijos, y se realiza la validación cruzada de 10 pliegues dentro del conjunto de entrenamiento.
+\item La tasa de error se calcula convencionalmente en el conjunto de prueba.
 \end{itemize}
-
-
 
 
 \begin{center}
@@ -625,31 +610,26 @@ F_1 = \frac{2PR}{P + R}
 \end{center}
 
 
-
-
-\subsection{Confusion Matrix for 3-class classification}
+\subsection{Matriz de Confusión para clasificación de 3 clases}
 
 
 \begin{center}
 \includegraphics[scale=0.23]{pics/confmatrix.png}
 \end{center}
 
-
-How to combine binary metrics (Precision, Recall, $F_1$) from more than 2 classes to get one metric:
+Cómo combinar métricas binarias (Precisión, Recall, $F_1$) de más de 2 clases para obtener una métrica única:
 \begin{itemize}
- \item Macroaveraging:
+ \item Macro-promedio:
  \begin{itemize}
-    \item Compute the performance metrics (Precision, Recall, $F_1$) for each class individually.
-    \item Average the metrics over all classes.
+    \item Calcular las métricas de rendimiento (Precisión, Recall, $F_1$) para cada clase individualmente.
+    \item Promediar las métricas en todas las clases.
  \end{itemize}
- \item Microaveraging:
+ \item Micro-promedio:
  \begin{itemize}
-    \item Collect the decisions for all classes into one confusion matrix.
-    \item Compute Precision and Recall from the confusion matrix.
+    \item Recopilar las decisiones para todas las clases en una matriz de confusión.
+    \item Calcular la Precisión y el Recall a partir de la matriz de confusión.
  \end{itemize}
 \end{itemize}
-
-
 
 \begin{center}
 \includegraphics[scale=0.23]{pics/confmatrixmulti.png}

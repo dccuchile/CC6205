@@ -1,249 +1,188 @@
-\begin{itemize}
-\item A major component in neural networks for language is the use of an embedding
-layer.
-\item A mapping of discrete symbols to continuous vectors.
-\item  When embedding words, they transform from being isolated distinct symbols into mathematical
-objects that can be operated on. 
-\item Distance between vectors can be equated to distance between words. 
-\item This makes easier to generalize the behavior from one word to another.
-\end{itemize}
+Un componente importante en las redes neuronales para el lenguaje es el uso de una capa de embedding.
+Se trata de una asignación de símbolos discretos a vectores continuos.
+Cuando se realiza el embedding de palabras, estas pasan de ser símbolos distintos y aislados a objetos matemáticos en los que se puede operar.
+La distancia entre vectores puede equipararse a la distancia entre palabras.
+Esto facilita generalizar el comportamiento de una palabra a otra.
 
+\section{Hipótesis Distribucional y Matrices Palabra Contexto}
+La \textbf{hipótesis distribucional} \cite{harris1954} establece que las palabras que ocurren en los mismos \textbf{contextos} tienden a tener significados similares.
+O, en otras palabras, "una palabra se caracteriza por las compañías que mantiene".
+Las \textbf{representaciones distribucionales} representan las palabras mediante \textbf{vectores de alta dimensionalidad} basados en los contextos en los que ocurren.
 
+Los vectores distribucionales se construyen a partir de matrices de palabras-contexto $M$.
+Cada celda $(i,j)$ es un valor de asociación basado en la co-ocurrencia entre una \textbf{palabra objetivo} $w_i$ y un \textbf{contexto} $c_j$, calculado a partir de un corpus de documentos.
+Los contextos se definen comúnmente como ventanas de palabras que rodean a $w_i$.
+La longitud de la ventana $k$ es un parámetro que va desde 1 hasta 8 palabras en ambos lados de $w_i$.
+Si el vocabulario de las palabras objetivo y las palabras de contexto es el mismo, $M$ tiene una dimensionalidad de $|\mathcal{V}| \times |\mathcal{V}|$.
+Mientras que las ventanas más cortas capturan información sintáctica (por ejemplo, POS), las ventanas más largas capturan más probabilidades de similitud temática \cite{goldberg2016primer, JurafskyBook}.
 
-\section{Distributional Vectors}
-\begin{itemize}
-\item \textbf{Distributional Hypothesis} \cite{harris1954}: words occurring in the same \textbf{contexts} tend to have similar meanings.
-\item Or equivalently: ``a word is characterized by the \textbf{company} it keeps".
-\item \textbf{Distributional representations}: words are represented by \textbf{high-dimensional vectors} based on the context's where they occur. 
-
-\end{itemize}
-
-
-
-\subsection{Word-context Matrices}
-\begin{itemize}
-\item Distributional vectors are built from word-context matrices $M$. 
-\item Each cell $(i,j)$ is a co-occurrence based association value between a \textbf{target word} $w_i$ and a \textbf{context} $c_j$ calculated  from a corpus of documents.
-\item Contexts are commonly defined as windows of words surrounding $w_i$.
-\item The window length $k$ is a parameter ( between 1 and 8 words on both the left and the right sides of $w_i$).
-\item If the Vocabulary of the target words and context words is the same, $M$ has dimensionality $|\mathcal{V}| \times |\mathcal{V}|$.
-\item Whereas shorter windows are likely to capture \textbf{syntactic information} (e.g, POS), longer windows are more likely to capture topical similarity \cite{goldberg2016primer, JurafskyBook}.
-\end{itemize}
-
-
-
-Distributional Vectors with context windows of size 1
-
+Ejemplo: Vectores de Distribución con ventanas contextuales de tamaño 1
 
 \begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.3]{pics/distributionalSocher.png}
+\centering
+\includegraphics[scale=0.3]{pics/distributionalSocher.png}
+\caption{Ejemplo tomado de: \url{http://cs224d.stanford.edu/lectures/CS224d-Lecture2.pdf}}
 \end{figure}
 
 
-\footnotetext{Example taken from:    \url{http://cs224d.stanford.edu/lectures/CS224d-Lecture2.pdf}}
-%\footnote{Source: \url{http://cs224d.stanford.edu/lectures/CS224d-Lecture2.pdf}}
 
-
-
-The associations between words and contexts can be calculated using different approaches:
+Las asociaciones entre palabras y contextos se pueden calcular utilizando diferentes enfoques:
 \begin{enumerate}
- \item Co-occurrence counts.
-\item Positive point-wise mutual information (PPMI).
-\item The significance values of a paired t-test.  
+    \item Recuento de co-ocurrencias.
+    \item Información mutua puntual positiva (PPMI, por sus siglas en inglés).
+    \item Valores de significancia de una prueba t emparejada.
 \end{enumerate}
+Según \cite{JurafskyBook}, el más común de estos enfoques es PPMI.
+Los métodos de distribución también se conocen como métodos basados en conteo.
 
-The most common of those according to \cite{JurafskyBook} is PPMI.
-
-Distributional methods are also referred to as count-based methods.
-
-
-
-\subsection{PPMI}
-\begin{itemize}
-\item  PMI calculates the log of the probability of word-context pairs occurring together over the probability of them being independent. 
+\section{PPMI}
+PPMI calcula el logaritmo de la probabilidad de que los pares palabra-contexto ocurran juntos en comparación con la probabilidad de que sean independientes.
 
 \begin{equation}
  \operatorname{PMI}(w, c)= \log_2 \left( \frac{P(w,c)}{P(w)P(c)} \right) = \log_{2} \left ( \frac{\operatorname{count}(w,c)\times |D|}{\operatorname{count}(w)\times \operatorname{count}(c)} \right ) 
 \end{equation}
 
 
-
-
-\item Negative PMI values suggest that the pair co-occurs less often than chance. 
-\item These estimates are unreliable unless the counts are calculated from very large corpora \cite{JurafskyBook}.
-\item  PPMI corrects this problem by replacing negative values by zero:
+Los valores de PMI negativos sugieren que la pareja ocurre menos a menudo de lo esperado por azar.
+Estas estimaciones no son confiables a menos que los conteos se calculen a partir de corpus muy grandes \cite{JurafskyBook}.
+PPMI corrige este problema reemplazando los valores negativos por cero.
 
 \begin{equation}
  \operatorname{PPMI}(w, c)= \operatorname{max}(0,\operatorname{PMI}(w, c))
 \end{equation}
 
-\end{itemize}
 
 
+Los vectores distribuidos o word embeddings son vectores continuos de palabras de baja dimensionalidad que se entrenan a partir de corpus de documentos utilizando redes neuronales.
+El tamaño de los vectores de distribución basados en recuento aumenta con el vocabulario, es decir, pueden tener una dimensionalidad muy alta.
+Almacenar explícitamente la matriz de co-ocurrencia puede requerir mucha memoria.
+Algunos modelos de clasificación no escalan bien con datos de alta dimensionalidad.
+La comunidad de redes neuronales prefiere utilizar representaciones \textbf{distribuidas}\footnote{Idea: El significado de la palabra está "distribuido" en una combinación de dimensiones.} o \textbf{word embeddings}.
+Los word embeddings son vectores densos de palabras de baja dimensionalidad que se entrenan a partir de corpus de documentos utilizando redes neuronales.
+Las dimensiones no son directamente interpretables, es decir, representan características latentes de la palabra, "capturando esperanzadamente propiedades sintácticas y semánticas útiles" \cite{turian2010word}.
+Se han convertido en un componente crucial de las arquitecturas de redes neuronales para el procesamiento del lenguaje natural.
 
 
-\subsection{Distributed Vectors or Word embeddings}
-\begin{itemize}
-
-\item Count-based distributional vectors increase in size with vocabulary i.e., can have a very high dimensionality.
-
-\item Explicitly storing the co-occurrence matrix can be memory-intensive. 
-
-\item Some classification models don't scale well to high-dimensional data.
-
-\item  The neural network community prefers using \textbf{distributed representations}\footnote{Idea: The meaning of the word is ``distributed'' over a combination of dimensions.} or \textbf{word embeddings}.
-
-\item  Word \textbf{embeddings} are low-dimensional continuous dense word vectors trained from document corpora using \textbf{neural networks}.
-
-\item The dimensions are not directly interpretable i.e., represent latent features of  the  word,  ``hopefully capturing useful syntactic and semantic properties''~\cite{turian2010word}.
-
-\item They have become a crucial component of neural network architectures for NLP.
-
-\item There are two main approaches for obtaining word embeddings:
+Existen dos enfoques principales para obtener word embeddings:
 
 \begin{enumerate}
-\item Embedding layers: using an embedding layer in a task-specific neural network architecture trained from labeled examples (e.g., sentiment analysis).
-
-\item Pre-trained word embeddings: creating an auxiliary predictive task from unlabeled copora (e.g., predict the following word) in which word embeddings will naturally arise from the neural-network architecture.
+ \item Capas de embedding: utilizando una capa de embedding en una arquitectura de red neuronal específica para una tarea, entrenada a partir de ejemplos etiquetados (por ejemplo, análisis de sentimientos).
+\item Word embeddings pre-entrenados: creando una tarea predictiva auxiliar a partir de corpus no etiquetados (por ejemplo, predecir la siguiente palabra) en la que los word embeddings surgirán naturalmente a partir de la arquitectura de la red neuronal.
 \end{enumerate}
 
 
-\item These approaches can also be combined: one can initialize an embedding layer of a task-specific neural network with pre-trained word embeddings obtained with the second approach.
 
-
-\item Most popular models based on the second approach are skip-gram \cite{Mikolov2013}, continuous bag-of-words \cite{Mikolov2013}, and Glove \cite{penningtonSM14}.
-
-\item Word embeddings have shown to be more powerful than distributional approaches in many NLP tasks~\cite{baroni2014don}.
-
-\item In \cite{amir2015SemEval}, they were used as \textbf{features} in a regression model for determining the association between Twitter words and \textbf{positive sentiment}. 
-
-\end{itemize}
-
-
+Estos enfoques también se pueden combinar: se puede inicializar una capa de embedding de una red neuronal específica para una tarea con word embeddings pre-entrenados obtenidos mediante el segundo enfoque.
+Los modelos más populares basados en el segundo enfoque son skip-gram \cite{Mikolov2013}, continuous bag-of-words \cite{Mikolov2013} y GloVe \cite{penningtonSM14}.
+Los word embeddings han demostrado ser más poderosos que los enfoques distribucionales en muchas tareas de procesamiento del lenguaje natural \cite{baroni2014don}.
+En \cite{amir2015SemEval}, se utilizaron como características en un modelo de regresión para determinar la asociación entre palabras de Twitter y sentimientos positivos.
 
 
 \section{Word2Vec}
-\begin{itemize}
-\item Word2Vec is a software package that implements two neural network architectures for training word embeddings:  Continuous Bag of Words (CBOW) and Skip-gram.
-\item It implements two  optimization models: Negative Sampling and Hierarchical Softmax.
-\item These models are shallow neural networks that are trained to predict the contexts of words.
+Word2Vec es un paquete de software que implementa dos arquitecturas de redes neuronales para entrenar word embeddings: Continuous Bag of Words (CBOW) y Skip-gram.
+Implementa dos modelos de optimización: Muestreo Negativo (Negative Sampling) y Softmax Jerárquico (Hierarchical Softmax).
+Estos modelos son redes neuronales poco profundas que se entrenan para predecir los contextos de las palabras.
+Se puede encontrar un tutorial muy completo sobre los algoritmos detrás de Word2Vec en \url{https://arxiv.org/pdf/1411.2738.pdf}.
 
-\item A very comprehensive tutorial about the algorithms behind word2vec: \url{https://arxiv.org/pdf/1411.2738.pdf}.
-
-\end{itemize}
-
- Good Word2Vec tutorial
-http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/
+El modelo Skip-gram entrena una red neuronal con una capa oculta para predecir las palabras que rodean a una palabra central, dentro de una ventana de tamaño $k$ que se desplaza a lo largo del corpus de entrada.
+La palabra central y las $k$ palabras circundantes corresponden a las capas de entrada y salida de la red.
+Inicialmente, las palabras se representan mediante vectores one-hot: vectores del tamaño del vocabulario ($|V|$) con valores cero en todas las entradas excepto en el índice correspondiente a la palabra, que recibe un valor de 1.
 
 
-\subsection{Skip-gram Model}
+La capa de salida combina los $k$ vectores one-hot de las palabras circundantes.
+La capa oculta tiene una dimensionalidad $d$, que determina el tamaño de los embeddings (normalmente $d \ll |V|$).
 
-\begin{itemize}
-\item A neural network with one ``projection'' or ``hidden'' layer is trained for predicting the words surrounding a center word, within a window  of size $k$ that is shifted along the input corpus. 
-\item The center and surrounding $k$ words correspond to the input and output layers of the network.
-\item Words are initially represented by 1-hot vectors: vectors of the size of the vocabulary ($|V|$) with zero values in all entries except for the corresponding word index that receives a value of 1. 
-\item The output layer combines the $k$ 1-hot vectors of the surrounding words. 
-\item The hidden layer has a dimensionality $d$, which determines the size of the embeddings (normally $d \ll |V|$).
-\end{itemize}
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/skip-gram.png}
-        \end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{pics/skip-gram.png}
+\caption{Imagen tomada del artículo original}
+\end{figure}
 
-
-
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/skip_gram_net_arch.png}
-        \end{figure}
-\footnotetext{Picture taken from:    \url{http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/}}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{pics/skip_gram_net_arch.png}
+\caption{Imagen tomada de: \url{http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/}}
+\end{figure}
 
 
 
+El modelo Skip-gram utiliza un softmax jerárquico donde el vocabulario se representa como un árbol binario de Huffman.
+Esto se basa en observaciones anteriores de que la frecuencia de las palabras funciona bien para obtener clases en modelos de lenguaje basados en redes neuronales.
+Los árboles de Huffman asignan códigos binarios cortos a palabras frecuentes, lo que reduce aún más el número de unidades de salida que deben evaluarse.
 
-We use hierarchical softmax where the vocabulary is represented as a Huffman binary tree. This follows previous observations that the frequency of words works well for obtaining classes in neural net language models [16]. Huffman trees assign short binary codes to frequent words, and this further reduces the number of output units that need to be evaluated
+Si dos palabras diferentes tienen contextos muy similares (es decir, qué palabras es probable que aparezcan a su alrededor), entonces nuestro modelo necesita generar resultados muy similares para estas dos palabras.
+Y una forma de lograr que la red genere predicciones de contexto similares para estas dos palabras es si los vectores de palabras son similares.
+Por lo tanto, si dos palabras tienen contextos similares, ¡nuestra red estará motivada a aprender vectores de palabras similares para estas dos palabras! ¡Ta-da!
 
+¿Y qué significa que dos palabras tengan contextos similares? Creo que se podría esperar que sinónimos como "inteligente" y "astuto" tengan contextos muy similares.
+O que palabras relacionadas, como "motor" y "transmisión", probablemente también tengan contextos similares.
 
-If two different words have very similar “contexts” (that is, what words are likely to appear around them), then our model needs to output very similar results for these two words. And one way for the network to output similar context predictions for these two words is if the word vectors are similar. So, if two words have similar contexts, then our network is motivated to learn similar word vectors for these two words! Ta da!
+\subsection{Parametrización del modelo Skip-gram}
 
-And what does it mean for two words to have similar contexts? I think you could expect that synonyms like ``intelligent'' and ``smart'' would have very similar contexts. Or that words that are related, like ``engine'' and ``transmission'', would probably have similar contexts as well.
+Se nos proporciona un corpus de entrada formado por una secuencia de palabras $w_1, w_2, w_3, . . . , w_T$ y un tamaño de ventana $k$.
 
-This can also handle stemming for you – the network will likely learn similar word vectors for the words ``ant'' and ``ants'' because these should have similar contexts.
+Denotamos las palabras objetivo o centrales con la letra $w$ y las palabras de contexto circundantes con la letra $c$.
 
-Source: https://arxiv.org/pdf/1402.3722.pdf
+La ventana de contexto $c_{1:k}$ de la palabra $w_t$ corresponde a las palabras $w_{t-k/2},\dots, w_{t-1}, w_{t+1}, \dots, w_{t+k/2}$ (asumiendo que $k$ es un número par).
 
-\subsection{Parametrization of the Skip-gram model}
-
-\begin{itemize}
-\item  We are given an input corpus formed by a sequence of  words $w_1, w_2, w_3, . . . , w_T$ and a window size $k$.
-
-\item We denote target or (center) words by letter $w$ and surrounding context words by letter $c$.
-
-\item The context window $c_{1:k}$ of word $w_t$ corresponds to words $w_{t-k/2},\dots, w_{t-1}, w_{t+1}, \dots, w_{t+k/2}$ (assuming that $k$ is an even number). 
-
-\item The objective of the Skip-gram model is to maximize the average log probability of the context words given the target words:
+El objetivo del modelo Skip-gram es maximizar la log-probabilidad promedio de las palabras de contexto dadas las palabras objetivo:
 
 \begin{displaymath}
- \frac{1}{T} \sum_{t=1}^T \sum_{c \in c_{1:k}}  \log P(c|w_t)
+\frac{1}{T} \sum_{t=1}^T \sum_{c \in c_{1:k}} \log P(c|w_t)
 \end{displaymath}
 
-
-\item The conditional probability of a context word $c$ given a center word $w$ is modeled with a softmax ($C$ is the set of all context words, which is usually the same as the vocabulary):
-
+La probabilidad condicional de una palabra de contexto $c$ dada una palabra central $w$ se modela con una softmax ($C$ es el conjunto de todas las palabras de contexto, que generalmente es igual al vocabulario):
 
 \begin{displaymath}
-P(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{ \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}}
+P(c|w) = \frac{e^{\vec{c}\cdot \vec{w}}}{\sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}}
 \end{displaymath}
 
-\item Model's parameters $\theta$: $\vec{c}$ and $\vec{w}$ (vector representations of contexts and target words).
+Los parámetros del modelo $\theta$ son $\vec{c}$ y $\vec{w}$ (representaciones vectoriales de los contextos y las palabras objetivo).
 
-\item Let $D$ be the set of correct word-context pairs (i.e., word pairs that are observed in the Corpus).
+Sea $D$ el conjunto de pares palabra-contexto correctos (es decir, pares de palabras que se observan en el corpus).
 
-\item The optimization goal is to maximize the conditional log-likelihood of the contexts $c$ (this is equivalent to minimizing the cross-entropy loss):
-
+El objetivo de optimización es maximizar la log-verosimilitud condicional de los contextos $c$ (lo cual es equivalente a minimizar la pérdida de entropía cruzada):
 
 \begin{equation}
 \begin{split}
-\operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log P(c|w)} = \sum_{(w,c) \in D} ( \log e^{\vec{c}\cdot \vec{w}} - \log \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}  )
+\operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log P(c|w)} = \sum_{(w,c) \in D} ( \log e^{\vec{c}\cdot \vec{w}} - \log \sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}} )
 \end{split}
 \end{equation}
 
+Suposición: maximizar esta función resultará en buenos embeddings $\vec{w}$, es decir, palabras similares tendrán vectores similares.
 
-\item Assumption: maximizing this function will result in good embeddings $\vec{w}$ i.e.,  similar words will have similar vectors.
+El término $P(c|w)$ es computacionalmente costoso debido a la suma $\sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}$ sobre todos los contextos $c'$.
 
-\item The term $P(c|w)$ is computationally expensive because of the summation $\sum_{c'\in C} e^{\vec{c}'\cdot \vec{w}}$ over all the contexts $c'$.
+Solución: reemplazar la softmax por una softmax jerárquica (el vocabulario se representa con un árbol binario de Huffman).
 
-\item Fix: replace the softmax with a hierarchical softmax (the vocabulary is represented with a Huffman binary tree). 
+Los árboles de Huffman asignan códigos binarios cortos a palabras frecuentes, lo que reduce el número de unidades de salida que deben evaluarse.
 
-\item Huffman trees assign short binary codes to frequent words, reducing the number of output units to be evaluated.
+La hipótesis de distribución establece que las palabras en contextos similares tienen significados similares. El objetivo anterior claramente trata de aumentar la cantidad de buenos pares palabra-contexto y disminuirla para los malos. Int
 
-\end{itemize}
+uitivamente, esto significa que las palabras que comparten muchos contextos serán similares entre sí (también se observa que los contextos que comparten muchas palabras también serán similares entre sí). Sin embargo, esto es muy simplista.
 
+Fuente: \url{https://arxiv.org/pdf/1402.3722.pdf}
 
+El modelo Skip-gram y el Negative Sampling no son lo mismo.
 
+\subsection{Skip-gram con Negative Sampling}
 
-The distributional hypothesis states that words in similar contexts have similar meanings. The objective above clearly tries to increase the quantity  for good word-context pairs, and decrease it for bad ones.  Intuitively, this means that words that share many contexts will be similar to each other (notealso that contexts sharing many words will also be similar to each other). This is, however, very hand-wavy.
+El Negative Sampling (NS) se presenta como un modelo más eficiente para calcular los embeddings del Skip-gram.
+Sin embargo, optimiza una función objetivo diferente \cite{goldberg2014word2vec}.
 
-Source: https://arxiv.org/pdf/1402.3722.pdf  
-
-Skip-gram and Negative Sampling are not the same
-
-\subsection{Skip-gram with Negative Sampling}
-\begin{itemize}
-\item Negative-sampling (NS) is presented as a more efficient model for calculating skip-gram embeddings. 
-\item However, it optimizes a different objective function \cite{goldberg2014word2vec}.
-\item NS maximizes the probability that a word-context pair $(w, c)$ came from the set of correct word-context pairs $D$ using a sigmoid function:
+El NS maximiza la probabilidad de que un par palabra-contexto $(w, c)$ provenga del conjunto de pares palabra-contexto correctos $D$ utilizando una función sigmoide:
 
 \begin{displaymath}
 P(D = 1| w,c_i) = \frac{1}{1+e^{-\vec{w} \cdot \vec{c_{i}}}}
 \end{displaymath}
 
-\item Assumption: the contexts words $c_i$ are independent from each other:
+Suposición: las palabras de contexto $c_i$ son independientes entre sí:
 
 \begin{displaymath}
 P(D = 1| w,c_{1:k}) = \prod_{i=1}^{k}{P(D = 1| w,c_i)} = \prod_{i=1}^{k}{\frac{1}{1+e^{-\vec{w} \cdot \vec{c_{i}}}}} 
 \end{displaymath}
 
-\item This leads to the following target function (log-likelihood): 
+Esto conduce a la siguiente función objetivo (log-verosimilitud):
 
 \begin{equation}
 \begin{split}
@@ -251,211 +190,154 @@ P(D = 1| w,c_{1:k}) = \prod_{i=1}^{k}{P(D = 1| w,c_i)} = \prod_{i=1}^{k}{\frac{1
 \end{split}
 \end{equation}
 
-\item This objective has a trivial solution if we set $\vec{w}$,$\vec{c}$ such that $P(D=1|w,c)=1$ for every pair $(w,c)$ from $D$.
-\item This is achieved by setting $\vec{w}=\vec{c}$  and $\vec{w} \cdot \vec{c} = K$ for all $\vec{w},\vec{c}$, where $K$ is a large number.
-\item We need a mechanism that prevents all the vectors from having the same value, by disallowing some $(w, c)$ combinations. 
-\item One way to do so, is to present the model with some $(w, c)$ pairs for which $P(D= 1|w, c)$ must be low, i.e.
-pairs which are not in the data.  
-\item This is achieved sampling negative samples from $\tilde{D}$. 
-\item Sample $m$ words for each word-context pair  $(w,c) \in D$.
-\item Add each sampled word $w_i$ together with the original context $c$ as a negative example to $\tilde{D}$.
-\item $\tilde{D}$ being $m$ times larger than $D$. 
-\item The number of negative samples $m$ is a parameter of the algorithm.
+Esta función objetivo tiene una solución trivial si establecemos $\vec{w}$, $\vec{c}$ de manera que $P(D=1|w,c)=1$ para cada par $(w,c)$ de $D$.
+Esto se logra estableciendo $\vec{w}=\vec{c}$ y $\vec{w} \cdot \vec{c} = K$ para todos los $\vec{w}$, $\vec{c}$, donde $K$ es un número grande.
+Necesitamos un mecanismo que evite que todos los vectores tengan el mismo valor, al no permitir algunas combinaciones $(w, c)$.
+Una forma de hacerlo es presentarle al modelo algunos pares $(w, c)$ para los cuales $P(D=1|w, c)$ debe ser bajo, es decir, pares que no están en los datos.
+Esto se logra muestreando ejemplos negativos de $\tilde{D}$.
+Se muestrean $m$ palabras para cada par palabra-contexto $(w,c) \in D$.
+Se agrega cada palabra muestreada $w_i$ junto con el contexto original $c$ como un ejemplo negativo en $\tilde{D}$.
+$\tilde{D}$ es $m$ veces más grande que $D$.
+El número de ejemplos negativos $m$ es un parámetro del algoritmo.
 
-\item Final objective function:
+Función objetivo final:
+
 \begin{equation}
 \begin{split}
 \operatorname{arg} \max_{\vec{c}, \vec{w}} & \quad \sum_{(w,c) \in D}{\log P(D = 1| w,c_{1:k})} + \sum_{(w,c) \in \tilde{D}} \log P(D = 0| w,c_{1:k})
 \end{split}
 \end{equation}
 
-\item The negative words are sampled from smoothed version of the corpus frequencies:
+Las palabras negativas se muestrean a partir de una versión suavizada de las frecuencias del corpus:
+
 \begin{displaymath}
 \frac{\#(w)^{0.75}}{\sum_{w'}\#(w')^{0.75}}
 \end{displaymath}
 
-\item This gives more relative weight to less frequent words.
-
-\end{itemize}
-
-
+Esto otorga más peso relativo a las palabras menos frecuentes.
 
 \subsection{Continuous Bag of Words: CBOW}
 
-Similar to the skip-gram model but now the center word is predicted from the surrounding context.
- \begin{figure}[h]
-    	\includegraphics[scale = 0.55]{pics/CBOW.png}
-    \end{figure}
-       
-        
+Similar al modelo Skip-gram, pero ahora se predice la palabra central a partir del contexto circundante.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{pics/CBOW.png}
+	\caption{Imagen tomada de: \url{http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/}}
+\end{figure}
 
 \subsection{GloVe}
-\begin{itemize}
-\item  GloVe (from global vectors) is another popular method for training word embeddings \cite{penningtonSM14}.
-
-\item It constructs an explicit word-context
-matrix, and trains the word and context vectors $\vec{w}$ and $\vec{c}$ attempting to satisfy:
+GloVe (de global vectors) es otro método popular para entrenar word embeddings \cite{penningtonSM14}. Construye una matriz explícita palabra-contexto y entrena los vectores de palabra y contexto $\vec{w}$ y $\vec{c}$ intentando satisfacer la siguiente ecuación:
 
 \begin{equation}
 \vec{w} \cdot \vec{c} + b_{[w]}+b_{[c]} = \log \#(w,c) \quad \forall (w,c) \in D
 \end{equation}
 
-\item where $b_{[w]}$ and $b_{[c]}$ are word-specific and context-specific trained biases.
+donde $b_{[w]}$ y $b_{[c]}$ son sesgos entrenados específicos de la palabra y el contexto.
 
-\item In terms of matrix factorization, if we fix $b_{[w]}=\log \#(w)$ and $b_{[c]}=\log \#(c)$ we'll get an objective that is very similar to factorizing the word-context PMI matrix, shifted by $\log (|D|)$.
-\item In GloVe the bias parameters are learned and not fixed, giving it another degree of freedom.
+En términos de factorización de matrices, si fijamos $b_{[w]}=\log \#(w)$ y $b_{[c]}=\log \#(c)$, obtendremos un objetivo muy similar a la factorización de la matriz PMI palabra-contexto, desplazada por $\log (|D|)$.
+En GloVe, los parámetros de sesgo se aprenden y no se fijan, lo que le da otro grado de libertad.
 
-\item The optimization objective is weighted least-squares loss, assigning more weight to the correct reconstruction of frequent items.
-       
-\item When using the same word and context vocabularies, the model suggests representing each word as the sum of its corresponding word and context embedding vectors.   
-        
-\end{itemize}
+El objetivo de optimización es la pérdida de mínimos cuadrados ponderada, asignando más peso a la reconstrucción correcta de elementos frecuentes.
 
+Cuando se utiliza el mismo vocabulario de palabras y contextos, el modelo sugiere representar cada palabra como la suma de sus vectores de embedding de palabra y contexto correspondientes.
 
-\section{Word Analogies}
-\begin{itemize}
-   
-\item Word embeddings can capture certain semantic relationships, e.g. male-female, verb tense and country-capital relationships between words.
+\section{Analogías de palabras}
+Los word embeddings pueden capturar ciertas relaciones semánticas, como relaciones de género, tiempo verbal y país-capital entre palabras.
 
-\item For example, the following relationship is found for word embeddings
-trained using Word2Vec: $\vec{w}_{king} - \vec{w}_{man} + \vec{w}_{woman} \approx \vec{w}_{queen}$.
+Por ejemplo, la siguiente relación se encuentra en los word embeddings entrenados con Word2Vec: $\vec{w}_{king} - \vec{w}_{man} + \vec{w}_{woman} \approx \vec{w}_{queen}$.
 
-    
-\end{itemize}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{pics/linear-relationships.png}
+	\caption{Fuente: \url{https://www.tensorflow.org/tutorials/word2vec}}
+\end{figure}
 
- \begin{figure}[h]
-    	\includegraphics[scale = 0.2]{pics/linear-relationships.png}
-    \end{figure}
-\footnotemark{Source: \url{https://www.tensorflow.org/tutorials/word2vec}}
+\section{Evaluación}
+Existen muchos conjuntos de datos con asociaciones de palabras anotadas por humanos o analogías de oro que se pueden utilizar para evaluar algoritmos de word embeddings.
 
+Estos enfoques se llaman "Enfoques de Evaluación Intrínseca".
 
+La mayoría de ellos están implementados en: \url{https://github.com/kudkudak/word-embeddings-benchmarks}.
 
-\section{Evaluation}
-\begin{itemize}
-   
-\item There are many datasets with human annotated associations of word pairs or gold analogies that can be used to evaluate word embeddings algorithms.
+Los word embeddings también se pueden evaluar extrínsecamente utilizando en tareas externas de procesamiento del lenguaje natural (por ejemplo, etiquetado de partes del discurso, análisis de sentimientos).
 
-\item Those approaches are called \textit{Intrinsic Evaluation Approaches}.
+\section{Correspondencia entre modelos distribuidos y distribucionales}
+Tanto los métodos distribucionales "basados en recuento" como los distribuidos "neurales" se basan en la hipótesis de distribución.
 
-\item Most of them are implemented in: \url{https://github.com/kudkudak/word-embeddings-benchmarks}.
+Ambos intentan capturar la similitud entre palabras basándose en la similitud entre los contextos en los que ocurren.
 
-\item Word embeddings can also be evaluated extrinsically by using them in an external NLP task (e.g., POS tagging, sentiment analysis).
+Levy y Goldebrg mostraron en \cite{levy2014neural} que el modelo Skip-gram con negative sampling (SGNS) está factorizando implícitamente una matriz palabra-contexto, cuyas celdas son la información
 
-    
-\end{itemize}
+mutua puntual (PMI) de los pares respectivos de palabra y contexto, desplazada por una constante global.
 
-
-
-\section{Correspondence between Distributed and Distributional Models}
-\begin{itemize}
-       
-\item Both the distributional ``count-based'' methods and the distributed ``neural'' ones are based on the distributional hypothesis.
-
-\item The both attempt to capture the similarity between words based on the similarity between the contexts in which they occur.      
-       
-\item Levy and Goldebrg showed in \cite{levy2014neural} that Skip-gram negative sampling (SGNS) is implicitly factorizing a word-context matrix, whose cells are the pointwise mutual information (PMI) of the respective word and context pairs, shifted by a global constant. 
-
-https://levyomer.files.wordpress.com/2014/09/neural-word-embeddings-as-implicit-matrix-factorization.pdf
-
-\item This ties the neural methods and the traditional ``count-based'' suggesting that in a deep sense
-the two algorithmic families are equivalent.
-     
-\end{itemize}
-
-
+Esto vincula los métodos neuronales y los tradicionales "basados en recuento", sugiriendo que en un sentido profundo, las dos familias algorítmicas son equivalentes.
 
 \section{FastText}
-\begin{itemize}
-  
-\item FastText embeddings extend the skipgram model to take into account the internal structure of words while learning word representations \cite{bojanowski2016enriching}.
+Los embeddings de FastText amplían el modelo skipgram teniendo en cuenta la estructura interna de las palabras mientras aprenden las representaciones de las palabras \cite{bojanowski2016enriching}.
 
-\item A vector representation is associated with each character $n$-gram.
+Se asocia una representación vectorial con cada $n$-gramo de caracteres.
 
-\item  Words are represented as the sum of these representations. 
+Las palabras se representan como la suma de estas representaciones.
 
-\item Taking the word \emph{where} and $n = 3$, it will be represented by the character $n$-grams: $<$wh, whe, her, ere, re$>$, and the special sequence $<$where$>$.
+Tomando la palabra \emph{where} y $n = 3$, se representará por los $n$-gramos de caracteres: $<$wh, whe, her, ere, re$>$, y la secuencia especial $<$where$>$.
 
-\item Note that the sequence \emph{$<$her$>$}, corresponding to the word ``her'' is different from the tri-gram ``her'' form the word ``here''. 
+Es importante tener en cuenta que la secuencia \emph{$<$her$>$}, correspondiente a la palabra "her", es diferente del tri-grama "her" de la palabra "here".
 
-\item FastText is useful for morphologically rich languages. For example, the words ``amazing'' and ``amazingly'' share information in FastText through their shared $n$-grams, whereas in Word2Vec these two words are completely unrelated.    
-  
-\item Let $\mathcal{G}_{w}$ be the set of $n$-grams appearing in $w$.
+FastText es útil para los idiomas con una rica morfología. Por ejemplo, las palabras "amazing" y "amazingly" comparten información en FastText a través de sus $n$-gramos compartidos, mientras que en Word2Vec estas dos palabras no tienen ninguna relación.
 
-\item FastText associates a vector $\vec{g}$ with each $n$-gram in $\mathcal{G}_{w}$.
+Sea $\mathcal{G}_{w}$ el conjunto de $n$-gramos que aparecen en $w$.
 
-\item In FastText the probability that  a word-context pair $(w, c)$ came from the input corpus $D$ is calculated as follows:
+FastText asocia un vector $\vec{g}$ con cada $n$-gramo en $\mathcal{G}_{w}$.
+
+En FastText, la probabilidad de que un par palabra-contexto $(w, c)$ provenga del corpus de entrada $D$ se calcula de la siguiente manera:
 
 \begin{displaymath}
- P(D | w, c) = \frac{1}{1+e^{-s(w,c)}}
+P(D | w, c) = \frac{1}{1+e^{-s(w,c)}}
 \end{displaymath}
 
-where,
+donde,
 
 \begin{displaymath}
 s(w,c) = \sum_{g \in {G}_{w}} \vec{g} \cdot \vec{c}.
 \end{displaymath}
 
-\item The negative sampling algorithm can be calculated in the same form as in the skip-gram model with this formulation.
+El algoritmo de muestreo negativo se puede calcular de la misma forma que en el modelo skipgram con esta formulación.
 
-\end{itemize}
+\section{Embbedings de frases específicas de sentimiento}
+El problema de los embeddings de palabras es que los antónimos pueden usarse en contextos similares, por ejemplo, "mi auto es lindo" vs "mi auto es feo".
 
+En \cite{TangCol14}, se proponen embeddings de palabras específicos de sentimiento combinando el modelo skipgram con tweets con emoticones anotados :) :(.
 
+Estos embeddings se utilizan para entrenar un clasificador de polaridad a nivel de palabra.
 
+El modelo integra la información de sentimiento en la representación continua de frases mediante el desarrollo de una arquitectura neural adaptada.
 
-\section{Sentiment-Specific Phrase Embeddings}
-https://pdfs.semanticscholar.org/107f/b80ff801894b6191d0613af41aba91c134a4.pdf
-\begin{itemize}
-\item Problem of word embeddings: antonyms can be used in similar contexts e.g., my car is nice vs my car is ugly.
+Entrada: $\{w_i,s_j,pol_j\}$, donde $w_i$ es una frase (o palabra), $s_j$ es la oración y $pol_j$ es la polaridad de la oración.
 
-\item In \cite{TangCol14}  \textbf{sentiment-specific} word embeddings are proposed  by combining the skip-gram model with emoticon-annotated tweets :) :( .
+El objetivo de entrenamiento utiliza el embedding de $w_i$ para predecir las palabras de contexto (de la misma manera que el modelo skipgram) y utiliza la representación de la oración $se_j$ para predecir $pol_j$.
 
-\item These embeddings are used for \textbf{training} a word-level polarity classifier.
+Las oraciones ($se_j$) se representan promediando los vectores de palabras que las componen.
 
-\item The model integrates sentiment information into the continuous representation of phrases by developing a tailored neural architecture.
-
-\item Input: $\{w_i,s_j,pol_j\}$, where $w_i$ is a phrase (or word), $s_j$ the sentence, and $pol_j$ the sentence's polarity.
-
-\item The training objective uses the embedding of $w_i$ to predict its context words (in the same way as the skip-gram model), and uses the sentence representation $se_j$ to predict $pol_j$.
-
-
-\item Sentences ($se_j$) are represented by averaging the word vectors of their words.
-
-\item The  objective of the sentiment part is to maximize the average of log sentiment probability: 
+El objetivo de la parte de sentimiento es maximizar el promedio de la probabilidad logarítmica del sentimiento:
 \begin{displaymath}
-f_{sentiment}= \frac{1}{S}\sum_{j=1}^{S}\log p(pol_j|se_j)
+f_{sentimiento}= \frac{1}{S}\sum_{j=1}^{S}\log p(pol_j|se_j)
 \end{displaymath}
 
-\item The final training objective is to maximize the linear combination of the skip-gram and sentiment objectives: 
+El objetivo de entrenamiento final es maximizar la combinación lineal de los objetivos skipgram y sentimiento:
 \begin{displaymath}
-f = \alpha f_{skipgram} + (1- \alpha)f_{sentiment}
+f = \alpha f_{skipgram} + (1- \alpha)f_{sentimiento}
 \end{displaymath}
-
-\end{itemize}
-
-
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/SSPE.png}
-        \end{figure}
-
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/SSPERes.png}
-        \end{figure}
-
-
 
 \section{Gensim}
-Gensim is an open source Python library for natural language processing that implements many algorithms for training word embeddings.
+Gensim es una biblioteca de Python de código abierto para el procesamiento del lenguaje natural que implementa muchos algoritmos para entrenar word embeddings.
 
 \begin{itemize}
  \item \url{https://radimrehurek.com/gensim/}
-
   \item \url{https://machinelearningmastery.com/develop-word-embeddings-python-gensim/}
- 
 \end{itemize}
 
-
-
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/gensim.png}
-        \end{figure}
-
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{pics/gensim.png}
+\end{figure}

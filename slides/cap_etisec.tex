@@ -68,148 +68,138 @@ Nuestro objetivo:
   \item Rudolph\textcolor{red}{/NNP} Agnew\textcolor{red}{/NNP},\textcolor{red}{/,} de 55\textcolor{red}{/CD} años\textcolor{red}{/NNS} y presidente\textcolor{red}{/NN} de\ldots
 \end{enumerate}
 
-\subsection{Sequence Labeling as Supervised Learning}
-    \begin{itemize}
-      \item We have a sequence of inputs $x = (x_1, x_2, \ldots, x_n)$ and corresponding labels $y = (y_1, y_2, \ldots, y_n)$.
-      \item Task is to learn a function $f$ that maps input sequences to label sequences: $f(x_1,x_2, \ldots, x_n) = y_1, y_2, \ldots, y_n$.
-      \item We have a training set of labeled sequences: $\{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \ldots, (x^{(m)}, y^{(m)})\}$.
-    \end{itemize}
-  
+\subsection{Etiquetado de secuencias como aprendizaje supervisado}
 
+\begin{itemize}
+  \item Tenemos una secuencia de entradas $x = (x_1, x_2, \ldots, x_n)$ y las etiquetas correspondientes $y = (y_1, y_2, \ldots, y_n)$.
+  \item La tarea consiste en aprender una función $f$ que mapea secuencias de entrada a secuencias de etiquetas: $f(x_1,x_2, \ldots, x_n) = y_1, y_2, \ldots, y_n$.
+  \item Tenemos un conjunto de entrenamiento de secuencias etiquetadas: $\{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \ldots, (x^{(m)}, y^{(m)})\}$.
+\end{itemize}
 
-\subsection{Generative Approach for Sequence Labeling}
+\subsection{Enfoque generativo para el etiquetado de secuencias}
+
+\begin{itemize}
+  \item Los modelos generativos, como el clasificador de Naive Bayes utilizado para clasificación, también se pueden utilizar para tareas de etiquetado de secuencias en PLN.
+  \item Enfoque:
   \begin{itemize}
-    \item Generative models such as Naive Bayes was used for classification can also be used for sequence labeling tasks in NLP.
-    \item Approach:
-    \begin{itemize}
-      \item Training: Learn the joint distribution $p(x_1,x_2, \ldots, x_n,y_1, y_2, \ldots, y_n)$ of input sequences.
-      \item Decoding: Use the learned distribution to predict label sequences for new input sequences.
-    \end{itemize}
-      \item Decoding in sequence labeling involves finding the label sequence with the highest joint probability: $\arg\max_{y_1, y_2, \ldots, y_n}p(x_1,x_2, \ldots, x_n,y_1, y_2, \ldots, y_n)$.
+    \item Entrenamiento: Aprender la distribución conjunta $p(x_1,x_2, \ldots, x_n,y_1, y_2, \ldots, y_n)$ de las secuencias de entrada.
+    \item Decodificación: Utilizar la distribución aprendida para predecir secuencias de etiquetas para nuevas secuencias de entrada.
   \end{itemize}
+  \item La decodificación en el etiquetado de secuencias implica encontrar la secuencia de etiquetas con la mayor probabilidad conjunta: $\arg\max_{y_1, y_2, \ldots, y_n}p(x_1,x_2, \ldots, x_n,y_1, y_2, \ldots, y_n)$.
+\end{itemize}
 
+\section{Modelos Ocultos de Markov}
 
-\section{Hidden Markov Models}
-  \begin{itemize}
-    \item  Hidden Markov Models (HMMs) provide a principled way to handle sequence labeling problems using generative modeling and efficient decoding algorithms.
-    \item We have an input sentence $x = x_1, x_2, \ldots, x_n$ ($x_i$ is the $i$-th word in the sentence).
-    \item We have a tag sequence $y = y_1, y_2, \ldots, y_n$ ($y_i$ is the $i$-th tag in the sentence).
-    \item We'll use an HMM to define $p(x_1, x_2, \ldots, x_n, y_1, y_2, \ldots, y_n)$ for any sentence $x_1, \ldots, x_n$ and tag sequence $y_1, \ldots, y_n$ of the same length. \cite{kupiec1992robust}
-    \item Then, the most likely tag sequence for $x$ is:
-    \[
-      \arg\max_{y_1,\ldots,y_n} p(x_1, \ldots, x_n, y_1, \ldots, y_n)
-    \]
-  \end{itemize}
-
-\section{Trigram Hidden Markov Models (Trigram HMMs)}
-  For any sentence $x_1, \ldots, x_n$ where $x_i \in V$ for $i = 1, \ldots, n$, and any tag sequence $y_1, \ldots, y_{n+1}$ where $y_i \in S$ for $i = 1, \ldots, n$, and $y_{n+1} = \text{STOP}$, the joint probability of the sentence and tag sequence is:
+\begin{itemize}
+  \item Los Modelos Ocultos de Markov (HMM, por sus siglas en inglés) proporcionan una forma sistemática de manejar problemas de etiquetado de secuencias mediante modelos generativos y algoritmos de decodificación eficientes.
+  \item Tenemos una oración de entrada $x = x_1, x_2, \ldots, x_n$ ($x_i$ es la $i$-ésima palabra en la oración).
+  \item Tenemos una secuencia de etiquetas $y = y_1, y_2, \ldots, y_n$ ($y_i$ es la $i$-ésima etiqueta en la oración).
+  \item Usaremos un HMM para definir $p(x_1, x_2, \ldots, x_n, y_1, y_2, \ldots, y_n)$ para cualquier oración $x_1, \ldots, x_n$ y secuencia de etiquetas $y_1, \ldots, y_n$ de la misma longitud \cite{kupiec1992robust}.
+  \item Luego, la secuencia de etiquetas más probable para $x$ es:
   \[
-    p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = \prod_{i=1}^{n+1} q(y_i | y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i | y_i)
+    \arg\max_{y_1,\ldots, y_n} p(x_1, \ldots, x_n, y_1, \ldots, y_n)
   \]
-  where we have assumed that $x_0 = x_{-1} = *$.
+\end{itemize}
 
-\subsection{Parameters of the Model}
+\section{Modelos Ocultos de Markov Trigramas (Trigram HMM)}
+
+Para cualquier oración $x_1, \ldots, x_n$ donde $x_i \in V$ para $i = 1, \ldots, n$, y cualquier secuencia de etiquetas $y_1, \ldots, y_{n+1}$ donde $y_i \in S$ para $i = 1, \ldots, n$, y $y_{n+1} = \text{STOP}$, la probabilidad conjunta de la oración y la secuencia de etiquetas es:
+\[
+  p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = \prod_{i=1}^{n+1} q(y_i | y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i | y_i)
+\]
+donde hemos asumido que $x_0 = x_{-1} = *$.
+
+\subsection{Parámetros del modelo}
+
+\begin{itemize}
+  \item $q(s|u, v)$ para cualquier $s \in S \cup \{\text{STOP}\}$, $u, v \in S \cup \{*\}$
   \begin{itemize}
-    \item $q(s|u, v)$ for any $s \in S \cup \{\text{STOP}\}$, $u, v \in S \cup \{*\}$
-    \begin{itemize}
-     \item The value for $q(s|u,v)$ can be interpreted as the probability of seeing the tag $s$ immediately after the bigram of tags $(u, v)$.
-    \end{itemize}    
-    \item $e(x|s)$ for any $s \in S$, $x \in V$ 
-    \begin{itemize}
-     \item The value for $e(x|s)$ can be interpreted as the probability of seeing observation $x$ paired with state $s$.
-    \end{itemize}
-
-    
-    
+    \item El valor de $q(s|u,v)$ se puede interpretar como la probabilidad de ver la etiqueta $s$ inmediatamente después del bigrama de etiquetas $(u, v)$.
   \end{itemize}
+  \item $e(x|s)$ para cualquier $s \in S$, $x \in V$ 
+  \begin{itemize}
+    \item El valor de $e(x|s)$ se puede interpretar como la probabilidad de ver la observación $x$ emparejada con el estado $s$.
+  \end{itemize}
+\end{itemize}
 
-\paragraph{An Example}
-  If we have $n = 3$, $x_1, x_2, x_3$ equal to the sentence "the dog laughs", and $y_1, y_2, y_3, y_4$ equal to the tag sequence "D N V STOP", then:
+\paragraph{Un ejemplo}
+
+Si tenemos $n = 3$, $x_1, x_2, x_3$ igual a la oración ``the dog laughs'', y $y_1, y_2, y_3, y_4$ igual a la secuencia de etiquetas ``D N V STOP'', entonces:
 \[
 \begin{aligned}
 p(x_1, \ldots, x_n, y_1, \ldots, y_{n+1}) = & q(D|*,*) \times q(N|*,D) \\
 & \times q(V|D,N) \times q(\text{STOP}|N,V) \\
-& \times e(\text{the}|D) \times e(\text{dog}|N) \times e(\text{laughs}|V)
+& \times e(\text{el}|D) \times e(\text{perro}|N) \times e(\text{se}|V) \times e(\text{ríe}|STOP)
 \end{aligned}
 \]
-  \begin{itemize}
-    \item STOP is a special tag that terminates the sequence.
-    \item We take $y_0 = y_{-1} = *$, where $*$ is a special "padding" symbol.
-  \end{itemize}
+\begin{itemize}
+  \item STOP es una etiqueta especial que termina la secuencia.
+  \item Tomamos $y_0 = y_{-1} = *$, donde $*$ es un símbolo especial de "padding".
+\end{itemize}
 
-
-\section{Independence Assumptions in Trigram HMMs}
+\section{Supuestos de independencia en los HMM trigramas}
 
 \begin{itemize}
-    \item Trigram Hidden Markov Models (HMMs) are derived by making specific independence assumptions in the model.
-    
-    \item Consider two sequences of random variables: $X_1, \ldots, X_n$ and $Y_1, \ldots, Y_n$, where $n$ is the length of the sequences.
-    
-    \item Each $X_i$ can take any value in a finite set $V$ of words, and each $Y_i$ can take any value in a finite set $K$ of possible tags (e.g., $K=\{D,N,V\dots \}$).
-    
-    \item Our goal is to model the joint probability:
+  \item Los Modelos Ocultos de Markov trigramas (HMM trigramas) se derivan
 
-    \begin{align*}
-  P(x_1,x_2,\dots,x_n,&y_1,\dots,y_n) \\
-  &= p(y_1) \times p(y_2|y_1) \\
-  &\quad \times \dots \\
-  &\quad \times p(y_n|y_{n-1},y_{n-2},\dots y_1) \\
-  &\quad \times p(x_1|y_{n},y_{n-1},\dots y_1) \\
-  &\quad \times p(x_2|x_1,y_{n},y_{n-1},\dots y_1) \\
-  &\quad \times p(x_n|x_{n-1},\dots,x_1,y_{n},y_{n-1},\dots y_1)
+mediante la realización de supuestos específicos de independencia en el modelo.
+
+  \item Consideremos dos secuencias de variables aleatorias: $X_1, \ldots, X_n$ y $Y_1, \ldots, Y_n$, donde $n$ es la longitud de las secuencias.
+
+  \item Cada $X_i$ puede tomar cualquier valor en un conjunto finito $V$ de palabras, y cada $Y_i$ puede tomar cualquier valor en un conjunto finito $K$ de etiquetas posibles (por ejemplo, $K=\{D,N,V, \ldots \}$).
+
+  \item Nuestro objetivo es modelar la probabilidad conjunta:
+
+  \begin{align*}
+    P(x_1,x_2,\dots,x_n,&y_1,\dots,y_n) \\
+    &= p(y_1) \times p(y_2|y_1) \\
+    &\quad \times \dots \\
+    &\quad \times p(y_n|y_{n-1},y_{n-2},\dots y_1) \\
+    &\quad \times p(x_1|y_{n},y_{n-1},\dots y_1) \\
+    &\quad \times p(x_2|x_1,y_{n},y_{n-1},\dots y_1) \\
+    &\quad \times p(x_n|x_{n-1},\dots,x_1,y_{n},y_{n-1},\dots y_1)
   \end{align*}
 
-    
-    \item We define an additional random variable $Y_{n+1}$ that always takes the value "STOP."
+  \item Definimos una variable aleatoria adicional $Y_{n+1}$ que siempre toma el valor "STOP".
 
-  
-    \item The key idea in HMMs is the factorization of the joint probability:
-    \[P(X_1 = x_1, \ldots, X_n = x_n, Y_1 = y_1, \ldots, Y_{n+1} = y_{n+1})\]
-    \[= \prod_{i=1}^{n+1} P(Y_i = y_i | Y_{i-2} = y_{i-2}, Y_{i-1} = y_{i-1}) \times \prod_{i=1}^{n} P(X_i = x_i | Y_i = y_i)\]
-    
-    \item We first assume that:
-    \[P(Y_i = y_i | Y_{i-2} = y_{i-2}, Y_{i-1} = y_{i-1}) = q(y_i | y_{i-2}, y_{i-1})\]
-    
-    \item This assumes that the sequence $Y_1, \ldots, Y_{n+1}$ is a second-order Markov sequence, where each state depends only on the previous two states.
-    
-    \item And we also assume that:
-      \[P(X_i = x_i | Y_i = y_i) = e(x_i | y_i)\]
-    
-  \item This assumes that the value of the random variable $X_i$ depends only on the value of $Y_i$.
-    
-    
-    \item These independence assumptions allow for the derivation of the joint probability equation.
-    
+  \item La idea clave en los HMM es la factorización de la probabilidad conjunta:
+  \[P(X_1 = x_1, \ldots, X_n = x_n, Y_1 = y_1, \ldots, Y_{n+1} = y_{n+1})\]
+  \[= \prod_{i=1}^{n+1} P(Y_i = y_i | Y_{i-2} = y_{i-2}, Y_{i-1} = y_{i-1}) \times \prod_{i=1}^{n} P(X_i = x_i | Y_i = y_i)\]
+
+  \item Primero asumimos que:
+  \[P(Y_i = y_i | Y_{i-2} = y_{i-2}, Y_{i-1} = y_{i-1}) = q(y_i | y_{i-2}, y_{i-1})\]
+
+  \item Esto asume que la secuencia $Y_1, \ldots, Y_{n+1}$ es una secuencia de Markov de segundo orden, donde cada estado depende solo de los dos estados anteriores.
+
+  \item Y también asumimos que:
+    \[P(X_i = x_i | Y_i = y_i) = e(x_i | y_i)\]
+
+  \item Esto asume que las observaciones y los estados están condicionalmente independientes dadas las etiquetas.
 
 \end{itemize}
 
 
+\section{¿Por qué el nombre?}
+\[
+\begin{aligned}
+  p(x_1, \ldots, x_n, y_1, \ldots, y_n) = & q(\text{STOP}|y_{n-1}, y_n) \\
+  & \times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1}) \\
+  & \times \prod_{j=1}^{n} e(x_j | y_j)
+\end{aligned}
+\]
+Los componentes de la cadena de Markov:
+\[
+q(\text{STOP}|y_{n-1}, y_n)\times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1})
+\]
+Estas transiciones no se observan directamente para una secuencia dada de palabras $(x_1, \ldots, x_n)$, de ahí el nombre de "ocultas".
 
-\section{Why the Name?}
-  \[
-  \begin{aligned}
-    p(x_1, \ldots, x_n, y_1, \ldots, y_n) = & q(\text{STOP}|y_{n-1}, y_n) \\
-    & \times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1}) \\
-    & \times \prod_{j=1}^{n} e(x_j | y_j)
-  \end{aligned}
-  \]
-  \begin{itemize}
-    \item Markov Chain component:
-    \[
-    q(\text{STOP}|y_{n-1}, y_n)\times \prod_{j=1}^{n} q(y_j | y_{j-2}, y_{j-1})
-    \]
-These transitions are not directly observed for a given sequence of words $(x_1, \ldots, x_n)$, hence the name ``hidden''.
+El componente observable:
+\[
+\prod_{j=1}^{n} e(x_j | y_j)
+\]
+El componente observable de los HMM modela las probabilidades de emisión de los símbolos observados ($x$) condicionados a los estados ocultos correspondientes ($y$).
 
-    \item Observed component:
-    \[
-    \prod_{j=1}^{n} e(x_j | y_j)
-    \]
-    The observed component of HMMs models the emission probabilities of observed symbols ($x$'s) conditioned on the corresponding hidden states ($y$'s).
-  \end{itemize}
-
-
-
-\section{Smoothed Estimation}
+\section{Estimación Suavizada}
 
 \[
 \begin{aligned}
@@ -219,7 +209,7 @@ q(Vt | DT, JJ) = & \lambda_1 \times \frac{{\text{Count}(Dt, JJ, Vt)}}{{\text{Cou
 \end{aligned}
 \]
 
-where $\lambda_1 + \lambda_2 + \lambda_3 = 1$, and for all $i$, $\lambda_i \geq 0$.
+donde $\lambda_1 + \lambda_2 + \lambda_3 = 1$, y para todo $i$, $\lambda_i \geq 0$.
 
 \vspace{0.5cm}
 
@@ -227,91 +217,69 @@ where $\lambda_1 + \lambda_2 + \lambda_3 = 1$, and for all $i$, $\lambda_i \geq 
 e(\text{base} | Vt) = \frac{{\text{Count}(Vt, \text{base})}}{{\text{Count}(Vt)}}
 \]
 
+\section{Tratando con Palabras de Baja Frecuencia}
 
-\section{Dealing with Low-Frequency Words}
-
-A common method is as follows:
+Un método común es el siguiente:
 \begin{itemize}
-  \item Step 1: Split vocabulary into two sets
+  \item Paso 1: Dividir el vocabulario en dos conjuntos
     \begin{itemize}
-      \item Frequent words = words occurring $\geq 5$ times in training
-      \item Low frequency words = all other words
+      \item Palabras frecuentes = palabras que ocurren $\geq 5$ veces en el entrenamiento
+      \item Palabras de baja frecuencia = todas las demás palabras
     \end{itemize}
-  \item Step 2: Map low frequency words into a small, finite set, depending on prefixes, suffixes, etc.
+  \item Paso 2: Mapear las palabras de baja frecuencia a un conjunto pequeño y finito, dependiendo de prefijos, sufijos, etc.
 \end{itemize}
-  
- Below is an example of word classes for named entity recognition \cite{bikelSW99}:
-  
-  \[
-    \begin{array}{l|l|l}
-      \text{Word class} & \text{Example}  & \text{Intuition} \\
-      \hline
-      \text{twoDigitNum} & 90 & \text{Two-digit year} \\
-      \text{fourDigitNum} & 1990 & \text{Four-digit year} \\
-      \text{containsDigitAndAlpha} & A8956-67 & \text{Product code} \\
-      \text{containsDigitAndDash} & 09-96 & \text{Date} \\
-      \text{containsDigitAndSlash} & 11/9/89 & \text{Date} \\
-      \text{containsDigitAndComma} & 23,000.00 & \text{Monetary amount} \\
-      \text{containsDigitAndPeriod} & 1.00 & \text{Monetary amount, percentage} \\
-      \text{othernum} & 456789 & \text{Other number} \\
-      \text{allCaps} & BBN & \text{Organization} \\
-      \text{capPeriod} & M. & \text{Person name initial} \\
-      \text{firstWord} & \text{First word of sentence} & \text{No useful capitalization information} \\
-      \text{initCap} & \text{Sally} & \text{Capitalized word} \\
-      \text{lowercase} & \text{can} & \text{Uncapitalized word} \\
-      \text{other} & , & \text{Punctuation marks, all other words} \\
-    \end{array}
-  \]
- 
-  
-\textbf{Original Sentence:}
-Profits\textcolor{red}{/O} soared\textcolor{red}{/O} at\textcolor{red}{/O} Boeing\textcolor{purple}{/B-C} Co.\textcolor{purple}{/I-C} ,\textcolor{red}{/O} easily\textcolor{red}{/O} topping\textcolor{red}{/O} forecasts\textcolor{red}{/O} on\textcolor{red}{/O} Wall\textcolor{purple}{/B-L} Street\textcolor{purple}{/I-L} ,\textcolor{red}{/O} as\textcolor{red}{/O} their\textcolor{red}{/O} CEO\textcolor{red}{/O} Alan\textcolor{purple}{/B-P} Mulally\textcolor{purple}{/I-P} announced\textcolor{red}{/O} first\textcolor{red}{/O} quarter\textcolor{red}{/O} results\textcolor{red}{/O} .\textcolor{red}{/O} \vspace{0.5cm}
+
+A continuación se muestra un ejemplo de clases de palabras para el reconocimiento de entidades nombradas \cite{bikelSW99}:
+
+\[
+\begin{array}{l|l|l}
+  \text{Clase de palabra} & \text{Ejemplo}  & \text{Intuición} \\
+  \hline
+  \text{twoDigitNum} & 90 & \text{Año de dos dígitos} \\
+  \text{fourDigitNum} & 1990 & \text{Año de cuatro dígitos} \\
+  \text{containsdígito y letra} & A8956-67 & \text{Código de producto} \\
+  \text{containsDigitAndDash} & 09-96 & \text{Fecha} \\
+  \text{containsDigitAndSlash} & 11/9/89 & \text{Fecha} \\
+  \text{containsDigitAndComma} & 23,000.00 & \text{Cantidad monetaria} \\
+  \text{containsDigitAndPeriod} & 1.00 & \text{Cantidad monetaria, porcentaje} \\
+  \text{othernum} & 456789 & \text{Otro número} \\
+  \text{allCaps} & BBN & \text{Organización} \\
+  \text{capPeriod} & M. & \text{Inicial de nombre de persona} \\
+  \text{firstWord} & \text{Primera palabra de la oración} & \text{Sin información útil de capitalización} \\
+  \text{initCap} & \text{Sally} & \text{Palabra capitalizada} \\
+  \text{lowercase} & \text{can} & \text{Palabra sin capitalizar} \\
+  \text{other} & , & \text{Signos de puntuación, todas las demás palabras} \\
+\end{array}
+\]
 
 
-\textbf{Transformed Sentence:}
 
-firstword\textcolor{red}{/O} soared\textcolor{red}{/O} at\textcolor{red}{/O} initCap\textcolor{purple}{/B-C} Co.\textcolor{purple}{/I-C} ,\textcolor{red}{/O} easily\textcolor{red}{/O} lowercase\textcolor{red}{/O} forecasts\textcolor{red}{/O} on\textcolor{red}{/O} initCap\textcolor{purple}{/B-L} Street\textcolor{purple}{/I-L} ,\textcolor{red}{/O} as\textcolor{red}{/O} their\textcolor{red}{/O} CEO\textcolor{red}{/O} Alan\textcolor{purple}{/B-P} initCap\textcolor{purple}{/I-P} announced\textcolor{red}{/O} first\textcolor{red}{/O} quarter\textcolor{red}{/O} results\textcolor{red}{/O} .\textcolor{red}{/O} \vspace{0.5cm}
+\section{Problema de Decodificación}
+Problema de decodificación: Para una entrada $x_1 \ldots x_n$, encontrar
+\[
+\arg \max_{y_1 \ldots y_{n+1}} p(x_1 \ldots x_n, y_1 \ldots y_{n+1})
+\]
+donde $\arg \max$ se toma sobre todas las secuencias $y_1 \ldots y_{n+1}$ tales que $y_i \in S$ para $i = 1 \ldots n$, y $y_{n+1} = \text{STOP}$.
 
+Suponemos que $p$ toma la forma:
+\[
+p(x_1 \ldots x_n, y_1 \ldots y_{n+1}) = \prod_{i=1}^{n+1} q(y_i|y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i|y_i)
+\]
 
-  \begin{itemize}
-    \item \textcolor{red}{O} = \textcolor{blue}{Outside (no entity)}
-    \item \textcolor{purple}{B-C} = \textcolor{blue}{Begin Company}
-    \item \textcolor{purple}{I-C} = \textcolor{blue}{Inside Company}
-    \item \textcolor{purple}{B-L} = \textcolor{blue}{Begin Location}
-    \item \textcolor{purple}{I-L} = \textcolor{blue}{Inside Location}
-    \item \textcolor{purple}{B-P} = \textcolor{blue}{Begin Person}
-    \item \textcolor{purple}{I-P} = \textcolor{blue}{Inside Person}
-  \end{itemize}
+Recordemos que hemos asumido en esta definición que $y_0 = y_{-1} = *$ y $y_{n+1} =$ STOP.
 
+\subsection{Método Bruto Ingenuo}
 
-\section{Decoding Problem}
-  Decoding Problem: For an input $x_1 \ldots x_n$, find
-  \[
-    \arg \max_{y_1 \ldots y_{n+1}} p(x_1 \ldots x_n, y_1 \ldots y_{n+1})
-  \]
-  where the $\arg \max$ is taken over all sequences $y_1 \ldots y_{n+1}$ such that $y_i \in S$ for $i = 1 \ldots n$, and $y_{n+1} = \text{STOP}$.
-
-  We assume that $p$ takes the form:
-  \[
-    p(x_1 \ldots x_n, y_1 \ldots y_{n+1}) = \prod_{i=1}^{n+1} q(y_i|y_{i-2}, y_{i-1}) \prod_{i=1}^{n} e(x_i|y_i)
-  \]
-  
-  
-  Recall that we have assumed in this definition that $y_0 = y_{-1} = *,$ and $y_{n+1} =$ STOP.
-  
-
-\subsection{Naive Brute Force Method}
-
-The naive, brute force method for finding the highest scoring tag sequence is to enumerate all possible tag sequences $y_1, \ldots, y_{n+1}$, score them under the function $p$, and select the sequence with the highest score.
+El método bruto ingenuo para encontrar la secuencia de etiquetas con la puntuación más alta es enumerar todas las posibles secuencias de etiquetas $y_1, \ldots, y_{n+1}$, calcular su puntuación utilizando la función $p$ y seleccionar la secuencia con la puntuación más alta.
 
 \begin{itemize}
-    \item Example:
+    \item Ejemplo:
     \begin{itemize}
-        \item Input sentence: \textit{the dog barks}
-        \item Set of possible tags: $K = \{D, N, V\}$
+        \item Oración de entrada: \textit{the dog barks}
+        \item Conjunto de etiquetas posibles: $K = \{D, N, V\}$
     \end{itemize}
     
-    \item Enumerate all possible tag sequences:
+    \item Enumerar todas las posibles secuencias de etiquetas:
     \begin{itemize}
         \item $D\ D\ D\ STOP$
         \item $D\ D\ N\ STOP$
@@ -321,66 +289,49 @@ The naive, brute force method for finding the highest scoring tag sequence is to
         \item $D\ N\ V\ STOP$
         \item ...
     \end{itemize}
-   
-   
-    \item In this case, there are $3^3 = 27$ possible sequences.
-    
-    \item However, for longer sentences, this method becomes inefficient.
-    
-    \item For an input sentence of length $n$, there are $|K|^n$ possible tag sequences.
-    
-    \item The exponential growth makes brute-force search infeasible for reasonable length sentences.
-\end{itemize}
+\end{itemize} 
+  
+ En este caso, hay $3^3 = 27$ secuencias posibles. Sin embargo, para oraciones más largas, este método se vuelve ineficiente.Para una oración de entrada de longitud $n$, hay $|K|^n$ secuencias posibles de etiquetas. El crecimiento exponencial hace que la búsqueda exhaustiva sea impracticable para oraciones de longitud razonable.
 
+\section{Decodificación de Viterbi con Programación Dinámica}
 
-\section{Viterbi Decoding Dynamic Programming}
-  \begin{itemize}
-    \item The algorithm used by HMMs to perform efficient decoding is called Viterbi decoding.
-    \item Viterbi decoding uses dynamic programming.
-    \item Dynamic programming is a technique for solving optimization problems by breaking them down into overlapping subproblems.
-    \item It stores the solutions to these subproblems in a table so that they do not have to be recalculated.
-    \item Dynamic programming can greatly improve the efficiency of algorithms.
-    \item Next, we show how dynamic programming works with two examples: Factorial and Fibonacci
-  \end{itemize}
-
-
+El algoritmo utilizado por los HMM para realizar una decodificación eficiente se denomina decodificación de Viterbi. La decodificación de Viterbi utiliza programación dinámica, que es una técnica para resolver problemas de optimización dividiéndolos en subproblemas superpuestos. Al almacenar las soluciones a estos subproblemas en una tabla, no es necesario recalcularlos, lo que mejora considerablemente la eficiencia de los algoritmos. A continuación, mostramos cómo funciona la programación dinámica con dos ejemplos: el factorial y Fibonacci.
 
 \paragraph{Factorial}
- 
-  \begin{itemize}
-    \item Recursive implementation:
 
+\begin{itemize}
+    \item Implementación recursiva:
+    
     \begin{lstlisting}[language=Python]
 def recur_factorial(n):
-    # Base case
+    # Caso base
     if n == 1:
         return n
     else:
         return n * recur_factorial(n-1)
     \end{lstlisting}
-
-    \item Dynamic programming implementation:
-
+    
+    \item Implementación con programación dinámica:
+    
     \begin{lstlisting}[language=Python]
 def dynamic_factorial(n):
-    table = [0 for i in range(0, n+1)]
-
-    # Base case
-    table[0] = 1
-
-    for i in range(1, len(table)):
-        table[i] = i * table[i-1]
-
-    return table[n]
+    tabla = [0 for i in range(0, n+1)]
+    
+    # Caso base
+    tabla[0] = 1
+    
+    for i in range(1, len(tabla)):
+        tabla[i] = i * tabla[i-1]
+    
+    return tabla[n]
     \end{lstlisting}
-
-  \end{itemize}
-
+\end{itemize}
 
 \paragraph{Fibonacci}
-    \begin{itemize}
-    \item Recursive implementation:
 
+\begin{itemize}
+    \item Implementación recursiva:
+    
     \begin{lstlisting}[language=Python]
 def recur_fibonacci(n):
     if n == 1 or n == 0:
@@ -388,147 +339,151 @@ def recur_fibonacci(n):
     else:
         return recur_fibonacci(n-1) + recur_fibonacci(n-2)
     \end{lstlisting}
-
-    \item Dynamic programming implementation:
-
+    
+    \item Implementación con programación dinámica:
+    
     \begin{lstlisting}[language=Python]
 def dynamic_fibonacci(n):
-    table = [0 for i in range(0, n+1)]
-
-    # Base case
-    table[0] = 1
-    table[1] = 1
-
-    for i in range(2, len(table)):
-        table[i] = table[i-1] + table[i-2]
-
-    return table[n]
+    tabla = [0 for i in range(0, n+1)]
+    
+    # Caso base
+    tabla[0] = 1
+    tabla[1] = 1
+    
+    for i in range(2, len(tabla)):
+        tabla[i] = tabla[i-1] + tabla[i-2]
+    
+    return tabla[n]
     \end{lstlisting}
-
-  \end{itemize}
-
-
-\paragraph{Complexity}
-
-  \begin{itemize}
-  
-  \item In recursive implementations, the complexity can be quite high due to repeated calculations of the same subproblems. 
-  \item However, dynamic programming can significantly reduce the complexity by storing the solutions to subproblems in a table or array and reusing them when needed. 
-  \item This approach eliminates the redundant calculations and allows for a more efficient computation.
-  \item For the case of Fibonacci the complexity is reduced from exponential to linear. 
-  \end{itemize}
-
-
-
-\section{The Viterbi Algorithm}
-  The Viterbi algorithm efficiently computes the maximum probability of a tag sequence by using dynamic programming.
-
-  \textbf{Definitions:}
-  \begin{itemize}
-    \item Define $n$ as the length of the sentence.
-    \item Define $S_k$ for $k = -1 \ldots n$ as the set of possible tags at position $k$: $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
-\item Define a truncated version of the probability encoded by the HMM until position $k$, $r(y_{-1}, y_0, y_1, \ldots, y_k)$ as:
-  \[
-    r(y_{-1}, y_0, y_1, \ldots, y_k) = \prod_{i=1}^{k} q(y_i | y_{i-2}, y_{i-1})
-  \]
-  
-  \item Define a dynamic programming table $\pi(k, u, v)$ as the maximum probability of a tag sequence ending in tags $u, v$ at position $k$:
-  \[
-    \pi(k, u, v) = \max_{y_{-1}, y_0, y_1, \ldots, y_k : y_{k-1} = u, y_k = v} r(y_{-1}, y_0, y_1, \ldots, y_k)
-  \]
-  \end{itemize}
-
-\paragraph{An Example}
-Recall that   $\pi(k, u, v)$ is maximum probability of a tag sequence ending in tags $u$, $v$ at position $k$
-
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.6]{pics/viterbi1.pdf}
-        \end{figure}
-
-\begin{itemize}
- \item There are many possible sequences of tags.
- \item Each of them has a probability calculated from the parameters $q$ and $e$.
- \item $\pi(7, P, D)$ is the maximum probability that one of these tag sequences ends in $P$ $D$ at position $7$.
- \item The path represents the sequence with the maximum probability.
 \end{itemize}
 
-\subsection{A Recursive Definition}
-  \textbf{Base case:}
-  \[
-    \pi(0, *, *) = 1
-  \]
+\paragraph{Complejidad}
 
-  \textbf{Recursive definition:}
-  For any $k \in \{1 \ldots n\}$, for any $u \in S_{k-1}$ and $v \in S_k$:
-  \[
-    \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
-  \]
+En las implementaciones recursivas, la complejidad puede ser bastante alta debido a los cálculos repetidos de los mismos subproblemas. Sin embargo, la programación dinámica puede reducir significativamente la complejidad al almacenar las soluciones a los subproblemas en una tabla o matriz y reutilizarlas cuando sea necesario. Este enfoque elimina los cálculos redundantes y permite una computación más eficiente. En el caso de Fibonacci, la complejidad se reduce de exponencial a lineal.
+
+\section{El Algoritmo de Viterbi}
+
+El algoritmo de Viterbi calcula eficientemente la máxima probabilidad de una secuencia de etiquetas utilizando programación dinámica.
+
+\textbf{Definiciones:}
+
+\begin{itemize}
+    \item Definimos $n$ como la longitud de la oración.
+    \item Definimos $S_k$ para $k = -1 \ldots n$ como el conjunto de etiquetas pos
+
+ibles en la posición $k$: $S_{-1} = S_0 = \{*\}$, $S_k = S$ para $k \in \{1 \ldots n\}$.
+    \item Definimos una versión truncada de la probabilidad codificada por el HMM hasta la posición $k$, $r(y_{-1}, y_0, y_1, \ldots, y_k)$, como:
+    
+    \[
+    r(y_{-1}, y_0, y_1, \ldots, y_k) = \prod_{i=1}^{k} q(y_i | y_{i-2}, y_{i-1})
+    \]
+    
+    \item Definimos una tabla de programación dinámica $\pi(k, u, v)$ como la máxima probabilidad de una secuencia de etiquetas que termina en las etiquetas $u, v$ en la posición $k$:
+    
+    \[
+    \pi(k, u, v) = \max_{y_{-1}, y_0, y_1, \ldots, y_k : y_{k-1} = u, y_k = v} r(y_{-1}, y_0, y_1, \ldots, y_k)
+    \]
+\end{itemize}
+
+\paragraph{Un Ejemplo}
+
+Recuerde que $\pi(k, u, v)$ es la máxima probabilidad de una secuencia de etiquetas que termina en las etiquetas $u, v$ en la posición $k$.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.6]{pics/viterbi1.pdf}
+\end{figure}
+
+\begin{itemize}
+    \item Hay muchas secuencias posibles de etiquetas.
+    \item Cada una de ellas tiene una probabilidad calculada a partir de los parámetros $q$ y $e$.
+    \item $\pi(7, P, D)$ es la máxima probabilidad de que una de estas secuencias de etiquetas termine en $P$ y $D$ en la posición $7$.
+    \item La ruta representa la secuencia con la máxima probabilidad.
+\end{itemize}
+
+\subsection{Una Definición Recursiva}
+
+\textbf{Caso base:}
+
+\[
+\pi(0, *, *) = 1
+\]
+
+\textbf{Definición recursiva:}
+
+Para cualquier $k \in \{1 \ldots n\}$, para cualquier $u \in S_{k-1}$ y $v \in S_k$:
+
+\[
+\pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+\]
+
+\paragraph{Justificación de la Definición Recursiva}
+
+Para cualquier $k \in \{1 \ldots n\}$, para cualquier $u \in S_{k-1}$ y $v \in S_k$:
+
+\[
+\pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
+\]
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.6]{pics/viterbi2.pdf}
+\end{figure}
 
 
-\paragraph{Justification for the Recursive Definition}
-  For any $k \in \{1 \ldots n\}$, for any $u \in S_{k-1}$ and $v \in S_k$:
-  \[
-    \pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))
-  \]
 
-  
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.6]{pics/viterbi2.pdf}
-        \end{figure}
-        
-  \begin{itemize}
-   \item Let's consider an arbitrary tag sequence that ends with tags $P$ and $D$ at position $7$.
-   \item It must contain some tag at position $5$.
-\item We are basically searching for the tag that maximizes the probability at position $5$.
-  \end{itemize}
-      
+\begin{itemize}
+    \item Consideremos una secuencia de etiquetas arbitraria que termina con las etiquetas $P$ y $D$ en la posición $7$.
+    \item Debe contener alguna etiqueta en la posición $5$.
+    \item Básicamente, estamos buscando la etiqueta que maximiza la probabilidad en la posición $5$.
+\end{itemize}
 
-\subsection{The Viterbi Algorithm}
+\subsection{El Algoritmo de Viterbi}
+
 \begin{algorithm}[H]
-\SetKwInput{Input}{Input}
-\SetKwInput{Initialization}{Initialization}
+\SetKwInput{Input}{Entrada}
+\SetKwInput{Initialization}{Inicialización}
 \SetKwFunction{Max}{max}
-\SetKwFunction{Return}{return}
+\SetKwFunction{Return}{retornar}
 
-\Input{a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$}
+\Input{una oración $x_1 \ldots x_n$, parámetros $q(s|u, v)$ y $e(x|s)$}
 
-\Initialization{ Set $\pi(0, *, *) = 1$;  $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+\Initialization{Establecer $\pi(0, *, *) = 1$;  $S_{-1} = S_0 = \{*\}$, $S_k = S$ para $k \in \{1 \ldots n\}$.
 }
 
 \BlankLine
 \SetAlgoLined
-\caption{Viterbi Algorithm}
+\caption{Algoritmo de Viterbi}
 \label{algo:prob_inference}
 \BlankLine
 
 \For{$k = 1$ \KwTo $n$}{
-\For{$u \in S_{k-1}, v \in S_k$}{\[\pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))\]} 
+\For{$u \in S_{k-1}, v \in S_k$}{
+$\pi(k, u, v) = \max_{w \in S_{k-2}} (\pi(k - 1, w, u) \times q(v|w, u) \times e(x_k|v))$
+}
 }
 
-
-
 \BlankLine
-\Return{$\max_{u \in S_{n-1}, v \in S_n} (\pi(n, u, v) \times q(\text{STOP}|u, v))$} 
+\Return{$\max_{u \in S_{n-1}, v \in S_n} (\pi(n, u, v) \times q(\text{STOP}|u, v))$}
 \end{algorithm}
 
+\subsection{El Algoritmo de Viterbi con Punteros de Retroceso}
 
-
-\subsection{The Viterbi Algorithm with Backpointers}
 \begin{algorithm}[H]
-\SetKwInput{Input}{Input}
-\SetKwInput{Initialization}{Initialization}
+\SetKwInput{Input}{Entrada}
+\SetKwInput{Initialization}{Inicialización}
 \SetKwFunction{Max}{max}
 \SetKwFunction{ArgMax}{argmax}
-\SetKwFunction{Return}{return}
+\SetKwFunction{Return}{retornar}
 
-\Input{a sentence $x_1 \ldots x_n$, parameters $q(s|u, v)$ and $e(x|s)$}
+\Input{una oración $x_1 \ldots x_n$, parámetros $q(s|u, v)$ y $e(x|s)$}
 
-\Initialization{Set $\pi(0, *, *) = 1$;  $S_{-1} = S_0 = \{*\}$, $S_k = S$ for $k \in \{1 \ldots n\}$.
+\Initialization{Establecer $\pi(0, *, *) = 1$;  $S_{-1} = S_0 = \{*\}$, $S_k = S$ para $k \in \{1 \ldots n\}$.
 }
 
 \BlankLine
 \SetAlgoLined
-\caption{Viterbi Algorithm with Backpointers}
+\caption{Algoritmo de Viterbi con Punteros de Retroceso}
 \label{algo:viterbi}
 \BlankLine
 
@@ -554,23 +509,31 @@ $y_k = \text{bp}(k + 2, y_{k+1}, y_{k+2})$ \tcp*[r]{Retrieve tag sequence using 
 \Return{the tag sequence $y_1 \ldots y_n$} \tcp*[r]{Return the final tag sequence}
 \end{algorithm}
 
+En el Algoritmo \ref{algo:viterbi}, se utiliza el puntero de retroceso para reconstruir la secuencia de etiquetas con la máxima probabilidad. El algoritmo recorre las tablas $\pi$ en orden inverso, comenzando desde la posición $n$ hasta la posición $1$. En cada iteración, se elige la etiqueta $u$ y $v$ que maximizan la expresión $\pi(k, u, v) \times q(\text{STOP}|u, v)$. Estas etiquetas se agregan al comienzo de la secuencia de etiquetas $path$, y al final del algoritmo, se devuelve la secuencia $path[1:-1]$, eliminando las etiquetas de inicio y detención.
 
+Con el algoritmo de Viterbi, podemos encontrar eficientemente la secuencia de etiquetas más probable para una oración dada, utilizando programación dinámica y aprovechando la estructura de dependencia entre las etiquetas en el HMM. Esto es especialmente útil en problemas de etiquetado de secuencias, como el etiquetado de partes del habla en NLP. 
 
-\subsection{The Viterbi Algorithm: Running Time}
-  \begin{itemize}
-    \item $O(n|S|^3)$ time to calculate $q(s|u, v) \times e(x_k|s)$ for all $k, s, u, v$.
-    \item $n|S|^2$ entries in $\pi$ to be filled in.
-    \item $O(|S|)$ time to fill in one entry.
-  \end{itemize}
-  $\Rightarrow$ $O(n|S|^3)$ time in total.
+\subsection{El Algoritmo de Viterbi: Tiempo de Ejecución}
+El tiempo de ejecución del algoritmo de Viterbi se puede analizar de la siguiente manera:
 
-\paragraph{Pros and Cons}
-  \begin{itemize}
-    \item Hidden Markov Model (HMM) taggers are simple to train (compile counts from training corpus).
-    \item They perform relatively well (over 90\% performance on named entity recognition).
-    \item Main difficulty is modeling $e(\text{word} | \text{tag})$, which can be very complex if "words" are complex.
-  \end{itemize}
-  
+\begin{itemize}
+    \item Se requiere un tiempo de $O(n|S|^3)$ para calcular $q(s|u, v) \times e(x_k|s)$ para todos los valores de $k, s, u, v$.
+    \item La tabla $\pi$ tiene $n|S|^2$ entradas que deben ser llenadas.
+    \item Se necesita un tiempo de $O(|S|)$ para llenar una entrada.
+\end{itemize}
+
+Por lo tanto, el tiempo de ejecución total es $O(n|S|^3)$.
+
+\paragraph{Ventajas y Desventajas}
+El uso de etiquetadores basados en Modelos de Markov Ocultos (HMM) presenta ciertas ventajas y desventajas:
+
+\begin{itemize}
+    \item Los etiquetadores HMM son fáciles de entrenar (se recopilan conteos a partir de un corpus de entrenamiento).
+    \item Tienen un rendimiento relativamente bueno (más del 90\% de precisión en el reconocimiento de entidades nombradas).
+    \item La principal dificultad radica en modelar $e(\text{palabra} | \text{etiqueta})$, lo cual puede ser muy complejo si las "palabras" son complejas.
+\end{itemize}
+
+Aunque los etiquetadores HMM tienen ventajas en términos de simplicidad y rendimiento, la modelización de la probabilidad condicional $e(\text{palabra} | \text{etiqueta})$ puede resultar desafiante en situaciones donde las palabras son complejas o ambiguas. En tales casos, se pueden requerir técnicas más avanzadas para mejorar la precisión del etiquetado de secuencias.
 
 
 \section{MEMMs}  

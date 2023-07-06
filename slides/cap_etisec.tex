@@ -1,116 +1,72 @@
+%Translate this Latex book chapter to Spanish. Output in Latex format. Rearrange bullet points (\items) into full paragraphs. Make sure that sentences are connected in a more fluid way as they come. Elaborate on incomplete ideas where appropriate.
 
+\section{Tareas de Etiquetado de Secuencias o Etiquetado}
+\begin{itemize}
+  \item El etiquetado de secuencias o etiquetado es una tarea en PNL que difiere de la clasificación de documentos.
+  \item El objetivo es asignar etiquetas o etiquetas a una oración representada como una secuencia de tokens $x_1, x_2, \dots, x_n$.
+  \item En particular, el objetivo del etiquetado de secuencias es asignar etiquetas a palabras, o más generalmente, asignar etiquetas discretas a elementos discretos en una secuencia \cite{jacobbook}.
+  \item Ejemplos conocidos de esta tarea son el etiquetado de partes del discurso (POS) y el reconocimiento de entidades nombradas (NER).
+\end{itemize}
 
-\section{Overview}
-  \begin{itemize}
-    \item The Sequence Labeling (or Tagging) Problem
-    \item Generative models, and the noisy-channel model, for supervised learning
-    \item Hidden Markov Model (HMM) taggers
-    \begin{itemize}\scriptsize
-    \item Basic definitions
-    \item Parameter estimation
-    \item The Viterbi algorithm
-    \end{itemize}
-  \end{itemize}
- This slides are based on the course material by Michael Collins: \url{http://www.cs.columbia.edu/~mcollins/cs4705-spring2019/slides/tagging.pdf}
+\section{Etiquetado de Partes del Discurso}
+\textcolor{green}{\textbf{ENTRADA:}}
+Los beneficios aumentaron en Boeing Co., superando fácilmente las previsiones en Wall Street, cuando su CEO Alan Mulally anunció los resultados del primer trimestre.  \vspace{0.5cm}
 
+\textcolor{green}{\textbf{SALIDA:}}
+Los beneficios\textcolor{red}{/N} aumentaron\textcolor{red}{/V} en\textcolor{red}{/P} Boeing\textcolor{red}{/N} Co.\textcolor{red}{/N} ,\textcolor{red}{/,} superando\textcolor{red}{/V} fácilmente\textcolor{red}{/ADV} las\textcolor{red}{/DET} previsiones\textcolor{red}{/N} en\textcolor{red}{/P} Wall\textcolor{red}{/N} Street\textcolor{red}{/N} ,\textcolor{red}{/,} cuando\textcolor{red}{/P} su\textcolor{red}{/DET} CEO\textcolor{red}{/N} Alan\textcolor{red}{/N} Mulally\textcolor{red}{/N} anunció\textcolor{red}{/V} los\textcolor{red}{/DET} resultados\textcolor{red}{/N} del\textcolor{red}{/PREP} primer\textcolor{red}{/ADJ} trimestre\textcolor{red}{/N} .\textcolor{red}{/.}  \vspace{0.5cm}
 
-\section{Sequence Labeling or Tagging Tasks}
+\begin{itemize}
+  \item \textcolor{red}{N} = \textcolor{blue}{Sustantivo}
+  \item \textcolor{red}{V} = \textcolor{blue}{Verbo}
+  \item \textcolor{red}{P} = \textcolor{blue}{Preposición}
+  \item \textcolor{red}{Adv} = \textcolor{blue}{Adverbio}
+  \item \textcolor{red}{Adj} = \textcolor{blue}{Adjetivo}
+  \item ...
+\end{itemize}
 
-  \begin{itemize}
-    \item Sequence Labeling or Tagging is a task in NLP different from document classification.
-    \item Here the goal is to map a sentence represented as a sequence of tokens $x_1,x_2,\dots,x_n$ into a sequence of tags or labels $y_1,y_2,\dots,y_n$.
-      \item More specifically, The goal of sequence labeling is to assign tags to words, or more generally, to assign discrete labels to discrete elements in a sequence \cite{jacobbook}.
+\begin{figure}[h]
+  \includegraphics[scale=0.34]{pics/posTags.png}
+\end{figure}
+Fuente: \cite{JurafskyBook}
 
-    \item Well known examples of this task are Part-of-Speech (POS) tagging and Named Entity Recognition (NER) to be presented next.
-    \end{itemize}
+\section{Reconocimiento de Entidades Nombradas (NER)}
+Una \textbf{entidad nombrada} es, hablando en términos generales, cualquier cosa a la que se puede hacer referencia con un nombre propio: una persona, un lugar, una organización. \vspace{0.5cm}
 
+\textcolor{green}{\textbf{ENTRADA:}}
+Los beneficios aumentaron en Boeing Co., superando fácilmente las previsiones en Wall Street, cuando su CEO Alan Mulally anunció los resultados del primer trimestre.  \vspace{0.5cm}
 
-\section{Part-of-Speech Tagging}
-  \textcolor{green}{\textbf{INPUT:}}
-  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.  \vspace{0.5cm}
-  
-  \textcolor{green}{\textbf{OUTPUT:}}
-  Profits\textcolor{red}{/N} soared\textcolor{red}{/V} at\textcolor{red}{/P} Boeing\textcolor{red}{/N} Co.\textcolor{red}{/N} ,\textcolor{red}{/,} easily\textcolor{red}{/ADV} topping\textcolor{red}{/V} forecasts\textcolor{red}{/N} on\textcolor{red}{/P} Wall\textcolor{red}{/N} Street\textcolor{red}{/N} ,\textcolor{red}{/,} as\textcolor{red}{/P} their\textcolor{red}{/POSS} CEO\textcolor{red}{/N} Alan\textcolor{red}{/N} Mulally\textcolor{red}{/N} announced\textcolor{red}{/V} first\textcolor{red}{/ADJ} quarter\textcolor{red}{/N} results\textcolor{red}{/N} .\textcolor{red}{/.}
-   \vspace{0.5cm}
-  \begin{itemize}
-    \item \textcolor{red}{N} = \textcolor{blue}{Noun}
-    \item \textcolor{red}{V} = \textcolor{blue}{Verb}
-    \item \textcolor{red}{P} = \textcolor{blue}{Preposition}
-    \item \textcolor{red}{Adv} = \textcolor{blue}{Adverb}
-    \item \textcolor{red}{Adj} = \textcolor{blue}{Adjective}
-    \item ...
-  \end{itemize}
+\textcolor{green}{\textbf{SALIDA:}}
+Los beneficios aumentaron en \textcolor{red}{[Compañía} Boeing Co.\textcolor{red}{]}, superando fácilmente las previsiones en \textcolor{red}{[Lugar} Wall Street\textcolor{red}{]}, cuando su CEO \textcolor{red}{[Persona} Alan Mulally\textcolor{red}{]} anunció los resultados del primer trimestre. \vspace{0.5cm}
 
+\begin{itemize}
+  \item Dado que las entidades pueden abarcar varias palabras (es decir, un problema de reconocimiento de fragmentos), podemos utilizar el etiquetado BIO \cite{ramshaw1999text} para convertir el problema en un problema de etiquetado de secuencias.
+  \item Etiquetado BIO: utilizar etiquetas que capturen tanto el límite como el tipo de entidad nombrada.
+\end{itemize}
 
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.34]{pics/posTags.png}
-        \end{figure}
-Source: \cite{JurafskyBook}
+\paragraph{Etiquetado BIO: NER como Etiquetado de Secuencias}
+\textcolor{green}{\textbf{ENTRADA:}}
+Los beneficios aumentaron en Boeing Co., superando fácilmente las previsiones en Wall Street, cuando su CEO Alan Mulally anunció los resultados del primer trimestre.  \vspace{0.5cm}
 
+\textcolor{green}{\textbf{SALIDA:}}
+Los\textcolor{red}{/O} beneficios\textcolor{red}{/O} aumentaron\textcolor{red}{/O} en\textcolor{red}{/O} Boeing\textcolor{purple}{/B-C} Co.\textcolor{purple}{/I-C} ,\textcolor{red}{/O} superando\textcolor{red}{/O} fácilmente\textcolor{red}{/O} las\textcolor{red}{/O} previsiones\textcolor{red}{/O} en\textcolor{red}{/O} Wall\textcolor{purple}{/B-L} Street\textcolor{purple}{/I-L} ,\textcolor{red}{/O} cuando\textcolor{red}{/O} su\textcolor{red}{/O} CEO\textcolor{red}{/O} Alan\textcolor{purple}{/B-P} Mulally\textcolor{purple}{/I-P} anunció\textcolor{red}{/O} los\textcolor{red}{/O} resultados\textcolor{red}{/O} del\textcolor{red}{/O} primer\textcolor{red}{/O} trimestre\textcolor{red}{/O} .\textcolor{red}{/O}  \vspace{0.5cm}
 
-\section{Named Entity Recognition (NER)}
-A \textbf{named entity} is, roughly speaking, anything that can be referred to with a named entity proper name: a person, a location, an organization.\vspace{0.5cm}
+\begin{itemize}
+  \item \textcolor{red}{O} = \textcolor{blue}{Fuera (sin entidad)}
+  \item \textcolor{purple}{B-C} = \textcolor{blue}{Comienzo de Compañía}
+  \item \textcolor{purple}{I-C} = \textcolor{blue}{Dentro de Compañía}
+  \item \textcolor{purple}{B-L} = \textcolor{blue}{Comienzo de Lugar}
+  \item \textcolor{purple}{I-L} = \textcolor{blue}{Dentro de Lugar}
+  \item \textcolor{purple}{B-P} = \textcolor{blue}{Comienzo de Persona}
+  \item \textcolor{purple}{I-P} = \textcolor{blue}{Dentro de Persona}
+\end{itemize}
 
-  \textcolor{green}{\textbf{INPUT:}}
-  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results.    \vspace{0.5cm}
-
-  \textcolor{green}{\textbf{OUTPUT:}}
-  Profits soared at \textcolor{red}{[Company} Boeing Co.\textcolor{red}{]}, easily topping forecasts on \textcolor{red}{[Location} Wall Street\textcolor{red}{]}, as their CEO \textcolor{red}{[Person} Alan Mulally\textcolor{red}{]} announced first quarter results. \vspace{0.5cm}
-
-  \begin{itemize}
-   \item  Since entities can span multiple words (i.e., a span recognition problem), we can use BIO tagging \cite{ramshaw1999text} to turn the problem into a sequence labeling problem.
-   \item   BIO tagging: use tags that capture both the boundary and the named entity type.
-  \end{itemize}
-
-
-\paragraph{BIO tagging: NER as Sequence Labeling}
-   \textcolor{green}{\textbf{INPUT:}}
-  Profits soared at Boeing Co., easily topping forecasts on Wall Street, as their CEO Alan Mulally announced first quarter results. \vspace{0.5cm}
-
-  \textcolor{green}{\textbf{OUTPUT:}}
-Profits\textcolor{red}{/O} soared\textcolor{red}{/O} at\textcolor{red}{/O} Boeing\textcolor{purple}{/B-C} Co.\textcolor{purple}{/I-C} ,\textcolor{red}{/O} easily\textcolor{red}{/O} topping\textcolor{red}{/O} forecasts\textcolor{red}{/O} on\textcolor{red}{/O} Wall\textcolor{purple}{/B-L} Street\textcolor{purple}{/I-L} ,\textcolor{red}{/O} as\textcolor{red}{/O} their\textcolor{red}{/O} CEO\textcolor{red}{/O} Alan\textcolor{purple}{/B-P} Mulally\textcolor{purple}{/I-P} announced\textcolor{red}{/O} first\textcolor{red}{/O} quarter\textcolor{red}{/O} results\textcolor{red}{/O} .\textcolor{red}{/O} \vspace{0.5cm}
-
-
-  \begin{itemize}
-    \item \textcolor{red}{O} = \textcolor{blue}{Outside (no entity)}
-    \item \textcolor{purple}{B-C} = \textcolor{blue}{Begin Company}
-    \item \textcolor{purple}{I-C} = \textcolor{blue}{Inside Company}
-    \item \textcolor{purple}{B-L} = \textcolor{blue}{Begin Location}
-    \item \textcolor{purple}{I-L} = \textcolor{blue}{Inside Location}
-    \item \textcolor{purple}{B-P} = \textcolor{blue}{Begin Person}
-    \item \textcolor{purple}{I-P} = \textcolor{blue}{Inside Person}
-  \end{itemize}
-
-Our Goal
-  \textbf{Training set:}
-  \begin{enumerate}
-    \item Pierre\textcolor{red}{/NNP} Vinken\textcolor{red}{/NNP} ,\textcolor{red}{/,} 61\textcolor{red}{/CD} years\textcolor{red}{/NNS} old\textcolor{red}{/JJ} ,\textcolor{red}{/,} will\textcolor{red}{/MD} join\textcolor{red}{/VB} the\textcolor{red}{/DT} board\textcolor{red}{/NN} as\textcolor{red}{/IN} a\textcolor{red}{/DT} nonexecutive\textcolor{red}{/JJ} director\textcolor{red}{/NN} Nov.\textcolor{red}{/NNP} 29\textcolor{red}{/CD} .\textcolor{red}{/.}
-    \item Mr.\textcolor{red}{/NNP} Vinken\textcolor{red}{/NNP} is\textcolor{red}{/VBZ} chairman\textcolor{red}{/NN} of\textcolor{red}{/IN} Elsevier\textcolor{red}{/NNP} N.V.\textcolor{red}{/NNP} ,\textcolor{red}{/,} the\textcolor{red}{/DT} Dutch\textcolor{red}{/NNP} publishing\textcolor{red}{/VBG} group\textcolor{red}{/NN} .\textcolor{red}{/.}
-    \item Rudolph\textcolor{red}{/NNP} Agnew\textcolor{red}{/NNP} ,\textcolor{red}{/,} 55\textcolor{red}{/CD} years\textcolor{red}{/NNS} old\textcolor{red}{/JJ} and\textcolor{red}{/CC} chairman\textcolor{red}{/NN} of\textcolor{red}{/IN} Consolidated\textcolor{red}{/NNP} Gold\textcolor{red}{/NNP} Fields\textcolor{red}{/NNP} PLC\textcolor{red}{/NNP} ,\textcolor{red}{/,} was\textcolor{red}{/VBD} named\textcolor{red}{/VBN} a\textcolor{red}{/DT} nonexecutive\textcolor{red}{/JJ} director\textcolor{red}{/NN} of\textcolor{red}{/IN} this\textcolor{red}{/DT} British\textcolor{red}{/JJ} industrial\textcolor{red}{/JJ} conglomerate\textcolor{red}{/NN} .\textcolor{red}{/.}
-    \item ...
-  \end{enumerate}
-
-  \textbf{Our Goal:} From the training set, induce a function/algorithm that maps new sentences to their tag sequences.
-
-
-\paragraph{Two Types of Constraints}
-  Influential\textcolor{red}{/JJ} members\textcolor{red}{/NNS} of\textcolor{red}{/IN} the\textcolor{red}{/DT} House\textcolor{red}{/NNP} Ways\textcolor{red}{/NNP} and\textcolor{red}{/CC} Means\textcolor{red}{/NNP} Committee\textcolor{red}{/NNP} introduced\textcolor{red}{/VBD} legislation\textcolor{red}{/NN} that\textcolor{red}{/WDT} would\textcolor{red}{/MD} restrict\textcolor{red}{/VB} how\textcolor{red}{/WRB} the\textcolor{red}{/DT} new\textcolor{red}{/JJ} savings-and-loan\textcolor{red}{/NN} bailout\textcolor{red}{/NN} agency\textcolor{red}{/NN} can\textcolor{red}{/MD} raise\textcolor{red}{/VB} capital\textcolor{red}{/NN} .\textcolor{red}{/.} \vspace{0.5cm}
-
-  \textbf{``Local'':}
-  \begin{itemize}
-    \item e.g., ``can'' is more likely to be a modal verb \textcolor{red}{MD} rather than a noun \textcolor{red}{NN}
-  \end{itemize}
-
-  \textbf{``Contextual'':}
-  \begin{itemize}
-    \item e.g., a noun is much more likely than a verb to follow a determiner
-  \end{itemize}
-
-  \textbf{Sometimes these preferences are in conflict:}
-  \begin{itemize}
-    \item The trash can is in the garage
-  \end{itemize}
-
+Nuestro objetivo:
+\textbf{Conjunto de entrenamiento:}
+\begin{enumerate}
+  \item Pierre\textcolor{red}{/NNP} Vinken\textcolor{red}{/NNP},\textcolor{red}{/,} 61\textcolor{red}{/CD} años\textcolor{red}{/NNS} de edad\textcolor{red}{/JJ},\textcolor{red}{/,} se unirá a la junta directiva como director no ejecutivo el 29 de noviembre.\textcolor{red}{/NNP}
+  \item El Sr.\textcolor{red}{/NNP} Vinken\textcolor{red}{/NNP} es presidente\textcolor{red}{/NN} de Elsevier\textcolor{red}{/NNP} N.V.\textcolor{red}{/NNP}, el grupo editorial holandés.\textcolor{red}{/NNP}
+  \item Rudolph\textcolor{red}{/NNP} Agnew\textcolor{red}{/NNP},\textcolor{red}{/,} de 55\textcolor{red}{/CD} años\textcolor{red}{/NNS} y presidente\textcolor{red}{/NN} de\ldots
+\end{enumerate}
 
 \subsection{Sequence Labeling as Supervised Learning}
     \begin{itemize}

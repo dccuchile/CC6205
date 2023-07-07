@@ -536,143 +536,142 @@ El uso de etiquetadores basados en Modelos de Markov Ocultos (HMM) presenta cier
 Aunque los etiquetadores HMM tienen ventajas en términos de simplicidad y rendimiento, la modelización de la probabilidad condicional $e(\text{palabra} | \text{etiqueta})$ puede resultar desafiante en situaciones donde las palabras son complejas o ambiguas. En tales casos, se pueden requerir técnicas más avanzadas para mejorar la precisión del etiquetado de secuencias.
 
 
-\section{MEMMs}  
-  
+\section{MEMMs}
+
 \begin{itemize}
 
-\item Maximum-entropy Markov models (MEMMs) make use of log-linear multi-class models for sequence labeling tasks \cite{mccallum2000maximum}.
- 
- \item In the early NLP literature, logistic regression was often called maximum entropy classification \cite{jacobbook}.
- 
- \item Hence, MEMMs will look very similar to the multi-class softmax models seen in the lecture about linear models. 
- 
-  \item In contrast to HMMs, here we rely on parameterized functions.
+\item Los modelos de Markov de entropía máxima (MEMMs) utilizan modelos log-lineales multiclase para tareas de etiquetado de secuencias \cite{mccallum2000maximum}.
 
+\item En la literatura temprana de PLN, la regresión logística a menudo se llamaba clasificación de entropía máxima \cite{jacobbook}.
 
- \item The goal of MEMMs is  model the following conditional distribution:
- 
- \begin{displaymath}
-  P(s_1,s_2 \dots, s_m | x_1, \dots, x_m)
- \end{displaymath}
+\item Por lo tanto, los MEMMs se parecerán mucho a los modelos de softmax multiclase vistos en la conferencia sobre modelos lineales.
 
- \item Where each $x_j$ for $j = 1 \dots m$ is the $j$-th input symbol (for example the j-th word in a sentence), and each $s_j$ for $j = 1 \dots m$ is the $j$-th tag.\footnote{These slides are based on lecture notes of Michael Collins \url{http://www.cs.columbia.edu/~mcollins/crf.pdf}. The notation and terminology has been adapted to be consistent with the rest of the course.}
+\item A diferencia de los HMM, aquí confiamos en funciones parametrizadas.
 
-\item We would expect $P$(DET,NOUN,VERB$|$the,dog,barks$)$ to be higher than $P$(VERB,VERB,VERB$|$the,dog,barks$)$ in a model trained from a POS-tagging training dataset.
- 
-\item We use $S$ to denote the set of possible tags.
-\item We assume that $S$ is a finite set. 
- \item For example, in part-of-speech tagging of English, $S$ would be the set of all possible parts of speech in English (noun, verb, determiner, preposition, etc.).
- \item Given a sequence of words $x_1, \dots, x_m$ , there are $k^m$ possible part-of-speech sequences $s_1, \dots, s_m$ , where $k = |S|$ is the number of possible parts of speech.
- \item We want to estimate a distribution over these $k^m$ possible sequences.
+\item El objetivo de los MEMMs es modelar la siguiente distribución condicional:
 
- \item In a first step, MEMMs use the following decomposition ($s_0$ has always a special tag $*$):
- \begin{equation}
+\begin{displaymath}
+P(s_1,s_2 \dots, s_m | x_1, \dots, x_m)
+\end{displaymath}
+
+\item Donde cada $x_j$ para $j = 1 \dots m$ es el símbolo de entrada $j$ (por ejemplo, la $j$-ésima palabra en una oración), y cada $s_j$ para $j = 1 \dots m$ es la $j$-ésima etiqueta\footnote{Estas diapositivas se basan en notas de conferencia de Michael Collins \url{http://www.cs.columbia.edu/~mcollins/crf.pdf}. La notación y la terminología se han adaptado para ser coherentes con el resto del curso.}.
+
+\item Esperaríamos que $P$(DET, NOUN, VERB$|$the, dog, barks$)$ sea mayor que $P$(VERB, VERB, VERB$|$the, dog, barks$)$ en un modelo entrenado a partir de un conjunto de datos de entrenamiento de etiquetado POS.
+
+\item Usamos $S$ para denotar el conjunto de etiquetas posibles.
+
+\item Suponemos que $S$ es un conjunto finito.
+
+\item Por ejemplo, en el etiquetado de partes del habla en inglés, $S$ sería el conjunto de todas las posibles partes del habla en inglés (sustantivo, verbo, determinante, preposición, etc.).
+
+\item Dada una secuencia de palabras $x_1, \dots, x_m$, hay $k^m$ secuencias posibles de partes del habla $s_1, \dots, s_m$, donde $k = |S|$ es el número de partes del habla posibles.
+
+\item Queremos estimar una distribución sobre estas $k^m$ secuencias posibles.
+
+\item En un primer paso, los MEMMs usan la siguiente descomposición ($s_0$ siempre tiene una etiqueta especial $*$):
+
+\begin{equation}
 \begin{split}
-  P(s_1,s_2 \dots, s_m | x_1, \dots, x_m) \quad & =  \prod_{i=1}^{m}    P(s_i | s_1 \dots, s_{i-1}, x_1, \dots, x_m)\\
- \quad & =  \prod_{i=1}^{m}    P(s_i | s_{i-1}, x_1, \dots, x_m)
+P(s_1,s_2 \dots, s_m | x_1, \dots, x_m) \quad & = \prod_{i=1}^{m}    P(s_i | s_1 \dots, s_{i-1}, x_1, \dots, x_m)\\
+\quad & = \prod_{i=1}^{m}    P(s_i | s_{i-1}, x_1, \dots, x_m)
 \end{split}
 \end{equation}
 
-\item The first equality is exact (it follows by the chain rule of conditional probabilities).
+\item La primera igualdad es exacta (se sigue de la regla de la cadena de probabilidades condicionales).
 
-\item The second equality follows from an independence assumption, namely that for all $i$,
+\item La segunda igualdad se deriva de un supuesto de independencia, a saber, que para todo $i$,
 
 \begin{displaymath}
- P(s_i | s_1 \dots, s_{i-1}, x_1, \dots, x_m) =   P(s_i | s_{i-1}, x_1, \dots, x_m)
+P(s_i | s_1 \dots, s_{i-1}, x_1, \dots, x_m) = P(s_i | s_{i-1}, x_1, \dots, x_m)
 \end{displaymath}
 
-\item Hence we are making a first order Markov assumption similar to the Markov assumption made in HMMs\footnote{We actually made a second order Markov assumption in HMMs. MEMMs can also be extended to second order assumptions.}. 
- 
-\item The tag in the $i$-th position depends only on the tag in the $(i -1)$-th position. 
- 
- 
-\item Having made these independence assumptions, we then model each term using a multiclass log-linear (softmax) model:
- 
- \begin{equation}
- P(s_i | s_{i-1}, x_1, \dots, x_m)  =  \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
+\item Por lo tanto, estamos haciendo una suposición de Markov de primer orden similar a la suposición de Markov realizada en los HMM\footnote{De hecho, hicimos una suposición de Markov de segundo orden en los HMM. Los MEMMs también se pueden extender a suposiciones de segundo orden.}.
+
+\item La etiqueta en la posición $i$ depende solo de la etiqueta en la posición $(i-1)$.
+
+\item Habiendo hecho estas suposiciones de independencia, luego modelamos cada término usando un modelo log-lineal multiclase (softmax):
+
+\begin{equation}
+P(s_i | s_{i-1}, x_1, \dots, x_m) = \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
 \end{equation}
- 
+
 \end{itemize}
 
-Here $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ is a feature vector where:
+Aquí, $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)$ es un vector de características donde:
 \begin{itemize}
- \item $x_1, \cdots, x_m$ is the entire sentence being tagged.
-  \item $i$ is the position to be tagged (can take any value from $1$ to $m$).
-  \item $s_{i-1}$ is the previous tag value (can take any value in $S$).
-  \item $s_i$ is the new tag value (can take any value in $S$).
- 
+\item $x_1, \cdots, x_m$ es la oración completa que se está etiquetando.
+\item $i$ es la posición a etiquetar (puede tomar cualquier valor de $1$ a $m$).
+\item $s_{i-1}$ es el valor de la etiqueta anterior (puede tomar cualquier valor en $S$).
+\item $s_i$ es el nuevo valor de la etiqueta (puede tomar cualquier valor en $S$).
+
 \end{itemize}
 
-The scope of the feature vector is \textbf{restricted} to the whole input sequence $x_1, x_m$, and only the previous and current tag values. This restriction allows efficient training of both MEMMs and CRFs.
+El alcance del vector de características está \textbf{restringido} a toda la secuencia de entrada $x_1, x_m$, y solo las etiquetas anteriores y actuales. Esta restricción permite el entrenamiento eficiente tanto de los MEMMs como de los CRFs.
 
 
-\section{Example of Features used in Part-of-Speech Tagging}
-
-\begin{enumerate}
- \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[1]}=1$ if $s_i$ = ADVERB and word $x_i$ ends in ``-ly''; 0 otherwise. \\ 
- 
- If the weight $\vec{w}_{[1]}$ associated with this feature is large and positive, then this feature is essentially saying that we prefer labelings where words ending in -ly get labeled as ADVERB.
- 
- \item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[2]}=1$ if $i=1$, $s_i$= VERB, and $x_m$=?; 0 otherwise. 
- \\ If the weight $\vec{w}_{[2]}$ associated with this feature is large and positive, then labelings that assign VERB to the first word in a question (e.g., ``Is this a sentence beginning with a verb?'') are preferred.
-
-
-\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[3]}=1$ if $s_{i-1}$= ADJECTIVE and $s_i$= NOUN; 0 otherwise. 
-\\Again, a positive weight for this feature means that adjectives tend to be followed by nouns. 
-
-\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[4]}=1$ if $s_{i-1}$= PREPOSITION and $s_{i}$= PREPOSITION. 
-\\ A negative weight $\vec{w}_{[4]}$ for this function would mean that prepositions don't tend to follow prepositions.
-
- 
-\end{enumerate}
-
-
-\footnotemark{Source: \url{https://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/}}
-
-
-
-\section{Feature Templates}
-
-It is possible to define more general feature templates covering unigrams, bigrams, n-grams of words as well as tag values of $s_{i-1}$ and $s_i$.
+\section{Ejemplo de características utilizadas en el etiquetado de partes del habla}
 
 \begin{enumerate}
-  
- \item A word unigram and tag unigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[index(j,z)]}=1$ if $s_i$ = TAG$_{[j]}$ and $x_i$ = WORD$_{[z]}$; 0 otherwise $\forall j,z$. \\ Notice that $j$ is and index spanning all possible tags in $S$ and $z$ is another index spanning the words in the vocabulary $V$.
- 
- \item A word bigram and tag bigram feature template: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[index(j,z,u,v)]}=1$ if $s_{i-1}$ = TAG$_{[j]}$ and $s_i$ = TAG$_{[z]}$ and $x_{i-1}$ = WORD$_{[u]}$ and $x_{i}$ = WORD$_{[v]}$; 0 otherwise $\forall j,z,u,v$. 
- 
- 
+\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[1]}=1$ si $s_i$ = ADVERB y la palabra $x_i$ termina en ``-ly''; 0 en caso contrario. \\
+Si el peso $\vec{w}_{[1]}$ asociado con esta característica es grande y positivo, entonces esta característica está diciendo básicamente que preferimos etiquetas donde las palabras que terminan en -ly se etiquetan como ADVERB.
+
+\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[2]}=1$ si $i=1$, $s_i$=VERB y $x_m$= $?; 0$ en caso contrario. \\
+Si el peso $\vec{w}_{[2]}$ asociado con esta característica es grande y positivo, entonces se prefieren las etiquetas que asignan VERB a la primera palabra de una pregunta (por ejemplo, "¿Es esta una oración que comienza con un verbo?").
+
+\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[3]}=1$ si $s_{i-1}$=ADJECTIVE y $s_i$=NOUN; 0 en caso contrario. \\
+Nuevamente, un peso positivo para esta característica significa que los adjetivos tienden a ir seguidos de sustantivos.
+
+\item $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[4]}=1$ si $s_{i-1}$=PREPOSITION y $s_{i}$=PREPOSITION. \\
+Un peso negativo $\vec{w}_{[4]}$ para esta función significaría que las preposiciones no tienden a seguir a las preposiciones.
+
 \end{enumerate}
 
-The function $index(j,k,...)$ will map each different feature to a unique index in the feature vector.  \\
-Notice that the resulting vector will be very high-dimensional and sparse.
-
-\paragraph{Example}
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.73]{pics/CRF1.pdf}
-        \end{figure}
-
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.6]{pics/CRF2.pdf}
-        \end{figure}
+\footnotemark{Fuente: \url{https://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/}}
 
 
 
+\section{Plantillas de características}
 
+Es posible definir plantillas de características más generales que cubran unigramas, bigramas, n-gramas de palabras, así como valores de etiqueta de $s_{i-1}$ y $s_i$.
 
-\section{MEMMs and Multi-class Softmax}
+\begin{enumerate}
+
+\item Una plantilla de características de unigramas de palabras y unigramas de etiquetas: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[index(j,z)]}=1$ si $s_i$ = TAG$_{[j]}$ y $x_i$ = WORD$_{[z]}$; 0 en caso contrario $\forall j,z$. \\
+Nótese que $j$ es un índice que abarca todas las etiquetas posibles en $S$ y $z$ es otro índice que abarca las palabras en el vocabulario $V$.
+
+\item Una plantilla de características de bigramas de palabras y bigramas de etiquetas: $\vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i)_{[index(j,z,u,v)]}=1$ si $s_{i-1}$ = TAG$_{[j]}$, $s_i$ = TAG$_{[z]}$, $x_{i-1}$ = WORD$_{[u]}$ y $x_{i}$ = WORD$_{[v]}$; 0 en caso contrario $\forall j,z,u,v$.
+
+\end{enumerate}
+
+La función $index(j,k,...)$ asignará a cada característica diferente un índice único en el vector de características. \\
+Nótese que el vector resultante tendrá una dimensión muy alta y será disperso.
+
+\paragraph{Ejemplo}
+\begin{figure}[h]
+\caption{Ejemplo de características en el etiquetado de partes del habla}
+\centering
+\includegraphics[scale = 0.73]{pics/CRF1.pdf}
+\end{figure}
+
+\begin{figure}[h]
+\caption{Ejemplo de características en el etiquetado de partes del habla (continuación)}
+\centering
+\includegraphics[scale = 0.6]{pics/CRF2.pdf}
+\end{figure}
+
+\section{MEMMs y Softmax Multiclase}
 
 \begin{itemize}
-\item Notice that the log-linear model from above is very similar to the multi-class softmax model presented in the lecture about linear models.
+\item Observemos que el modelo log-lineal mencionado anteriormente es muy similar al modelo softmax multiclase presentado en la conferencia sobre modelos lineales.
 
-\item A general log-linear model has the following form:
+\item Un modelo log-lineal general tiene la siguiente forma:
 
 \begin{displaymath}
- P( y | x; \vec{w}) = \frac{\exp (\vec{w}\cdot \vec{\phi}(x,y))}{\sum_{y' \in Y} \exp (\vec{w}\cdot \vec{\phi}(x,y'))}
+P(y | x; \vec{w}) = \frac{\exp (\vec{w}\cdot \vec{\phi}(x,y))}{\sum_{y' \in Y} \exp (\vec{w}\cdot \vec{\phi}(x,y'))}
 \end{displaymath}
 
 
-\item A multi-class softmax model has the following form:
+\item Un modelo softmax multiclase tiene la siguiente forma:
 \begin{equation}
 \begin{split}
 \hat{\vec{y}} \quad & =  \operatorname{softmax}(\vec{x} \cdot W + \vec{b})  \\
@@ -680,343 +679,317 @@ Notice that the resulting vector will be very high-dimensional and sparse.
 \end{split}
 \end{equation}
 
- 
-\item Difference 1: in the log-linear model we have a fixed parameter vector $\vec{w}$ instead of having multiple vectors (one column of $W$ for each class value).
 
-\item Difference 2: the feature vector of the log-linear model $\vec{\phi}(x,y)$ includes information of the label $y$, whereas the input vector $\vec{x}$ of the softmax model is independent of $y$. 
+\item Diferencia 1: en el modelo log-lineal tenemos un vector de parámetros fijo $\vec{w}$ en lugar de tener múltiples vectores (una columna de $W$ por cada valor de clase).
 
-\item Log-linear models allow using features that consider the interaction between $x$ and $y$ (e.g., $x$ ends in ``ly'' and $y$ is an ADVERB).
+\item Diferencia 2: el vector de características del modelo log-lineal $\vec{\phi}(x,y)$ incluye información de la etiqueta $y$, mientras que el vector de entrada $\vec{x}$ del modelo softmax es independiente de $y$.
 
- 
+\item Los modelos log-lineales permiten usar características que consideran la interacción entre $x$ e $y$ (por ejemplo, $x$ termina en ``ly'' e $y$ es un ADVERBIO).
+
+
 \end{itemize}
 
 
 
-\section{Training MEMMs}
+\section{Entrenamiento de los MEMMs}
 
 \begin{itemize}
 
-\item Once we've defined the feature vectors $\vec{\phi}$, we can train the parameters $\vec{w}$ of the model in the usual way linear models are trained.
+\item Una vez que hemos definido los vectores de características $\vec{\phi}$, podemos entrenar los parámetros $\vec{w}$ del modelo de la misma manera que se entrenan los modelos lineales.
 
-\item We set the negative log-likelihood as the loss function and optimize parameters using gradient descent from the training examples.
+\item Establecemos la log-verosimilitud negativa como función de pérdida y optimizamos los parámetros utilizando descenso de gradiente a partir de los ejemplos de entrenamiento.
 
-\item This is equivalent as using the cross-entropy loss.
+\item Esto es equivalente a usar la pérdida de entropía cruzada.
 
-\item ``Any loss consisting of a negative log-likelihood is a cross-entropy between the empirical distribution defined by the training set and the probability distribution defined by model'' \cite{goodfellow2016deep}.  
- 
+\item "Cualquier pérdida que consista en una log-verosimilitud negativa es una entropía cruzada entre la distribución empírica definida por el conjunto de entrenamiento y la distribución de probabilidad definida por el modelo" \cite{goodfellow2016deep}.
+
 \end{itemize}
 
 
-\section{Decoding with MEMMs}
+\section{Decodificación con MEMMs}
 
 \begin{itemize}
 
-\item The decoding problem is as follows.
-\item We are given a new test sequence $x_1, \dots, x_m$.
-\item Our goal is to compute the most likely state sequence for this test sequence,
+\item El problema de decodificación es el siguiente.
+
+\item Se nos proporciona una nueva secuencia de prueba $x_1, \dots, x_m$.
+
+\item Nuestro objetivo es calcular la secuencia de estados más probable para esta secuencia de prueba,
 
 \begin{equation}
- \operatorname{arg} \max_{s_1,\dots,s_m} P(s_1,\dots,s_m|x_1,\dots,x_m).
+\operatorname{arg} \max_{s_1,\dots,s_m} P(s_1,\dots,s_m|x_1,\dots,x_m).
 \end{equation}
 
-\item There are $k^m$ possible state sequences, so for any reasonably large sentence length $m$ brute-force search through all the possibilities will not be possible.
+\item Hay $k^m$ posibles secuencias de estados, por lo que para cualquier longitud de oración razonablemente grande $m$, la búsqueda exhaustiva de todas las posibilidades no será posible.
 
-\item We can use the Viterbi alogrithm in a similar way as used for HMMs.
- 
-\item The basic data structure in the algorithm will be a dynamic programming table $\pi$ with entries $\pi[j,s]$ for $j=1, \dots, m$, and $s \in S$.
+\item Podemos usar el algoritmo de Viterbi de manera similar a como se usa para los HMM.
 
-\item  $\pi[j,s]$ will store the maximum probability for any state sequence ending in state $s$ at position $j$.
+\item La estructura de datos básica en el algoritmo será una tabla de programación dinámica $\pi$ con entradas $\pi[j,s]$ para $j=1, \dots, m$ y $s \in S$.
 
-\item More formally, our algorithm will compute 
+\item $\pi[j,s]$ almacenará la probabilidad máxima para cualquier secuencia de estados que termine en el estado $s$ en la posición $j$.
+
+\item Formalmente, nuestro algoritmo calculará
 \begin{displaymath}
-\pi[j,s] =  \max_{s_1,\dots, s_{j-1}}\left(P(s | s_{j-1}, x_1, \dots, x_m) \prod_{k=1}^{j-1}    P(s_k | s_{k-1}, x_1, \dots, x_m)\right)
+\pi[j,s] = \max_{s_1,\dots, s_{j-1}}\left(P(s | s_{j-1}, x_1, \dots, x_m) \prod_{k=1}^{j-1} P(s_k | s_{k-1}, x_1, \dots, x_m)\right)
 \end{displaymath}
-for all $j = 1, \dots,m$, and for all $s \in S$.
+para todo $j = 1, \dots,m$ y para todo $s \in S$.
 
 \end{itemize}
 
-The algorithm is as follows:
+El algoritmo es el siguiente:
 
 \begin{itemize}
 
-\item  Initialization: for $s \in  S$
+\item Inicialización: para $s \in S$
 
 \begin{displaymath}
-  \pi[1,s] = P (s | s_0,x_1,\dots,x_m)
+\pi[1,s] = P (s | s_0,x_1,\dots,x_m)
 \end{displaymath}
-where $s_0$ is a special ``initial'' state.
+donde $s_0$ es un estado especial "inicial".
 
-\item For $j \in \{2,\dots,m\}$, $s \in  \{1,\dots,k\}$
-
-\begin{displaymath}
-  \pi[j,s] =  \max_{s' \in S} \ [\pi[j-1,s'] \times P (s | s',x_1,\dots,x_m)]
-\end{displaymath}
-
-
-\item  Finally, having filled in the $\pi[j,s]$ values for all $j, s$, we can calculate
+\item Para $j \in \{2,\dots,m\}$, $s \in \{1,\dots,k\}$
 
 \begin{displaymath}
-  \max_{s_1,\dots,s_m} = \max_{s} \ \pi[m,s].
+\pi[j,s] = \max_{s' \in S} [\pi[j-1,s'] \times P (s | s',x_1,\dots,x_m)]
 \end{displaymath}
 
 
-\item The algorithm runs in $O(mk^2)$ time (i.e., linear in the sequence length $m$,
-and quadratic in the number of tags $k$).
+\item Finalmente, después de haber completado los valores de $\pi[j,s]$ para todos los $j, s$, podemos calcular
+
+\begin{displaymath}
+\max_{s_1,\dots,s_m} = \max_{s} \pi[m,s].
+\end{displaymath}
 
 
-\item As in the Viterbi algorithm for HMMs, we can compute the highest-scoring sequence using backpointers in the dynamic programming algorithm.
+\item El algoritmo se ejecuta en tiempo $O(mk^2)$ (es decir, lineal en la longitud de la secuencia $m$, y cuadrático en el número de etiquetas $k$).
+
+\item Al igual que en el algoritmo de Viterbi para HMM, podemos calcular la secuencia con el puntaje más alto utilizando punteros inversos en el algoritmo de programación dinámica.
 
 \end{itemize}
 
 
 
 
-\section{Comparison between MEMMs and HMMs}
+\section{Comparación entre MEMMs y HMMs}
 
 \begin{itemize}
 
-\item  So what is the motivation for using MEMMs instead of HMMs?
+\item  Entonces, ¿cuál es la motivación para usar MEMMs en lugar de HMMs?
 
-\item Note that the Viterbi decoding algorithms for the two models are very similar. 
+\item Observa que los algoritmos de decodificación Viterbi para los dos modelos son muy similares.
 
-\item In MEMMs, the probability associated with each state transition $s_{i-1}$ to $s_i$ is
+\item En MEMMs, la probabilidad asociada con cada transición de estado $s_{i-1}$ a $s_i$ es
 
  \begin{displaymath}
  P(s_i | s_{i-1}, x_1, \dots, x_m)  =  \frac{\exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s_i))}{\sum_{s' \in S} \exp (\vec{w}\cdot \vec{\phi}(x_1, \cdots, x_m, i, s_{i-1},s'))}
 \end{displaymath}
 
-
-\item In HMMs, the probability associated with each transition is:
+\item En los HMM, la probabilidad asociada a cada transición es:
 
 \begin{displaymath}
  P(s_i | s_{i-1}, x_1, \dots, x_m) = P(s_1|s_{i-1})P(x_i|s_i)
 \end{displaymath}
 
-\item  The key advantage of MEMMs is that the use of feature vectors $\vec{\phi}$ allows much
-richer representations than those used in HMMs.
+\item La ventaja clave de MEMMs es que el uso de vectores de características $\vec{\phi}$ permite obtener representaciones mucho más ricas que las utilizadas en los HMM.
 
-\item For example, the transition probability can be sensitive to any word in the input sequence $x_1, \dots, x_m$.
+\item Por ejemplo, la probabilidad de transición puede ser sensible a cualquier palabra en la secuencia de entrada $x_1, \dots, x_m$.
 
-\item In addition, it is very easy to introduce features that are sensitive to spelling features (e.g., prefixes or suffixes) of the current word $x_i$, or of the surrounding words.
+\item Además, es muy fácil introducir características que sean sensibles a las características ortográficas (por ejemplo, prefijos o sufijos) de la palabra actual $x_i$, o de las palabras circundantes.
 
-\item These features are useful in many NLP applications, and are difficult to incorporate within HMMs in a clean way.
+\item Estas características son útiles en muchas aplicaciones de PNL, y son difíciles de incorporar dentro de HMMs de una manera limpia.
+
+\end{itemize}
+
+
+\section{Campos Aleatorios Condicionales (CRFs)}
+
+\begin{itemize}
+
+\item Ahora pasamos a hablar de Campos Aleatorios Condicionales (CRFs) \cite{LaffertyMP01}.
+
+\item Notación: para mayor comodidad, usaremos $x_{1:m}$ para referirnos a una secuencia de entrada $x_1, \dots, x_m$, y $s_{1:m}$ para referirnos a una secuencia de etiquetas $s_1, \dots, s_m$.
+
+\item El conjunto de todas las etiquetas posibles es nuevamente $S$.
+
+\item El conjunto de todas las posibles secuencias de etiquetas es $S^m$.
+
+\item En los campos aleatorios condicionales construiremos un modelo de
+
+\begin{displaymath}
+P(s_1, \dots, s_m | x_1, \dots, x_m) = P(s_{1:m}|x_{1:m})
+\end{displaymath}
+
+\item Una primera idea clave en los CRFs será definir un vector de características que mapea una secuencia de entrada completa $x_{1:m}$ emparejada con una secuencia de etiquetas completa $s_{1:m}$ a un vector de características de $d$ dimensiones:
+
+\begin{displaymath}
+\vec{\Phi}(x_{1:m},s_{1:m}) \in \mathbb{R}^d
+\end{displaymath}
+
+\item Pronto daremos una definición concreta para $\vec{\Phi}$.
+\item Por ahora, asumamos que existe alguna definición.
+\item A menudo nos referiremos a $\vec{\Phi}$ como un vector de características "global".
+\item Es global en el sentido de que tiene en cuenta toda la secuencia de estados.
+
+\item En los CRFs construimos un modelo log-lineal gigante:
+
+\begin{displaymath}
+P(s_{1:m}|x_{1:m}; \vec{w}) = \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))}
+\end{displaymath}
+
+\item Este es "solo" otro modelo log-lineal, pero es "gigante".
+\item El espacio de posibles valores para $s_{1:m}$ es enorme $S^m$.
+\item La constante de normalización (denominador en la expresión anterior) implica una suma sobre todas las posibles secuencias de etiquetas $S^m$.
+\item Estos problemas podrían parecer causar graves problemas computacionales.
+\item Bajo suposiciones apropiadas, podemos entrenar y decodificar de manera eficiente con este tipo de modelo.
+\item Definimos el vector de características global $\vec{\Phi}(x_{1:m},s_{1:m})$ de la siguiente manera:
+
+\begin{displaymath}
+\vec{\Phi}(x_{1:m},s_{1:m}) = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j)
+\end{displaymath}
+
+donde $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ es igual a los vectores de características utilizados en los MEMMs.
+
+\item Ejemplo: $\vec{\Phi}([\text{the,dog,barks}],\text{DET,NOUN,VERB}]) = \vec{\phi}([\text{the,dog,barks}],1,*,\text{DET}) + \vec{\phi}([\text{the,dog,barks}],2,\text{DET},\text{NOUN}) + \vec{\phi}([\text{the,dog,barks}],3,\text{NOUN},\text{VERB})$
+
+\item Esencialmente, estamos sumando muchos vectores dispersos.
+
+\end{itemize}
+
+
+\paragraph{Ejemplo}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.26]{pics/CRF3.png}
+\caption{CRF Example}
+\end{figure}
+\footnotemark{Fuente: \url{http://people.ischool.berkeley.edu/~dbamman/nlpF18/slides/12_neural_sequence_labeling.pdf}}
+
+
+\begin{itemize}
+
+\item Suponemos que, para cualquier dimensión de $\vec{\Phi}_{[k]}, k= 1, \dots, d$, el $k$-ésimo atributo global es:
+
+\begin{displaymath}
+\vec{\Phi}(x_{1:m},s_{1:m})_{[k]} = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]}
+\end{displaymath}
+
+\item Por lo tanto, $\vec{\Phi}(x_{1:m},s_{1:m})_{[k]}$ se calcula sumando el vector de características "local" $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]}$ sobre las $m$ transiciones de etiquetas diferentes en $s_1,\dots,s_m$.
+
+\item Esperaríamos que cada vector local codifique información relevante sobre la transición de etiquetas activando algunas dimensiones del vector (estableciendo el valor en uno).
+
+\item Ahora pasamos a dos problemas prácticos críticos en los CRFs: primero, la decodificación, y segundo, la estimación de parámetros (entrenamiento).
 
 \end{itemize}
 
 
 
-\section{Conditional Random Fields (CRFs)}
-
-
-\begin{itemize}
-
-\item  We now turn to Conditional Random Fields (CRFs) \cite{LaffertyMP01}.
-
-\item Notation: for convenience, we'll use $x_{1:m}$ to refer to an input sequence $x_1 ,\dots,x_m$, and $s_{1:m}$ to refer to a sequence of tags $s_1, \dots, s_m$.
-
-\item The set of all possible tags is again $S$.
-
-\item The set of all possible tag sequences is $S^m$.
-
-\item In conditional random fields we'll again build a model of
-\begin{displaymath}
- P(s_1, \dots, s_m | x_1, \dots, x_m) = P(s_{1:m}|x_{1:m})
-\end{displaymath}
-
-
-\item A first key idea in CRFs will be to define a feature vector  that maps an entire input sequence $x_{1:m}$ paired with an entire tag sequence $s_{1:m}$ to some $d$-dimensional feature vector:
-
-\begin{displaymath}
- \vec{\Phi}(x_{1:m},s_{1:m}) \in \mathcal{R}^d
-\end{displaymath}
-
-\item We'll soon give a concrete definition for $\vec{\Phi}$.
-\item  For now just assume that some definition exists. 
-\item We will often refer to $\vec{\Phi}$ as being a ``global'' feature vector.
-\item It is global in the sense that it takes the entire state
-sequence into account.
-
-\item item In CRFs we build a giant log-linear model:
-
-\begin{displaymath}
- P(s_{1:m}|x_{1:m}; \vec{w}) = \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))}
-\end{displaymath}
-
-\item This is ``just'' another log-linear model, but it is ``giant''.
-\item The space of possible values for $s_{1:m}$ is huge $S^m$. 
-\item The normalization constant (denominator in the above expression) involves a sum over all possible tag sequences $S^m$.
-\item These issues might seem to cause severe computational problems.
-\item  Under appropriate assumptions we can train and decode efficiently
-with this type of model.
-\item  We define the global feature vector $\vec{\Phi}(x_{1:m},s_{1:m})$ as follows: 
-
-\begin{displaymath}
- \vec{\Phi}(x_{1:m},s_{1:m}) = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j) 
-\end{displaymath}
-
-where $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)$ are the same as the feature vectors used in MEMMs.
-
-\item  Example: \ $ \vec{\Phi}([\text{the,dog,barks}],\text{DET,NOUN,VERB}]) = \vec{\phi}([\text{the,dog,barks}],1,*,\text{DET}) + \vec{\phi}([\text{the,dog,barks}],2,\text{DET},\text{NOUN}) + \vec{\phi}([\text{the,dog,barks}],3,\text{NOUN},\text{VERB})$
-
-\item Essentially, we are adding up many sparse vectors.
-
-
-
-\end{itemize}
-
-
-\paragraph{Example}
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.26]{pics/CRF3.png}
-        \end{figure}
-        
-        \footnotemark{source: \url{http://people.ischool.berkeley.edu/~dbamman/nlpF18/slides/12_neural_sequence_labeling.pdf}}
-
+\section{Decodificación con CRFs}
 
 \begin{itemize}
-\item We are assuming that for any dimension of $\vec{\Phi}_{[k]}, k= 1, \dots, d$, the $k$'th global feature is:
 
-\begin{displaymath}
- \vec{\Phi}(x_{1:m},s_{1:m})_{[k]} = \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]} 
-\end{displaymath}
-
-\item Thus $\vec{\Phi}(x_{1:m},s_{1:m})_{[k]}$ is calculated by summing the ``local'' feature vector $\vec{\phi}(x_{1:m},j,s_{j-1},s_j)_{[k]}$  over the m different tag transitions in $s_1,\dots,s_m$.
-
-
-\item We would expect each local vector to encode relevant information about the tag transition by turning on some vector dimensions (setting the value to one).
-
-\item We now turn to two critical practical issues in CRFs: first, decoding, and sec-
-ond, parameter estimation (training).
-
-\end{itemize}
-
-
-
-
-\section{Decoding with CRFs}
-
-\begin{itemize}
-\item The decoding problem in CRFs is as follows.
-\item For a given input sequence $x_{1:m} = x_1 , x_2 , \dots, x_m$ , we would like to find the most likely underlying  state sequence under the model, that is,
+\item El problema de decodificación en los CRFs es el siguiente.
+\item Dada una secuencia de entrada $x_{1:m} = x_1, x_2, \dots, x_m$, nos gustaría encontrar la secuencia de estados subyacente más probable bajo el modelo, es decir,
 
 \begin{equation}
- \begin{split}
- arg \max_{s_{1:m} \in S^m} P(s_{1:m}| x_{1:m}; \vec{w})  \quad & =  arg \max_{s_{1:m} \in S^m} \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))} \\
- \quad & =  arg \max_{s_{1:m} \in S^m} \exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m})) \\
-  \quad & =  arg \max_{s_{1:m} \in S^m}  \vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}) \\
-    \quad & =  arg \max_{s_{1:m} \in S^m}  \vec{w} \cdot \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j) \\
- \quad & =  arg \max_{s_{1:m} \in S^m}  \sum_{j=1}^{m} \vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)   
- \end{split}
- \end{equation}
+\begin{split}
+\operatorname{arg} \max_{s_{1:m} \in S^m} P(s_{1:m}| x_{1:m}; \vec{w}) & = \operatorname{arg} \max_{s_{1:m} \in S^m} \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))} \\
+& = \operatorname{arg} \max_{s_{1:m} \in S^m} \exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m})) \\
+& = \operatorname{arg} \max_{s_{1:m} \in S^m} \vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}) \\
+& = \operatorname{arg} \max_{s_{1:m} \in S^m} \vec{w} \cdot \sum_{j=1}^{m} \vec{\phi}(x_{1:m},j,s_{j-1},s_j) \\
+& = \operatorname{arg} \max_{s_{1:m} \in S^m} \sum_{j=1}^{m} \vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)
+\end{split}
+\end{equation}
 
-\item We have shown that finding the most likely sequence under the model is equivalent to finding the sequence that maximizes:
+\item Hemos demostrado que encontrar la secuencia más probable bajo el modelo es equivalente a encontrar la secuencia que maximiza:
 
 \begin{displaymath}
- arg \max_{s_{1:m} \in S^m}  \sum_{j=1}^{m} \vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)  
+\operatorname{arg} \max_{s_{1:m} \in S^m} \sum_{j=1}^{m} \vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)
 \end{displaymath}
 
-\item This problem has a clear intuition. Each transition from tag  $s_{j-1}$ to tag $s_j$ has an associated score:  $\vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)$  
+\item Este problema tiene una intuición clara. Cada transición de la etiqueta $s_{j-1}$ a la etiqueta $s_j$ tiene un puntaje asociado: $\vec{w} \cdot \vec{\phi}(x_{1:m},j,s_{j-1},s_j)$.
 
+\item Este puntaje podría ser positivo o negativo.
 
-\item This score could be positive or negative. 
+\item Intuitivamente, este puntaje será relativamente alto si la transición de estados es plausible, relativamente bajo si esta transición es implausible.
 
-\item Intuitively, this score will be relatively high if the state transition is plausible, relatively low if this transition is implausible.
+\item El problema de decodificación consiste en encontrar una secuencia completa de estados tal que la suma de los puntajes de transición sea maximizada.
 
-\item  The decoding problem is to find an entire sequence of states such that the sum of transition scores is maximized.
-
-\item We can again solve this problem using a variant of the Viterbi algorithm, in a very similar way to the decoding algorithm for HMMs or MEMMs.
-
-\end{itemize}
-
-
-\section{Parameter Estimation in CRFs (training)}
-
-
-\begin{itemize}
-\item For parameter estimation, we assume we have a set of $n$ labeled examples, $\{(x_{1:m}^i, s_{1:m}^i )\}_{i=1}^n$ . Each $x_{1:m}^i$ is an input sequence $x_1^i, \dots , x_m^i$ each $s_{1:m}^i$ is a tag sequence $s_1^i, \dots , s_m^i$.
-
-\item We again set the negative log-likelihood (or cross-entropy) as the loss function $L$ as optimize parameters using gradient descent.
-
-\item The main challenge here is that gradient calculations $\frac{\partial L}{\partial \vec{w}_{[k]}}$ involve summing over $S^m$ (a very large set containing all possible tag sequences).
-
-\item This sum can be computed efficiently using the Forward-backward algorithm\footnote{\url{http://www.cs.columbia.edu/~mcollins/fb.pdf}}. 
-
-\item This is another dynamic programming algorithm that is closely related
-to the Viterbi algorithm.
+\item Podemos resolver este problema utilizando una variante del algoritmo de Viterbi, de manera muy similar al algoritmo de decodificación para HMM o MEMM.
 
 \end{itemize}
 
 
-
-\section{CRFs and MEMMs}
+\section{Estimación de Parámetros en CRFs (Entrenamiento)}
 
 \begin{itemize}
 
-\item CRFs and MEMMS are discriminative sequence labeling models: they model the conditional probability directly via a parameterized log-linear multi-class function (softmax).
+\item Para la estimación de parámetros, asumimos que tenemos un conjunto de $n$ ejemplos etiquetados, $\{(x_{1:m}^i, s_{1:m}^i )\}_{i=1}^n$. Cada $x_{1:m}^i$ es una secuencia de entrada $x_1^i, \dots , x_m^i$ y cada $s_{1:m}^i$ es una secuencia de etiquetas $s_1^i, \dots , s_m^i$.
 
-\item HMMs, on the other hand, are generative models.
+\item Nuevamente, establecemos la log-verosimilitud negativa (o entropía cruzada) como la función de pérdida $L$ y optimizamos los parámetros utilizando el descenso de gradiente.
 
-\item In MEMM the normalization (denominator of the softmax) is local: it happens at each tag step (the sum runs over all possible tag values $S$).
+\item El principal desafío aquí es que los cálculos del gradiente $\frac{\partial L}{\partial \vec{w}_{[k]}}$ implican una suma sobre $S^m$ (un conjunto muy grande que contiene todas las posibles secuencias de etiquetas).
 
-\item In CRFs the normalization is global: the sum runs over all possible tag sequences $S^m$.
+\item Esta suma se puede calcular de manera eficiente utilizando el algoritmo de avance-atrás (Forward-backward algorithm)\footnote{\url{http://www.cs.columbia.edu/~mcollins/fb.pdf}}.
 
-\item Training a MEMM is quite easy: just train a multi-class log-linear model for for a given word to the label. This classifier is used at each word step to predict the whole sequence.
-
-\item Training CRF is more complex. The objective  is to maximize the log probability of the most likely sequence.
-
+\item Este es otro algoritmo de programación dinámica que está estrechamente relacionado con el algoritmo de Viterbi.
 
 \end{itemize}
 
 
-
-
-
-
-\subsection{CRFs and MEMMs: the label bias problem}
+\section{CRFs y MEMMs}
 
 \begin{itemize}
 
-\item MEMMs end up making up decision at each time step independently.
+\item Los CRFs y los MEMMs son modelos de etiquetado de secuencias discriminatorios: modelan la probabilidad condicional directamente a través de una función lineal-logarítmica multiclase parametrizada (softmax).
 
-\item This leads to a problem called label bias: in some tag space configurations, MEMMs essentially completely ignore important aspects of the context.
+\item Los HMM, por otro lado, son modelos generativos.
 
-\item Example: The right POS labeling of sentence ``will to fight'' (la voluntad de pelear) is ``NN TO VB''. \footnote{Here we are using the PENN Treebank tagset: \url{https://www.eecis.udel.edu/~vijay/cis889/ie/pos-set.pdf}} 
+\item En los MEMM, la normalización (denominador del softmax) es local: ocurre en cada paso de la etiqueta (la suma se realiza sobre todos los valores de etiqueta posibles $S$).
 
-\item Here NN stands for ``noun'', TO stands for ``infinitive to'',  and VB stands for ``verb base form''.
+\item En los CRFs, la normalización es global: la suma se realiza sobre todas las posibles secuencias de etiquetas $S^m$.
 
-\item Modals (MD) show up much more frequently at the start of the sentence than nouns do (e.g., questions).
+\item Entrenar un MEMM es bastante fácil: simplemente se entrena un modelo log-lineal multiclase para una palabra dada a la etiqueta. Este clasificador se utiliza en cada paso de la palabra para predecir toda la secuencia.
 
-\item Hence, tag ``MD'' will receive a higher score than tag ``NN'' when $x_0$=``will'' : $P(s_1 = MD|s_{0} = *,x_1 = \text{``will''},...) > P( s_1 = NN| s_{i-1} = *, x_1 = \text{``will''})$.
-
-
-\item But we know that MD + TO is very rare: ``... can to eat'', ``... would to eat''.
-
-
-\item The word ``to'' is relatively deterministic (almost always has tag TO) so it doesn't matter what tag precedes it.
-
-\item Because of the local normalization of MEMMs, $P(s_i = TO | s_{i-1}, x_1, \dots, x_i = \text{``to''}, \dots, x_n)$ will always be 1 when $x_i=$``to'' regardless of the value of $s_{i-1}$ (MD or NN).
-
-\item That means our prediction for ``to'' can't help us disambiguate ``will''.  
-
-\item We lose the information that MD + TO sequences rarely happen.
-
-\item As a consequence: a MEMMS would likely label the first word to ``MD''.
-
-\item CRF overcomes this issue by doing a global normalization: it considers the score of the whole sequence before normalizing to make it a probability distribution.
-
-
+\item Entrenar un CRF es más complejo. El objetivo es maximizar la log-probabilidad de la secuencia más probable.
 
 \end{itemize}
 
 
 
-Label Bias
-In some state space configurations,MEMMs essentially completely ignore the inputs.
-``label bias problem,'' where states with low-entropy transition distributions ``effectively ignore'' their observations.
-These are names for situations when one source of information is ignored because it isexplained away by anothersource
+\subsection{CRFs y MEMMs: el problema del sesgo de etiqueta}
+
+\begin{itemize}
+
+\item Los MEMMs terminan tomando decisiones en cada paso de manera independiente.
+
+\item Esto lleva a un problema llamado "sesgo de etiqueta": en algunas configuraciones del espacio de etiquetas, los MEMMs esencialmente ignoran aspectos importantes del contexto.
+
+\item Ejemplo: La etiqueta correcta del POS para la oración "will to fight" (voluntad de luchar) es "NN TO VB" \footnote{Aquí estamos utilizando el conjunto de etiquetas PENN Treebank: \url{https://www.eecis.udel.edu/~vijay/cis889/ie/pos-set.pdf}}.
+
+\item Aquí, NN significa "sustantivo", TO significa "infinitivo a" y VB significa "forma base verbal".
+
+\item Los modales (MD) aparecen con mucha más frecuencia al comienzo de la oración que los sustantivos (por ejemplo, en preguntas).
+
+\item Por lo tanto, la etiqueta "MD" recibirá un puntaje más alto que la etiqueta "NN" cuando $x_0$=``will'' : $P(s_1 = MD|s_{0} = *,x_1 = \text{``will''},...) > P( s_1 = NN| s_{i-1} = *, x_1 = \text{``will''})$.
+
+\item Pero sabemos que MD + TO es muy raro: "puede comer", "quisiera comer".
+
+\item La palabra "to" es relativamente determinística (casi siempre tiene la etiqueta TO), por lo que no importa qué etiqueta la preceda.
+
+\item Debido a la normalización local de los MEMMs,  $P(s_i = TO | s_{i-1}, x_1, \dots, x_i = \text{``to''}, \dots, x_n)$ siempre será 1 cuando $x_i=$ "to", independientemente del valor de $s_{i-1}$ (MD o NN).
+
+\item Eso significa que nuestra predicción para "to" no puede ayudarnos a desambiguar "will".
+
+\item Perdemos la información de que las secuencias MD + TO rara vez ocurren.
+
+\item Como consecuencia, es probable que un MEMM etiquete la primera palabra como "MD".
+
+\item Los CRFs superan este problema al realizar una normalización global: consideran el puntaje de toda la secuencia antes de normalizarlo y convertirlo en una distribución de probabilidades.
+
+\end{itemize}
 
 
-\section{Links}
+\section{Enlaces}
 
 \begin{itemize}
 
@@ -1030,8 +1003,8 @@ These are names for situations when one source of information is ignored because
 
 \item \url{https://people.cs.umass.edu/~mccallum/papers/crf-tutorial.pdf}
 
-\item \url{http://www.davidsbatista.net/blog/2017/11/13/Conditional_Random_Fields} 
+\item \url{http://www.davidsbatista.net/blog/2017/11/13/Conditional_Random_Fields}
 
 \end{itemize}
 
-  
+

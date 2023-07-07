@@ -1,468 +1,283 @@
-\begin{itemize}
 
-\item While representations derived from convolutional networks  offer some sensitivity to word order, their order sensitivity is restricted to mostly local patterns, and disregards the order of patterns that are far apart in the sequence.
-\item Recurrent neural networks (RNNs) allow representing arbitrarily sized sequential inputs in fixed-size vectors, while paying attention to the structured properties of the inputs \cite{goldberg2016primer}.
-\item RNNs, particularly ones with gated architectures such as the LSTM and the GRU, are very powerful at capturing statistical regularities in sequential inputs.
+\section{La Abstracción de las RNN}
 
-\end{itemize}
+Si bien las representaciones derivadas de las redes convolucionales ofrecen cierta sensibilidad al orden de las palabras, su sensibilidad al orden se limita principalmente a patrones locales y no tiene en cuenta el orden de patrones que están lejos en la secuencia. Las redes neuronales recurrentes (RNN) permiten representar entradas secuenciales de longitud arbitraria en vectores de tamaño fijo, prestando atención a las propiedades estructuradas de las entradas \cite{goldberg2016primer}. Las RNN, especialmente aquellas con arquitecturas con compuertas como LSTM y GRU, son muy eficaces para capturar regularidades estadísticas en entradas secuenciales.
 
-
-
-\section{The RNN Abstraction}
-\begin{itemize}
-
-\item We use $\vec{x}_{i:j}$ to denote the sequence of vectors $\vec{x}_i, \dots, \vec{x}_j$.
-
-\item On a high-level, the RNN is a function that takes as input an arbitrary length ordered sequence of $n$ $d_{in}$-dimensional vectors $\vec{x}_{1 :n}=\vec{x}_1,\vec{x}_2, \dots, \vec{x}_n$ ( $\vec{x}_i \in  \mathcal{R}^{d_{in}}$) and returns as output a single $d_{out}$ dimensional vector $\vec{y}_n$ $\in \mathcal{R}^{d_{out}}$:
+Utilizamos $\vec{x}_{i:j}$ para denotar la secuencia de vectores $\vec{x}_i, \dots, \vec{x}_j$. A alto nivel, la RNN es una función que toma como entrada una secuencia ordenada de longitud arbitraria de $n$ vectores de dimensión $d_{in}$, $\vec{x}_{1 :n}=\vec{x}_1,\vec{x}_2, \dots, \vec{x}_n$ ($\vec{x}_i \in \mathbb{R}^{d_{in}}$), y devuelve como salida un solo vector de dimensión $d_{out}$, $\vec{y}_n \in \mathbb{R}^{d_{out}}$:
 
 \begin{equation}
 \begin{split}
-\vec{y}_n & = RNN(\vec{x}_{1:n}) \\
-\vec{x}_i \in  \mathcal{R}^{d_{in}} & \quad  \vec{y}_n  \in \mathcal{R}^{d_{out}}
+\vec{y}_n & = \text{RNN}(\vec{x}_{1:n}) \\
+\vec{x}_i \in \mathbb{R}^{d_{in}}, & \quad \vec{y}_n \in \mathbb{R}^{d_{out}}
 \end{split}
 \end{equation}
 
-\item This implicitly defines an output vector $\vec{y}_i$ for each prefix $\vec{x}_{1:i}$ of the sequence $\vec{x}_{i:n}$.
-\item We denote by $RNN^{*}$ the function returning this sequence:
+Esto define implícitamente un vector de salida $\vec{y}_i$ para cada prefijo $\vec{x}_{1:i}$ de la secuencia $\vec{x}_{i:n}$. Denotamos por $RNN^{*}$ a la función que devuelve esta secuencia:
+
 \begin{equation}
 \begin{split}
 \vec{y}_{1:n} & = RNN^{*}(\vec{x}_{1:n}) \\
-\vec{y}_i & = RNN(\vec{x}_{1:i}) \\
-\vec{x}_i \in  \mathcal{R}^{d_{in}} & \quad  \vec{y}_n  \in \mathcal{R}^{d_{out}}
+\vec{y}_i & = \text{RNN}(\vec{x}_{1:i}) \\
+\vec{x}_i \in \mathbb{R}^{d_{in}}, & \quad \vec{y}_n \in \mathbb{R}^{d_{out}}
 \end{split}
 \end{equation}
-\item The output vector $\vec{y}_n$ is then used for further prediction.
-\item For example, a model for predicting the conditional probability of an event $e$ given the sequence $\vec{x}_{1:n}$ can be defined as the $j$-th element in the output vector resulting from the softmax operation over a linear transformation of the RNN encoding:
+
+Luego, se utiliza el vector de salida $\vec{y}_n$ para realizar predicciones adicionales. Por ejemplo, un modelo para predecir la probabilidad condicional de un evento $e$ dado la secuencia $\vec{x}_{1:n}$ se puede definir como el $j$-ésimo elemento del vector de salida resultante de la operación softmax sobre una transformación lineal de la codificación RNN:
+
 \begin{displaymath}
-p(e = j|\vec{x}_{1:n}) = \text{softmax}(RNN(\vec{x}_{1:n})\cdot W +\vec{b})_{[j]} 
+p(e = j|\vec{x}_{1:n}) = \text{softmax}(\text{RNN}(\vec{x}_{1:n})\cdot W +\vec{b})_{[j]}
 \end{displaymath}
-\item The RNN function provides a framework for conditioning on the entire history without resorting to the Markov assumption which is traditionally used for modeling sequences.
-\item The RNN is defined recursively, by means of a function $R$ taking as input a state vector $\vec{s}_{i-1}$  and an input vector $\vec{x}_{i}$ and returning a new state vector $\vec{s}_i$. 
-\item The state vector $\vec{s}_i$ is then mapped to an output vector $\vec{y}_i$ using a simple deterministic function $O(\cdot)$.
-\item The base of the recursion is an initial state vector, $\vec{s}_{0}$ , which is also an input to the RNN.
-\item For brevity, we often omit the initial vector $s_{0}$ , or assume it is the zero vector.
-\item When constructing an RNN, much like when constructing a feed-forward network, one has to specify the dimension of the inputs $\vec{x}_i$ as well as the dimensions of the outputs $\vec{y}_i$. 
+
+La función RNN proporciona un marco para condicionar toda la historia sin recurrir a la suposición de Markov que se utiliza tradicionalmente para modelar secuencias. La RNN se define de forma recursiva mediante una función $R$ que toma como entrada un vector de estado $\vec{s}_{i-1}$ y un vector de entrada $\vec{x}_{i}$, y devuelve un nuevo vector de estado $\vec{s}_i$. Luego, el vector de estado $\vec{s}_i$ se asigna a un vector de salida $\vec{y}_i$ mediante una función determinista simple $O(\cdot)$. La base de la recursión es un vector de estado inicial $\vec{s}_{0}$, que también es una entrada de la RNN. Por brevedad, a menudo omitimos el vector inicial $\vec{s}_{0}$ o asumimos que es el vector cero. Al construir una RNN, al igual que al construir una red de alimentación directa, es necesario especificar la dimensión de las entradas $\vec{x}_i$, así como las dimensiones de las salidas $\vec{y}_i$:
+
 \begin{equation}
 \begin{split}
- RNN^{*}(\vec{x}_{1:n};\vec{s}_0) & = \vec{y}_{1:n} \\
+RNN^{*}(\vec{x}_{1:n};\vec{s}_0) & = \vec{y}_{1:n} \\
 \vec{y}_i & = O(\vec{s}_i) \\
 \vec{s}_i & = R(\vec{s}_{i-1},\vec{x}_i) \\
-\vec{x}_i \in \mathcal{R}^{d_{in}}, & \quad \vec{y}_i \in \mathcal{R}^{d_{out}}, \quad \vec{s}_i \in \mathcal{R}^{f(d_{out})}
+\vec{x}_i \in \mathbb{R}^{d_{in}}, & \quad \vec{y}_i \in \mathbb{R}^{d_{out}}, \quad \vec{s}_i \in \mathbb{R}^{f(d_{out})}
 \end{split}
 \end{equation}
-\item The functions $R$ and $O$ are the same across the sequence positions. 
-\item The RNN keeps track of the states of computation through the state vector $\vec{s}_i$ that is kept and being passed across invocations of $R$.
 
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/RNN.png}
-        \end{figure}
-\item This presentation follows the recursive definition, and is correct for arbitrarily long sequences.
-\item For a finite sized input sequence (and all input sequences we deal with are finite) one can unroll the recursion.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/RNN-unrolled.png}
-        \end{figure}
+Las funciones $R$ y $O$ son las mismas en todas las posiciones de la secuencia. La RNN realiza un seguimiento de los estados de la computación a través del vector de estado $\vec{s}_i$ que se guarda y se pasa en las invocaciones de $R$.
 
-        
-\item The parameters $\theta$ highlight the fact that the same parameters are shared across all time steps. 
-\item Different instantiations of $R$ and $O$ will result in different network structures.
-\item We note that the value of $\vec{s}_i$  (and hence $\vec{y}_i$) is based on the entire input $\vec{x}_1,\dots, \vec{x}_i$.
-\item For example, by expanding the recursion for $i = 4$ we get:
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/RNN-recursion.png}
-        \end{figure}
-\item Thus, $\vec{s}_n$ and $\vec{y}_n$ can be thought of as encoding the entire input sequence.
-\item The job of the network training is to set the parameters of $R$ and $O$ such that the state conveys useful information for the task we are tying to solve.
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4]{pics/RNN.png}
+  \caption{Representación gráfica de una RNN.}
+\end{figure}
 
-\end{itemize}
+Esta presentación sigue la definición recursiva y es válida para secuencias de longitud arbitraria. Sin embargo, para una secuencia de entrada de tamaño finito (y todas las secuencias de entrada con las que trabajamos son finitas), se puede desenrollar la recursión.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.35]{pics/RNN-unrolled.png}
+  \caption{Representación gráfica de una RNN desenrollada para una secuencia de longitud finita.}
+\end{figure}
 
-\section{Elman Network or Simple-RNN}
-\begin{itemize}
-\item After describing the RNN abstraction, we are now in place to discuss the simplest instantiations of it.
-\item Recall that we are interested in a recursive function $\vec{s}_i =  R(\vec{x}_i, \vec{s}_{i-1})$ such that $\vec{s}_i$ encodes the sequence $\vec{x}_{1:n}$.
-\item The simplest RNN formulation is known as an Elman Network or Simple-RNN (S-RNN).
-\end{itemize}
+Los parámetros $\theta$ resaltan el hecho de que los mismos parámetros se comparten en todos los pasos de tiempo. Diferentes instancias de $R$ y $O$ darán como resultado estructuras de red diferentes. Observamos que el valor de $\vec{s}_i$ (y, por lo tanto, $\vec{y}_i$) se basa en toda la entrada $\vec{x}_1,\dots, \vec{x}_i$. Por ejemplo, al expandir la recursión para $i = 4$ obtenemos:
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.35]{pics/RNN-recursion.png}
+  \caption{Representación gráfica de la RNN después de expandir la recursión.}
+\end{figure}
+
+Así, $\vec{s}_n$ y $\vec{y}_n$ pueden considerarse como la codificación de toda la secuencia de entrada. El objetivo del entrenamiento de la red es establecer los parámetros de $R$ y $O$ de manera que el estado transmita información útil para la tarea que estamos tratando de resolver.
+
+\section{Red Elman o Simple-RNN}
+
+Después de describir la abstracción de las RNN, ahora podemos discutir las instancias más simples de estas. Recordemos que estamos interesados en una función recursiva $\vec{s}_i = R(\vec{x}_i, \vec{s}_{i-1})$ tal que $\vec{s}_i$ codifique la secuencia $\vec{x}_{1:n}$. La formulación más sencilla de una RNN se conoce como Red Elman o Simple-RNN (S-RNN).
 
 \begin{equation}
 \begin{split}
 \vec{s}_i & = R_{SRNN}(\vec{x}_{i},\vec{s}_{i-1}) = g(\vec{s}_{i-1}W^{s}+\vec{x}_{i}W^{x}+\vec{b}) \\
 \vec{y}_i & = O_{SRNN}(\vec{s}_i) = \vec{s}_i \\
-\vec{s}_i, \vec{y}_i \in  \mathcal{R}^{d_{s}}, & \quad  \vec{x}_i  \in \mathcal{R}^{d_{x}}, \quad W^{x} \in \mathcal{R}^{d_{x}\times d_{s}}, \quad W^{s} \in \mathcal{R}^{d_{s}\times d_{s}}, \vec{b} \in \mathcal{R}^{d_{s}} 
+\vec{s}_i, \vec{y}_i \in \mathbb{R}^{d_{s}}, & \quad \vec{x}_i \in \mathbb{R}^{d_{x}}, \quad W^{x} \in \mathbb{R}^{d_{x}\times d_{s}}, \quad W^{s} \in \mathbb{R}^{d_{s}\times d_{s}}, \vec{b} \in \mathbb{R}^{d_{s}}
 \end{split}
 \end{equation}
 
+El estado $\vec{s}_i$ y la entrada $\vec{x}_i$ se transforman linealmente. Los resultados se suman (junto con un término de sesgo) y luego se pasan a través de una función de activación no lineal $g$ (comúnmente tangente hiperbólica o ReLU). El Simple-RNN ofrece buenos resultados para etiquetado de secuencias y modelado del lenguaje.
 
-\begin{itemize}
-\item The state $\vec{s}_i$ and the input $\vec{x}_i$ are each linearly transformed.
-\item The results are added (together with a bias term) and then passed through a nonlinear activation function g (commonly tanh or ReLU).
-\item The Simple RNN provides strong results for sequence tagging as well as language modeling.
-\end{itemize}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.55]{pics/elman.pdf}
+  \caption{Red Elman o Simple-RNN.}
+\end{figure}
 
+\section{Entrenamiento de las RNN}
 
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.55]{pics/elman.pdf}
-        \end{figure}
+Una RNN desenrollada es simplemente una red neuronal muy profunda. Los mismos parámetros se comparten en muchas partes de la computación y se agrega una entrada adicional en varias capas. Para entrenar una red RNN, se necesita crear el grafo computacional desenrollado para una secuencia de entrada dada, agregar un nodo de pérdida al grafo desenrollado y luego utilizar el algoritmo de retropropagación para calcular los gradientes con respecto a esa pérdida. Este procedimiento se conoce en la literatura de las RNN como retropropagación a través del tiempo (BPTT). La RNN por sí sola no hace mucho, sino que sirve como un componente entrenable en una red más grande. La predicción final y el cálculo de pérdida se realizan en esa red más grande y el error se retropropaga a través de la RNN. De esta manera, la RNN aprende a codificar propiedades de las secuencias de entrada que son útiles para la tarea de predicción. La señal de supervisión no se aplica directamente a la RNN, sino a través de la red más grande.
 
+\section{Patrones de uso de las RNN: Aceptador}
 
+Un patrón común de uso de las RNN es el patrón del aceptador. Este patrón se utiliza para la clasificación de texto, donde la señal de supervisión se basa únicamente en el vector de salida final $\vec{y}_n$. El vector de salida de la RNN $\vec{y}_n$ se alimenta a una capa completamente conectada o un MLP, que produce una predicción. Los gradientes de error luego se retropropagan a través del resto de la secuencia. La pérdida puede tener cualquier forma conocida, como entropía cruzada o hinge, etc.
 
-\section{RNN Training}
-\begin{itemize}
-\item An unrolled RNN is just a very deep neural network.
-\item The same parameters are shared across many parts of the computation.
-\item Additional input is added at various layers.
-\item To train an RNN network, need to create the unrolled computation graph for a given input sequence, add a loss node to the unrolled graph.
-\item Then use the backward (backpropagation) algorithm to compute the gradients with respect to that loss.
-\item This procedure is referred to in the RNN literature as backpropagation through time (BPTT).
-\item The RNN does not do much on its own, but serves as a trainable component in a larger network.
-\item The final prediction and loss computation are performed by that larger network, and the error is back-propagated through the RNN.
-\item This way, the RNN learns to encode properties of the input sequences that are
-useful for the further prediction task.
-\item The supervision signal is not applied to the RNN directly, but through the larger network.
-\end{itemize}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.3]{pics/acceptor.png}
+  \caption{Gráfico de entrenamiento de una RNN del tipo aceptador.}
+\end{figure}
 
-\section{RNN usage-patterns: Acceptor}
-\begin{itemize}
-\item A common RNN usage-pattern is the acceptor.
-\item This pattern is used for text classification.
-\item The supervision signal is only based on the final output vector $\vec{y}_n$.
+Por ejemplo, se puede tener una RNN que lee los caracteres de una palabra uno por uno y luego utiliza el estado final para predecir la categoría gramatical de esa palabra. Otro ejemplo es una RNN que lee una oración y, en función del estado final, decide si transmite un sentimiento positivo o negativo.
 
-\item The RNN's output vector $\vec{y}_n$ is fed into a fully connected layer or an MLP, which produce a prediction.
+\section{Patrones de uso de las RNN: Transductor}
 
-\item The error gradients are then backpropagated through the
-rest of the sequence.
-\item The loss can take any familiar form: cross entropy, hinge, etc.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/acceptor.png}
-        	\caption{Acceptor RNN training graph.}
-        \end{figure}
-\item Example 1: an RNN that reads the characters of a word one by one and then use the final state to predict the part-of-speech of that word.
+Otra opción es tratar la RNN como un transductor, produciendo una salida $\hat{t}_i$ para cada entrada que lee. Este patrón es muy útil para tareas de etiquetado de secuencias (por ejemplo, etiquetado de partes del discurso, reconocimiento de entidades nombradas, etc.). Se calcula una señal de pérdida local (por ejemplo, entropía cruzada) $L_{\text{local}}(\hat{t}_{i},{t}_{i})$ para cada una de las salidas $\hat{t}_{i}$ basada en una etiqueta verdadera ${t}_{i}$. La pérdida para la secuencia desenrollada será entonces: $L(\hat{t}_{i:n},{t}_{i:n}) = \sum_{i}L_{\text{{local}}}(\hat{t}_{i},{t}_{i})$, o utilizando otra combinación en lugar de la suma, como el promedio o un promedio ponderado.
 
-\item Example 2: an RNN that reads in a sentence and, based on the final state decides if it conveys positive or negative sentiment.
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.25]{pics/transducer.png}
+  \caption{Gráfico de entrenamiento de una RNN del tipo transductor.}
+\end{figure}
 
-\end{itemize}
+Por ejemplo, un etiquetador de secuencias (por ejemplo, NER, POS), en el que $\vec{x}_{i:n}$ representa las representaciones de características de las $n$ palabras de una oración, y $t_i$ se utiliza para predecir la asignación de etiquetas de la palabra $i$ en función de las palabras $1:i$. Otro ejemplo es el modelado de lenguaje, en el que la secuencia de palabras $x_{1:n}$ se utiliza para predecir una distribución sobre la palabra $(i+1)$-ésima. Los modelos de lenguaje basados en RNN han demostrado tener una perplejidad mucho mejor que los modelos de lenguaje tradicionales.
 
+El uso de las RNN como transductores nos permite relajar la suposición de Markov que se hace tradicionalmente en los modelos de lenguaje y los etiquetadores HMM, y condicionar en todo el historial de predicciones.
 
-\section{RNN usage-patterns: Transducer}
-\begin{itemize}
-\item Another option is to treat the RNN as a transducer, producing an output $\hat{t}_i$ for each input it reads in.
-\item This pattern is very handy for sequence labeling tasks (e.g, POS tagging, NER).
-\item We compute a local loss signal (e.g., cross-entropy)  $L_{\text{local}}(\hat{t}_{i},{t}_{i})$ for each of the outputs $\hat{t}_{i}$ based on a true label $t_i$.
-\item The loss for unrolled sequence will then be: $L(\hat{t}_{i:n},{t}_{i:n}) =  \sum_{i} L_{\text{local}}(\hat{t}_{i},{t}_{i})$ , or using another combination rather than a sum such as an average or a
-weighted average
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.25]{pics/transducer.png}
-        	\caption{Transducer RNN training graph.}
-        \end{figure}
-\item Example 1: a sequence tagger (e.g., NER, POS), in which we take $\vec{x}_{i:n}$ to be feature representations for the $n$ words of a sentence, and $t_i$ as an input for predicting the tag assignment of word $i$ based on words $1:i$.
-\item Example 2: language modeling, in which the sequence of words $x_{1:n}$ is used to predict a distribution over the $(i+1)th$ word. 
-\item RNN-based language models are shown to provide vastly better perplexities than traditional language models.
+\section{Redes neuronales recurrentes bidireccionales (BIRNN)}
 
-\item Using RNNs as transducers allows us to relax the Markov assumption that is traditionally taken in language models and HMM taggers, and condition on the entire prediction history.
+Una elaboración útil de una RNN es una red neuronal recurrente bidireccional (también conocida como biRNN). Consideremos la tarea de etiquetado de secuencias en una oración. Una RNN nos permite calcular una función de la $i$-ésima palabra $x_i$ en función de las palabras anteriores $x_{1:i}$, incluyendo la palabra actual. Sin embargo, las palabras siguientes $x_{i+1:n}$ también pueden ser útiles para la predicción. La biRNN nos permite mirar arbitrariamente lejos tanto al pasado como al futuro dentro de la secuencia. Consideremos una secuencia de entrada $\vec{x}_{1:n}$. La biRNN funciona manteniendo dos estados separados, $s_{i}^{f}$ y $s_{i}^{b}$ para cada posición de entrada $i$. El estado hacia adelante $s_{i}^{f}$ se basa en $\vec{x}_1, \vec{x}_2, \dots ,\vec{x}_i$, mientras que el estado hacia atrás $s_{i}^{b}$ se basa en $\vec{x}_n, \vec{x}_{n-1}, \dots ,\vec{x}_i$. Los estados hacia adelante y hacia atrás se generan mediante dos RNN diferentes. La primera RNN $(R^f, O^f)$ recibe la secuencia de entrada $\vec{x}_{1:n}$ tal como está, mientras que la segunda RNN $(R^b , O^b)$ recibe la secuencia de entrada en orden inverso. La representación del estado $\vec{s}_i$ está compuesta tanto por los estados hacia adelante como por los estados hacia atrás. La salida en la posición $i$ se basa en la concatenación de los dos vectores de salida:
 
-\end{itemize}
-
-
-
-
-\section{Bidirectional RNNS (BIRNN)}
-\begin{itemize}
-\item A useful elaboration of an RNN is a bidirectional-RNN (also commonly referred to as biRNN)
-\item Consider the task of sequence tagging over a sentence.
-\item An RNN allows us to compute a function of the $i$-th word $x_i$ based on the
-past words $x_{1:i}$ up to and including it. 
-\item However, the following words $x_{i+1:n}$ may also be useful for prediction,
-\item The biRNN allows us to look arbitrarily far at both the past and the future within the sequence.
-\item Consider an input sequence $\vec{x}_{1:n}$ . 
-\item The biRNN works by maintaining two separate states, $s_{i}^{f}$ and $s_{i}^{b}$ for each input position $i$. 
-\item The forward state $s_{i}^{f}$ is based on $\vec{x}_1, \vec{x}_2, \dots ,\vec{x}_i$, while the backward state $s_{i}^{b}$ is based on $\vec{x}_n, \vec{x}_{n-1}, \dots ,\vec{x}_i$.
-\item The forward and backward states are generated
-by two different RNNs.
-\item The first RNN$(R^f, O^f)$  is fed the input sequence  $\vec{x}_{1:n}$ as is, while the second RNN$(R^b , O^b)$ is fed the input sequence in reverse.
-\item The state representation $\vec{s}_i$ is then composed of both the forward and backward states.
-\item The output at position $i$ is based on the concatenation of the two output vectors:
 \begin{displaymath}
-\vec{y}_i = [\vec{y}_{i}^{f};\vec{y}_{i}^{b}]=[O^{f}(s_{i}^{f});O^{b}(s_{i}^{b})
-]
+\vec{y}_i = [\vec{y}_{i}^{f};\vec{y}_{i}^{b}]=[O^{f}(s_{i}^{f});O^{b}(s_{i}^{b})]
 \end{displaymath}
-\item The output takes into account both the past and the future.
-\item The biRNN encoding of the $i$th word in a sequence is the concatenation of two RNNs, one reading the sequence from the beginning, and the other reading it from the end.
-\item We define $biRNN(\vec{x}_{1:n}, i)$ to be the output vector corresponding to the $i$th sequence position:
+
+La salida tiene en cuenta tanto el pasado como el futuro. La codificación biRNN de la palabra $i$ en una secuencia es la concatenación de dos RNN, una que lee la secuencia desde el principio y otra que la lee desde el final. Definimos $biRNN(\vec{x}_{1:n}, i)$ como el vector de salida correspondiente a la $i$-ésima posición de la secuencia:
+
 \begin{displaymath}
 biRNN(\vec{x}_{1:n}, i) = \vec{y}_i = [RNN^{f}(\vec{x}_{1:i});RNN^{b}(\vec{x}_{n:i})]
 \end{displaymath}
-\item The vector $\vec{y}_i$ can then be used directly for prediction, or fed as part of the input to a more complex network.
-\item While the two RNNs are run independently of each other, the error gradients
-at position i will flow both forward and backward through the two RNNs.
-\item Feeding the vector $\vec{y}_i$ through an MLP prior to prediction will further mix the forward and backward signals.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/biRNN.png}
-        \end{figure}
 
-\item Note how the vector $\vec{y}_4$ , corresponding to the word \textbf{jumped}, encodes an infinite window around (and including) the focus vector $\vec{x}_{jumped}$.        
-\item Similarly to the $RNN$ case, we also define $biRNN^{*}(\vec{x}_{1:n})$ as the sequence of vectors $\vec{y}_{1:n}$:    
-\begin{displaymath}
-biRNN^{*}(\vec{x}_{1:n})= \vec{y}_{1:n} = biRNN(\vec{x}_{1:n},1),\dots,biRNN(\vec{x}_{1:n},n)
-\end{displaymath}
-\item The $n$ output vectors $\vec{y}_{1:n}$ can be efficiently computed in linear time by first running the forward and backward RNNs, and then concatenating the relevant outputs.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/biRNNstar.png}
-        \end{figure}
-\item The biRNN is very effective for tagging tasks, in which each input vector corresponds to one output vector.
+El vector $\vec{y}_i$ se puede utilizar directamente para la predicción o se puede alimentar como parte de la entrada a una red más compleja. Mientras que las dos RNN se ejecutan de forma independiente, los gradientes de error en la posición $i$ fluirán tanto hacia adelante como hacia atrás a través de las dos RNN. Al alimentar el vector $\vec{y}_i$ a través de un MLP antes de la predicción, se mezclarán aún más las señales hacia adelante y hacia atrás.
 
-\item It is also useful as a general-purpose trainable feature-extracting component, that can be used whenever a window around a given word is required.
-\end{itemize}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.35]{pics/biRNN.png}
+  \caption{Red neuronal recurrente bidireccional (biRNN).}
+\end{figure}
 
+Observa cómo el vector $\vec{y}_4$, correspondiente a la palabra \textbf{saltó}, codifica una ventana infinita alrededor (e incluyendo) el vector de enfoque $\vec{x}_{\text{saltó}}$. La biRNN es muy efectiva para tareas de etiquetado, en las que cada vector de entrada corresponde a un vector de salida. También es útil como componente de extracción de características entrenable de propósito general, que se puede utilizar siempre que se requiera una ventana alrededor de una palabra determinada.
 
-\section{Multi-layer (stacked) RNNS}
-\begin{itemize}
-\item RNNs can be stacked in layers, forming a grid.
-\item Consider $k$ RNNs, $RNN_{1},\dots, RNN_{k}$, where the $j$th RNN has states $\vec{s}_{1:n}^{j}$  and outputs $\vec{y}_{1:n}^{j}$.
-\item The input for the first RNN are $\vec{x}_{1:n}$.
-\item The input of the $j$th RNN ($j\geq 2$) are the outputs of the RNN below it, $\vec{y}_{1:n}^{j-1}$.
-\item The output of the entire formation is the output of the last RNN, $\vec{y}_{1:n}^k$.
-\item Such layered architectures are often called deep RNNs.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/stackedRNN.png}
-        \end{figure}
-\item It is not theoretically clear what is the additional power gained by the deeper architecture.
-\item It was observed empirically that deep RNNs work better than shallower ones on some tasks (e.g., machine translation).
-\end{itemize}
+\section{Redes neuronales recurrentes multi-capa (apiladas)}
+
+Las RNN se pueden apilar en capas, formando una estructura en forma de cuadrícula. Consideremos $k$ RNN, $RNN_{1},\dots, RNN_{k}$, donde la $j$-ésima RNN tiene estados $\vec{s}_{1:n}^{j}$ y salidas $\vec{y}_{1:n}^{j}$. La entrada para la primera RNN son $\vec{x}_{1:n}$. La entrada de la $j$-ésima RNN ($j\geq 2$) son las salidas de la RNN debajo de ella, $\vec{y}_{1:n}^{j-1}$. La salida de toda la formación es la salida de la última RNN, $\vec{y}_{1:n}^k$. Estas arquitecturas en capas se conocen comúnmente como RNN profundas. No
+
+existe una restricción en la cantidad de capas que se pueden apilar, pero es importante tener en cuenta que agregar más capas puede aumentar la complejidad del modelo y requerir más datos y tiempo de entrenamiento.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4]{pics/stackedRNN.png}
+  \caption{Redes neuronales recurrentes multi-capa (apiladas).}
+\end{figure}
+
+La ventaja de las RNN apiladas es que cada capa puede aprender representaciones de características de nivel superior en la secuencia de entrada. Las capas superiores pueden capturar patrones de más largo alcance y dependencias más complejas. Cada capa procesa la secuencia de entrada de manera incremental, y las capas superiores reciben información de las capas inferiores para ayudar a hacer predicciones más precisas. Las RNN apiladas son particularmente efectivas para tareas de modelado del lenguaje y traducción automática.
 
 
-\section{Gated Architectures}
-\begin{itemize}
-\item So far we have seen only one instantiation of the RNN: the simple RNN (S-RNN) or Elman network.
-\item This model is hard to train effectively because of the \textbf{vanishing gradients} problem.
-\item Error signals (gradients) in later steps in the sequence diminish quickly in the backpropagation process.
-\item Thus, they do not reach earlier input signals, making it hard for the S-RNN to capture long-range dependencies.
-\item Gating-based architectures, such as the LSTM \cite{hochreiter1997long} and the GRU \cite{cho2014learning} are designed to solve this deficiency.
-\item Intuitively, recurrent neural networks can be thought of as very deep feed-forward networks, with shared parameters across different layers.
-\item For the Simple-RNN, the gradients then include repeated multiplication of the matrix $W$, making it very likely for the values to vanish or explode.
-\item  The gating mechanism mitigate this problem to a large extent by getting rid of this repeated multiplication of a single matrix.
-\item Consider the RNN as a general purpose computing device, where the state $\vec{s}_i$ represents a finite memory.
-\item Each application of the function $R$ reads in an input $\vec{x}_{i+1}$ , reads in the current memory $\vec{s}_i$ , operates on them in some way, and writes the result into memory.
-\item This results in a new memory state $\vec{s}_{i+1}$.
-\item An apparent problem with the S-RNN architecture is that the memory access is not controlled. 
-\item At each step of the computation, the entire memory state is read, and the entire memory state is written.
-\item How does one provide more controlled memory access?
-\item Consider a binary vector $\vec{g} \in [0,1]^n$. 
-\item Such a vector can act as a \textbf{gate} for controlling access to $n$-dimensional vectors, using the hadamard-product operation $\vec{x} \odot \vec{g}$.
-\item The hadamard operation is the same as the element-wise multiplication of two vectors:
+\section{Arquitecturas con compuertas}
+Hasta ahora hemos visto solo una instancia de la RNN: la RNN simple (S-RNN) o red Elman. Este modelo es difícil de entrenar efectivamente debido al problema de los \textbf{gradientes que desaparecen}. Las señales de error (gradientes) en pasos posteriores de la secuencia disminuyen rápidamente en el proceso de retropropagación, por lo que no llegan a las señales de entrada anteriores, lo que dificulta que la S-RNN capture dependencias a largo plazo. Las arquitecturas basadas en compuertas, como LSTM \cite{hochreiter1997long} y GRU \cite{cho2014learning}, están diseñadas para solucionar esta deficiencia.
+
+Intuitivamente, las redes neuronales recurrentes pueden considerarse como redes de alimentación profunda con parámetros compartidos entre diferentes capas. En el caso de la RNN simple, los gradientes incluyen multiplicaciones repetidas de la matriz $W$, lo que hace muy probable que los valores desaparezcan o exploten. El mecanismo de las compuertas mitiga este problema en gran medida al eliminar esta multiplicación repetida de una sola matriz.
+
+Podemos considerar la RNN como un dispositivo de computación de propósito general, donde el estado $\vec{s}_i$ representa una memoria finita. Cada aplicación de la función $R$ lee una entrada $\vec{x}_{i+1}$, lee la memoria actual $\vec{s}_i$, opera en ellas de alguna manera y escribe el resultado en la memoria. Esto resulta en un nuevo estado de memoria $\vec{s}_{i+1}$. Sin embargo, un problema aparente con la arquitectura S-RNN es que el acceso a la memoria no está controlado. En cada paso de la computación, se lee todo el estado de memoria y se escribe todo el estado de memoria. ¿Cómo se puede proporcionar un acceso a la memoria más controlado?
+
+Podemos utilizar un vector binario $\vec{g} \in [0,1]^n$ que actúa como una \textbf{compuerta} para controlar el acceso a vectores de dimensión $n$ utilizando la operación producto de Hadamard $\vec{x} \odot \vec{g}$. La operación Hadamard es la multiplicación elemento a elemento de dos vectores:
 \begin{displaymath}
 \vec{x} = \vec{u} \odot \vec{v}  \Leftrightarrow  \vec{x}_{[i]} = \vec{u}_{[i]} \cdot \vec{v}_{[i]} \quad \forall i \in [1,n]
 \end{displaymath}
-\item Consider a memory $\vec{s} \in \mathcal{R}^{d}$, an input $\vec{x} \in \mathcal{R}^{d}$ and a gate $\vec{g} \in [0,1]^{d}$.
-\item The following computation:
-\begin{displaymath}
-\vec{s}' \leftarrow \vec{g} \odot \vec{x} + (\vec{1}-\vec{g}) \odot (\vec{s}) 
-\end{displaymath}
-\item Reads the entries in $\vec{x}$ that correspond to the $\vec{1}$ values in $\vec{g}$ , and writes them to the new memory $\vec{s}'$.
-\item Locations that weren't read to are copied from the memory $\vec{s}$ to the new memory $\vec{s}'$ through the use of the gate $(\vec{1}-\vec{g})$.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/gatedEx.png}
-        \end{figure}
-\item This gating mechanism can serve as a building block in our RNN.
-\item Gate vectors can be used to control access to the memory state $\vec{s}_i$.
-\item We are still missing two important (and related) components: 
-\begin{enumerate}
-\begin{scriptsize}
- \item The gates should not be static, but be controlled by the
-current memory state and the input.
-\item Their behavior should be learned.
-\end{scriptsize} 
-\end{enumerate}
-\item This introduced an obstacle, as learning in our framework entails being differentiable (because of the backpropagation algorithm).
-\item The binary 0-1 values used in the gates are not differentiable.
-\item A solution to this problem is to approximate the hard gating mechanism with a soft—but differentiable—gating mechanism.
-\item To achieve these differentiable gates , we replace the requirement that $\vec{g} \in [0,1]^n$ and allow arbitrary real numbers, $\vec{g}' \in \mathcal{R}^n$.
-\item These real numbers are then pass through a sigmoid function $\sigma(\vec{g}')$.
-\item This bounds the value in the range $(0,1)$, with most values
-near the borders.
-\item When using the gate $\sigma(\vec{g}')\odot \vec{x}$ , indices in $\vec{x}$ corresponding to near-one values in $\sigma(\vec{g}')$ are allowed to pass.
-\item While those corresponding to near-zero values are blocked. 
-\item The gate values can then be conditioned on the input and the current memory.
-\item And can be trained using a gradient-based method to perform a desired behavior.
-\item This controllable gating mechanism is the basis of the LSTM and the GRU architectures.
-\item At each time step, differentiable gating mechanisms decide which parts of the inputs will be written to memory and which parts of memory will be overwritten (forgotten). 
-\end{itemize}
 
+Si consideramos una memoria $\vec{s} \in \mathbb{R}^{d}$, una entrada $\vec{x} \in \mathbb{R}^{d}$ y una compuerta $\vec{g} \in [0,1]^{d}$, la siguiente computación:
+\begin{displaymath}
+\vec{s}' \leftarrow \vec{g} \odot \vec{x} + (\vec{1}-\vec{g}) \odot (\vec{s})
+\end{displaymath}
+lee las entradas en $\vec{x}$ que corresponden a los valores $\vec{1}$ en $\vec{g}$ y las escribe en la nueva memoria $\vec{s}'$. Las ubicaciones que no se leyeron se copian de la memoria $\vec{s}$ a la nueva memoria $\vec{s}'$ mediante el uso de la compuerta $(\vec{1}-\vec{g})$.
+
+Este mecanismo de compuerta puede servir como un bloque de construcción en nuestra RNN. Los vectores de compuerta se pueden utilizar para controlar el acceso al estado de memoria $\vec{s}_i$. Sin embargo, todavía nos faltan dos componentes importantes (y relacionados): 1) las compuertas no deben ser estáticas, sino que deben estar controladas por el estado de memoria actual y la entrada, y 2) su comportamiento debe ser aprendido.
+
+Esto presenta un obstáculo, ya que el aprendizaje en nuestro marco implica ser diferenciable (debido al algoritmo de retropropagación). Los valores binarios de 0-1 utilizados en las compuertas no son diferenciables. Una solución a este problema es aproximar el mecanismo de compuerta dura con un mecanismo de compuerta suave, pero diferenciable.
+
+Para lograr compuertas diferenciables, reemplazamos el requisito de que $\vec{g} \in [0,1]^n$ y permitimos números reales arbitrarios $\vec{g}' \in \mathbb{R}^n$. Estos números reales luego pasan a través de una función sigmoide $\sigma(\vec{g}')$, lo que limita los valores en el rango $(0,1)$, con la mayoría de los valores cerca de los bordes. Al utilizar la compuerta $\sigma(\vec{g}')\odot \vec{x}$, los índices en $\vec{x}$ que corresponden a valores cercanos a uno en $\sigma(\vec{g}')$ pueden pasar, mientras que los que corresponden a valores cercanos a cero son bloqueados. Los valores de las compuertas pueden condicionarse a la entrada y al estado de memoria actual, y pueden entrenarse utilizando un método basado en gradientes para realizar un comportamiento deseado.
+
+Este mecanismo de compuerta controlable es la base de las arquitecturas LSTM y GRU. En cada paso de tiempo, los mecanismos de compuerta diferenciables deciden qué partes de las entradas se escribirán en la memoria y qué partes de la memoria se sobrescribirán (olvidarán).
 
 \section{LSTM}
-\begin{itemize}
-\item The Long Short-Term Memory (LSTM) architecture \cite{hochreiter1997long} was designed to solve the vanishing gradients problem. 
-\item It was the the first architecture to introduce the gating mechanism.
-\item The LSTM architecture explicitly splits the state vector $\vec{s}_i$ into two halves: 1) memory cells and 2) working memory.
-\item The memory cells are designed to preserve the memory, and also the error gradients, across time, and are controlled through differentiable gating components\footnote{Smooth mathematical functions that simulate logical gates.}.
-\item At each input state, a gate is used to decide how much of the new input should be written to the memory cell, and how much of the current content of the memory cell should be forgotten.
-\item Mathematically, the LSTM architecture is defined as:
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/LSTMform.png}
-        \end{figure}
-\item The state at time $j$ is composed of two vectors, $\vec{c}_j$ and $\vec{h}_{j}$, where $\vec{c}_j$ is the memory component and $\vec{h}_j$ is the hidden state component.
-\item There are three gates, $\vec{i}$ , $\vec{f}$ , and $\vec{o}$, controlling for \textbf{i}nput, \textbf{f}orget, and \textbf{o}utput.
-\item The gate values are computed based on linear combinations of the current input $\vec{x}_j$ and the previous state $\vec{h}_{j-1}$, passed through a sigmoid activation function.
-\item An update candidate $\vec{z}$ is computed as a linear combination of $\vec{x}_j$ and $\vec{h}_{j-1}$ , passed through a tanh activation function (to push the values to be between -1 and 1).
-\item The memory $\vec{c}_j$ is then updated: the forget gate controls how much of the previous memory to keep ($\vec{f} \odot \vec{c}_{j-1}$), and the input gate controls how much of the proposed update to keep ($\vec{i} \odot  \vec{z}$). 
-\item Finally, the value of $\vec{h}_j$ (which is also the output $\vec{y}_j$ ) is determined based on the content of the memory $\vec{c}_j$ , passed through a tanh nonlinearity and controlled by the output gate. 
-\item The gating mechanisms allow for gradients related to the memory part $\vec{c}_j$ to stay high across very long time ranges.
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/LSTMchain.png}
-        \end{figure}
-\footnotemark{source: \url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}        
-\item Intuitively, recurrent neural networks can be thought of as very deep feed-forward networks, with shared parameters across different layers.
-\item For the Simple-RNN, the gradients then include repeated multiplication of the matrix $W$.
-\item This makes the gradient values to vanish or explode.
-\item The gating mechanism mitigate this problem to a large extent by getting rid of this repeated multiplication of a single matrix.
-\item LSTMs are currently the most successful type of RNN architecture, and they are responsible for many state-of-the-art sequence modeling results.
-\item The main competitor of the LSTM RNN is the GRU, to be discussed next.
-\end{itemize}
+La arquitectura LSTM (Long Short-Term Memory) \cite{hochreiter1997long} fue diseñada para resolver el problema de los gradientes que desaparecen. Fue la primera arquitectura en introducir el mecanismo de compuertas. La arquitectura LSTM divide explícitamente el vector de estado $\vec{s}_i$ en dos mitades: 1) celdas de memoria y 2) memoria de trabajo. Las celdas de memoria están diseñadas para preservar la memoria, así como los gradientes de error, a lo largo del tiempo, y están controladas mediante componentes de compuertas diferenciables. En cada estado de entrada, se utiliza una compuerta para decidir cuánta de la nueva entrada debe escribirse en la celda de memoria y cuánto del contenido actual de la celda de memoria debe olvidarse. Matemáticamente, la arquitectura LSTM se define como:
 
+\begin{figure}[h]
+\centering
+  \includegraphics[scale=0.35]{pics/LSTMform.png}
+  \caption{Formulación matemática de la arquitectura LSTM.}
+\end{figure}
 
+El estado en el tiempo $j$ se compone de dos vectores, $\vec{c}_j$ y $\vec{h}_{j}$, donde $\vec{c}_j$ es el componente de memoria y $\vec{h}_j$ es el componente de estado oculto. Hay tres compuertas, $\vec{i}$, $\vec{f}$ y $\vec{o}$, que controlan la \textbf{entrada} (\textbf{i}nput), \textbf{olvido} (\textbf{f}orget) y \textbf{salida} (\textbf{o}utput), respectivamente. Los valores de las compuertas se calculan en función de las combinaciones lineales de la entrada actual $\vec{x}_j$ y el estado anterior $\vec{h}_{j-1}$, pasados a través de una función de activación sigmoide. Se calcula un candidato de actualización $\vec{z}$ como una combinación lineal de $\vec{x}_j$ y $\vec{h}_{j-1}$, pasados a través de una función de activación tangente hiperbólica (tanh) (para llevar los valores al rango de -1 a 1). Luego, se actualiza la memoria $\vec{c}_j$: la compuerta de olvido controla cuánta de la memoria anterior se debe mantener ($\vec{f} \odot \vec{c}_{j-1}$), y la compuerta de entrada controla cuánta de la actualización propuesta se debe mantener ($\vec{i} \odot  \vec{z}$). Finalmente, el valor de $\vec{h}_j$ (que también es la salida $\vec{y}_j$) se determina en función del contenido de la memoria $\vec{c}_j$, pasado a través de una no linealidad tangente hiperbólica y controlada por la compuerta de salida. Los mecanismos de compuertas permiten que los gradientes relacionados con la parte de memoria $\vec{c}_j$ se mantengan altos en rangos de tiempo muy largos.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.35]{pics/LSTMchain.png}
+  \caption{Cadena desenrollada de una arquitectura LSTM.}
+\end{figure}
+\footnotetext{Fuente: \url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}
+
+Intuitivamente, las redes neuronales recurrentes pueden considerarse como redes de alimentación profunda con parámetros compartidos entre diferentes capas. En el caso de la RNN simple, los gradientes incluyen multiplicaciones repetidas de la matriz $W$, lo que hace que los valores de gradiente desaparezcan o exploten. El mecanismo de las compuertas mitiga este problema en gran medida al eliminar esta multiplicación repetida de una sola matriz. Las LSTMs son actualmente el tipo de arquitectura RNN más exitoso y son responsables de muchos resultados de modelado de secuencias de vanguardia. El principal competidor de la RNN LSTM es la GRU, que se discutirá a continuación.
 
 \section{GRU}
-\begin{itemize}
-\item The LSTM architecture is very effective, but also quite complicated.
-\item The complexity of the system makes it hard to analyze, and also computationally expensive to work with.
-\item The gated recurrent unit (GRU) was introduced in \cite{cho2014learning} as an alternative to the LSTM.
-\item It was subsequently shown in \cite{chung2014empirical} to perform comparably to the LSTM on several (non textual) datasets.
-\item Like the LSTM, the GRU is also based on a gating mechanism, but with substantially fewer gates and without a separate memory component.
-\end{itemize}
+La arquitectura LSTM es muy efectiva, pero también bastante complicada. La complejidad del sistema dificulta el análisis y también es computacionalmente costosa de trabajar. El Gated Recurrent Unit (GRU) se introdujo en \cite{cho2014learning} como una alternativa a LSTM. Posteriormente, se demostró en \cite{chung2014empirical} que tiene un rendimiento comparable a LSTM en varios conjuntos de datos (no textuales). Al igual que LSTM, GRU también se basa en un mecanismo de compuerta, pero con sustancialmente menos compuertas y sin un componente de memoria separado.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.35]{pics/GRU.png}
+  \caption{Arquitectura GRU.}
+\end{figure}
 
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/GRU.png}
-        \end{figure}        
+Se utiliza una sola compuerta $\vec{r}$ para controlar el acceso al estado anterior $\vec{s}_{j-1}$ y calcular una actualización propuesta $\vec{\widetilde{s}}_j$. El estado actualizado $\vec{s}_j$ (que también sirve como salida $\vec{y}_j$) se determina luego en función de una interpolación entre el estado anterior $\vec{s}_{j-1}$ y la propuesta $\vec{\widetilde{s}}_j$. Las proporciones de la interpolación se controlan mediante la compuerta $\vec{z}$. Se ha demostrado que GRU es efectivo en el modelado del lenguaje y la traducción automática. Sin embargo, aún se está investigando y comparando la GRU, la LSTM y posibles arquitecturas de RNN alternativas. Para una exploración empírica de las arquitecturas GRU y LSTM, consulte \cite{jozefowicz2015empirical}.
 
-\begin{itemize}
-\item One gate $\vec{r}$ is used to control access to the previous state $\vec{s}_{j-1}$ and compute a proposed update $\vec{\widetilde{s}}_j$.
-\item The updated state $\vec{s}_j$ (which also serves as the output $\vec{y}_j$) is then determined based on an interpolation of the previous state $\vec{s}_{j-1}$ and the proposal $\vec{\widetilde{s}}_j$.
-\item The proportions of the interpolation are controlled using the gate $\vec{z}$.
-\item The GRU was shown to be effective in language modeling and machine translation.
-\item However, the jury is still out between the GRU, the LSTM and possible alternative RNN architectures, and the subject is actively researched. 
-\item For an empirical exploration of the GRU and the LSTM architectures, see \cite{jozefowicz2015empirical}.
-\end{itemize}
+\section{Clasificación de sentimientos con RNN}
+El uso más simple de las RNN es como aceptores: leer una secuencia de entrada y producir una respuesta binaria o multi-clase al final. Las RNN son aprendices de secuencia muy poderosos y pueden captar patrones muy intrincados en los datos. Un ejemplo de oraciones naturalmente positivas y negativas en el dominio de las críticas de películas sería el siguiente: Positiva: "No es afirmativa de la vida, es vulgar y cruel, pero me gustó". Negativa: "Es decepcionante que solo logre ser decente en lugar de brillante".
 
-
-\section{Sentiment Classification with RNNs}
-\begin{itemize}
-\item The simplest use of RNNs is as acceptors: read in an input sequence, and produce a binary or multi-class answer at the end.
-\item RNNs are very strong sequence learners, and can pick-up on very
-intricate patterns in the data.
-\item An example of naturally occurring positive and negative sentences in the movie-reviews domain would be the following:
-\item Positive: It's not life-affirming—it’s vulgar and mean, but I liked it.
-\item Negative: It's a disappointing that it only manages to be decent instead of dead brilliant.
-\item Note that the positive example contains some negative phrases (not life affirming, vulgar, and mean).
-\item While the negative example contains some positive ones (dead brilliant).
-\item Correctly predicting the sentiment requires understanding not only the individual phrases but also the context in which they occur, linguistic constructs such as negation, and the overall structure of the sentence.
-\item The sentence-level sentiment classification task is modelled using an RNN-acceptor.
-\item After tokenization, the RNN reads in the words of the sentence one at a time. 
-\item The final RNN state is then fed into an MLP followed by a softmax-layer with two outputs (positive and negative). 
-\item The network is trained with cross-entropy loss based on the gold sentiment labels.
+Observa que el ejemplo positivo contiene algunas frases negativas ("no afirmativa de la vida", "vulgar" y "cruel"). Mientras que el ejemplo negativo contiene algunas frases positivas ("brillante"). Predecir correctamente el sentimiento requiere entender no solo las frases individuales sino también el contexto en el que ocurren, construcciones lingüísticas como la negación y la estructura general de la oración. La tarea de clasificación de sentimientos a nivel de oración se modela utilizando un RNN-aceptor. Después de la tokenización, la RNN lee las palabras de la oración una a la vez. Luego, el estado final de la RNN se alimenta a una MLP seguida de una capa softmax con dos salidas (positiva y negativa). La red se entrena con pérdida de entropía cruzada basada en las etiquetas de sentimiento correctas.
 
 \begin{equation}
 \begin{split}
-p(label = k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
-\hat{\vec{y}} & = softmax(MLP(RNN(\vec{x}_{1:n}))) \\
-\vec{x}_{1:n} & = E_{[w_{1}]}, \dots, E_{[w_{n}]} 
+p(\text{etiqueta}=k | \vec{w}_{1:n}) & = \hat{\vec{y}}_{[k]} \\
+\hat{\vec{y}} & = \text{softmax}(\text{MLP}(\text{RNN}(\vec{x}_{1:n}))) \\
+\vec{x}_{1:n} & = E_{[w_{1}]}, \dots, E_{[w_{n}]}
 \end{split}
 \end{equation}
-\item The word embeddings matrix $E$ is initialized using pre-trained embeddings learned over a large external corpus using an algorithm such as Word2vec or Glove with a relatively wide window.
-\item It is often helpful to extend the model by considering bidirectional RNNs.
-\item For longer sentences, \cite{li2015tree} found it useful to use a hierarchical architecture, in which the sentence is split into smaller spans based on punctuation.
-\item Then, each span is fed into a bidirectional RNN. 
-\item Sequence of resulting vectors (one for each span) are then fed into an RNN acceptor.
-\item A similar hierarchical architecture was used for document-level sentiment classification in \cite{tang2015document}.
-\end{itemize}
 
+La matriz de incrustación de palabras $E$ se inicializa utilizando incrustaciones pre-entrenadas aprendidas sobre un corpus externo grande utilizando un algoritmo como Word2vec o GloVe con una ventana relativamente amplia. A menudo es útil extender el modelo considerando RNN bidireccionales. Para oraciones más largas, \cite{li2015tree} encontró útil utilizar una arquitectura jerárquica, en la cual la oración se divide en segmentos más pequeños basados en la puntuación. Luego, cada segmento se alimenta a una RNN bidireccional. La secuencia de vectores resultantes (uno para cada segmento) se alimenta luego a un RNN aceptor. Se utilizó una arquitectura jerárquica similar para la clasificación de sentimientos a nivel de documento en \cite{tang2015document}.
 
-% https://arxiv.org/abs/1606.01781
+\section{Clasificación de sentimientos en Twitter con LSTMS y Emojis}
+Se propuso un modelo de supervisión remota basado en emojis para detectar sentimientos y otros estados afectivos en mensajes cortos de redes sociales en \cite{FelboMSRL17}. Se utilizan emojis como enfoque de supervisión remota para diversas tareas de detección afectiva (por ejemplo, emoción, sentimiento, sarcasmo) utilizando un corpus grande de 634 millones de tweets con 64 emojis. Se pre-entrena una arquitectura de red neuronal con este corpus. La red es una variante de LSTM formada por una capa de incrustación, 2 capas LSTM bidireccionales con conexiones de omisión normales y conexiones de agrupamiento promedio temporal.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.45]{pics/deepEmoji1.png}
+  \caption{Arquitectura de red neuronal para la clasificación de sentimientos en Twitter con LSTMS y emojis (parte 1).}
+\end{figure}
 
-\section{Twitter Sentiment Classification with LSTMS Emojis}
-\begin{itemize}
-\item An emoji-based distant supervision model for detecting sentiment and other affective states from short social media messages was proposed in \cite{FelboMSRL17}.
-\item Emojis are used as a distant supervision approach for various affect detection tasks (e.g., emotion, sentiment, sarcasm) using a large corpus of 634M tweets with 64 emojis.
-\item A neural network architecture is pretrained with this corpus. 
-\item The network is an LSTM variant formed by an embedding layer, 2 bidrectional LSTM layers with normal skip connections and temporal average pooling-skip connections.
-\end{itemize}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.45]{pics/deepEmoji2.png}
+  \caption{Arquitectura de red neuronal para la clasificación de sentimientos en Twitter con LSTMS y emojis (parte 2).}
+\end{figure}
 
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.45]{pics/deepEmoji1.png}
-        \end{figure}    
-        
-  
-    \begin{figure}[h]
-        	\includegraphics[scale = 0.45]{pics/deepEmoji2.png}
-        \end{figure}       
+Los autores proponen el enfoque de transferencia de deshielo encadenado, en el cual la red pre-entrenada se ajusta finamente para la tarea objetivo. Aquí, cada capa se ajusta finamente individualmente en cada paso con los datos objetivos correctos, y luego todas se ajustan finamente juntas. El modelo logra resultados de vanguardia en la detección de emociones, sentimientos y sarcasmo. La red pre-entrenada se ha publicado para el público en
 
-\begin{itemize}
-\item Authors propose the chain-thaw transfer-learning approach in which the pretrained network is fine-tuned for the target task. 
-\item Here, each layer is individually fine-tuned in each step with the target gold data, and then they are all fine-tuned together. 
-\item The model achieves state-of-the-art results the detection of emotion, sentiment, and sarcasm. 
-\item  The pretrained network is released to the public.
-
-\item  A demo of the model: \url{https://deepmoji.mit.edu/}.
-\end{itemize}
-
-
-
-
-         \begin{figure}[h]
-        	\includegraphics[scale = 0.45]{pics/deepEmoji3.png}
-        \end{figure}        
-        
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.45]{pics/deepEmoji3.png}
+  \caption{Demostración del modelo: \url{https://deepmoji.mit.edu/}.}
+\end{figure}
 
 \section{Bi-LSTM CRF}
+Un enfoque alternativo al transductor para el etiquetado de secuencias es combinar una BI-LSTM con un Campo Aleatorio Condicional (CRF). Esto produce un etiquetador poderoso \cite{huang2015bidirectional} llamado BI-LSTM-CRF, en el cual la LSTM actúa como extractor de características y el CRF como una capa especial que modela las transiciones de una etiqueta a otra.
 
-\begin{itemize}
-
-\item An alternative approach to the transducer for sequence labeling is to combine a BI-LSTM with a Conditional Random Field (CRF).
-\item This produces a powerful tagger \cite{huang2015bidirectional} called BI-LSTM-CRF, in which the LSTM acts as feature extractor, and the CRF as a special layer that models the transitions from one tag to another.
-
-\item The CRF layers performs a global normalization over all possible sequences which helps to find the optimum sequence.
-
-\item In a CRF we model the conditional probability of the output tag sequence given the input sequence:
+La capa CRF realiza una normalización global sobre todas las posibles secuencias, lo que ayuda a encontrar la secuencia óptima. En un CRF, modelamos la probabilidad condicional de la secuencia de etiquetas de salida dada la secuencia de entrada:
 
 \begin{displaymath}
- P(s_1, \dots, s_m | x_1, \dots, x_m) = P(s_{1:m}|x_{1:m})
+P(s_1, \dots, s_m | x_1, \dots, x_m) = P(s_{1:m}|x_{1:m})
 \end{displaymath}
 
-\item We do this by defining a feature map 
+Lo hacemos definiendo un mapa de características $\vec{\Phi}(x_{1:m},s_{1:m}) \in \mathcal{R}^d$ que mapea una secuencia de entrada completa $x_{1:m}$ junto con una secuencia de etiquetas completa $s_{1:m}$ a un vector de características de $d$ dimensiones.
+
+Luego, podemos modelar la probabilidad como un modelo log-lineal con el vector de parámetros $\vec{w} \in \mathcal{R}^d$:
 
 \begin{displaymath}
- \vec{\Phi}(x_{1:m},s_{1:m}) \in \mathcal{R}^d
+P(s_{1:m}|x_{1:m}; \vec{w}) = \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))}
 \end{displaymath}
 
-that maps an entire input sequence $x_{1:m}$ paired with an entire tag sequence $s_{1:m}$ to some $d$-dimensional feature vector.
+donde $s'_{1:m}$ varía sobre todas las posibles secuencias de salida.
 
-\item Then we can model the probability as a log-linear model with the parameter vector $\vec{w} \in \mathcal{R}^d$:
+Podemos ver la expresión $\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m})= \text{score}_{crf}(x_{1:m},s_{1:m})$ como una puntuación de qué tan bien se ajusta la secuencia de etiquetas a la secuencia de entrada dada.
+
+Recordemos de la clase de CRF que $\vec{\Phi}(x_{1:m},s_{1:m})$ se creó con características diseñadas manualmente.
+
+La idea del LSTM CRF es reemplazar $\vec{\Phi}(x_{1:m},s_{1:m})$ con la salida de un transductor LSTM (características aprendidas automáticamente):
 
 \begin{displaymath}
- P(s_{1:m}|x_{1:m}; \vec{w}) = \frac{\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m}))}{\sum_{s'_{1:m} \in S^m}\exp (\vec{w} \cdot \vec{\Phi}(x_{1:m},s'_{1:m}))}
+\text{score}_{lstm-crf}(x_{1:m},s_{1:m})= \sum_{i=0}^{m} W_{[s_{i-1},s_i}]\cdot\text{LSTM}^*(x_{1:m})_{[i]} +\vec{b}{[s_{i-1},s_i]}
 \end{displaymath}
 
-where $s'_{1:m}$ ranges over all possible output sequences.
+donde $W_{[s_{i-1},s_i]}$ corresponde a una puntuación de transición de la etiqueta $s_{i-1}$ a $s_i$, $\vec{b}{[s_{i-1},s_i]}$ es un término de sesgo para la transición y $\text{LSTM}^*(x_{1:m})_{[i]}$ proviene del estado oculto de la Bi-LSTM en el paso de tiempo $i$.
 
-\item We can view the expression $\vec{w} \cdot \vec{\Phi}(x_{1:m},s_{1:m})= \text{score}_{crf}(x_{1:m},s_{1:m}) $ as a score of how well the tag sequence fits the given input sequence.
-
-\item Recall from the CRF lecture that $\vec{\Phi}(x_{1:m},s_{1:m})$ was created with manually designed features.
-
-\item The idea of the LSTM CRF is to replace $\vec{\Phi}(x_{1:m},s_{1:m})$ with the output of an LSTM transducer (automatically learned features):
-
-\begin{displaymath}
-\text{score}_{lstm-crf}(x_{1:m},s_{1:m})= \sum_{i=0}^{m} W_{[s_{i-1},s_i]}\cdot\text{LSTM}^*(x_{1:m})_{[i]} +\vec{b}{[s_{i-1},s_i]}
-\end{displaymath}
-
-where $W_{[s_{i-1},s_i]}$ corresponds to a transition score from tag $s_{i-1}$ to $s_i$, $\vec{b}{[s_{i-1},s_i]}$ is a bias term for the transition and $\text{LSTM}^*(x_{1:m})_{[i]}$ comes from the hidden state of the Bi-LSTM at timestep i.
-
-\item All these parameters are learned jointly.
-
-\item Note that the transition matrix $W$ is position independent.
-
-\item The forward-backward algorithm is used during training and the Viterbi algorithm during decoding.
-
-\item More info in\footnote{\url{https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html}} and\footnote{\url{https://www.depends-on-the-definition.com/sequence-tagging-lstm-crf/}}.
-
-
-
-\end{itemize}
+Todos estos parámetros se aprenden conjuntamente. Observa que la matriz de transición $W$ no depende de la posición. Se utiliza el algoritmo de avance-retroceso durante el entrenamiento y el algoritmo de Viterbi durante la decodificación. Para obtener más información, consulta \footnote{\url{https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html}} y \footnote{\url{https://www.depends-on-the-definition.com/sequence-tagging-lstm-crf/}}.

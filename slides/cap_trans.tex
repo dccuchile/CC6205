@@ -1,624 +1,528 @@
-\section{What's Wrong with RNNs?}
-\begin{itemize}
-\item Given what we just learned on previous lecture, it would seem like attention solves all the problems with RNNs and encoder-decoder architectures\footnote{The following material is based on: \url{http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/} and \url{http://jalammar.github.io/illustrated-transformer/}}.
-
-\item There are a few shortcomings of RNNs that another architecture called the \textbf{Transformer} tries to address.
-
-\item The Transformer discards the recursive component of the Encoder-Decoder architecture and purely relies on attention mechanisms \cite{vaswani2017attention}.
-
-\item When we process a sequence using RNNs, each hidden state depends on the previous hidden state. 
-
-\item This becomes a major pain point on GPUs: GPUs have a lot of computational capability and they hate having to wait for data to become available.
-
-\item Even with technologies like CuDNN, RNNs are painfully inefficient and slow on the GPU.
+Dado lo que acabamos de aprender en la conferencia anterior, parecería que la atención resuelve todos los problemas con las RNN y las arquitecturas codificador-decodificador\footnote{El material siguiente se basa en: \url{http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/} y \url{http://jalammar.github.io/illustrated-transformer/}}. Sin embargo, hay algunas deficiencias de las RNN que otra arquitectura llamada \textbf{Transformer} intenta abordar. El Transformer descarta el componente recursivo de la arquitectura codificador-decodificador y se basa únicamente en los mecanismos de atención \cite{vaswani2017attention}. Cuando procesamos una secuencia con RNN, cada estado oculto depende del estado oculto anterior. Esto se convierte en un gran problema en las GPU: las GPU tienen una gran capacidad de cálculo y no les gusta tener que esperar a que los datos estén disponibles. Incluso con tecnologías como CuDNN, las RNN son dolorosamente ineficientes y lentas en la GPU.
 
 
-\end{itemize}
-
-\subsection{Dependencies in neural machine translations}
-In essence, there are three kinds of dependencies in neural machine translations: 
+\subsection{Dependencias en la traducción automática neuronal}
+En esencia, hay tres tipos de dependencias en la traducción automática neuronal:
 \begin{enumerate}
-\item Dependencies between the input and output tokens.
-
-\item Dependencies between the input tokens themselves.
-
-\item Dependencies between the output tokens themselves.
+\item Dependencias entre los tokens de entrada y los tokens de salida.
+\item Dependencias entre los tokens de entrada en sí.
+\item Dependencias entre los tokens de salida en sí.
 \end{enumerate}
 
+El mecanismo de atención tradicional resolvió en gran medida la primera dependencia al darle al decodificador acceso a toda la secuencia de entrada. Las dependencias segunda y tercera fueron abordadas por las RNN.
 
-The traditional attention mechanism largely solved the first dependency by giving the decoder access to the entire input sequence. The second and third dependencies were addressed by the RNNs.
-
-
-\section{The Transformer}
+\section{El Transformer}
 \begin{itemize}
- \item The novel idea of the Transformer is to extend this mechanism to the processing input and output sentences as well.
- \item The RNN processes input sequences sequentially. 
- \item The Transformer, on the other hand, allows the encoder and decoder to see the entire input sequence all at once.
- \item This is done using attention.
-  \item Let’s begin by looking at the Transformer as a single black box. 
-  \item In a machine translation application, it would take a sentence in one language, and output its translation in another.
+ \item La idea novedosa del Transformer es extender este mecanismo para procesar las oraciones de entrada y salida también.
+ \item La RNN procesa secuencias de entrada de manera secuencial.
+ \item El Transformer, por otro lado, permite que el codificador y el decodificador vean toda la secuencia de entrada de una vez.
+ \item Esto se logra mediante la atención.
+ \item Comencemos por ver el Transformer como una caja negra única.
+ \item En una aplicación de traducción automática, tomaría una oración en un idioma y produciría su traducción en otro.
  \end{itemize}
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.29]{pics/the_transformer_3.png}
-        \end{figure}  
-
-
-
-This blackbox can be decomposed by an encoding component, a decoding component, and connections between them.
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.29]{pics/The_transformer_encoders_decoders.png}
-        \end{figure}  
-
- \begin{itemize}
-  \item  The encoding component is a stack of encoders.
-  \item The original Transformer stacks six of them on top of each other.
-  \item But there’s nothing magical about the number six, one can definitely experiment with other arrangements. 
-  \item The decoding component is a stack of decoders of the same number.
- \end{itemize}
-
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/The_transformer_encoder_decoder_stack.png}
-        \end{figure}  
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.29]{pics/transformer.png}
-        \end{figure}  
-
-
-\begin{itemize}
-
- \item  The Transformer still uses the basic encoder-decoder design of RNN neural machine translation systems.
- 
- \item The left-hand side is the encoder, and the right-hand side is the decoder. 
- 
- \item The initial inputs to the encoder are the embeddings of the input sequence.
- \item The initial inputs to the decoder are the embeddings of the outputs up to that point. 
- 
- \item The encoder and decoder are composed of $N$ blocks (where $N = 6$ for both networks).
- 
- \item These blocks are composed of smaller blocks as well. 
- 
- \item Before looking at each block in further detail, let't try to understand the Attention mechanism implemented by the Transformer.
- 
-\end{itemize}
-
-
-
-\section{Attention Mechanism in the Transformer}
-\begin{itemize}
- \item The attention mechanism in the Transformer is interpreted as a way of computing the relevance of a set of \textbf{values} (information) based on some \textbf{keys} and \textbf{queries}. 
- 
- \item The attention mechanism is used as a way for the model to \textbf{focus on relevant information} based on what it is currently processing.
- 
- \item In the RNN encoder-decoder architecture with attention:
- 
-
- \begin{enumerate}
- \item Attention weights were the relevance of the encoder hidden states (values) in processing the decoder state (query).
- 
- \item These values were calculated based on the encoder hidden states (keys) and the decoder hidden state (query). 
- \end{enumerate}
-
- 
-\end{itemize}
-
-
-    \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/attention_concept.png}
-        \end{figure}  
-
-\begin{itemize}        
-\item In this example, the query is the word being decoded (which means dog) and both the keys and values are the source sentence. 
-\item The attention score represents the relevance, and in this case is large for the word “dog” and small for others.
- \item When we think of attention this way, we can see that the keys, values, and queries could be anything. 
- \item They could even be the same. 
- \item For instance, both values and queries could be input embeddings (self attention). 
-\end{itemize}
-
-
-\subsection{Queries}
-
-\begin{itemize}
-\item Queries are representations of the target or output sequence that the Transformer model uses to determine how much attention should be given to each word in the input sequence.
-\item Each word or token in the output sequence is associated with a query.
-\item The queries help in retrieving relevant information from the input sequence.
-\item Example: If we are generating the translation for the sentence ``Je adore les chats'' (meaning "I love cats" in French), each word in the output sequence would have its corresponding query representation.
-\item For example, ``Je'' would have a query vector, ``adore'' would have a query vector, and so on.
-
-
-\end{itemize}
-
-
-\subsection{Keys}
-\begin{itemize}
-\item Keys are representations of the input sequence that the Transformer model uses to compute the attention scores.
-\item Each word or token in the input sequence is associated with a key.
-\item These keys capture the information needed to understand the context and relationships between words in the sequence.
-\item Example: Consider the input sequence: ``I love cats.''
-\item Each word in the sequence would have its corresponding key representation, such as ``I'' having a key vector, ``love'' having a key vector, and so on.
-
-\end{itemize}
-
-
-
-\subsection{Values}
-\begin{itemize}
-\item Values are the actual information or features associated with each word in the input sequence.
-\item These values are used to calculate the weighted sum during the attention computation, which helps determine the importance or relevance of each word.
-\item Example: Considering the same input sequence ``I love cats,'' each word would have its associated value representation.
-\item These values contain the contextual information for each word.
-\item For instance, ``I'' would have a value vector, ``love'' would have a value vector, and so forth.
-\item Keys and values are very difficult to distinguish at first sight because in RNN encoding and decoding with classical attention they are the same.
-\item We will see with the Transformer that although they come from the same sequence, they may correspond to different vectors.
-
-\end{itemize}
-
-
-\subsection{Scaled Dot Product Attention}
-\begin{itemize}
-  \item  Transformer uses a particular form of attention called the “Scaled Dot-Product Attention”:
-
-  \item For a given query vector $\vec{q}$, a sequence of key vectors $\vec{k}_{1:m}$, and a sequence of value vectors $\vec{v}_{1:m}$,  the attention weights $\alpha_1,\dots,\alpha_m$  are computed as follows:
-  \begin{displaymath}
-    \alpha_1,\dots,\alpha_m = \text{softmax}\left(\frac{\vec{q} \cdot \vec{k}_{1}}{\sqrt{d}}, \dots,\frac{\vec{q} \cdot \vec{k}_{1}}{\sqrt{d}}\right)
-  \end{displaymath}
- \item $d$ represents the dimensionality of the queries and keys.
-
-  \item The normalization over $\sqrt{d}$ is used to rescale the dot products between queries and keys (dot products tend to grow with the dimensionality).
-
-  \item The attention weights are then multiplied by their corresponding values to compute a weighted sum, which is then passed to the subsequent layers of the network:
-
-  \begin{displaymath}
-   \alpha_1*\vec{v}_1+\cdots+\alpha_m*\vec{v}_m
-  \end{displaymath}
-
- \item Now we are ready to take a closer look at each part of the Transformer.
-
-
-\end{itemize}
-
-
-
-\section{The Encoder}
-\begin{itemize}
-\item The encoder contains self-attention layers. 
-
-\item In a self-attention layer all of the keys, values and queries come from the same place, in this case, the output of the previous layer in the encoder. 
-
-\item Each position in the encoder can attend to all positions in the previous layer of the encoder.
-
- \item  The encoder is composed of two blocks (which we will call sub-layers to distinguish from the $N$ blocks composing the encoder and decoder).
-\item  One is the Multi-Head Attention sub-layer over the inputs, mentioned above. 
-\item The other is a simple feed-forward network. 
-
-\end{itemize}
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/Transformer_encoder.png}
-        \end{figure}  
-
-
-\paragraph{Bringing The Tensors Into The Picture}
-\begin{itemize}
-\item We begin by turning each input word into a vector using an embedding layer  of the size 512 in the bottom-most encoder.
 \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/embeddings_enc.png}
-        \end{figure}  
+  \centering
+  \includegraphics[scale=0.29]{pics/the_transformer_3.png}
+  \caption{El Transformer como una caja negra única.}
+\end{figure}
 
-
-\item In the bottom encoder that would be the word embeddings, but in other encoders, it would be the output of the encoder that's directly below.
-
-\item The size of this list is hyperparameter we can set – basically it would be the length of the longest sentence in our training dataset.
-
-
+Esta caja negra se puede descomponer en un componente de codificación, un componente de decodificación y conexiones entre ellos.
 \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/encoder_with_tensors.png}
-        \end{figure}  
+  \centering
+  \includegraphics[scale=0.29]{pics/The_transformer_encoders_decoders.png}
+  \caption{El Transformer descompuesto en componentes de codificación y decodificación.}
+\end{figure}
+\begin{itemize}
+  \item El componente de codificación es una pila de codificadores.
+  \item El Transformer original apila seis de ellos uno encima del otro.
+  \item Pero no hay nada mágico en el número seis, definitivamente se pueden experimentar con otros arreglos.
+  \item El componente de decodificación es una pila de decodificadores del mismo número.
+\end{itemize}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.2]{pics/The_transformer_encoder_decoder_stack.png}
+  \caption{Pila de codificadores y decodificadores del Transformer.}
+\end{figure}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.29]{pics/transformer.png}
+  \caption{Estructura general del Transformer.}
+\end{figure}
+\begin{itemize}
+  \item El Transformer todavía utiliza el diseño codificador-decodificador básico de los sistemas de traducción automática neuronal RNN.
+  \item El lado izquierdo es el codificador y el lado derecho es el decodificador.
+  \item Las entradas iniciales al codificador son las incrustaciones de la secuencia de entrada.
+  \item Las entradas iniciales al decodificador son las incrustaciones de las salidas hasta ese momento.
+  \item El codificador y el decodificador están compuestos por $N$ bloques (donde $N = 6$ para ambas redes).
+  \item Estos bloques también están compuestos por bloques más pequeños.
+  \item Antes de examinar cada bloque con más detalle, intentemos comprender el mecanismo de atención implementado por el Transformer.
+\end{itemize}
 
-\item The word in each position flows through its own path in the encoder. 
+\section{Mecanismo de atención en el Transformer}
+\begin{itemize}
+  \item El mecanismo de atención en el Transformer se interpreta como una forma de calcular la relevancia de un conjunto de \textbf{valores} (información) en función de algunas \textbf{claves} y \textbf{consultas}.
+  \item El mecanismo de atención se utiliza como una forma para que el modelo \textbf{se centre en la información relevante} según lo que está procesando actualmente.
+  \item En la arquitectura codificador-decodificador RNN con atención:
+  \begin{enumerate}
+    \item Los pesos de atención eran la relevancia de los estados ocultos del codificador (valores) en el procesamiento del estado del decodificador (consulta).
+    \item Estos valores se calcularon en función de los estados ocultos del codificador (claves) y el estado oculto del decodificador (consulta).
+  \end{enumerate}
+\end{itemize}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.2]{pics/attention_concept.png}
+  \caption{Concepto de atención en el Transformer.}
+\end{figure}
+\begin{itemize}
+  \item En este ejemplo, la consulta es la palabra que se está decodificando (lo cual significa "perro") y tanto las claves como los valores son la oración fuente.
+  \item El puntaje de atención representa la relevancia y, en este caso, es alto para la palabra "perro" y bajo para las demás.
+  \item Cuando pensamos en la atención de esta manera, podemos ver que las claves, valores y consultas podrían ser cualquier cosa.
+  \item Incluso podrían ser iguales.
+  \item Por ejemplo, tanto los valores como las consultas podrían ser las incrustaciones de entrada (autoatención).
+  \end{itemize}
 
-\item There are dependencies between these paths in the self-attention layer. 
+\subsection{Consultas}
+\begin{itemize}
+\item Las consultas son representaciones de la secuencia de destino o salida que el modelo Transformer utiliza para determinar cuánta atención se debe prestar a cada palabra en la secuencia de entrada.
+\item Cada palabra o token en la secuencia de salida se asocia con una consulta.
+\item Las consultas ayudan a recuperar la información relevante de la secuencia de entrada.
+\item Ejemplo: Si estamos generando la traducción para la oración ``Je adore les chats'' (que significa "Me encantan los gatos" en francés), cada palabra en la secuencia de salida tendría su representación de consulta correspondiente.
+\item Por ejemplo, ``Je'' tendría un vector de consulta, ``adore'' tendría un vector de consulta, y así sucesivamente.
+\end{itemize}
 
-\item The feed-forward layer does not have those dependencies.
+\subsection{Claves}
+\begin{itemize}
+\item Las claves son representaciones de la secuencia de entrada que el modelo Transformer utiliza para calcular los puntajes de atención.
+\item Cada palabra o token en la secuencia de entrada se asocia con una clave.
+\item Estas claves capturan la información necesaria para comprender el contexto y las relaciones entre las palabras de la secuencia.
+\item Ejemplo: Consideremos la secuencia de entrada: ``I love cats'' (Amo a los gatos).
+\item Cada palabra en la secuencia tendría su representación de clave correspondiente, como ``I'' teniendo un vector de clave, ``love'' teniendo un vector de clave, y así sucesivamente.
+\end{itemize}
 
-\item However, and thus the various paths can be executed in parallel while flowing through the feed-forward layer.
+\subsection{Valores}
+\begin{itemize}
+\item Los valores son la información o características reales asociadas con cada palabra de la secuencia de entrada.
+\item Estos valores se utilizan para calcular la suma ponderada durante el cálculo de la atención, lo que ayuda a determinar la importancia o relevancia de cada palabra.
+\item Ejemplo: Considerando la misma secuencia de entrada ``I love cats'', cada palabra tendría su representación de valor asociada.
+\item Estos valores contienen la información contextual para cada palabra.
+\item Por ejemplo, ``I'' tendría un vector de valor, ``love'' tendría un vector de valor, y así sucesivamente.
+\item Las claves y los valores son muy difíciles de distinguir a primera vista porque en la codificación y decodificación RNN con atención clásica son iguales.
+\item Veremos con el Transformer que aunque provienen de la misma secuencia, pueden corresponder a vectores diferentes.
+\end{itemize}
 
+\subsection{Atención de producto puntual escalado}
+\begin{itemize}
+\item El Transformer utiliza una forma particular de atención llamada "Atención de Producto Puntual Escalado":
 
-\item Now We’re Encoding!: As we've mentioned already, an encoder receives a list of vectors as input. 
+\item Para un vector de consulta dado $\vec{q}$, una secuencia de vectores clave $\vec{k}_{1:m}$ y una secuencia de vectores valor $\vec{v}_{1:m}$, los pesos de atención $\alpha_1,\dots,\alpha_m$ se calculan de la siguiente manera:
+\begin{displaymath}
+\alpha_1,\dots,\alpha_m = \text{softmax}\left(\frac{\vec{q} \cdot \vec{k}_{1}}{\sqrt{d}}, \dots,\frac{\vec{q} \cdot \vec{k}_{1}}{\sqrt{d}}\right)
+\end{displaymath}
+\item $d$ representa la dimensionalidad de las consultas y las claves.
 
-\item It processes this list by passing these vectors into a 'self-attention' layer, then into a feed-forward neural network, then sends out the output upwards to the next encoder.
+\item La normalización sobre $\sqrt{d}$ se utiliza para reescalar los productos punto entre consultas y claves (los productos punto tienden a crecer con la dimensionalidad).
+
+\item Los pesos de atención se multiplican entonces por sus valores correspondientes para calcular una suma ponderada, que luego se pasa a las capas subsiguientes de la red:
+
+\begin{displaymath}
+\alpha_1*\vec{v}_1+\cdots+\alpha_m*\vec{v}_m
+\end{displaymath}
+
+\item Ahora estamos listos para analizar más de cerca cada parte del Transformer.
+
+\end{itemize}
+
+\section{El Codificador}
+\begin{itemize}
+\item El codificador contiene capas de autoatención.
+
+\item En una capa de autoatención, todas las claves, valores y consultas provienen del mismo lugar, en este caso, la salida de la capa anterior en el codificador.
+
+\item Cada posición en el codificador puede atender a todas las posiciones en la capa anterior del codificador.
+
+\item El codificador está compuesto por dos bloques (que llamaremos subcapas para distinguirlos de los $N$ bloques que componen el codificador y el decodificador).
+
+\item Uno es la subcapa de atención multihead sobre las entradas, mencionada anteriormente.
+
+\item El otro es una red neuronal de alimentación directa simple.
 
 \end{itemize}
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/encoder_with_tensors_2.png}
-        \end{figure}  
+\centering
+\includegraphics[scale=0.35]{pics/Transformer_encoder.png}
+\caption{Estructura del codificador del Transformer.}
+\end{figure}
 
-
-
-\section{Self-Attention at a High Level}
-
+\paragraph{Introduciendo los tensores en la imagen}
 \begin{itemize}
+\item Comenzamos convirtiendo cada palabra de entrada en un vector utilizando una capa de incrustación de tamaño 512 en el codificador más inferior.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.35]{pics/embeddings_enc.png}
+\caption{Capa de incrustación en el codificador.}
+\end{figure}
 
-\item Say the following sentence is an input sentence we want to translate: 
+\item En el codificador inferior, esto serían las incrustaciones de palabras, pero en otros codificadores, sería la salida del codificador que está directamente debajo.
+
+\item El tamaño de esta lista es un hiperparámetro que podemos establecer: básicamente sería la longitud de la oración más larga en nuestro conjunto de datos de entrenamiento.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.2]{pics/encoder_with_tensors.png}
+\caption{Representación de las incrustaciones y los vectores de entrada en el codificador.}
+\end{figure}
+
+\item La palabra en cada posición fluye a través de su propio camino en el codificador.
+
+\item Hay dependencias entre estos caminos en la capa de autoatención.
+
+\item La capa de alimentación directa no tiene esas dependencias.
+
+\item Por lo tanto, los diversos caminos pueden ejecutarse en paralelo mientras fluyen a través de la capa de alimentación directa.
+
+\item ¡Ahora estamos codificando! Como hemos mencionado anteriormente, un codificador recibe una lista de vectores como entrada.
+
+\item Procesa esta lista pasando estos vectores a una capa de "autoatención", luego a una red neuronal de alimentación directa, y luego envía la salida hacia arriba al siguiente codificador.
+
+\end{itemize}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.2]{pics/encoder_with_tensors_2.png}
+\caption{Flujo de datos en el codificador del Transformer.}
+\end{figure}
+
+
+\section{Autoatención a alto nivel}
+
+Supongamos que la siguiente oración es una oración de entrada que queremos traducir:
 \\ \textcolor{red}{``The animal didn't cross the street because it was too tired''}
 
-\item What does ``it'' in this sentence refer to? 
+¿A qué se refiere ``it'' en esta oración?
 
-\item Is it referring to the street or to the animal? 
-\item It's a simple question to a human, but not as simple to an algorithm.
+¿Se refiere a la calle o al animal? No es una pregunta tan simple para un algoritmo como lo es para un humano.
 
-\item When the model is processing the word ``it'', self-attention allows it to associate ``it'' with ``animal''.
+Cuando el modelo está procesando la palabra ``it'', la autoatención le permite asociarla con ``animal''.
 
-\item As the model processes each word (each position in the input sequence), self attention allows it to look at other positions in the input sequence for clues that can help lead to a better encoding for this word.
+A medida que el modelo procesa cada palabra (cada posición en la secuencia de entrada), la autoatención le permite examinar otras posiciones en la secuencia de entrada en busca de pistas que puedan ayudar a obtener una mejor codificación para esta palabra.
 
-\item Think of how maintaining a hidden state allows an RNN to incorporate its representation of previous words/vectors it has processed with the current one it's processing. 
-
-\item Self-attention is the method the Transformer uses to bake the ``understanding'' of other relevant words into the one we're currently processing.
-
-
-\end{itemize}
-
+Piense en cómo mantener un estado oculto permite que una RNN incorpore su representación de palabras/vectores anteriores que ha procesado con la palabra actual que está procesando. La autoatención es el método que el Transformer utiliza para integrar la ``comprensión'' de otras palabras relevantes en la que estamos procesando actualmente.
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/transformer_self-attention_visualization.png}
-        \end{figure}  
+  \centering
+  \includegraphics[scale=0.35]{pics/transformer_self-attention_visualization.png}
+  \caption{Visualización de la autoatención en el Transformer.}
+\end{figure}
+
+\section{Autoatención en detalle}
 
 
+\paragraph{Paso 1}
 
-\section{Self-Attention in Detail}
+El \textbf{primer paso} para calcular la autoatención con producto puntual escalado consiste en crear tres vectores a partir de cada uno de los vectores de entrada del codificador (en este caso, la incrustación de cada palabra).
 
+Para cada palabra, creamos un vector de consulta (\textcolor{purple}{Query}), un vector clave (\textcolor{orange}{Key}) y un vector de valor (\textcolor{blue}{Value}).
 
-\paragraph{step 1}
+Estos vectores se crean multiplicando la incrustación por tres matrices que hemos entrenado durante el proceso de entrenamiento.
 
-\begin{itemize}
-\item The \textbf{first step} in calculating scaled dot product self-attention is to create three vectors from each of the encoder's input vectors (in this case, the embedding of each word).
-
-\item So for each word, we create a Query vector, a Key vector, and a Value vector.
-
-\item These vectors are created by multiplying the embedding by three matrices that we trained during the training process.
-
-\item Notice that these new vectors are smaller in dimension than the embedding vector. 
-
-\item Their dimensionality is 64, while the embedding and encoder input/output vectors have dimensionality of 512. 
-
-\item They don’t HAVE to be smaller, this is an architecture choice to make the computation of multiheaded attention (mostly) constant.
-
+Observa que estos nuevos vectores son de menor dimensión que el vector de incrustación. Su dimensionalidad es de 64, mientras que los vectores de entrada/salida del codificador tienen una dimensionalidad de 512. No es necesario que sean más pequeños, esta es una elección arquitectónica para hacer que el cálculo de la atención multihead sea (en su mayoría) constante.
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/transformer_self_attention_vectors.png}
-        \end{figure}  
-      
-\item Example sentence: ``Thinking Machines''.
-\item Multiplying \textcolor{green}{$x_1$} by the \textcolor{purple}{WQ} weight matrix produces \textcolor{purple}{$q_1$}, the ``query'' vector associated with that word.
-\item We end up creating a ``query'', a ``key'', and a ``value'' projection of each word in the input sentence.
+  \centering
+  \includegraphics[scale=0.3]{pics/transformer_self_attention_vectors.png}
+\end{figure}
 
-\end{itemize}
+Por ejemplo, en la oración "Thinking Machines", al multiplicar \textcolor{green}{$x_1$} por la matriz de pesos \textcolor{purple}{WQ} se obtiene el vector \textcolor{purple}{$q_1$}, que es el vector de "consulta" asociado a esa palabra. De esta manera, creamos una proyección de "consulta", "clave" y "valor" para cada palabra de la oración de entrada.
 
+\paragraph{Paso 2}
 
-\paragraph{Step 2}
+El \textbf{segundo paso} para calcular la autoatención es calcular una puntuación.
 
-\begin{itemize}
-\item The \textbf{second step} in calculating self-attention is to calculate a score. 
+Supongamos que estamos calculando la autoatención para la primera palabra en este ejemplo, "Thinking". Necesitamos puntuar cada palabra de la oración de entrada en relación con esta palabra. La puntuación determina cuánto enfoque debemos poner en otras partes de la oración de entrada a medida que codificamos una palabra en una posición determinada.
 
-\item Say we’re calculating the self-attention for the first word in this example, ``Thinking''.
-
-\item We need to score each word of the input sentence against this word. 
-
-\item The score determines how much focus to place on other parts of the input sentence as we encode a word at a certain position.
-
-\item The score is calculated by taking the dot product of the \textcolor{purple}{query vector} with the \textcolor{orange}{key vector} of the respective word we're scoring. 
-\item So if we're processing the self-attention for the word in position \textcolor{green}{\#1}, the first score would be the dot product of \textcolor{purple}{q1} and \textcolor{orange}{k1}.
-\item The second score would be the dot product of \textcolor{purple}{q1} and \textcolor{orange}{k2}.
-
-\end{itemize}
-
+La puntuación se calcula tomando el producto punto del vector de "consulta" (\textcolor{purple}{Query}) con el vector de "clave" (\textcolor{orange}{Key}) de la palabra correspondiente que estamos puntuando. Por lo tanto, si estamos procesando la autoatención para la palabra en la posición \textcolor{green}{\#1}, la primera puntuación sería el producto punto de \textcolor{purple}{q1} y \textcolor{orange}{k1}. La segunda puntuación sería el producto punto de \textcolor{purple}{q1} y \textcolor{orange}{k2}.
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/transformer_self_attention_score.png}
-        \end{figure} 
+  \centering
+  \includegraphics[scale=0.4]{pics/transformer_self_attention_score.png}
+\end{figure}
 
+\paragraph{Pasos 3 y 4}
 
+Los \textbf{tercer} y \textbf{cuarto} pasos consisten en dividir las puntuaciones por 8 (la raíz cuadrada de la dimensión de los vectores clave utilizados en el artículo, es decir, 64).
 
-\paragraph{Steps 3 and 4}
-\begin{itemize}
-\item The \textbf{third} and \textbf{fourth} steps are to divide the scores by 8 (the square root of the dimension of the key vectors used in the paper – 64).
+Esto ayuda a obtener gradientes más estables. Podría haber otros posibles valores aquí, pero este es el valor por defecto. Luego, se pasa el resultado por una operación de softmax. La función softmax normaliza las puntuaciones para que sean todas positivas y sumen 1.
 
-\item This leads to having more stable gradients. 
-
-\item There could be other possible values here, but this is the default), then pass the result through a softmax operation. 
-
-\item Softmax normalizes the scores so they’re all positive and add up to 1.
-
-\item This softmax score determines how much each word will be expressed at the current position. 
-
-\item Clearly the word at the current position will have the highest softmax score, but sometimes it’s useful to attend to another word that is relevant to the current word.
-
-\end{itemize}
-
+Estas puntuaciones de softmax determinan cuánto se expresará cada palabra en la posición actual. Claramente, la palabra en la posición actual tendrá la puntuación softmax más alta, pero a veces es útil prestar atención a otra palabra relevante para la palabra actual.
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/self-attention_softmax.png}
-        \end{figure} 
+  \centering
+  \includegraphics[scale=0.35]{pics/self-attention_softmax.png}
+\end{figure}
 
+\paragraph{Autoatención en detalle: pasos 5 y 6}
 
-\paragraph{Self-Attention in Detail: steps 5 and 6}
-\begin{itemize}
-\item The \textbf{fifth step} is to multiply each value vector by the softmax score (in preparation to sum them up).
+El \textbf{quinto paso} es multiplicar cada vector de valor por la puntuación softmax (en preparación para sumarlos).
 
-\item The intuition here is to keep intact the values of the word(s) we want to focus on, and drown-out irrelevant words (by multiplying them by tiny numbers like 0.001, for example).
+La intuición aquí es mantener intactos los valores de las palabras en las que queremos enfocarnos y atenuar las palabras irrelevantes (multiplicándolas por números pequeños como 0.001, por ejemplo).
 
-\item The \textbf{sixth step} is to sum up the weighted value vectors.
+El \textbf{sexto paso} es sumar los vectores de valor ponderados. Esto produce la salida de la capa de autoatención en la posición actual (para la primera palabra en este ejemplo).
 
-\item This produces the output of the self-attention layer at the current position (for the first word in this example).
-
-\item That concludes the scaled dot product self-attention calculation.
-
-\item The resulting vector is one we can send along to the feed-forward neural network.
-
-
-\end{itemize}
-
+Con esto concluye el cálculo de la autoatención con producto puntual escalado. El vector resultante es el que podemos enviar a la red neuronal de avance (\textit{feed-forward neural network}).
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/self-attention-output.png}
-        \end{figure} 
+  \centering
+  \includegraphics[scale=0.3]{pics/self-attention-output.png}
+\end{figure}
 
-
-
-\section{Matrix Calculation of Self-Attention}
+\section{Cálculo matricial de la autoatención}
 \begin{itemize}
 
-\item  In the actual implementation, scaled dot product self-attention is computed in matrix form for faster processing.
-\item So let’s look at that now that we’ve seen the intuition of the calculation on the word level.
+\item En la implementación real, la autoatención con producto puntual escalado se calcula en forma matricial para un procesamiento más rápido. Veamos eso ahora que hemos comprendido la intuición del cálculo a nivel de palabras.
 
-\item The first step is to calculate the Query, Key, and Value matrices: \textcolor{purple}{Q}, \textcolor{orange}{K}, \textcolor{blue}{V}.
-
-\item We do that by packing our embeddings into a matrix $X$, and multiplying it by the weight matrices we’ve trained (\textcolor{purple}{WQ}, \textcolor{orange}{WK}, \textcolor{blue}{WV}).
-
-
- \begin{displaymath}
-  \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)*V
- \end{displaymath}
-
+\item El primer paso es calcular las matrices de consulta (\textcolor{purple}{Q}), clave (\textcolor{orange}{K}) y valor (\textcolor{blue}{V}):
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.25]{pics/self-attention-matrix-calculation.png}
-        \end{figure} 
+  \centering
+  \includegraphics[scale=0.25]{pics/self-attention-matrix-calculation.png}
+\end{figure}
 
-\item Every row in the X matrix corresponds to a word in the input sentence.
-\item We again see the difference in size of the embedding vector (512, or 4 boxes in the figure), and the q/k/v vectors (64, or 3 boxes in the figure).
+Lo hacemos empaquetando nuestras incrustaciones en una matriz $X$ y multiplicándola por las matrices de pesos que hemos entrenado (\textcolor{purple}{WQ}, \textcolor{orange}{WK}, \textcolor{blue}{WV}).
 
-
-\item Finally, since we’re dealing with matrices, we can condense steps two through six in one formula to calculate the outputs of the self-attention layer.
-
-\end{itemize}
-
+Finalmente, como estamos tratando con matrices, podemos condensar los pasos dos a seis en una fórmula para calcular las salidas de la capa de autoatención.
 
 \begin{figure}[h]
-        	\includegraphics[scale = 0.35]{pics/self-attention-matrix-calculation-2.png}
-        \end{figure} 
-
-
-
-
-\section{Multi-Head Attention}
-\begin{itemize}
-\item If we only compute a single attention weighted sum of the values, it would be difficult to capture various different aspects of the input.
-\item In the example above, $z1$ contains a little bit of every other encoding, but it could be dominated by the actual word itself.
-\item If we’re translating a sentence like ``The animal didn’t cross the street because it was too tired'', it would be useful to know which word ``it'' refers to.
-
-\item To expand the model's to learn diverse representations focusing on different positions, the Transformer uses the Multi-Head Attention block.
-
-\item Multi-head attention computes multiple attention weighted sums instead of a single attention pass over the values.
-
-\item In essence, it applies different linear transformations to the values, keys, and queries for each ``head'' of attention.
-\item The Multi-Head Attention block applies multiple scaled dot product attention blocks in parallel, concatenates their outputs, then applies one single linear transformation.
- 
- 
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.48]{pics/multi_head_attention.png}
-        \end{figure}  
- 
-\item With multi-headed attention, we have not only one, but multiple sets of Query/Key/Value weight matrices.
-\item The Transformer uses eight attention heads, so we end up with eight sets for each encoder/decoder.
-\item Each of these sets is randomly initialized.
-\item Then, after training, each set is used to project the input embeddings (or vectors from lower encoders/decoders) into a different representation subspace.
- 
-\item The multi-headed component gives the attention layer multiple ``representation subspaces''. 
- 
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/transformer_attention_heads_qkv.png}
-        \end{figure}
-
-
-\item With multi-headed attention, we maintain separate Q/K/V weight matrices for each head resulting in different Q/K/V matrices.
-\item As we did before, we multiply X by the WQ/WK/WV matrices to produce Q/K/V matrices.
-
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.25]{pics/transformer_attention_heads_z.png}
-        \end{figure}
-
- \item If we do the same self-attention calculation we outlined above, just eight different times with different weight matrices, we end up with eight different Z matrices.
- \item However, the feed-forward it's expecting a single matrix (a vector for each word)  not eight matrices.
- \item So we need a way to condense these eight down into a single matrix.
- \item This is done by concatenating the matrices and then multiplying them by an additional weight matrix WO.
-
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.22]{pics/transformer_attention_heads_weight_matrix_o.png}
-        \end{figure}
-
- \item Let's put all these matrices in one visual so we can look at them in one place.
-
+  \centering
+  \includegraphics[scale=0.35]{pics/self-attention-matrix-calculation-2.png}
+\end{figure}
 
 \end{itemize}
+        
+\section{Atención multi-head}
 
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.226]{pics/transformer_multi-headed_self-attention-recap.png}
-        \end{figure}
-
-
-
-
-\section{Residual Connections}
 \begin{itemize}
+\item Si solo calculáramos una única suma ponderada de atención de los valores, sería difícil capturar diferentes aspectos del input.
 
-\item Between each sub-layer, there is a residual connection followed by a layer normalization. 
+\item En el ejemplo anterior, $z1$ contiene un poco de cada codificación, pero podría estar dominado por la palabra en sí misma.
 
-\item A residual connection is basically just taking the input and adding it to the output of the sub-network, and is a way of making training deep networks easier. 
+\item Si estamos traduciendo una oración como "The animal didn't cross the street because it was too tired" (El animal no cruzó la calle porque estaba demasiado cansado), sería útil saber a qué se refiere la palabra "it" (él o ella).
 
-\item Layer normalization is a normalization method in deep learning that is similar to batch normalization.
- 
- \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/transformer_resideual_layer_norm.png}
-        \end{figure}
+\item Para expandir el modelo y aprender representaciones diversas centradas en diferentes posiciones, el Transformer utiliza el bloque de atención multi-head.
 
+\item La atención multi-head calcula múltiples sumas ponderadas de atención en lugar de una sola pasada de atención sobre los valores.
 
+\item En esencia, aplica transformaciones lineales diferentes a los valores, claves y consultas para cada "head" de atención.
 
+\item El bloque de atención multi-head aplica múltiples bloques de atención con producto puntual escalado en paralelo, concatena sus salidas y luego aplica una única transformación lineal.
 
-\item If we’re to visualize the vectors and the layer-norm operation associated with self attention, it would look like this:
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.48]{pics/multi_head_attention.png}
+\end{figure}
+
+\item Con la atención multi-head, no tenemos uno, sino varios conjuntos de matrices de pesos de consulta/clave/valor.
+
+\item El Transformer utiliza ocho cabezas de atención, por lo que obtenemos ocho conjuntos para cada codificador/decodificador.
+
+\item Cada uno de estos conjuntos se inicializa de forma aleatoria.
+
+\item Luego, después del entrenamiento, cada conjunto se utiliza para proyectar las incrustaciones de entrada (o vectores de codificadores/decodificadores inferiores) en un subespacio de representación diferente.
+
+\item El componente de atención multi-head proporciona a la capa de atención múltiples "subespacios de representación".
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.2]{pics/transformer_attention_heads_qkv.png}
+\end{figure}
+
+\item Con la atención multi-head, mantenemos matrices de pesos de consulta/clave/valor separadas para cada cabeza, lo que resulta en diferentes matrices de consulta/clave/valor.
+
+\item Como hicimos antes, multiplicamos X por las matrices WQ/WK/WV para obtener las matrices de consulta/clave/valor.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.25]{pics/transformer_attention_heads_z.png}
+\end{figure}
+
+\item Si realizamos el mismo cálculo de autoatención que hemos descrito anteriormente, pero ocho veces diferentes con diferentes matrices de pesos, obtendremos ocho matrices Z diferentes.
+
+\item Sin embargo, la red de alimentación espera una única matriz (un vector para cada palabra), no ocho matrices.
+
+\item Entonces, necesitamos una forma de condensar estas ocho matrices en una sola matriz.
+
+\item Esto se logra concatenando las matrices y luego multiplicándolas por una matriz de pesos adicional WO.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.22]{pics/transformer_attention_heads_weight_matrix_o.png}
+\end{figure}
+
+\item Veamos todas estas matrices juntas en una visualización para poder verlas en un solo lugar.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.226]{pics/transformer_multi-headed_self-attention-recap.png}
+\end{figure}
 
 \end{itemize}
 
 
- \begin{figure}[h]
-        	\includegraphics[scale = 0.3]{pics/transformer_resideual_layer_norm_2.png}
-        \end{figure}
-
-
-\section{The Encoder: summary}
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.39]{pics/transformerencoder.png}
-        \end{figure}  
+\section{Conexiones residuales}
 \begin{itemize}
 
- \item  What each encoder block is doing is actually just a bunch of matrix multiplications followed by a couple of element-wise transformations.
+\item Entre cada subcapa, hay una conexión residual seguida de una normalización de capa.
 
- \item This is why the Transformer is so fast: everything is just parallelizable matrix multiplications.
+\item Una conexión residual consiste básicamente en tomar la entrada y sumarla a la salida de la subred, y es una forma de facilitar el entrenamiento de redes profundas.
 
- \item The point is that by stacking these transformations on top of each other, we can create a very powerful network.
+\item La normalización de capa es un método de normalización en el aprendizaje profundo que es similar a la normalización de lote (\textit{batch normalization}).
 
- \item The core of this is the attention mechanism which modifies and attends over a wide range of information.
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.3]{pics/transformer_resideual_layer_norm.png}
+\end{figure}
+
+\item Si visualizamos los vectores y la operación de normalización de capa asociada con la autoatención, se vería así:
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.3]{pics/transformer_resideual_layer_norm_2.png}
+\end{figure}
 
 \end{itemize}
 
 
+\section{El codificador: resumen}
 
-\section{The Decoder}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.39]{pics/transformerencoder.png}
+\end{figure}
+
 \begin{itemize}
-\item The Transformer decoder consists of two types of attention layers: self-attention and encoder-decoder attention.
 
-\item Self-attention layers in the decoder allow each position in the decoder to pay attention to all positions within the decoder itself, similar to how the hidden state in RNN machine translation architectures works.
+\item Lo que hace cada bloque codificador es, en realidad, una serie de multiplicaciones de matrices seguidas de un par de transformaciones elemento a elemento.
 
-\item On the other hand, the ``encoder-decoder attention'' layer enables the decoder to focus on relevant parts of the input sequence.
+\item Es por eso que el Transformer es tan rápido: todo se reduce a multiplicaciones de matrices paralelizables.
 
-\item The encoder-decoder attention layer functions similarly to multiheaded self-attention, but it generates its queries matrix from the layer below it, and uses the keys and values matrix from the output of the encoder stack.
+\item El punto es que, apilando estas transformaciones una encima de la otra, podemos crear una red muy potente.
 
-\item This allows each position in the decoder to attend to all positions in the input sequence, mimicking the typical encoder-decoder attention mechanisms seen in RNN sequence-to-sequence models.
-
-
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.28]{pics/transformer_decoder.png}
-        \end{figure}  
- \item Each step in the decoding phase outputs an element from the output sequence (the English translation sentence in this case). 
- \item This process is repeated until a special symbol is reached indicating the transformer decoder has completed its output.
- 
- \item When we train the Transformer, we want to process all the sentences at the same time. 
- 
- \item However, if we give the decoder access to the entire target sentence, the model can just repeat the target sentence (in other words, it doesn't need to learn anything).
- 
- \item The self-attention layer should only be allowed to attend to earlier positions in the output sequence.
- 
- \item This is done by masking the ``future'' tokens when decoding a certain word.
-
-  \item The masking is done by setting to $- \infty$ all values in the input of the softmax which correspond to illegal connections.
- \item This is why ``self attention blocks'' in the decoder are referred to as ``masked'': the inputs to the decoder from future time-steps are masked.
- 
- 
-\end{itemize}
-
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.29]{pics/transformerdecoder.png}
-        \end{figure}  
-
-
-
-\section{The Final Linear and Training}
-\begin{itemize}
- \item The decoder stack generates a vector of floats as its output.
- \item To convert this vector into a word, the final Linear layer is used, followed by a Softmax layer. 
- \item The Linear layer is a fully connected neural network that projects the decoder's output vector into a larger vector called a logits vector. 
- \item The logits vector has a width equal to the size of the model's output vocabulary, which contains 10,000 unique English words.
- \item Each cell in the logits vector represents the score of a specific word. 
- \item The softmax layer then transforms these scores into probabilities, ensuring they are all positive and sum up to 1.0. 
-
-  \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/transformer_decoder_output_softmax.png}
-        \end{figure}  
- \item The word with the highest probability is chosen as the output for the current time step. 
-\item During the training of the Transformer, a cross-entropy loss is employed. 
-\item This loss measures the difference between the predicted distribution of words and the target word, which is represented as a one-hot vector.
- 
- 
-\end{itemize}
-
-
-\section{Positional Encodings}
-\begin{itemize}
- \item  Unlike recurrent networks, the multi-head attention network cannot naturally make use of the position of the words in the input sequence.
- 
- \item Without positional encodings, the output of the multi-head attention network would be the same for the sentences ``I like cats more than dogs'' and ``I like dogs more than cats''.
- 
- \item Positional encodings explicitly encode the relative/absolute positions of the inputs as vectors and are then added to the input embeddings.
-
-   \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/transformer_positional_encoding_vectors.png}
-        \end{figure}  
-
-
- \item To give the model a sense of the order of the words, we add positional encoding vectors -- the values of which follow a specific pattern. 
-
- \item The paper uses the following equation to compute the positional encodings: \\
- $PE(pos,2i) = \sin(pos/10000^{2i/d_{model}})$ 
-  $PE(pos,2i+1) = \cos(pos/10000^{2i/d_{model}})$
- 
-\item Where $pos$ represents the position, and $i$ is the dimension.
-
-\item Basically, each dimension of the positional encoding is a wave with a different frequency. 
-
-
-   \begin{figure}[h]
-        	\includegraphics[scale = 0.25]{pics/transformer_positional_encoding_example.png}
-        \end{figure}  
-
-
-\item A real example of positional encoding with a toy embedding size of 4.
-
-
+\item El núcleo de esto es el mecanismo de atención, que modifica y atiende una amplia gama de información.
 
 \end{itemize}
 
+\section{El Decodificador}
 
-
-
-\section{Conclusions}
 \begin{itemize}
- \item The Transformer achieves better BLUE scores than previous state-of-the-art models for English-to-German translation and English-to-French translation at a fraction of the training cost.
+\item El decodificador del Transformer consta de dos tipos de capas de atención: atención propia y atención codificador-decodificador.
 
-      \begin{figure}[h]
-        	\includegraphics[scale = 0.29]{pics/transformerresults.png}
-        \end{figure}  
+\item Las capas de atención propia en el decodificador permiten que cada posición en el decodificador preste atención a todas las posiciones dentro del propio decodificador, de manera similar a cómo funciona el estado oculto en las arquitecturas de traducción de máquinas RNN.
 
-\item The Transformer is a powerful and efficient alternative to recurrent neural networks to model dependencies using only attention mechanisms.
+\item Por otro lado, la capa de "atención codificador-decodificador" permite que el decodificador se enfoque en partes relevantes de la secuencia de entrada.
 
-\item It has established itself as the de facto architecture in NLP and serves as the foundation for modern large language models.
- 
+\item La capa de atención codificador-decodificador funciona de manera similar a la atención propia de múltiples cabezas, pero genera su matriz de consultas a partir de la capa inferior y utiliza las matrices de claves y valores de la salida de la pila del codificador.
+
+\item Esto permite que cada posición en el decodificador atienda a todas las posiciones en la secuencia de entrada, imitando los mecanismos de atención codificador-decodificador típicos vistos en los modelos de secuencia a secuencia RNN.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.28]{pics/transformer_decoder.png}
+\end{figure}
+
+\item Cada paso en la fase de decodificación produce un elemento de la secuencia de salida (la oración de traducción al inglés en este caso).
+\item Este proceso se repite hasta que se alcanza un símbolo especial que indica que el decodificador del Transformer ha completado su salida.
+
+\item Cuando entrenamos el Transformer, queremos procesar todas las oraciones al mismo tiempo.
+
+\item Sin embargo, si le damos al decodificador acceso a toda la oración de destino, el modelo puede simplemente repetir la oración de destino (en otras palabras, no necesita aprender nada).
+
+\item La capa de atención propia solo debe poder atender a las posiciones anteriores en la secuencia de salida.
+
+\item Esto se logra enmascarando los tokens "futuros" al decodificar una palabra determinada.
+
+\item El enmascaramiento se realiza estableciendo en $- \infty$ todos los valores en la entrada de la función softmax que corresponden a conexiones ilegales.
+\item Es por eso que los "bloques de atención propia" en el decodificador se llaman "enmascarados": las entradas al decodificador de pasos de tiempo futuros están enmascaradas.
+
 \end{itemize}
 
-       
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.29]{pics/transformerdecoder.png}
+\end{figure}
+
+\section{La Capa Lineal Final y el Entrenamiento}
+
+\begin{itemize}
+\item La pila del decodificador genera un vector de números reales como su salida.
+
+\item Para convertir este vector en una palabra, se utiliza la capa lineal final, seguida de una capa softmax.
+
+\item La capa lineal es una red neuronal completamente conectada que proyecta el vector de salida del decodificador en un vector más grande llamado vector de logits.
+
+\item El vector de logits tiene una dimensión igual al tamaño del vocabulario de salida del modelo, que contiene 10,000 palabras en inglés únicas.
+
+\item Cada celda del vector de logits representa la puntuación de una palabra específica.
+
+\item La capa softmax luego transforma estas puntuaciones en probabilidades, asegurándose de que todas sean positivas y sumen 1.0.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.2]{pics/transformer_decoder_output_softmax.png}
+\end{figure}
+
+\item La palabra con la probabilidad más alta se elige como la salida para el paso de tiempo actual.
+
+\item Durante el entrenamiento del Transformer, se utiliza una pérdida de entropía cruzada.
+
+\item Esta pérdida mide la diferencia entre la distribución de palabras predicha y la palabra objetivo, que se representa como un vector one-hot.
+
+\end{itemize}
+
+\section{Codificaciones posicionales}
+
+\begin{itemize}
+\item A diferencia de las redes recurrentes, la red de atención múltiple no puede utilizar de manera natural la posición de las palabras en la secuencia de entrada.
+
+\item Sin codificaciones posicionales, la salida de la red de atención múltiple sería la misma para las oraciones "I like cats more than dogs" y "I like dogs more than cats".
+
+\item Las codificaciones posicionales codifican explícitamente las posiciones relativas/absolutas de las entradas como vectores y luego se suman a las incrustaciones de entrada.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.2]{pics/transformer_positional_encoding_vectors.png}
+\end{figure}
+
+\item Para darle al modelo una idea del orden de las palabras, agregamos vectores de codificación posicional, cuyos valores siguen un patrón específico.
+
+\item El documento utiliza la siguiente ecuación para calcular las codificaciones posicionales:\\
+$PE(pos,2i) = \sin(pos/10000^{2i/d_{model}})$
+$PE(pos,2i+1) = \cos(pos/10000^{2i/d_{model}})$
+
+\item Donde $pos$ representa la posición, e $i$ es la dimensión.
+
+\item Básicamente, cada dimensión de la codificación posicional es una onda con una frecuencia diferente.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.25]{pics/transformer_positional_encoding_example.png}
+\end{figure}
+
+\item Un ejemplo real de codificación posicional con un tamaño de incrustación de juguete de 4.
+
+\end{itemize}
+
+\section{Conclusiones}
+
+\begin{itemize}
+\item El Transformer logra mejores puntuaciones BLEU que los modelos anteriores del estado del arte para la traducción del inglés al alemán y del inglés al francés a una fracción del costo de entrenamiento.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.29]{pics/transformerresults.png}
+\end{figure}
+
+\item El Transformer es una alternativa potente y eficiente a las redes neuronales recurrentes para modelar dependencias utilizando solo mecanismos de atención.
+
+\item Se ha establecido como la arquitectura de facto en el procesamiento del lenguaje natural y sirve como base para los modelos de lenguaje grandes y modernos.
+
+\end{itemize}

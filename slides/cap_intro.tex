@@ -1,9 +1,11 @@
 
-El volumen de datos textuales digitalizados generados diariamente, provenientes de fuentes como la web, redes sociales, registros médicos y libros digitalizados, es simplemente enorme. Como resultado, se ha vuelto imperativo traducir, analizar y gestionar esta avalancha de palabras y texto.
+El volumen de datos textuales digitalizados generados diariamente, provenientes de fuentes como la web, redes sociales, registros médicos y libros digitalizados, es simplemente enorme. Como resultado, se ha vuelto necesario traducir, analizar, resumir y extraer información avalancha de palabras y texto.
 
-El Procesamiento del Lenguaje Natural (PLN) es el campo que se encarga de diseñar métodos y algoritmos que trabajan con datos de lenguaje natural, ya sea como entrada o salida \cite{goldberg2017neural}. El objetivo principal del PLN es desarrollar y analizar algoritmos computacionales y representaciones para procesar el lenguaje humano de manera efectiva \cite{jacobbook}.
+El Procesamiento del Lenguaje Natural (PLN) es el campo que se encarga de diseñar métodos y algoritmos que procesan datos de lenguaje natural, ya sea como entrada o salida \cite{goldberg2017neural}. El objetivo principal del PLN es desarrollar y analizar algoritmos computacionales y representaciones para procesar el lenguaje humano de manera efectiva \cite{jacobbook}.
 
 Es importante destacar que el lenguaje natural puede provenir tanto de fuentes escritas como habladas. Aunque el PLN suele centrarse más en el procesamiento de texto, se pueden aplicar técnicas de reconocimiento de habla o transcripción para abordar de manera similar ambas fuentes de información.
+
+El surgimiento de tecnologías del PLN disruptivas como ChatGPT y Google Bard que permiten reescribir oraciones completas, traducir y desarrollar ideas elaboradas a partir de un ``prompt'' hace aún más necesario formar personas con conocimientos disciplinares en el área, el motivo de este apunte es brindar los conocimientos necesarios para entender cómo funcionan dichos sistemas.
 
 \section{Desafíos del Procesamiento del Lenguaje Natural (PLN)}
 
@@ -19,7 +21,12 @@ El lenguaje humano es sumamente ambiguo. Tomemos, por ejemplo, las siguientes or
   \item ``Yo comí pizza con un tenedor.''
 \end{enumerate}
 
-Aunque las tres oraciones tienen una estructura gramatical muy similar, difieren en cómo las frases nominales siguientes a la preposición ``con'' se relacionan con las partes anteriores. En la primera oración, ``amigos'' modifica al pronombre ``yo''; en la segunda, ``aceitunas'' modifica a la pizza; y en la tercera, ``un tenedor'' modifica al verbo ``comer''. Para realizar estas distinciones, es necesario tener en cuenta el contexto situacional, lo cual puede resultar natural para una persona, pero muy complejo para una máquina.
+Aunque las tres oraciones tienen una estructura gramatical muy similar, difieren en cómo las frases nominales siguientes a la preposición ``con'' se relacionan con las partes anteriores. En la primera oración, ``amigos'' modifica al pronombre ``yo''; en la segunda, ``aceitunas'' modifica a la pizza; y en la tercera, ``un tenedor'' modifica al verbo ``comer''. Otra fuente de ambigüedad es la polisemia; palabras con más de un significado. Por ejemplo:
+\begin{enumerate}
+ \item ``Me senté en el banco''.
+ \item ``Fui al banco a sacar plata''.
+\end{enumerate}
+ En estas dos oraciones ``banco'' tiene significado distintos. Para poder comprender estas oraciones es necesaria realizar  distinciones muy precisas que requieren tener en cuenta el contexto situacional, lo cual puede resultar natural para una persona, pero muy complejo para una máquina.
 
 \paragraph{Dinamismo}
 
@@ -34,7 +41,7 @@ El significado de una oración va más allá del significado individual de sus p
 
 \paragraph{Dispersión (sparseness)}
 
-La forma en que las palabras (símbolos discretos) pueden combinarse para formar significados es prácticamente infinita. Esto implica que, en general, las oraciones que encontramos en un documento son únicas o rara vez han sido escritas antes. Por lo tanto, cualquier enfoque de fuerza bruta que intente memorizar oraciones a partir de una coleccion de documentos data (o corpus) no garantiza una buena generalización a textos nuevos.
+La forma en que las palabras (símbolos discretos) pueden combinarse para formar significados es prácticamente infinita. Esto implica que, en general, las oraciones que encontramos en un documento son únicas o rara vez han sido escritas antes. Por lo tanto, cualquier enfoque de fuerza bruta que intente memorizar oraciones a partir de una colección de documentos data (o corpus) no garantiza una buena generalización a textos nuevos.
 
 
 
@@ -63,6 +70,8 @@ A continuación, se presentan algunos ejemplos de estas tareas junto con sus nom
   \item \textbf{Comprensión de Lectura (Reading Comprehension)}: La entrada es un pasaje de texto y una pregunta, y la salida es la ubicación marcada donde se encuentra la respuesta correcta dentro del pasaje proporcionado.
   \item \textbf{Etiquetado Gramatical (Part-of-Speech Tagging)}: La entrada es una oración y la salida son las categorías gramaticales (por ejemplo, verbo, sustantivo, adjetivo) de las palabras dentro de la oración.
   \item \textbf{Extracción de Resúmenes (Summarization)}: La entrada es un documento y la salida es un párrafo que resume su contenido.
+  \item \textbf{Desambiguación de Significado de Palabra (Word Sense Disambiguation)}: La entrada es una oración y una palabra objetivo dentro de ella, la salida es una categoría que determina el  significado de la palabra dentro de la oración según categorías de significados definidas por un diccionario externo.
+
 \end{itemize}
 
 \begin{figure}[h]
@@ -71,9 +80,11 @@ A continuación, se presentan algunos ejemplos de estas tareas junto con sus nom
 	\caption{Reconocimiento de Entidades Nombradas}
 	\label{fig:ner}
 \end{figure}
+
+
 \section{Niveles de descripción lingüística}
 
-El campo de la \textbf{descripción lingüística} abarca diferentes niveles:
+El campo de la \textbf{lingüística} aborda el estudio del lenguaje en diferentes niveles de descripción:
 
 \begin{itemize}
   \item \textbf{Fonética y fonología:} estudio de los sonidos del habla.
@@ -83,33 +94,32 @@ El campo de la \textbf{descripción lingüística} abarca diferentes niveles:
   \item \textbf{Pragmática:} estudio del uso del lenguaje en el contexto.
 \end{itemize}
 
-El PLN puede abordar tareas en cada uno de estos niveles, pero a menudo se enfoca en niveles más altos de representación y comprensión.
+Estudiemos estos niveles con un poco más de detalle pues conocerlos tiene utilidad a la hora de diseñar sistemas de PLN como se discutirá más adelante.
 
 
 
 
 \subsection{Fonética}
 
-La fonética es la rama de la lingüística que se ocupa del estudio de los sonidos del lenguaje. Examina los órganos utilizados en la producción de sonidos, como la boca, la lengua, la garganta, la nariz, los labios y el paladar. Los sonidos del lenguaje se dividen en vocales y consonantes. Las vocales se producen con poca restricción del flujo de aire desde los pulmones, mientras que las consonantes implican alguna restricción o cierre en el tracto vocal \cite{JohnsonMLSS, fromkin2018introduction}. Además, el Alfabeto Fonético Internacional (AFI) proporciona una notación alfabética para representar los sonidos fonéticos.
+La fonética es la rama de la lingüística que se ocupa del estudio de los sonidos del lenguaje. Examina los órganos utilizados en la producción de sonidos, como la boca, la lengua, la garganta, la nariz, los labios y el paladar. Los sonidos del lenguaje se dividen en vocales y consonantes. Las vocales se producen con poca restricción del flujo de aire desde los pulmones, mientras que las consonantes implican alguna restricción o cierre en el tracto vocal \cite{JohnsonMLSS, fromkin2018introduction}. Además, el Alfabeto Fonético Internacional (AFI) proporciona una notación alfabética para representar los sonidos fonéticos de todos los idiomas.
 
 \subsection{Fonología}
 
-La fonología se centra en el estudio de cómo los sonidos del habla forman patrones y construyen significado. Los fonemas son las unidades básicas de sonido que diferencian el significado de las palabras. Por ejemplo, en inglés, la "p" y la "b" son fonemas distintos porque cambian el significado de las palabras en las que se encuentran. La fonología también examina las variaciones en la pronunciación de los sonidos en diferentes contextos y dialectos \cite{fromkin2018introduction}.
-
+La fonología se centra en el estudio de cómo los sonidos del habla forman patrones y construyen significado. Los fonemas son las unidades básicas de sonido que diferencian el significado de las palabras. Por ejemplo, en inglés, la ``p'' y la ``b'' son fonemas distintos porque cambian el significado de las palabras en las que se encuentran. La fonología también examina las variaciones en la pronunciación de los sonidos en diferentes contextos y dialectos \cite{fromkin2018introduction}.
 \subsection{Morfología}
 
-La morfología se ocupa del estudio de la estructura interna de las palabras. Los morfemas son las unidades mínimas de significado que componen las palabras. Por ejemplo, en la palabra "deshacer", los morfemas son "des-", "hacer" y "-er". La morfología también se interesa por los procesos de formación de palabras, como la derivación, donde se agregan prefijos o sufijos a una palabra existente para formar una nueva palabra con un significado diferente \cite{JohnsonMLSS}.
+La morfología es el campo de estudio encargado de analizar la estructura interna de las palabras. Los morfemas, que son las unidades mínimas de significado, son los componentes fundamentales de las palabras. Por ejemplo, en la palabra ``deshacer'', los morfemas presentes son ``des-'', ``hacer'' y ``-er''. Además, la morfología examina los procesos de formación de palabras, como la derivación, que implica agregar prefijos o sufijos a una palabra existente para crear una nueva palabra con un significado diferente \cite{JohnsonMLSS}.
 
-\begin{itemize}
-\item La morfología estudia la estructura de las palabras (por ejemplo, re+estructur+ando, in+olvid+able) \cite{JohnsonMLSS}
-\item Morfema: el término lingüístico para la unidad más elemental de forma gramatical \cite{fromkin2018introduction}. Por ejemplo, morfología = morf + ología (la ciencia de).
-\item Morfología derivativa: proceso de formar una nueva palabra a partir de una palabra existente, a menudo mediante la adición de un prefijo o sufijo.
-\item La morfología derivativa exhibe una estructura jerárquica. Ejemplo: re+vital+iz+ación
+Un ejemplo ilustrativo de la morfología derivativa es la palabra en inglés ``revitalization''. En esta palabra, los morfemas ``re+vital+ize+ation'' se combinan para formar una estructura jerárquica en su morfología derivativa, como se muestra en la Figura~\ref{fig:morfo_der}. El sufijo ``ation'' determina la categoría gramatical (part-of-speech) de la palabra derivada, en este caso, un sustantivo (noun).
+
 \begin{figure}[h]
-\includegraphics[scale = 0.2]{pics/morphology.png}
+	\centering
+	\includegraphics[scale = 0.2]{pics/morphology.png}
+	\caption{Árbol Jerárquico de la Morfología Derivativa}
+	\label{fig:morfo_der}
 \end{figure}
-\item El sufijo generalmente determina la categoría sintáctica (part-of-speech) de la palabra derivada.
-\end{itemize}
+
+Otra propiedad morfológica importante es la inflexión, que se refiere a los cambios realizados en las palabras para expresar concordancia gramatical, como la conjugación de los verbos o la indicación de género y número en los sustantivos. Por ejemplo, ``el perro'', ``la perra'', ``los perros'', son ejemplos de cómo se aplican las reglas de inflexión en el español para indicar el género y número (singular o plural) en los sustantivos.
 
 \subsection{Sintaxis}
 
@@ -147,7 +157,7 @@ En resumen:
 La pragmática se centra en cómo el contexto influye en la interpretación y el significado de las expresiones lingüísticas. Examina cómo se utilizan las expresiones lingüísticas en situaciones reales y cómo los hablantes interpretan el significado implícito. Por ejemplo, la oración "Hace frío aquí" puede interpretarse como una sugerencia implícita de cerrar las ventanas \cite{fromkin2018introduction}.
 
 
-\section{Procesamiento del Lenguaje Natural y Aprendizaje Automático}
+\section{Aprendizaje Automático en PLN}
 
 Comprender y producir el lenguaje computacionalmente es extremadamente complejo.  La tecnología más exitosa actualmente para abordar PLN es el aprendizaje automático supervisado que consiste en una familia de algoritmos que “aprenden” a construir la respuesta del problema en cuestión en base a encontrar patrones en datos de entrenamiento etiquetados. Por ejemplo, si queremos tener un modelo que nos diga si un tweet tiene un sentimiento positivo o negativo respecto a un producto, primero necesito  etiquetar manualmente un conjunto de tweets con su sentimiento asociado. Luego debo entrenar un algoritmo de aprendizaje sobre estos datos para poder predecir de manera automática el sentimiento asociado a tweets desconocidos. Como se podrán imaginar, el etiquetado de datos es una parte fundamental de la solución y puede ser un proceso muy costoso, especialmente cuando se requiere conocimiento especializado para definir la etiqueta.
 
@@ -203,10 +213,6 @@ En este tipo de clasificación, es habitual emplear el aprendizaje supervisado, 
   \item Aplicación de técnicas de \textbf{PLN} para identificar y extraer información subjetiva de conjuntos de datos textuales.
   \item Clasificación automática de frases en las categorías \textcolor[rgb]{0.00,0.00,1.00}{\textbf{positiva}}, \textcolor[rgb]{1.00,0.00,0.00}{\textbf{negativa}} o \textcolor[rgb]{0.00,1.00,0.00}{\textbf{neutral}}.
 
-     \begin{figure}[h]
-        	\includegraphics[scale = 0.15]{pics/sent.png}
-        \end{figure}
-
   \item Las soluciones más avanzadas emplean modelos de aprendizaje automático \textbf{supervisado}, entrenados con ejemplos \textbf{anotados manualmente} \cite{Mohammad2013}.
 \end{itemize}
 
@@ -246,7 +252,7 @@ El PNL plantea diversos desafíos, como los costos de anotación, las variacione
 
 
 
-\section{Etiquetar Datos en PLN}
+\section{Etiquetado de Datos}
 
 \begin{itemize}
    \item \textbf{Costos de Anotación}: la anotación manual es \textbf{laboriosa} y \textbf{consume mucho tiempo}.
@@ -313,7 +319,7 @@ El Aprendizaje Profundo ha proporcionado resultados de vanguardia en la mayoría
 \paragraph{Aprendizaje Profundo y Conceptos Lingüísticos}
 Si los modelos de aprendizaje profundo pueden aprender representaciones automáticamente, ¿siguen siendo útiles los conceptos lingüísticos (por ejemplo, sintaxis, morfología)? Algunos defensores del aprendizaje profundo argumentan que estas propiedades lingüísticas inferidas y diseñadas manualmente no son necesarias, y que la red neuronal aprenderá estas representaciones intermedias (o equivalentes o mejores) por sí misma \cite{goldberg2016primer}. Aún no hay un consenso definitivo al respecto. Goldberg cree que muchos de estos conceptos lingüísticos pueden ser inferidos por la red por sí misma si se le proporciona suficiente cantidad de datos. Sin embargo, en muchos otros casos no disponemos de suficientes datos de entrenamiento para la tarea que nos interesa, y en estos casos proporcionar a la red los conceptos generales más explícitos puede ser muy valioso.
 
-\section{Historia}
+\section{Historia de PLN}
 
 Los orígenes de PLN se remontan a los años 50 con el famoso test de Alan Turing: una máquina será considerada inteligente cuando sea capaz de conversar con una persona sin que esta pueda determinar si está hablando con una máquina o un ser humano. A lo largo de su historia la disciplina ha tenido tres grandes períodos: 1) el racionalismo, 2) el empirismo, y 3) el aprendizaje profundo [Deng y Liu, 2018] que describimos a continuación.
 

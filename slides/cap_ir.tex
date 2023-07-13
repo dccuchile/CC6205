@@ -45,49 +45,77 @@ Es importante tener en cuenta que la eliminación de stopwords puede ser inconve
 
 \section{Stemming}
 
-Es un proceso de normalización de términos en el cual los términos se transforman a su raíz con el objetivo de reducir el tamaño del vocabulario. Se lleva a cabo aplicando reglas de reducción de palabras. Ejemplo: Algoritmo de Porter.
+Es un proceso de normalización de términos en el cual los términos se transforman a su raíz con el objetivo de reducir el tamaño del vocabulario. Se lleva a cabo aplicando reglas de reducción de palabras. La Tabla~\ref{tab:porter} muestra  algunas reglas del algortimo de Porter para el inglés con ejemplos de aplicación:
 
-\begin{figure}[h!]
+\begin{table}[h]
 \centering
-\includegraphics[scale=0.45]{pics/porter.png}
-\end{figure}
-
-Ejemplo: $d$ = Me gustan los lenguajes humanos y los lenguajes de programación $=>$ Me gustan los lenguaj y los program lenguaj\footnote{\url{http://9ol.es/porter_js_demo.html}}
-
-El vocabulario del documento $d$ después de eliminar stopwords y realizar stemming:
-
-\begin{table}
-\centering
-\begin{tabular}{c|c}
+\begin{tabular}{|l|l|}
 \hline
-termId & value \\
+Regla & Ejemplo \\
 \hline
-t1 & human \\
-t2 & languag \\
-t3 & program\\
+SSES $\rightarrow$ SS & caresses $\rightarrow$ caress \\
+IES $\rightarrow$ I & ponies $\rightarrow$ poni \\
+SS $\rightarrow$ SS & caress $\rightarrow$ caress \\
+S $\rightarrow$ & cats $\rightarrow$ cat \\
 \hline
 \end{tabular}
+\caption{Ejemplos del Algortimo de Porter}
+\label{tab:porter}
 \end{table}
+
+A continuación se muestra ejemplo usando el método de stemming Snowball para español para el lenguaje \textbf{python} usando la biblioteca \textbf{nltk}.
+
+\begin{verbatim}
+from nltk import word_tokenize
+from nltk.stem import SnowballStemmer
+stemmer = SnowballStemmer('spanish')
+texto = 'Me gustan los lenguajes humanos y los lenguajes de programación'
+def stem_sentence(text):
+    return ' '.join([stemmer.stem(i) for i in word_tokenize(text)])    
+print(stem_sentence(texto))
+>>
+me gust los lenguaj human y los lenguaj de program
+\end{verbatim}
+
 
 
 \section{Lematización}
-Otra estrategia de normalización de términos. También transforma las palabras en sus raíces.  Realiza un análisis morfológico utilizando diccionarios de referencia (tablas de búsqueda) para crear clases de equivalencia entre \emph{tipos}. Por ejemplo, para el token \emph{estudios}, una regla de stemming devolvería el término \emph{estudi}, mientras que a través de la lematización obtendríamos el término \emph{study}\footnote{\url{https://blog.bitext.com/what-is-the-difference-between-stemming-and-lemmatization/}}. 
+Otra estrategia de normalización de términos. También transforma las palabras en sus raíces.  Realiza un análisis morfológico utilizando diccionarios de referencia (tablas de búsqueda) para crear clases de equivalencia entre \emph{tipos}. Por ejemplo, para el token \emph{yendo}, una regla de stemming devolvería el término \emph{yend}, mientras que a través de la lematización obtendríamos el término \emph{ir}.
+
+Veamos a continuación el resultado de aplicar lematización a la misma oración anterior con la biblioteca \textbf{spacy}:
+
+\begin{verbatim}
+# python -m spacy download es_core_news_sm
+import spacy
+nlp = spacy.load('es_core_news_sm')
+
+def lemmatizer(text):  
+  doc = nlp(text)
+  return ' '.join([word.lemma_ for word in doc])
+
+print(lemmatizer(texto))
+>>
+yo gustar el lenguaje humano y el lenguaje de programación
+\end{verbatim}
+
+
 
 \section{Ley de Zipf}
-La Ley de Zipf, propuesta por \emph{George Kingsley Zipf} en \cite{zipf1935}, es una ley empírica sobre la frecuencia de los términos dentro de una colección de documentos (\textbf{corpus}). Establece que la frecuencia $f$ de un término en un corpus es inversamente proporcional a su posición $r$ en una tabla de frecuencia ordenada:
+La Ley de Zipf, propuesta por George Kingsley Zipf en \cite{zipf1935}, es una ley empírica que describe la frecuencia de los términos en una colección de documentos (corpus). Según esta ley, la frecuencia $f$ de un término en un corpus es inversamente proporcional a su posición $r$ en una tabla de frecuencias ordenada:
 
-   \begin{equation}
-      f = \frac{cf}{r^{\beta}}
-   \end{equation}
-Donde $cf$ es una constante dependiente de la colección y $\beta > 0$ es un factor de decaimiento. Si $\beta = 1$, entonces $f$ sigue exactamente la Ley de Zipf; de lo contrario, sigue una distribución similar a la de Zipf.  La ley nos dice que usamos muy frecuentemente unas pocas palabras. La Ley de Zipf es un tipo de distribución de ley de potencia (distribuciones de cola larga). 
+\begin{equation}
+f = \frac{cf}{r^{\beta}}
+\end{equation}
+
+Aquí, $cf$ es una constante dependiente de la colección y $\beta > 0$ es un factor de decaimiento. Cuando $\beta = 1$, la frecuencia sigue exactamente la Ley de Zipf, de lo contrario, sigue una distribución similar a la de Zipf. Esta ley nos indica que algunas palabras se utilizan con mucha más frecuencia que otras en un corpus. La Ley de Zipf se clasifica como una distribución de ley de potencia, que es un tipo de distribución de cola larga.
 
 \begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{pics/zipf1.png}
-	\caption{Ley de Zipf}
+\centering
+\includegraphics[scale=0.5]{pics/zipf1.png}
+\caption{Ley de Zipf.}
 \end{figure}
 
-Si trazamos un gráfico de $log$-$log$, obtenemos una línea recta con una pendiente de $-\beta$. Enumerar las palabras más frecuentes de un corpus se puede utilizar para construir una lista de \emph{stopwords}.
+Cuando trazamos un gráfico en escala logarítmica ($log$-$log$), se obtiene una línea recta con una pendiente de $-\beta$. Esta relación logarítmica es útil para identificar las palabras más frecuentes en un corpus y construir una lista de stopwords.
 
 
 \section{Listas de posteo y el índice invertido}
@@ -112,11 +140,11 @@ Sea $D$ una colección de documentos y $V$ el vocabulario de todos los términos
 Un motor de búsqueda es un sistema de recuperación de información diseñado para buscar información en la web (satisfacer necesidades de información) \cite{manning2008}. Sus componentes básicos son:
 
 \begin{itemize}
-\item Crawler: un robot que navega por la web según una estrategia definida. Por lo general, comienza navegando por un conjunto de sitios web iniciales y continúa navegando a través de sus enlaces.
+\item Crawler: un robot que navega por la web según una estrategia definida. Por lo general, comienza navegando por un conjunto de sitios web iniciales (semillas) y continúa navegando a través de sus enlaces.
 \item Indexador: se encarga de mantener un índice invertido con el contenido de las páginas recorridas por el rastreador.
 \item Procesador de consultas: se encarga de procesar las consultas de los usuarios y buscar en el índice los documentos más relevantes para una consulta.
-\item Función de clasificación: la función utilizada por el procesador de consultas para clasificar los documentos indexados en la colección por relevancia según una consulta.
-\item Interfaz de usuario: recibe la consulta como entrada y devuelve los documentos clasificados por relevancia.
+\item Función de ranking: la función utilizada por el procesador de consultas para ordenar los documentos indexados en la colección por relevancia según una consulta.
+\item Interfaz de usuario: recibe la consulta como entrada y devuelve los documentos ordenados por relevancia.
 \end{itemize}
 
 \begin{figure}[h!]
@@ -127,7 +155,7 @@ Un motor de búsqueda es un sistema de recuperación de información diseñado p
 
 
 \section{El modelo de espacio vectorial}
-Para clasificar consultas o medir la similitud entre dos documentos, necesitamos una métrica de similitud. Los documentos pueden ser \textit{representados} como vectores de términos, donde cada término es una dimensión del vector \cite{salton1975vector}. Documentos con diferentes palabras y longitudes residirán en el mismo espacio vectorial. Este tipo de representaciones se llaman \emph{Bolsa de Palabras} (Bag of Words). En las representaciones de bolsa de palabras, se pierde el orden de las palabras y la estructura lingüística de una oración.
+Para clasificar consultas o medir la similitud entre dos documentos, necesitamos una métrica de similitud. Los documentos pueden ser \textit{representados} como vectores de términos, donde cada término es una dimensión del vector \cite{salton1975vector}. Documentos con diferentes palabras y longitudes residirán en el mismo espacio vectorial. Este tipo de representaciones se llaman \emph{Bolsa-de-palabras} (Bag of Words). En las representaciones de bolsa de palabras, se pierde el orden de las palabras y la estructura lingüística de una oración.
 
 El valor de cada dimensión es un peso que representa la relevancia del término $t_{i}$ en el documento $d$.
 \begin{equation}
@@ -142,14 +170,14 @@ Sea $tf_{i,j}$ la frecuencia del término $t_{i}$ en el documento $d_{j}$.  Un t
 ntf_{i,j}=\frac{tf_{i,j}}{\max_i (tf_{i,j})}
 \end{displaymath}
 
-Ahora nos preguntas, ¿un término que ocurre en muy pocos documentos proporciona más o menos información que uno que ocurre varias veces? Por ejemplo, el documento \emph{El respetado alcalde de Pelotillehue}. El término \emph{Pelotillehue} ocurre en menos documentos que el término \emph{alcalde}, por lo que debería ser más descriptivo.
+Ahora podemos preguntarnos ¿un término que ocurre en muy pocos documentos proporciona más o menos información que uno que ocurre varias veces? Por ejemplo, el documento \emph{El respetado alcalde de Pelotillehue}. El término \emph{Pelotillehue} ocurre en menos documentos que el término \emph{alcalde}, por lo que debería ser más descriptivo.
 
 Sea $N$ el número de documentos en la colección y $n_{i}$ el número de documentos que contienen el término $t_{i}$, definimos la frecuencia inversa de documento ($idf$) de $t_{i}$ de la siguiente manera:
 \begin{displaymath}
 idf_{t_{i}}= \log_{10}\left(\frac{N}{n_{i}}\right)
 \end{displaymath}
 
-Un término que aparece en todos los documentos tendría $idf=0$, y uno que aparece en el $10\%$ de los documentos tendría $idf=1$. El modelo de puntuación $tf$-$idf$ combina las puntuaciones de $tf$ e $idf$, y resulta en los siguientes pesos $w$ para un término en un documento:
+Un término que aparece en todos los documentos tendría $idf=0$, y uno que aparece en el $10\%$ de los documentos tendría $idf=1$. El modelo $tf$-$idf$ combina los valores de $tf$ e $idf$, y resulta en los siguientes pesos $w$ para un término en un documento:
 \begin{displaymath}
 w(t_{i},d_{j})=tf_{i}\times \log_{10}\left(\frac{N}{n_{i}}\right)
 \end{displaymath}

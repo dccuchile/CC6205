@@ -4,6 +4,8 @@ This is a course on natural language processing.
 * Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
 * TAs: [Gabriel Iturra-Bocaz](https://giturra.cl/), [Jorge Ortiz](https://www.ortizfuentes.com/), Consuelo Rojas, Sebastián Tinoco and [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/).
 
+* [Course Notes (in Spanish)](https://raw.githubusercontent.com/dccuchile/CC6205/master/slides/apunte.pdf)
+
 * Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00  
 
 * [Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing) (in Spanish)

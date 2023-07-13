@@ -258,11 +258,11 @@ El algoritmo K-means comienza seleccionando $k$ centroides de manera aleatoria. 
             $\omega_k \leftarrow \{\}$\;
         }
         \For{$n \leftarrow 1$ \KwTo $N$}{
-            $j \leftarrow \arg\min_{j'} \|\vec{\mu}_{j'} - \vec{x}_n\|$\;
+            $j \leftarrow \arg\max_{j'} $coseno$(\vec{\mu}_{j'}, \vec{x}_n)$\;
             $\omega_j \leftarrow \omega_j \cup \{\vec{x}_n\}$\;
         }
         \For{$k \leftarrow 1$ \KwTo $K$}{
-            $\vec{\mu}_k \leftarrow \frac{1}{{|\omega_k|}} \sum_{\vec{x} \in \omega_k} \vec{x}$\;
+            $\vec{\mu}_k \leftarrow \frac{1}{{|\omega_k|}} \sum_{\vec{x} \in \omega_k} \vec{x}´$\;
         }
     }
     \Return{$\{\vec{\mu}_1, \ldots, \vec{\mu}_K\}$}\;

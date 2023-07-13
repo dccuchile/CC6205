@@ -61,8 +61,10 @@
 \newpage
 
 \thispagestyle{empty}
-
+\mbox{}
 \newpage
+
+
 \pagenumbering{roman}
 
 \tableofcontents 
@@ -82,7 +84,7 @@
 %..................................................
 
 \chapter*{Prefacio}
-\addcontentsline{toc}{chapter}{Preface}
+\addcontentsline{toc}{chapter}{Prefacio}
 Este apunte es el resultado de cinco años de experiencia en la enseñanza del curso de Procesamiento de Lenguaje Natural en la Universidad de Chile\footnote{El repositorio del curso se encuentra en: \url{https://github.com/dccuchile/CC6205}}. El objetivo es proporcionar una introducción a esta disciplina, centrándose en las técnicas y conceptos fundamentales. Se ha realizado un esfuerzo por lograr un equilibrio entre las técnicas tradicionales, como los modelos de lenguaje de N-gramas, Naive Bayes y los modelos ocultos de Markov (HMM), y los enfoques modernos basados en redes neuronales profundas, como los vectores de palabras, las redes neuronales recurrentes (RNN), los transformers y los grandes modelos de lenguaje. Sin embargo, es importante mencionar que existen temas relevantes que no se incluyen en este material, como el etiquetado de datos, las gramáticas, las técnicas de parsing, así como discusiones sobre tareas más específicas como el question answering.
 
 El contenido se ha recopilado de diversas fuentes. Los temas relacionados con las redes neuronales se basan principalmente en el libro "Neural Network Methods for Natural Language Processing" de Goldberg \cite{goldberg2017neural}. Los temas no relacionados con las redes neuronales, como los modelos probabilísticos del lenguaje, Naive Bayes y HMM, se han tomado del curso de Michael Collins de Columbia \cite{collins2013language} y del borrador de la tercera edición del libro de Dan Jurafsky y James H. Martin \cite{JurafskyBook}. Además, algunos capítulos se han adaptado de tutoriales en línea y otros cursos, como el curso de Stanford de Christopher Manning\footnote{\url{http://web.stanford.edu/class/cs224n/}}. Las imágenes utilizadas se han extraído intencionalmente directamente de sus fuentes correspondientes. Algún día se diseñarán imágenes propias.
@@ -103,7 +105,7 @@ El contenido se ha recopilado de diversas fuentes. Los temas relacionados con la
 \input{cap_plm}
 
 
-\chapter{Text Classification and Naïve Bayes}
+\chapter{Modelo Naïve Bayes para Clasificación de Texto}
 \label{cap_nb}
 \input{cap_nb}
 

@@ -275,34 +275,15 @@ Otra familia de modelos valiosos para explorar colecciones de documentos son los
 LDA es uno de los modelos de tópicos más ampliamente utilizados y se basa en las siguientes suposiciones:
 
 \begin{enumerate}
- \item Cada documento está compuesto por una mezcla de tópicos. La distribución de tópicos en un documento se puede representar mediante una distribución de probabilidad.
+ \item Cada documento está compuesto por combinación probabilística de $K$ tópicos. La distribución de tópicos en un documento se puede representar mediante una distribución de probabilidad.
 
-\item Cada tópico es una distribución de palabras. Esto significa que cada palabra en un documento proviene de uno de los tópicos presentes en el documento.
+\item Cada tópico es una distribución probabílistica de palabras. Esto significa que cada palabra en un documento proviene de uno de los tópicos presentes en el documento.
 
 \item La generación de palabras en un documento sigue un proceso de generación conjunta condicionado a la distribución de tópicos en el documento. Es decir, primero se selecciona un tópico de la distribución de tópicos del documento y luego se selecciona una palabra del tópico seleccionado.
 \end{enumerate}
 
 
-La representación matemática básica de LDA es la siguiente:
-
-
-\begin{itemize}
-\item \(D\) representa el conjunto de documentos en la colección.
-\item \(N\) es el número total de palabras en un documento.
-\item \(M\) es el número total de documentos en la colección.
-\item \(K\) es el número de tópicos predefinidos.
-\end{itemize}
-
-Las variables latentes en LDA son las siguientes:
-
-\begin{itemize}
-\item \(\theta_d\) es la distribución de tópicos en el documento \(d\).
-\item \(\phi_k\) es la distribución de palabras en el tópico \(k\).
-\item \(z_{d,n}\) es el tópico asignado a la \(n\)-ésima palabra en el documento \(d\).
-\item \(w_{d,n}\) es la \(n\)-ésima palabra en el documento \(d\).
-\end{itemize}
-
-La inferencia en LDA se realiza utilizando técnicas de inferencia Bayesiana, como el Muestreo de Gibbs y la Inferencia Variacional. Estos modelos son de gran utilidad para descubrir patrones ocultos, temas y estructuras en grandes conjuntos de datos textuales.
+La inferencia en LDA a partir de un corpus de documentos se realiza utilizando técnicas de inferencia Bayesiana, como el Muestreo de Gibbs y la Inferencia Variacional. Estos modelos son de gran utilidad para descubrir patrones ocultos, temas y estructuras en grandes conjuntos de datos textuales.
 
 \section{Conclusiones y Conceptos Adicionales}
 

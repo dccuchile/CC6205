@@ -63,7 +63,7 @@ S $\rightarrow$ & cats $\rightarrow$ cat \\
 \label{tab:porter}
 \end{table}
 
-A continuación se muestra ejemplo usando el método de stemming Snowball para español para el lenguaje \textbf{python} usando la biblioteca \textbf{nltk}.
+A continuación se muestra ejemplo usando el método de stemming Snowball para español para el lenguaje \textbf{python} usando la biblioteca \textbf{nltk}\footnote{\url{https://www.nltk.org/}}.
 
 \begin{verbatim}
 from nltk import word_tokenize
@@ -82,7 +82,7 @@ me gust los lenguaj human y los lenguaj de program
 \section{Lematización}
 Otra estrategia de normalización de términos. También transforma las palabras en sus raíces.  Realiza un análisis morfológico utilizando diccionarios de referencia (tablas de búsqueda) para crear clases de equivalencia entre \emph{tipos}. Por ejemplo, para el token \emph{yendo}, una regla de stemming devolvería el término \emph{yend}, mientras que a través de la lematización obtendríamos el término \emph{ir}.
 
-Veamos a continuación el resultado de aplicar lematización a la misma oración anterior con la biblioteca \textbf{spacy}:
+Veamos a continuación el resultado de aplicar lematización a la misma oración anterior con la biblioteca \textbf{spacy}\footnote{\url{https://spacy.io/}}:
 
 \begin{verbatim}
 # python -m spacy download es_core_news_sm
@@ -141,7 +141,7 @@ Un motor de búsqueda es un sistema de recuperación de información diseñado p
 
 \begin{itemize}
 \item Crawler: un robot que navega por la web según una estrategia definida. Por lo general, comienza navegando por un conjunto de sitios web iniciales (semillas) y continúa navegando a través de sus enlaces.
-\item Indexador: se encarga de mantener un índice invertido con el contenido de las páginas recorridas por el rastreador.
+\item Indexador: se encarga de mantener un índice invertido con el contenido de las páginas recorridas por el crawler.
 \item Procesador de consultas: se encarga de procesar las consultas de los usuarios y buscar en el índice los documentos más relevantes para una consulta.
 \item Función de ranking: la función utilizada por el procesador de consultas para ordenar los documentos indexados en la colección por relevancia según una consulta.
 \item Interfaz de usuario: recibe la consulta como entrada y devuelve los documentos ordenados por relevancia.
@@ -200,6 +200,8 @@ Esto se llama incorrectamente ``distancia del coseno''. En realidad, es una mét
 \includegraphics[scale=0.5]{pics/cos.png}
 \caption{Similitud del coseno.}
 \end{figure}
+
+Un motor de búsqueda puede entonces usar el índice invertido para tener una representación vectorial de los documentos y así una vez llega una consulta usar la similitud coseno entre la consulta y los documentos indexados para producir el ranking de relevancia que se le muestra al usuario.
 
 \paragraph{Ejercicio}
 \begin{itemize}
@@ -283,7 +285,38 @@ LDA es uno de los modelos de tópicos más ampliamente utilizados y se basa en l
 \end{enumerate}
 
 
-La inferencia en LDA a partir de un corpus de documentos se realiza utilizando técnicas de inferencia Bayesiana, como el Muestreo de Gibbs y la Inferencia Variacional. Estos modelos son de gran utilidad para descubrir patrones ocultos, temas y estructuras en grandes conjuntos de datos textuales.
+La inferencia en LDA a partir de un corpus de documentos se realiza utilizando técnicas de inferencia Bayesiana, como el Muestreo de Gibbs y la Inferencia Variacional. Describir más formalmente LDA se escapa del alcance de este apunte, por ahora podemos decir que se relaciona estrechamente a los Modelos de Lenguage Probablísticos a estudiar en el Capítulo~\ref{cap_plm}.
+
+Si comparamos LDA con clusterizar documentos usando K-means, podemos decir que los tópicos que encuentra LDA puedan ser más fácilmente interpretados que los clusters obtenidos este último. Como cada tópico es una distribución de probabilidad sobre todas las palabras del corpus de entrenamiento, uno puede analizar las primeras 10, 15 o 30 palabras más probables de cada tópico para darle una interpretación. Análogamente uno puede analizar los tópicos más probables asignados a cada documento para entender los tópicos que trata. 
+
+La Tabla~\ref{tab:lda} muestra cuatro tópicos identificados por LDA en su trabajo original \cite{blei2003latent} usando un corpus de resúmenes de artículos científicos. Se muestran las 15 palabras más probables para 4 tópicos identificados.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Arts & Budgets & Children & Education \\
+\hline
+NEW & MILLION & CHILDREN & SCHOOL \\
+FILM & TAX & WOMEN & STUDENTS \\
+SHOW & PROGRAM & PEOPLE & SCHOOLS \\
+MUSIC & BUDGET & CHILD & EDUCATION \\
+MOVIE & BILLION & YEARS & TEACHERS \\
+PLAY & FEDERAL & FAMILIES & HIGH \\
+MUSICAL & YEAR & WORK & PUBLIC \\
+BEST & SPENDING & PARENTS & TEACHER \\
+ACTOR & NEW & SAYS & BENNETT \\
+FIRST & STATE & FAMILY & MANIGAT \\
+YORK & PLAN & WELFARE & NAMPHY \\
+OPERA & MONEY & MEN & STATE \\
+THEATER & PROGRAMS & PERCENT & PRESIDENT \\
+ACTRESS & GOVERNMENT & CARE & ELEMENTARY \\
+LOVE & CONGRESS & LIFE & HAITI \\
+\hline
+\end{tabular}
+\caption{Ejemplo de 4 tópicos y sus 15 palabras más proables.}
+\label{tab:lda}
+\end{table}
 
 \section{Conclusiones y Conceptos Adicionales}
 

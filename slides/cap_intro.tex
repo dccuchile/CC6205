@@ -250,13 +250,15 @@ Finalmente, se lleva a cabo un proceso de consolidación de las anotaciones. Por
 
 Todas estas decisiones pueden tener consecuencias en la calidad de los conjuntos de datos y, en consecuencia, en el rendimiento de los modelos entrenados con estos datos.
 
+Referencias recomendadas en anotación de datos para PLN se encuentran en los libros~\cite{fort2016collaborative} y~\cite{pustejovsky2012natural}.
+
 
 \subsection{Supervisión a Distancia}
 
 En algunos casos, es posible etiquetar datos de manera semi-automática con una técnica llamada supervisón a distancia, lo que permite ahorrar costos de anotación. Un ejemplo de esto es el enfoque de anotación de emoticones utilizado en la clasificación de sentimientos en tweets. En este enfoque, se utiliza la API de Twitter para recopilar tweets que contengan emoticones positivos \textcolor[rgb]{0.00,0.00,1.00}{\textbf{:)}} o negativos \textcolor[rgb]{1.00,0.00,0.00}{\textbf{:(}}, y luego se etiquetan los tweets según la polaridad indicada por el emoticón~\cite{Read2005}. El emoticón se \textbf{elimina} del contenido del tweet. Este enfoque también se ha ampliado utilizando hashtags como \#rabia y emojis. Sin embargo, no es trivial encontrar técnicas de supervisión a distancia que sean aplicables a todos los tipos de problemas en PLN.
 
 \subsection{Crowdsourcing}
-Las plataformas de crowdsourcing, como \textbf{Amazon Mechanical Turk (AMT)}, ofrecen la posibilidad de etiquetar datos a gran escala mediante el pago a etiquetadores remotos. Si bien este enfoque permite la anotación masiva de datos, es difícil garantizar la calidad esperada por parte de los anotadores. Sin embargo, ha sido gracias a este enfoque que se ha logrado la proliferación de numerosos conjuntos de datos para entrenar modelos supervisados en PLN. En \cite{snow2008cheap} se realiza una comparación exhaustiva sobre la calidad de las anotaciones obtenidas con AMT para diversas tareas de PLN.  Los resultados muestran que las anotaciones obtenidas son comparables a las de los anotadores expertos. 
+Las plataformas de crowdsourcing, como \textbf{Amazon Mechanical Turk (AMT)}\footnote{\url{https://www.mturk.com/}}, ofrecen la posibilidad de etiquetar datos a gran escala mediante el pago a etiquetadores remotos. Si bien este enfoque permite la anotación masiva de datos, es difícil garantizar la calidad esperada por parte de los anotadores. Sin embargo, ha sido gracias a este enfoque que se ha logrado la proliferación de numerosos conjuntos de datos para entrenar modelos supervisados en PLN. En \cite{snow2008cheap} se realiza una comparación exhaustiva sobre la calidad de las anotaciones obtenidas con AMT para diversas tareas de PLN.  Los resultados muestran que las anotaciones obtenidas son comparables a las de los anotadores expertos. 
 
 \section{Paradigmas de Aprendizaje Automático}
 

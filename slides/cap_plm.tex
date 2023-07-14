@@ -1,126 +1,81 @@
+En esta sección intrucimos el concepto de modelo de lenguage. Un enfoque de asignar probabilidades a oraciones que como veremos a lo largo del apunte cumplirá un rol fundamental en enfoquemos modernos de PLN.
+
+
 \section{El Problema del Modelado del Lenguaje}
 
-\begin{itemize}
-\item Tenemos un vocabulario (finito), digamos $\mathcal{V} = \{$el, un, hombre, telescopio, Beckham, dos, . . .$\}$
-\item Tenemos un conjunto (infinito) de cadenas, $\mathcal{V}^*$.
-\item Por ejemplo:
+Tenemos un vocabulario (finito), digamos $\mathcal{V} = \{$el, un, hombre, telescopio, Zamorano, dos, fan, vio, jugar, para, Real, Madrid, Zamorano, . . .$\}$, del cual podemos formar n conjunto (infinito) de oraciones, $\mathcal{V}^*$.  Por ejemplo:
 \begin{itemize}
 \item el STOP
 \item un STOP
 \item el fan STOP
-\item el fan vio a Beckham STOP
+\item el fan vio a Zamorano STOP
 \item el fan vio vio STOP
-\item el fan vio a Beckham jugar para el Real Madrid STOP
+\item el fan vio a Zamorano jugar para el Real Madrid STOP
 \end{itemize}
-\item Donde STOP es un símbolo especial que indica el final de una oración.
-\item Tenemos una muestra de entrenamiento de ejemplos de oraciones en inglés.
-\item Necesitamos ``aprender'' una distribución de probabilidad $p$.
-\item $p$ es una función que satisface:
+
+Donde STOP es un símbolo especial que indica el final de una oración. Tenemos una muestra de entrenamiento de ejemplos de oraciones en inglés. Necesitamos ``aprender'' una distribución de probabilidad $p$. Donde $p$ es una función que satisface:
 \begin{align*}
 \sum_{x\in V^*} p(x) &= 1 \\
 p(x) &\geq 0 \quad \text{para todo } x \in V^*
 \end{align*}
 
-\item Ejemplos de probabilidades asignadas a las oraciones:
+Ejemplos de probabilidades asignadas a las oraciones:
 \begin{align*}
 p(\text{el STOP}) &= 10^{-12} \\
 p(\text{el fan STOP}) &= 10^{-8} \\
-p(\text{el fan vio a Beckham STOP}) &= 2 \times 10^{-8} \\
+p(\text{el fan vio a Zamorano STOP}) &= 2 \times 10^{-8} \\
 p(\text{el fan vio vio STOP}) &= 10^{-15} \\
 \ldots \\
-p(\text{el fan vio a Beckham jugar para el Real Madrid STOP}) &= 2 \times 10^{-9}
+p(\text{el fan vio a Zamorano jugar para el Real Madrid STOP}) &= 2 \times 10^{-9}
 \end{align*}
-\item Idea 1: El modelo asigna una probabilidad más alta a las oraciones fluidas (aquellas que tienen sentido y son gramaticalmente correctas).
-\item Idea 2: Estimar esta función de probabilidad a partir del texto (corpus).
-\item El modelo de lenguaje ayuda a los modelos de generación de texto a distinguir entre buenas y malas oraciones.
-\end{itemize}
 
+Lo que esperamos del modelo es que le asigne una probabilidad más alta a las oraciones fluidas (aquellas que tienen sentido y son gramaticalmente correctas) de las que no. También esperamos poder estimar esta función de probabilidad a partir del texto (corpus).
 
-\begin{figure}[h]
-\includegraphics[scale = 0.4]{pics/lmdiagram.png}
-\end{figure}
+A nivel general, el modelo de lenguaje ayuda a los modelos de generación de texto a distinguir entre buenas y malas oraciones.
 
 
 
 \subsection{¿Por qué querríamos hacer esto?}
 
-\begin{itemize}
-\item El reconocimiento del habla fue la motivación original.
+El reconocimiento del habla fue la motivación original. Consideremos las siguientes dos oraciones en inglés:
+\begin{enumerate}
+ \item ``recognize speech''  (reconocer el habla)
+ \item ``wreck a nice beach'' (arruinar una playa bonita).
+\end{enumerate}
 
-\item Considera las oraciones: 1) reconocer el habla y 2) arruinar una playa bonita.
+Estas dos oraciones suenan muy similares al ser pronunciadas, lo que dificulta que los sistemas automáticos de reconocimiento del habla las transcriban con precisión. Cuando el sistema de reconocimiento del habla analiza la entrada de audio e intenta transcribirlo, tiene en cuenta las probabilidades del modelo de lenguaje para determinar la interpretación más probable.
+El modelo de lenguaje favorecería $p$(``recognize speech'') sobre $p$(``wreck a nice beach'').
+Esto se debe a que la primera oración es más común y debería ocurrir con más frecuencia en el corpus de entrenamiento.
 
-\item Estas dos oraciones suenan muy similares al ser pronunciadas, lo que dificulta que los sistemas automáticos de reconocimiento del habla las transcriban con precisión.
+Al incorporar modelos de lenguaje, los sistemas de reconocimiento del habla pueden mejorar  la precisión al seleccionar la oración que se alinea mejor con los patrones lingüísticos y el contexto, incluso cuando se enfrentan a alternativas que suenan similar.
 
+De hecho, los modelos de lenguaje son útiles en cualquier tarea de procesamiento del lenguaje natural que involucre la generación de lenguaje (por ejemplo, traducción automática, resumen, generación de resumenes, chatbots,  reconocimiento óptico de caracteres y el reconocimiento de escritura a mano).
 
-\item Cuando el sistema de reconocimiento del habla analiza la entrada de audio e intenta transcribirlo, tiene en cuenta las probabilidades del modelo de lenguaje para determinar la interpretación más probable.
-
-\item El modelo de lenguaje favorecería $p$(reconocer el habla) sobre $p$(arruinar una playa bonita).
-
-\item Esto se debe a que la primera oración es más común y debería ocurrir con más frecuencia en el corpus de entrenamiento.
-
-\item Al incorporar modelos de lenguaje, los sistemas de reconocimiento del habla pueden mejorar
-
- la precisión al seleccionar la oración que se alinea mejor con los patrones lingüísticos y el contexto, incluso cuando se enfrentan a alternativas que suenan similar.
-
-
-\item Problemas relacionados son el reconocimiento óptico de caracteres y el reconocimiento de escritura a mano.
-
-\item De hecho, los modelos de lenguaje son útiles en cualquier tarea de procesamiento del lenguaje natural que involucre la generación de lenguaje (por ejemplo, traducción automática, resumen, chatbots).
-
-\item Las técnicas de estimación desarrolladas para este problema serán MUY útiles para otros problemas en el procesamiento del lenguaje natural.
-
-
-\end{itemize}
-
+Además la noción de modelamiento probabilistico del lenguaje se utiliza en muchos modelos y tareas de PLN, por lo que las técnicas de estimación desarrolladas en este capítulo serán muy útiles para entender muchos problemas en PLN.
 
 
 \subsection{Los Modelos de Lenguaje son Generativos}
-\begin{itemize}
-\item Los modelos de lenguaje pueden generar oraciones al muestrear secuencialmente a partir de las probabilidades.
+Los modelos de lenguaje una vez aprendidos a partir de un corpus pueden usarse para generar oraciones nuevas al muestrear secuencialmente a partir de las probabilidades.
 
-\item Esto es análogo a extraer bolas (palabras) de una urna donde sus tamaños son proporcionales a sus frecuencias relativas.
+Esto es análogo a extraer bolas (palabras) de una urna donde sus tamaños son proporcionales a sus frecuencias relativas.
 
-\item Alternativamente, uno siempre podría extraer la palabra más probable, lo cual es equivalente a predecir la siguiente palabra.
-\end{itemize}
+Alternativamente, uno siempre podría extraer la palabra más probable, lo cual es equivalente a predecir la siguiente palabra.
 
-\begin{figure}[h]
-\includegraphics[scale = 0.6]{pics/lmsampling.png}
-\end{figure}
 
-\section{¿Por qué los modelos de lenguaje son importantes?}
-
-Los modelos de lenguaje son fundamentales en el procesamiento del lenguaje natural. Ayudan a abordar desafíos como el reconocimiento del habla, la transcripción automática y la generación de texto. Al comprender y estimar la probabilidad de ocurrencia de las secuencias de palabras, los modelos de lenguaje mejoran la precisión y la calidad en diversas aplicaciones de procesamiento del lenguaje natural.
-
-Los modelos de lenguaje permiten a los sistemas de reconocimiento del habla distinguir entre diferentes interpretaciones de palabras o frases que suenan similar pero tienen significados distintos. Esto es especialmente importante en situaciones en las que la ambigüedad podría llevar a una interpretación errónea. Al utilizar las probabilidades del modelo de lenguaje, los sistemas de reconocimiento del habla pueden seleccionar la interpretación más probable y coherente en función del contexto.
-
-Además, los modelos de lenguaje son esenciales en tareas generativas, como la traducción automática, la generación de resúmenes y la creación de chatbots. Estos modelos ayudan a generar texto coherente y natural al muestrear secuencialmente palabras de acuerdo con sus probabilidades estimadas.
-
-Las técnicas desarrolladas para el problema del modelado del lenguaje son también aplicables a otros desafíos en el procesamiento del lenguaje natural. Los avances en la estimación de probabilidades y en la generación de texto tienen un impacto significativo en campos como la inteligencia artificial, la lingüística computacional y la comunicación basada en texto.
-
-En resumen, los modelos de lenguaje desempeñan un papel crucial en la comprensión y generación de texto, mejorando la precisión, la coherencia y la calidad en diversas aplicaciones de procesamiento del lenguaje natural. Son herramientas fundamentales para avanzar en la comprensión y la capacidad de interacción de las máquinas con el lenguaje humano.
 \subsection{Un Método Ingenuo}
-\begin{itemize}
-\item Un método muy ingenuo para estimar la probabilidad de una oración es contar las apariciones de la oración en los datos de entrenamiento y dividirlo por el número total de oraciones de entrenamiento ($N$) para estimar la probabilidad.
-\item Tenemos $N$ oraciones de entrenamiento.
-\item Para cualquier oración $x_1, x_2, \ldots, x_n$, $c(x_1, x_2, \ldots, x_n)$ es el número de veces que se ha visto la oración en nuestros datos de entrenamiento.
-\item Una estimación ingenua: \begin{displaymath}
-p(x1,x2,…,xn)=\frac{c(x_1,x_2 \dots,x_n)}{N}
+Un método muy ingenuo para estimar la probabilidad de una oración es contar las apariciones de la oración en los datos de entrenamiento y dividirlo por el número total de oraciones de entrenamiento ($N$) para estimar la probabilidad. Tenemos $N$ oraciones de entrenamiento.
+Para cualquier oración $x_1, x_2, \ldots, x_n$, $c(x_1, x_2, \ldots, x_n)$ es el número de veces que se ha visto la oración en nuestros datos de entrenamiento. Una estimación ingenua: \begin{displaymath}
+p(x_1,x_2,\cdots,x_n)=\frac{c(x_1,x_2 \dots,x_n)}{N}
 \end{displaymath}
 
-\item Problema: A medida que el número de posibles oraciones crece de manera exponencial con la longitud de las oraciones y el tamaño del vocabulario, se vuelve cada vez más improbable que una oración específica aparezca en los datos de entrenamiento.
+El problema de este enfoque, es que a medida que el número de posibles oraciones crece de manera exponencial con la longitud de las oraciones y el tamaño del vocabulario, se vuelve cada vez más improbable que una oración específica aparezca en los datos de entrenamiento.
 
-\item En consecuencia, muchas oraciones tendrán una probabilidad cero según el modelo ingenuo, lo que lleva a una mala generalización.
-\end{itemize}
+En consecuencia, muchas oraciones tendrán una probabilidad cero según el modelo ingenuo, lo que lleva a una mala generalización.
 
 \section{Procesos de Markov}
-\begin{itemize}
-\item Considera una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$.
-\item Cada variable aleatoria puede tomar cualquier valor en un conjunto finito $V$.
-\item Por ahora, asumimos que la longitud $n$ está fija (por ejemplo, $n = 100$).
-\item Nuestro objetivo: modelar $P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$
-\end{itemize}
+Considera una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$. Cada variable aleatoria puede tomar cualquier valor en un conjunto finito $V$. Por ahora, asumimos que la longitud $n$ está fija (por ejemplo, $n = 100$). Nuestro objetivo: modelar $P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$
 
-\paragraph{Procesos de Markov de primer orden}
+\subsection{Procesos de Markov de primer orden}
 
 Un proceso de Markov de primer orden asume que la probabilidad de que una variable aleatoria tome un valor depende únicamente del valor inmediatamente anterior en la secuencia. En el contexto del modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende solo de la palabra anterior. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado su predecesor inmediato. Esta es la suposición de Markov de primer orden:
 
@@ -128,7 +83,7 @@ Un proceso de Markov de primer orden asume que la probabilidad de que una variab
 P(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = P(X_i = x_i|X_{i-1} = x_{i-1})
 \]
 
-\paragraph{Procesos de Markov de segundo orden}
+\subsection{Procesos de Markov de segundo orden}
 
 Un proceso de Markov de segundo orden amplía la suposición de Markov de primer orden y considera el valor de dos variables anteriores en la secuencia. En el modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende de las dos palabras anteriores. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado sus dos predecesores inmediatos. La suposición de Markov de segundo orden es la siguiente:
 
@@ -442,19 +397,15 @@ En el caso de un modelo de trigramas, se definen conjuntos similares $A(w_{i-2},
 
 Estos modelos de Katz Back-Off permiten aproximar las probabilidades condicionales en situaciones donde la información disponible es limitada, al aprovechar información de contextos más pequeños cuando no se dispone de suficientes datos para estimaciones directas.
 
-\section{Resumen}
-\begin{itemize}
-    \item La derivación de probabilidades en modelos de lenguaje probabilísticos implica tres pasos:
+\section{Conclusiones}
+La derivación de probabilidades en modelos de lenguaje probabilísticos implica tres pasos:
     \begin{enumerate}
         \item Expandir $p(w_1, w_2, \ldots, w_n)$ usando la regla de la Cadena.
         \item Aplicar las Asunciones de Independencia de Markov \\
         $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1}) = p(w_i | w_{i-2}, w_{i-1})$.
         \item Suavizar las estimaciones utilizando conteos de orden inferior.
     \end{enumerate}
-    \item Otros métodos para mejorar los modelos de lenguaje incluyen:
-    \begin{itemize}
-        \item Introducir variables latentes para representar temas, conocidos como modelos de temas. \cite{blei2003latent}
-        \item Reemplazar $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1})$ con una red neuronal predictiva y una "capa de embedding" para representar mejor contextos más grandes y aprovechar similitudes entre palabras en el contexto. \cite{bengio2000neural}
-    \end{itemize}
-    \item Los modelos de lenguaje modernos utilizan redes neuronales profundas en su estructura principal y tienen un vasto espacio de parámetros.
-\end{itemize}
+Otros métodos para mejorar los modelos de lenguaje incluyen introducir variables latentes para representar tópicos, conocidos como modelos de tópicos \cite{blei2003latent} presentados en el Capítulo~\ref{cap_ir}. O alternativamente, reemplazar $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1})$ con una red neuronal predictiva y una ``capa de embedding'' para representar mejor contextos más grandes y aprovechar similitudes entre palabras en el contexto. \cite{bengio2000neural}
+
+Los modelos de lenguaje modernos utilizan redes neuronales profundas en su estructura principal y tienen un vasto espacio de parámetros como se verá en el Capítulo~\ref{cap_llm}.
+

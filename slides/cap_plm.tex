@@ -10,7 +10,7 @@ Tenemos un vocabulario (finito), digamos $\mathcal{V} = \{$el, un, hombre, teles
 \item el fan STOP
 \item el fan vio a Zamorano STOP
 \item el fan vio vio STOP
-\item el fan vio a Zamorano jugar para el Real Madrid STOP
+\item el fan vio a Zamorano jugar por el Real Madrid STOP
 \end{itemize}
 
 Donde STOP es un símbolo especial que indica el final de una oración. Tenemos una muestra de entrenamiento de ejemplos de oraciones en inglés. Necesitamos ``aprender'' una distribución de probabilidad $p$. Donde $p$ es una función que satisface:
@@ -26,7 +26,7 @@ p(\text{el fan STOP}) &= 10^{-8} \\
 p(\text{el fan vio a Zamorano STOP}) &= 2 \times 10^{-8} \\
 p(\text{el fan vio vio STOP}) &= 10^{-15} \\
 \ldots \\
-p(\text{el fan vio a Zamorano jugar para el Real Madrid STOP}) &= 2 \times 10^{-9}
+p(\text{el fan vio a Zamorano jugar por el Real Madrid STOP}) &= 2 \times 10^{-9}
 \end{align*}
 
 Lo que esperamos del modelo es que le asigne una probabilidad más alta a las oraciones fluidas (aquellas que tienen sentido y son gramaticalmente correctas) de las que no. También esperamos poder estimar esta función de probabilidad a partir del texto (corpus).
@@ -204,6 +204,8 @@ q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs}
         \text{Perplejidad} = 2^{-l} = 2^{-(- \log N)} = N
     \]
 \end{itemize}
+
+
 
 \subsection{El trade-off entre sesgo y varianza}
 
@@ -396,6 +398,31 @@ La constante de suavizado $\alpha(w_{i-1})$ se calcula restando la suma de las f
 En el caso de un modelo de trigramas, se definen conjuntos similares $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$ para las secuencias trigramas. La probabilidad condicional $q_{\text{BO}}(w_i | w_{i-2}, w_{i-1})$ en un modelo de trigramas se calcula utilizando el modelo de bigrama correspondiente y aplicando la misma lógica de suavizado basado en los conjuntos $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$.
 
 Estos modelos de Katz Back-Off permiten aproximar las probabilidades condicionales en situaciones donde la información disponible es limitada, al aprovechar información de contextos más pequeños cuando no se dispone de suficientes datos para estimaciones directas.
+
+\section{Historia}
+En 1951, mientras trabajaba en los laboratorios Bell, Claude Shannon realizó experimentos sobre la entropía del inglés, centrándose en el desempeño de las personas en el juego de perplejidad \cite{shannon1951prediction}. Utilizando modelos de lenguaje de n-gramas, Shannon exploró la dificultad de predecir palabras basándose en las palabras anteriores.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.4]{pics/shannon.png}
+    \caption{Imagen de Shannon}
+\end{figure}
+
+Por otro lado, en su libro \textit{Syntactic Structures} (1957), Chomsky planteó varios puntos fundamentales sobre la gramática \cite{chomsky2009syntactic}. Según Chomsky, la noción de ``gramatical'' no puede ser equiparada a ``significativo'' en un sentido probabilista. Para ilustrar esto, presentó dos oraciones sin sentido:
+
+\begin{enumerate}
+    \item Colorless green ideas sleep furiously.
+    \item Furiously sleep ideas green colorless.
+\end{enumerate}
+
+Aunque ambas oraciones carecen de significado, Chomsky argumentó que solo la primera se considera gramaticalmente correcta por los hablantes de inglés. Además, enfatizó que la gramaticalidad en inglés no puede determinarse únicamente mediante aproximaciones estadísticas. Aunque es poco probable que ninguna de las dos oraciones (1) o (2) haya surgido en documentos escritos en inglés, un modelo estadístico como los modelos de lenguaje vistos en este capítulo las consideraría igualmente ``remotas'' en relación al inglés. Sin embargo, la oración (1) es gramaticalmente correcta, mientras que la oración (2) no lo es, lo que destaca las limitaciones de los enfoques estadísticos para capturar la gramatica. Estos argumentos retrasaron el estudio de los modelos de lenguaje probabilísticos durante varios años \cite{JurafskyBook}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.4]{pics/chomsky.png}
+    \caption{Imagen de Chomsky}
+\end{figure}
+
 
 \section{Conclusiones}
 La derivación de probabilidades en modelos de lenguaje probabilísticos implica tres pasos:

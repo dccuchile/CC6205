@@ -54,7 +54,30 @@ De hecho, los modelos de lenguaje son útiles en cualquier tarea de procesamient
 Además la noción de modelamiento probabilistico del lenguaje se utiliza en muchos modelos y tareas de PLN, por lo que las técnicas de estimación desarrolladas en este capítulo serán muy útiles para entender muchos problemas en PLN.
 
 
-\subsection{Los Modelos de Lenguaje son Generativos}
+\section{Regla de la Cadena en Modelos de Lenguaje}
+
+En el contexto de los modelos de lenguaje, se parte de la premisa de que cualquier oración $s$ puede ser vista como una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$. Cada una de estas variables aleatorias puede tomar valores de un conjunto finito $V$. Para simplificar, asumimos una longitud fija para la secuencia, por ejemplo, $n = 100$. Nuestro objetivo consiste en modelar la probabilidad conjunta $P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. Es importante notar que utilizamos letras mayúsculas para denotar las variables aleatorias ($X_1, X_2, \ldots, X_n$) y minúsculas para referirnos a instancias específicas de estas variables ($x_1, x_2, \ldots, x_n$), que representan elementos del vocabulario (por ejemplo, ``perro'', ``gato'', ``comida'').
+
+Una forma común de representar secuencias de variables aleatorias es mediante la aplicación de la regla de la cadena de probabilidades que definimos a continuación.
+
+Para un conjunto de variables aleatorias $X_1,\ldots, X_n$, la regla de la cadena de probabilidades nos permite expresar la función de probabilidad conjunta $P(X_1,X_2,\ldots, X_n)$ como un producto de $n$ probabilidades condicionales:
+
+\begin{equation}
+P(X_1,X_2,\ldots,X_n)=P(X_1)P(X_2|X_1)P(X_3|X_2,X_1)\ldots P(X_n|X_{n-1},\ldots,X_2,X_1).
+\end{equation}
+
+Por ejemplo, en el caso de $n=3$, la expresión se simplifica a:
+
+\begin{displaymath}
+P(X_1,X_2,X_3)=P(X_1)P(X_2|X_1)P(X_3|X_2,X_1).
+\end{displaymath}
+
+Al utilizar la definición de probabilidades condicionales, podemos expresar $P(X_2|X_1)$ como $P(X_1,X_2)/P(X_1)$ y $P(X_3|X_2,X_1)$ como $P(X_1,X_2,X_3)/P(X_1,X_2)$. Al sustituir estas expresiones en la cadena de productos, muchas de las expresiones se cancelan y finalmente obtenemos $P(X_1,X_2,X_3)$.     
+
+La aplicación de la regla de la cadena en los modelos de lenguaje no impone ningún supuesto específico sobre el modelo en sí. Más bien, nos proporciona una forma alternativa de modelar la probabilidad de una oración. Sin embargo, la ventaja de utilizar la regla de la cadena es que nos permite aplicar supuestos y hacer simplificaciones en el modelo para facilitar su implementación y cálculo.
+
+\section{Miradas Predictivas y Generativas de los Modelos de Lenguaje}
+
 Los modelos de lenguaje una vez aprendidos a partir de un corpus pueden usarse para generar oraciones nuevas al muestrear secuencialmente a partir de las probabilidades.
 
 Esto es análogo a extraer bolas (palabras) de una urna donde sus tamaños son proporcionales a sus frecuencias relativas.
@@ -62,7 +85,7 @@ Esto es análogo a extraer bolas (palabras) de una urna donde sus tamaños son p
 Alternativamente, uno siempre podría extraer la palabra más probable, lo cual es equivalente a predecir la siguiente palabra.
 
 
-\subsection{Un Método Ingenuo}
+\section{Un Método Ingenuo}
 Un método muy ingenuo para estimar la probabilidad de una oración es contar las apariciones de la oración en los datos de entrenamiento y dividirlo por el número total de oraciones de entrenamiento ($N$) para estimar la probabilidad. Tenemos $N$ oraciones de entrenamiento.
 Para cualquier oración $x_1, x_2, \ldots, x_n$, $c(x_1, x_2, \ldots, x_n)$ es el número de veces que se ha visto la oración en nuestros datos de entrenamiento. Una estimación ingenua: \begin{displaymath}
 p(x_1,x_2,\cdots,x_n)=\frac{c(x_1,x_2 \dots,x_n)}{N}
@@ -73,9 +96,7 @@ El problema de este enfoque, es que a medida que el número de posibles oracione
 En consecuencia, muchas oraciones tendrán una probabilidad cero según el modelo ingenuo, lo que lleva a una mala generalización.
 
 \section{Procesos de Markov}
-Considera una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$. Cada variable aleatoria puede tomar cualquier valor en un conjunto finito $V$. Por ahora, asumimos que la longitud $n$ está fija (por ejemplo, $n = 100$). Nuestro objetivo: modelar $P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$
 
-\subsection{Procesos de Markov de primer orden}
 
 Un proceso de Markov de primer orden asume que la probabilidad de que una variable aleatoria tome un valor depende únicamente del valor inmediatamente anterior en la secuencia. En el contexto del modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende solo de la palabra anterior. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado su predecesor inmediato. Esta es la suposición de Markov de primer orden:
 
@@ -83,7 +104,6 @@ Un proceso de Markov de primer orden asume que la probabilidad de que una variab
 P(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = P(X_i = x_i|X_{i-1} = x_{i-1})
 \]
 
-\subsection{Procesos de Markov de segundo orden}
 
 Un proceso de Markov de segundo orden amplía la suposición de Markov de primer orden y considera el valor de dos variables anteriores en la secuencia. En el modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende de las dos palabras anteriores. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado sus dos predecesores inmediatos. La suposición de Markov de segundo orden es la siguiente:
 

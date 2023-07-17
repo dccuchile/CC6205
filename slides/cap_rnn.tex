@@ -180,8 +180,19 @@ Para lograr compuertas diferenciables, reemplazamos el requisito de que $\vec{g}
 
 Este mecanismo de compuerta controlable es la base de las arquitecturas LSTM y GRU. En cada paso de tiempo, los mecanismos de compuerta diferenciables deciden qué partes de las entradas se escribirán en la memoria y qué partes de la memoria se sobrescribirán (olvidarán).
 
-\section{LSTM}
-La arquitectura LSTM (Long Short-Term Memory) \cite{hochreiter1997long} fue diseñada para resolver el problema de los gradientes que desaparecen. Fue la primera arquitectura en introducir el mecanismo de compuertas. La arquitectura LSTM divide explícitamente el vector de estado $\vec{s}_i$ en dos mitades: 1) celdas de memoria y 2) memoria de trabajo. Las celdas de memoria están diseñadas para preservar la memoria, así como los gradientes de error, a lo largo del tiempo, y están controladas mediante componentes de compuertas diferenciables. En cada estado de entrada, se utiliza una compuerta para decidir cuánta de la nueva entrada debe escribirse en la celda de memoria y cuánto del contenido actual de la celda de memoria debe olvidarse. Matemáticamente, la arquitectura LSTM se define como:
+
+\begin{align*}
+\vec{s}_j & = R_{\text{LSTM}}(\vec{s}_{j-1}, \vec{x}_j) = [\vec{c}_j; \vec{h}_j] \\
+\vec{c}_j & = \vec{f} \odot \vec{c}_{j-1} +  \vec{i} \odot \vec{z} \\
+\vec{h}_j & = \vec{o} \odot \tanh(\vec{c}_j) \\
+\vec{i} & = \sigma(\vec{x}_j \mathbf{W}^{xi} + \vec{h}_{j-1} \mathbf{W}^{hi}) \\
+\vec{f} & = \sigma(\vec{x}_j \mathbf{W}^{xf} + \vec{h}_{j-1} \mathbf{W}^{hf}) \\
+\vec{o} & = \sigma(\vec{x}_j \mathbf{W}^{xo} + \vec{h}_{j-1} \mathbf{W}^{ho}) \\
+\vec{z} & = \tanh(\vec{x}_j \mathbf{W}^{xz} + \vec{h}_{j-1} \mathbf{W}^{hz}) \\
+\vec{y}_j & = O_{\text{LSTM}}(\vec{s}_j) = \vec{h}_j \\
+\end{align*}
+
+
 
 \begin{figure}[h]
 \centering

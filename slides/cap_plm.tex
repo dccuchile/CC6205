@@ -1,5 +1,4 @@
-En esta sección intrucimos el concepto de modelo de lenguage. Un enfoque de asignar probabilidades a oraciones que como veremos a lo largo del apunte cumplirá un rol fundamental en enfoquemos modernos de PLN.
-
+En esta sección introducimos el concepto de ``modelo de lenguaje''. Un enfoque para asignar probabilidades a las oraciones que, como veremos a lo largo del apunte, desempeñará un papel fundamental en los enfoques modernos de PLN.
 
 \section{El Problema del Modelado del Lenguaje}
 
@@ -72,17 +71,42 @@ Por ejemplo, en el caso de $n=3$, la expresión se simplifica a:
 P(X_1,X_2,X_3)=P(X_1)P(X_2|X_1)P(X_3|X_2,X_1).
 \end{displaymath}
 
-Al utilizar la definición de probabilidades condicionales, podemos expresar $P(X_2|X_1)$ como $P(X_1,X_2)/P(X_1)$ y $P(X_3|X_2,X_1)$ como $P(X_1,X_2,X_3)/P(X_1,X_2)$. Al sustituir estas expresiones en la cadena de productos, muchas de las expresiones se cancelan y finalmente obtenemos $P(X_1,X_2,X_3)$.     
+Al utilizar la definición de probabilidades condicionales, podemos expresar $P(X_2|X_1)$ como $P(X_1,X_2)/P(X_1)$ y $P(X_3|X_2,X_1)$ como $P(X_1,X_2,X_3)/P(X_1,X_2)$. Al sustituir estas expresiones en la cadena de productos, vemos que todas las expresiones de cancelan y finalmente obtenemos $P(X_1,X_2,X_3)$.     
 
 La aplicación de la regla de la cadena en los modelos de lenguaje no impone ningún supuesto específico sobre el modelo en sí. Más bien, nos proporciona una forma alternativa de modelar la probabilidad de una oración. Sin embargo, la ventaja de utilizar la regla de la cadena es que nos permite aplicar supuestos y hacer simplificaciones en el modelo para facilitar su implementación y cálculo.
 
-\section{Miradas Predictivas y Generativas de los Modelos de Lenguaje}
+\section{Mirada Predictiva}
+La regla de la cadena nos permite darle una interpretación predictiva a los modelos de lenguaje. Cada probabilidad condicional $P(X_n|X_{n-1},\ldots,X_1)$ representa la predicción de la palabra $X_n$ dada la historia de palabras anteriores $X_{n-1},\ldots,X_1$ a la que llamaremos ``contexto''.  Entonces uno puede asumir que un modelo de lenguaje una vez entrenado (o construido) a partir de un corpus es capaz de entregar una distribución de probabilidad para todas las palabras a partir de un contexto específico.
+Por ejemplo supongamos que el contexto es ``Cristóbal Colón descubrió''. El modelo de lenguaje sería capaz de determinar:
 
-Los modelos de lenguaje una vez aprendidos a partir de un corpus pueden usarse para generar oraciones nuevas al muestrear secuencialmente a partir de las probabilidades.
+\begin{align*}
+P(X|\text{``descrubrió'', Colón'', ``Cristóbal''}), \
+\forall X \in V
+\end{align*}
 
-Esto es análogo a extraer bolas (palabras) de una urna donde sus tamaños son proporcionales a sus frecuencias relativas.
+Por ejemplo:
 
-Alternativamente, uno siempre podría extraer la palabra más probable, lo cual es equivalente a predecir la siguiente palabra.
+ 
+\begin{align*}
+P(\text{``América''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}). \\
+P(\text{``Europa''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}). \\
+P(\text{``Chile''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}). \\
+P(\text{``camello''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}). \\
+\ldots
+\end{align*}
+
+Uno esperaría que un buen modelo de lenguaje asigne una probabilidad mayor a $X=$``América'' que al resto de las opciones. Esto se debe a que el modelo de lenguaje necesita capturar las reglas sintácticas y semánticas del lenguaje, así como tener un amplio conocimiento del mundo para realizar estas predicciones.
+
+
+Otra propiedad relevante, que se abordará en el Capítulo~\ref{cap_llm} sobre grandes modelos de lenguaje, es que se puede codificar prácticamente cualquier tarea de PLN como una instrucción dentro del contexto de un modelo de lenguaje. Por ejemplo, se podría utilizar la instrucción ``traduce el siguiente texto de inglés a español. Input: I like dogs. Output:'', para luego esperar que el modelo de lenguaje sea capaz de realizar la traducción correcta.
+
+\section{Mirada Generativa}
+
+Los modelos de lenguaje aprendidos a partir de un corpus de texto no solo tienen una capacidad predictiva, sino que también tienen una capacidad generativa. Estos modelos pueden utilizarse para generar oraciones nuevas muestreando secuencialmente a partir de las probabilidades condicionales estimadas.
+
+El proceso generativo implica tomar una palabra inicial y, a medida que avanzamos en la generación, seleccionar sucesivas palabras basadas en las probabilidades condicionales proporcionadas por el modelo de lenguaje. Es similar a extraer bolas (palabras) de una urna, donde los tamaños de las bolas están en proporción a sus frecuencias relativas, que son determinadas por el modelo de lenguaje. Cada vez que se selecciona una palabra, se utiliza como contexto para determinar la siguiente palabra, y así sucesivamente hasta que se haya generado una oración completa.
+
+En este proceso generativo, hay diferentes enfoques que se pueden tomar. Uno de ellos es el muestreo estocástico, donde se elige una palabra de acuerdo con su probabilidad condicional dada por el modelo. Esto permite cierta variabilidad en la generación de oraciones, ya que las palabras menos probables también tienen la posibilidad de ser seleccionadas. Por otro lado, también se puede optar por seleccionar la palabra más probable en cada paso, lo que equivale a predecir la siguiente palabra basándose únicamente en la información disponible hasta ese momento. 
 
 
 \section{Un Método Ingenuo}

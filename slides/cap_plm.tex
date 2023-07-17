@@ -77,12 +77,14 @@ La aplicación de la regla de la cadena en los modelos de lenguaje no impone nin
 
 \section{Mirada Predictiva}
 La regla de la cadena nos permite darle una interpretación predictiva a los modelos de lenguaje. Cada probabilidad condicional $P(X_n|X_{n-1},\ldots,X_1)$ representa la predicción de la palabra $X_n$ dada la historia de palabras anteriores $X_{n-1},\ldots,X_1$ a la que llamaremos ``contexto''.  Entonces uno puede asumir que un modelo de lenguaje una vez entrenado (o construido) a partir de un corpus es capaz de entregar una distribución de probabilidad para todas las palabras a partir de un contexto específico.
-Por ejemplo supongamos que el contexto es ``Cristóbal Colón descubrió''. El modelo de lenguaje sería capaz de determinar:
+Por ejemplo supongamos que el contexto es $c=$``Cristóbal Colón descubrió''. El modelo de lenguaje sería capaz de determinar:
 
 \begin{align*}
 P(X|\text{``descrubrió'', Colón'', ``Cristóbal''}), \
 \forall X \in V
 \end{align*}
+
+donde $\sum_{X\in V}P(X|c)=1$.
 
 Por ejemplo:
 

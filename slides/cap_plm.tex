@@ -80,11 +80,9 @@ La regla de la cadena nos permite darle una interpretación predictiva a los mod
 Por ejemplo supongamos que el contexto es $c=$``Cristóbal Colón descubrió''. El modelo de lenguaje sería capaz de determinar:
 
 \begin{align*}
-P(X|\text{``descrubrió'', Colón'', ``Cristóbal''}), \
-\forall X \in V
+P(X|\text{``descrubrió'', Colón'', ``Cristóbal''}) \\
+\forall X \in V, \quad \text{donde} \sum_{X\in V}P(X|c)=1 
 \end{align*}
-
-donde $\sum_{X\in V}P(X|c)=1$.
 
 Por ejemplo:
 
@@ -97,10 +95,9 @@ P(\text{``camello''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.000
 \ldots
 \end{align*}
 
-Uno esperaría que un buen modelo de lenguaje asigne una probabilidad mayor a $X=$``América'' que al resto de las opciones. Esto se debe a que el modelo de lenguaje necesita capturar las reglas sintácticas y semánticas del lenguaje, así como tener un amplio conocimiento del mundo para realizar estas predicciones.
+Uno esperaría que un buen modelo de lenguaje asigne una probabilidad mayor a $X=$``América'' que al resto de las opciones. Para realizar estas predicciones, el modelo de lenguaje necesita capturar las reglas sintácticas y semánticas del lenguaje, así como tener un amplio conocimiento del mundo. 
 
-
-Otra propiedad relevante, que se abordará en el Capítulo~\ref{cap_llm} sobre grandes modelos de lenguaje, es que se puede codificar prácticamente cualquier tarea de PLN como una instrucción dentro del contexto de un modelo de lenguaje. Por ejemplo, se podría utilizar la instrucción ``traduce el siguiente texto de inglés a español. Input: I like dogs. Output:'', para luego esperar que el modelo de lenguaje sea capaz de realizar la traducción correcta.
+Otra propiedad relevante, que se abordará en el Capítulo~\ref{cap_llm} sobre grandes modelos de lenguaje, es que se puede codificar prácticamente cualquier tarea de PLN como una instrucción dentro del contexto de un modelo de lenguaje. Por ejemplo, se podría utilizar la instrucción ``traduce el siguiente texto de inglés a español: I like dogs'', para luego esperar que el modelo de lenguaje sea capaz de realizar la traducción correcta.
 
 \section{Mirada Generativa}
 

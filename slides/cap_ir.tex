@@ -155,7 +155,17 @@ Un motor de búsqueda es un sistema de recuperación de información diseñado p
 
 
 \section{El modelo de espacio vectorial}
-Para clasificar consultas o medir la similitud entre dos documentos, necesitamos una métrica de similitud. Los documentos pueden ser \textit{representados} como vectores de términos, donde cada término es una dimensión del vector \cite{salton1975vector}. Documentos con diferentes palabras y longitudes residirán en el mismo espacio vectorial. Este tipo de representaciones se llaman \emph{Bolsa-de-palabras} (Bag of Words). En las representaciones de bolsa de palabras, se pierde el orden de las palabras y la estructura lingüística de una oración.
+Para clasificar consultas o medir la similitud entre dos documentos, necesitamos una métrica de similitud. Los documentos pueden ser \textit{representados} como vectores de términos, donde cada término es una dimensión del vector \cite{salton1975vector}. Documentos con diferentes palabras y longitudes residirán en el mismo espacio vectorial. Este tipo de representaciones se llaman \emph{Bolsa-de-palabras} (Bag of Words). En las representaciones de bolsa de palabras, se pierde el orden de las palabras y la estructura lingüística de una oración tal como se muestra en la Figura~\ref{fig_bow}.
+
+
+\begin{figure}[h!]\label{fig_bow}
+\centering
+\includegraphics[scale = 0.22]{pics/bow.png}
+\caption{Representación de Bolsa-de-Palabras. Fuente: \cite{JurafskyBook}.}
+\end{figure}
+
+
+
 
 El valor de cada dimensión es un peso que representa la relevancia del término $t_{i}$ en el documento $d$.
 \begin{equation}

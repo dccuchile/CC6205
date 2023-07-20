@@ -1,8 +1,9 @@
 En esta sección introducimos el concepto de ``modelo de lenguaje''. Un enfoque para asignar probabilidades a las oraciones que, como veremos a lo largo del apunte, desempeñará un papel fundamental en los enfoques modernos de PLN.
 
 \section{El Problema del Modelado del Lenguaje}
+Supongamos que tenemos un corpus de documentos $\mathcal{C}$, del cual extraemos su vocabulario (finito) a partir de la tokenización de los documentos, $\mathcal{V} = \{$el, un, hombre, telescopio, Zamorano, dos, fan, vio, jugar, para, Real, Madrid, Zamorano, . . .$\}$.
 
-Tenemos un vocabulario (finito), digamos $\mathcal{V} = \{$el, un, hombre, telescopio, Zamorano, dos, fan, vio, jugar, para, Real, Madrid, Zamorano, . . .$\}$, del cual podemos formar n conjunto (infinito) de oraciones, $\mathcal{V}^*$.  Por ejemplo:
+Podemos formar a partir de ese vocabulario un conjunto infinito de oraciones si dejamos que éstas sean de largo variable, $\mathcal{V}^*$.  Por ejemplo:
 \begin{itemize}
 \item el STOP
 \item un STOP
@@ -12,13 +13,16 @@ Tenemos un vocabulario (finito), digamos $\mathcal{V} = \{$el, un, hombre, teles
 \item el fan vio a Zamorano jugar por el Real Madrid STOP
 \end{itemize}
 
-Donde STOP es un símbolo especial que indica el final de una oración. Tenemos una muestra de entrenamiento de ejemplos de oraciones en inglés. Necesitamos ``aprender'' una distribución de probabilidad $p$. Donde $p$ es una función que satisface:
+Donde STOP es un símbolo especial que indica el final de una oración. 
+
+Un modelo de lenguaje es una distriución de probabilidad $p$ que se ``aprende'' a partir del corpus  una distribución de probabilidad donde la probabilidad de cada oración debe ser mayor o igual que cero, y la suma de las probabilidades de todas las oraciones posibles debe ser uno: 
 \begin{align*}
 \sum_{x\in V^*} p(x) &= 1 \\
 p(x) &\geq 0 \quad \text{para todo } x \in V^*
 \end{align*}
 
-Ejemplos de probabilidades asignadas a las oraciones:
+
+A continuación mostramos ejemplos de probabilidades asignadas por un modelo de lenguaje imaginario a algunas oraciones:
 \begin{align*}
 p(\text{el STOP}) &= 10^{-12} \\
 p(\text{el fan STOP}) &= 10^{-8} \\
@@ -31,7 +35,6 @@ p(\text{el fan vio a Zamorano jugar por el Real Madrid STOP}) &= 2 \times 10^{-9
 Lo que esperamos del modelo es que le asigne una probabilidad más alta a las oraciones fluidas (aquellas que tienen sentido y son gramaticalmente correctas) de las que no. También esperamos poder estimar esta función de probabilidad a partir del texto (corpus).
 
 A nivel general, el modelo de lenguaje ayuda a los modelos de generación de texto a distinguir entre buenas y malas oraciones.
-
 
 
 \subsection{¿Por qué querríamos hacer esto?}
@@ -55,43 +58,43 @@ Además la noción de modelamiento probabilistico del lenguaje se utiliza en muc
 
 \section{Regla de la Cadena en Modelos de Lenguaje}
 
-En el contexto de los modelos de lenguaje, se parte de la premisa de que cualquier oración $s$ puede ser vista como una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$. Cada una de estas variables aleatorias puede tomar valores de un conjunto finito $V$. Para simplificar, asumimos una longitud fija para la secuencia, por ejemplo, $n = 100$. Nuestro objetivo consiste en modelar la probabilidad conjunta $P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. Es importante notar que utilizamos letras mayúsculas para denotar las variables aleatorias ($X_1, X_2, \ldots, X_n$) y minúsculas para referirnos a instancias específicas de estas variables ($x_1, x_2, \ldots, x_n$), que representan elementos del vocabulario (por ejemplo, ``perro'', ``gato'', ``comida'').
+En el contexto de los modelos de lenguaje, se parte de la premisa de que cualquier oración $s$ puede ser vista como una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$. Cada una de estas variables aleatorias puede tomar valores de un conjunto finito $V$. Para simplificar, asumimos una longitud fija para la secuencia, por ejemplo, $n = 100$. Nuestro objetivo consiste en modelar la probabilidad conjunta $p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. Es importante notar que utilizamos letras mayúsculas para denotar las variables aleatorias ($X_1, X_2, \ldots, X_n$) y minúsculas para referirnos a instancias específicas de estas variables ($x_1, x_2, \ldots, x_n$), que representan elementos del vocabulario (por ejemplo, ``perro'', ``gato'', ``comida'').
 
 Una forma común de representar secuencias de variables aleatorias es mediante la aplicación de la regla de la cadena de probabilidades que definimos a continuación.
 
-Para un conjunto de variables aleatorias $X_1,\ldots, X_n$, la regla de la cadena de probabilidades nos permite expresar la función de probabilidad conjunta $P(X_1,X_2,\ldots, X_n)$ como un producto de $n$ probabilidades condicionales:
+Para un conjunto de variables aleatorias $X_1,\ldots, X_n$, la regla de la cadena de probabilidades nos permite expresar la función de probabilidad conjunta $p(X_1,X_2,\ldots, X_n)$ como un producto de $n$ probabilidades condicionales:
 
 \begin{equation}
-P(X_1,X_2,\ldots,X_n)=P(X_1)P(X_2|X_1)P(X_3|X_2,X_1)\ldots P(X_n|X_{n-1},\ldots,X_2,X_1).
+p(X_1,X_2,\ldots,X_n)=p(X_1)p(X_2|X_1)p(X_3|X_2,X_1)\ldots p(X_n|X_{n-1},\ldots,X_2,X_1).
 \end{equation}
 
 Por ejemplo, en el caso de $n=3$, la expresión se simplifica a:
 
 \begin{displaymath}
-P(X_1,X_2,X_3)=P(X_1)P(X_2|X_1)P(X_3|X_2,X_1).
+p(X_1,X_2,X_3)=p(X_1)p(X_2|X_1)p(X_3|X_2,X_1).
 \end{displaymath}
 
-Al utilizar la definición de probabilidades condicionales, podemos expresar $P(X_2|X_1)$ como $P(X_1,X_2)/P(X_1)$ y $P(X_3|X_2,X_1)$ como $P(X_1,X_2,X_3)/P(X_1,X_2)$. Al sustituir estas expresiones en la cadena de productos, vemos que todas las expresiones de cancelan y finalmente obtenemos $P(X_1,X_2,X_3)$.     
+Al utilizar la definición de probabilidades condicionales, podemos expresar $p(X_2|X_1)$ como $p(X_1,X_2)/p(X_1)$ y $p(X_3|X_2,X_1)$ como $p(X_1,X_2,X_3)/p(X_1,X_2)$. Al sustituir estas expresiones en la cadena de productos, vemos que todas las expresiones de cancelan y finalmente obtenemos $p(X_1,X_2,X_3)$.     
 
 La aplicación de la regla de la cadena en los modelos de lenguaje no impone ningún supuesto específico sobre el modelo en sí. Más bien, nos proporciona una forma alternativa de modelar la probabilidad de una oración. Sin embargo, la ventaja de utilizar la regla de la cadena es que nos permite aplicar supuestos y hacer simplificaciones en el modelo para facilitar su implementación y cálculo.
 
 \section{Mirada Predictiva}
-La regla de la cadena nos permite darle una interpretación predictiva a los modelos de lenguaje. Cada probabilidad condicional $P(X_n|X_{n-1},\ldots,X_1)$ representa la predicción de la palabra $X_n$ dada la historia de palabras anteriores $X_{n-1},\ldots,X_1$ a la que llamaremos ``contexto''.  Entonces uno puede asumir que un modelo de lenguaje una vez entrenado (o construido) a partir de un corpus es capaz de entregar una distribución de probabilidad para todas las palabras a partir de un contexto específico.
+La regla de la cadena nos permite darle una interpretación predictiva a los modelos de lenguaje. Cada probabilidad condicional $p(X_n|X_{n-1},\ldots,X_1)$ representa la predicción de la palabra $X_n$ dada la historia de palabras anteriores $X_{n-1},\ldots,X_1$ a la que llamaremos ``contexto''.  Entonces uno puede asumir que un modelo de lenguaje una vez entrenado (o construido) a partir de un corpus es capaz de entregar una distribución de probabilidad para todas las palabras a partir de un contexto específico.
 Por ejemplo supongamos que el contexto es $c=$``Cristóbal Colón descubrió''. El modelo de lenguaje sería capaz de determinar:
 
 \begin{align*}
-P(X|\text{``descrubrió'', Colón'', ``Cristóbal''}) \\
-\forall X \in V, \quad \text{donde} \sum_{X\in V}P(X|c)=1 
+p(X|\text{``descrubrió'', Colón'', ``Cristóbal''}) \\
+\forall X \in V, \quad \text{donde} \sum_{X\in V}p(X|c)=1 
 \end{align*}
 
 Por ejemplo:
 
  
 \begin{align*}
-P(\text{``América''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.02 \\
-P(\text{``Europa''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.01 \\
-P(\text{``Chile''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.001\\
-P(\text{``camello''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.00001 \\
+p(\text{``América''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.02 \\
+p(\text{``Europa''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.01 \\
+p(\text{``Chile''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.001\\
+p(\text{``camello''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.00001 \\
 \ldots
 \end{align*}
 
@@ -109,12 +112,13 @@ En este proceso generativo, hay diferentes enfoques que se pueden tomar. Uno de 
 
 
 \section{Un Método Ingenuo}
-Un método muy ingenuo para estimar la probabilidad de una oración es contar las apariciones de la oración en los datos de entrenamiento y dividirlo por el número total de oraciones de entrenamiento ($N$) para estimar la probabilidad. Tenemos $N$ oraciones de entrenamiento.
-Para cualquier oración $x_1, x_2, \ldots, x_n$, $c(x_1, x_2, \ldots, x_n)$ es el número de veces que se ha visto la oración en nuestros datos de entrenamiento. Una estimación ingenua: \begin{displaymath}
+Un método muy ingenuo para estimar la probabilidad de una oración es contar todas las apariciones de  oraciones idénticas a esta en los datos de entrenamiento y dividirlo por el número total de oraciones de entrenamiento ($N$).
+
+Más formalmente, sea mi oración $s=x_1, x_2, \ldots, x_n$, y $c(x_1, x_2, \ldots, x_n)$  el número de veces que ocurre la oración en el corpus de entrenamiento, el modelo de lenguaje ingenuo computa la probabilidad de la siguiente manera: \begin{displaymath}
 p(x_1,x_2,\cdots,x_n)=\frac{c(x_1,x_2 \dots,x_n)}{N}
 \end{displaymath}
 
-El problema de este enfoque, es que a medida que el número de posibles oraciones crece de manera exponencial con la longitud de las oraciones y el tamaño del vocabulario, se vuelve cada vez más improbable que una oración específica aparezca en los datos de entrenamiento.
+El problema de este enfoque, es que el número de posibles oraciones crece de manera exponencial con su cantidad de palabras y el tamaño del vocabulario. Entonces se vuelve cada vez más improbable que una oración específica haya ocurrido en los datos de entrenamiento. Esto es una consecuencia de la propiedad de \textbf{dispersión} del lenguaje planteada en el Capítulo~\ref{cap_intro}.
 
 En consecuencia, muchas oraciones tendrán una probabilidad cero según el modelo ingenuo, lo que lleva a una mala generalización.
 
@@ -124,14 +128,14 @@ En consecuencia, muchas oraciones tendrán una probabilidad cero según el model
 Un proceso de Markov de primer orden asume que la probabilidad de que una variable aleatoria tome un valor depende únicamente del valor inmediatamente anterior en la secuencia. En el contexto del modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende solo de la palabra anterior. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado su predecesor inmediato. Esta es la suposición de Markov de primer orden:
 
 \[
-P(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = P(X_i = x_i|X_{i-1} = x_{i-1})
+p(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = p(X_i = x_i|X_{i-1} = x_{i-1})
 \]
 
 
 Un proceso de Markov de segundo orden amplía la suposición de Markov de primer orden y considera el valor de dos variables anteriores en la secuencia. En el modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende de las dos palabras anteriores. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado sus dos predecesores inmediatos. La suposición de Markov de segundo orden es la siguiente:
 
 \[
-P(X_i = x_i|X_1 = x_1, \ldots, X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) = P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
+p(X_i = x_i|X_1 = x_1, \ldots, X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) = p(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
 \]
 
 \subsection{Modelado de secuencias de longitud variable}
@@ -139,7 +143,7 @@ P(X_i = x_i|X_1 = x_1, \ldots, X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) = P(X_i = x
 Si queremos modelar secuencias de longitud variable, podemos considerar que la longitud de la secuencia, $n$, también es una variable aleatoria. Una forma simple de abordar esto es siempre definir $X_n = \text{STOP}$, donde "STOP" es un símbolo especial que marca el final de la secuencia. Luego, podemos usar un proceso de Markov como antes para modelar la probabilidad conjunta de las palabras en la secuencia:
 
 \[
-P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \prod_{i=1}^{n} P(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
+p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \prod_{i=1}^{n} p(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
 \]
 
 Aquí, asumimos que $x_0 = x_{-1} = *$ por conveniencia, donde "*" es un símbolo especial de "inicio".
@@ -163,9 +167,9 @@ Aquí, definimos $x_0 = x_{-1} = *$ por conveniencia.
 
 \paragraph{Un ejemplo}
 
-Para la oración "the dog barks STOP", tendríamos:
+Para la oración "el perro ladra STOP", tendríamos:
 \[
-p(\text{the dog barks STOP}) = q(\text{the}|*, *) \times q(\text{dog}|*, \text{the}) \times q(\text{barks}|\text{the, dog}) \times q(\text{STOP}|\text{dog, barks})
+p(\text{el perro ladra STOP}) = q(\text{el}|*, *) \times q(\text{perro}|*, \text{el}) \times q(\text{ladra}|\text{el, pedro}) \times q(\text{STOP}|\text{perro, ladra})
 \]
 
 \subsection{El problema de estimación trigram}

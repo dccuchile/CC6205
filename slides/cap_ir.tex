@@ -137,7 +137,7 @@ Sea $D$ una colección de documentos y $V$ el vocabulario de todos los términos
 
 \section{Motores de búsqueda web}
 
-Un motor de búsqueda es un sistema de recuperación de información diseñado para buscar información en la web (satisfacer necesidades de información) \cite{manning2008}. Sus componentes básicos son:
+Un motor de búsqueda es un sistema de recuperación de información diseñado para buscar información en la web (satisfacer necesidades de información) \cite{manning2008}. Sus componentes básicos (ilustrados en la Figura~\ref{fig_buscador}) son:
 
 \begin{itemize}
 \item Crawler: un robot que navega por la web según una estrategia definida. Por lo general, comienza navegando por un conjunto de sitios web iniciales (semillas) y continúa navegando a través de sus enlaces.
@@ -147,10 +147,12 @@ Un motor de búsqueda es un sistema de recuperación de información diseñado p
 \item Interfaz de usuario: recibe la consulta como entrada y devuelve los documentos ordenados por relevancia.
 \end{itemize}
 
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.25]{pics/searchengine.png}
 \caption{Los diversos componentes de un motor de búsqueda web \cite{manning2008}.}
+\label{fig_buscador}
 \end{figure}
 
 
@@ -158,10 +160,11 @@ Un motor de búsqueda es un sistema de recuperación de información diseñado p
 Para clasificar consultas o medir la similitud entre dos documentos, necesitamos una métrica de similitud. Los documentos pueden ser \textit{representados} como vectores de términos, donde cada término es una dimensión del vector \cite{salton1975vector}. Documentos con diferentes palabras y longitudes residirán en el mismo espacio vectorial. Este tipo de representaciones se llaman \emph{Bolsa-de-palabras} (Bag of Words). En las representaciones de bolsa de palabras, se pierde el orden de las palabras y la estructura lingüística de una oración tal como se muestra en la Figura~\ref{fig_bow}.
 
 
-\begin{figure}[h!]\label{fig_bow}
+\begin{figure}[h!]
 \centering
 \includegraphics[scale = 0.22]{pics/bow.png}
-\caption{Representación de Bolsa-de-Palabras. Fuente: \cite{JurafskyBook}.}
+\caption{Representación de Bolsa-de-Palabras \cite{JurafskyBook}.}
+\label{fig_bow}
 \end{figure}
 
 
@@ -172,9 +175,9 @@ El valor de cada dimensión es un peso que representa la relevancia del término
 d_{j} \rightarrow \overrightarrow{d_{j}}=(w(t_{1},d_{j}),...,w(t_{|V|},d_{j}))
 \end{equation}
 
-¿Cómo podemos modelar la información que aporta un término a un documento? Necesitamos formas de ponderar eso.
+¿Cómo podemos modelar la información que aporta un término a un documento? Necesitamos formas de ponderar eso.  Una forma común de modelar $w(t_{i},d_{j})$ es el modelo Frecuencia de Término - Frecuencia Inversa de Documento o TF-IDF (por sus siglas en inglés).
 
-\subsection{Frecuencia de Término - Frecuencia Inversa de Documento}
+\subsection{El modelo TF-IDF}
 Sea $tf_{i,j}$ la frecuencia del término $t_{i}$ en el documento $d_{j}$.  Un término que ocurre 10 veces debería proporcionar más información que uno que ocurre solo una vez. ¿Qué ocurre cuando tenemos documentos que son mucho más largos que otros? Podemos normalizar dividiendo por la frecuencia máxima del término en el documento.
 \begin{displaymath}
 ntf_{i,j}=\frac{tf_{i,j}}{\max_i (tf_{i,j})}

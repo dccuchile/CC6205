@@ -45,7 +45,7 @@ El reconocimiento del habla fue la motivación original. Consideremos las siguie
  \item ``wreck a nice beach'' (arruinar una playa bonita).
 \end{enumerate}
 
-Estas dos oraciones suenan muy similares al ser pronunciadas, lo que dificulta que los sistemas automáticos de reconocimiento del habla las transcriban con precisión. Cuando el sistema de reconocimiento del habla analiza la entrada de audio e intenta transcribirlo, tiene en cuenta las probabilidades del modelo de lenguaje para determinar la interpretación más probable.
+Estas dos oraciones suenan muy similares al ser pronunciadas (tienen casi la misma señal acústica), lo que dificulta que los sistemas automáticos de reconocimiento del habla las transcriban con precisión. Cuando el sistema de reconocimiento del habla analiza la entrada de audio e intenta transcribirlo, tiene en cuenta las probabilidades del modelo de lenguaje para determinar la interpretación más probable.
 El modelo de lenguaje favorecería $p$(``recognize speech'') sobre $p$(``wreck a nice beach'').
 Esto se debe a que la primera oración es más común y debería ocurrir con más frecuencia en el corpus de entrenamiento.
 
@@ -150,11 +150,11 @@ Aquí, asumimos que $x_0 = x_{-1} = *$ por conveniencia, donde ``*'' es un símb
 
 \section{Modelos de lenguaje de Trigramas}
 
-Un modelo de lenguaje de trigrama es una implementación directa del proceso de Markov de segundo orden y consiste en:
+Un n-grama es una secuencia contigua de $n$ palabras. Un modelo de lenguaje de trigrama (n-grama con $n=3$) es una implementación directa del proceso de Markov de segundo orden que se discutió anteriormente. Este modelo está compuesto por:
 
 \begin{enumerate}
-  \item Un vocabulario $V$ representado por un conjunto finito de palabras.
-  \item Un parámetro escalar $q(w|u, v)$ para cada trigrama $u, v, w$ donde $w \in V \cup \{\text{STOP}\}$ y $u, v \in V \cup \{*\}$.
+  \item Un vocabulario $V$, representado por un conjunto finito de palabras.
+  \item Un parámetro escalar $q(w|u, v)$ para cada trigrama $u, v, w$, donde $w \in V \cup \{\text{STOP}\}$ y $u, v \in V \cup \{*\}$.
 \end{enumerate}
 
 Para cualquier oración $x_1 \ldots x_n$, donde $x_i \in V$ para $i = 1 \ldots (n-1)$ y $x_n = \text{STOP}$, la probabilidad de la oración según el modelo de lenguaje trigrama es:
@@ -163,24 +163,24 @@ Para cualquier oración $x_1 \ldots x_n$, donde $x_i \in V$ para $i = 1 \ldots (
 p(x_1 \ldots x_n) = \prod_{i=1}^{n} q(x_i|x_{i-2}, x_{i-1})
 \]
 
-Aquí, definimos $x_0 = x_{-1} = *$ por conveniencia.
+Aquí, definimos $x_0 = x_{-1} = *$ como símbolos especiales por conveniencia.
 
 Por ejemplo, para la oración ``el perro ladra STOP'', estimaríamos su probabilidad de la siguiente forma:
 \[
-p(\text{el perro ladra STOP}) = q(\text{el}|*, *) \times q(\text{perro}|*, \text{el}) \times q(\text{ladra}|\text{el, pedro}) \times q(\text{STOP}|\text{perro, ladra})
+p(\text{el perro ladra STOP}) = q(\text{el}|*, *) \times q(\text{perro}|*, \text{el}) \times q(\text{ladra}|\text{el}, \text{perro}) \times q(\text{STOP}|\text{perro}, \text{ladra})
 \]
 
-Abordemos ahora el problema de la estimación de los parámetros $q(w_i | w_{i-2}, w_{i-1})$ a partir de un corpus $\mathcal{C}$.
+Ahora abordemos el problema de la estimación de los parámetros $q(w_i | w_{i-2}, w_{i-1})$ a partir de un corpus $\mathcal{C}$.
 
+Una estimación natural es la ``estimación de máxima verosimilitud'' (MLE por sus siglas en inglés), donde se estiman los parámetros para maximizar la probabilidad de los datos de entrenamiento.
 
-Una estimación natural es la ``estimación de máxima verosimilitud'' (MLE), la cual es es una técnica común para estimar los parámetros de modelo estadísticos donde se estiman los parametros para maximizar la probabilidad de los datos de entrenamiento. 
-
+En el contexto de un modelo de trigrama, la estimación de cada parámetro proviene de distribuciones multinomiales, lo cual se traduce en el siguiente cálculo:
 
 \[
 q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
 \]
 
-Esto requiere tokenizar el corpus de entrenamiento y guardar en una tabla los conteos de todos los trigramas y bigramas encontrados. 
+Esto requiere tokenizar el corpus de entrenamiento y guardar en una tabla los conteos de todos los trigramas (secuencias contiguas de 3 palabras) y bigramas (secuencias contiguas de dos palabras) encontrados.
 
 Por ejemplo:
 \[
@@ -190,22 +190,26 @@ q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs}
 
 
 
-
 \section{Evaluación de un modelo de lenguaje: Perplejidad}
-Recordemos que un buen modelo de lenguaje debiese asignarle probabilidades mayores a oraciones fluídas que a oraciones carented de sentido. 
 
-Tenemos algunos datos de prueba, $m$ oraciones: $s_1, s_2, s_3, ..., s_m$. Podemos analizar la probabilidad bajo nuestro modelo $\prod_{i=1}^{m} p(s_i)$. O más convenientemente, la probabilidad logarítmica:
-    \[
-        \log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
-    \]
+Un buen modelo de lenguaje debe asignar probabilidades más altas a oraciones coherentes que a oraciones sin sentido. Para evaluar la calidad de un modelo de lenguaje, es crucial no utilizar el mismo corpus en el que fue entrenado, ya que el objetivo es verificar cómo generaliza a nuevas oraciones. La evaluación cuantitativa de modelos de lenguaje es una tarea fundamental en PLN, ya que nos permite comparar distintos enfoques y seleccionar el modelo más apropiado.
 
-De hecho, la medida de evaluación habitual es la perplejidad (o perplexity):
-    \[
-        \text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \frac{1}{M} \sum_{i=1}^{m} \log p(s_i)
-    \]
-$M$ es el número total de palabras en los datos de prueba.
+Por lo tanto, es común utilizar un corpus de prueba independiente, $\mathcal{C}_{\text{test}}$, que contiene $m$ oraciones: $s_1, s_2, s_3, ..., s_m$, y cuantificar la probabilidad que el modelo asigna a estas oraciones. Para esto, calculamos la probabilidad total asignada por el modelo a las oraciones del corpus de prueba, lo cual se puede expresar más convenientemente mediante la probabilidad logarítmica:
+\[
+\log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
+\]
 
-\paragraph{Algo de intuición sobre la perplejidad}
+La medida de evaluación estándar para modelos de lenguaje es la perplejidad (o perplexity), que se calcula de la siguiente manera:
+\[
+\text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \frac{1}{M} \sum_{i=1}^{m} \log p(s_i)
+\]
+
+Donde $M$ es el número total de palabras en los datos de prueba.
+
+La perplejidad tiene la propiedad de ser más fácil de interpretar que la probabilidad logarítmica, como se discutirá a continuación.
+
+
+\subsection{Intuición sobre la perplejidad}
 
 Supongamos que tenemos un vocabulario $V$, y $N = |V| + 1$, y un modelo que predice:
     \[
@@ -240,24 +244,19 @@ Por lo tanto, la perplejidad está dada por:
 
 \subsection{El trade-off entre sesgo y varianza}
 
-Una limitación de este enfoque tiene que ver con la dispersión del lenguaje (Capítulo~\ref{cap_intro} lo que hace muy grande la cantidad de parámetros a estimar, de hecho si el tamaño del vocabulario es $N = |V|$, entonces hay $N^3$ parámetros en el modelo. Por ejemplo, si $N = 20,000$, entonces $20,000^3 = 8 \times 10^{12}$ parámetros. Veremos más adelante
+Una limitación de los modelos de trigramas está relacionada con la dispersión del lenguaje, discutida en el Capítulo~\ref{cap_intro}. A grandes rasgos, si el tamaño del vocabulario es $N = |V|$, entonces el modelo tiene $N^3$ parámetros. Por ejemplo, si $N = 20,000$, habría $20,000^3 = 8 \times 10^{12}$ parámetros. Esta cantidad de parámetros es enorme y dificulta la estimación adecuada de todos ellos sin requerir un corpus de entrenamiento de tamaño enorme. Como resultado, puede surgir un problema de sobreajuste (overfitting) a los datos de entrenamiento. Por otro lado, modelos más simples, como un modelo de lenguaje de unigrama o de bigrama, no son capaces de modelar adecuadamente el contexto.
 
-En el contexto de los modelos de lenguaje, el trade-off entre sesgo y varianza se refiere a la compensación entre la simplicidad del modelo y su capacidad para capturar la complejidad y la variabilidad de los datos de lenguaje.
+Este dilema es conocido en estadística y aprendizaje automático como el trade-off entre sesgo y varianza, que se refiere a la compensación entre la simplicidad del modelo y su capacidad para capturar la complejidad y variabilidad de los datos.
 
-Modelos más simples, como los modelos de n-gramas de orden inferior, tienen un sesgo más alto pero una varianza más baja. Estos modelos asumen independencia condicional entre las palabras y simplifican la estructura del lenguaje.
-    
-Modelos más complejos, como los modelos basados en redes neuronales, tienen una varianza más alta pero un sesgo más bajo. Estos modelos pueden capturar relaciones más complejas entre las palabras, pero también son más propensos a sobreajustar los datos de entrenamiento y tener dificultades para generalizar a nuevas muestras.
+Los modelos más simples, como los modelos de n-gramas de orden inferior (unigramas, bigramas), tienen un sesgo más alto pero una varianza más baja. Estos modelos asumen independencia condicional entre las palabras y simplifican la estructura del lenguaje.
 
-Sin embargo, los modelos de lenguaje basados en MLE pueden sufrir de overfitting (sobreajuste) a los datos de entrenamiento.
+En contraste, los modelos más complejos, como modelos de n-gramas con $n>3$, tienen una varianza más alta pero un sesgo más bajo. Estos modelos pueden capturar relaciones más complejas entre las palabras, pero también son más propensos a sobreajustar los datos de entrenamiento y tener dificultades para generalizar a nuevas muestras.
 
+Cuando se entrena un modelo de lenguaje con MLE, se maximiza la probabilidad de los datos de entrenamiento. Esto puede llevar a asignar probabilidades altas a secuencias específicas que aparecen en los datos de entrenamiento, incluso si esas secuencias son poco probables en la distribución real del lenguaje.
 
-Cuando se entrena un modelo de lenguaje con MLE, se maximiza la probabilidad de los datos de entrenamiento. Esto puede llevar a la asignación de probabilidades altas a secuencias específicas que aparecen en los datos de entrenamiento, incluso si esas secuencias son poco probables en la distribución real del lenguaje.
-    
 Como resultado, el modelo puede tener un rendimiento deficiente en datos de prueba que contienen secuencias diferentes a las del conjunto de entrenamiento. Esto se debe a que el modelo se ha sobreajustado a los datos de entrenamiento y ha capturado sus características específicas en lugar de aprender patrones más generales del lenguaje.
 
-
-Para abordar el problema del overfitting en modelos de lenguaje, se utilizan diversas técnicas de regularización. 
-Estas técnicas de regularización ayudan a controlar la varianza del modelo y a mitigar el overfitting, permitiendo un mejor equilibrio entre el sesgo y la varianza y mejorando la generalización a nuevas muestras. A continuación veremos dos técnicas de regularización para modelos de lenguaje, la interporlación lineal y los modelos de descuento. 
+Para abordar el problema del sobreajuste en modelos de lenguaje, se utilizan diversas técnicas de regularización. Estas técnicas ayudan a controlar la varianza del modelo y mitigar el sobreajuste, permitiendo un mejor equilibrio entre el sesgo y la varianza y mejorando la generalización a nuevas muestras. A continuación, veremos dos técnicas de regularización para modelos de lenguaje: la interpolación lineal y los modelos de descuento.
 
 
 

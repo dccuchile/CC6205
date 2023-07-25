@@ -1,9 +1,9 @@
 En esta sección introducimos el concepto de ``modelo de lenguaje''. Un enfoque para asignar probabilidades a las oraciones que, como veremos a lo largo del apunte, desempeñará un papel fundamental en los enfoques modernos de PLN.
 
 \section{El Problema del Modelado del Lenguaje}
-Supongamos que tenemos un corpus de documentos $\mathcal{C}$, del cual extraemos su vocabulario (finito) a partir de la tokenización de los documentos, $\mathcal{V} = \{$el, un, hombre, telescopio, Zamorano, dos, fan, vio, jugar, para, Real, Madrid, Zamorano, . . .$\}$.
+Supongamos que tenemos un corpus de documentos $\mathcal{C}$, del cual extraemos su vocabulario (finito) a partir de la tokenización de sus documentos, $\mathcal{V} = \{$el, un, hombre, telescopio, Zamorano, dos, fan, vio, jugar, para, Real, Madrid, Zamorano, . . .$\}$.
 
-Podemos formar a partir de ese vocabulario un conjunto infinito de oraciones si dejamos que éstas sean de largo variable, $\mathcal{V}^*$.  Por ejemplo:
+Podemos formar a partir de este vocabulario un conjunto infinito de oraciones si dejamos que éstas sean de largo variable, $\mathcal{V}^*$.  Por ejemplo:
 \begin{itemize}
 \item el STOP
 \item un STOP
@@ -15,7 +15,7 @@ Podemos formar a partir de ese vocabulario un conjunto infinito de oraciones si 
 
 Donde STOP es un símbolo especial que indica el final de una oración. 
 
-Un modelo de lenguaje es una distriución de probabilidad $p$ que se ``aprende'' a partir del corpus  una distribución de probabilidad donde la probabilidad de cada oración debe ser mayor o igual que cero, y la suma de las probabilidades de todas las oraciones posibles debe ser uno: 
+Un modelo de lenguaje es una distriución de probabilidad $p$ sobre todas las oraciones que se pueden formar a partir de un vocabulario finito. Entonces, la probabilidad de cada oración debe ser mayor o igual que cero, y la suma de las probabilidades de todas las oraciones posibles debe ser uno: 
 \begin{align*}
 \sum_{x\in V^*} p(x) &= 1 \\
 p(x) &\geq 0 \quad \text{para todo } x \in V^*
@@ -125,14 +125,14 @@ En consecuencia, muchas oraciones tendrán una probabilidad cero según el model
 \section{Procesos de Markov}
 
 
-Un proceso de Markov de primer orden asume que la probabilidad de que una variable aleatoria tome un valor depende únicamente del valor inmediatamente anterior en la secuencia. En el contexto del modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende solo de la palabra anterior. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado su predecesor inmediato. Esta es la suposición de Markov de primer orden:
+Un proceso de Markov de primer orden asume que la probabilidad de que una variable aleatoria tome un valor depende únicamente del valor inmediatamente anterior en la secuencia. En el contexto del modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende solo de la palabra anterior. Si aplicamos este supuesto a la regla de cadena de probabilidades, la probabilidad conjunta de una secuencia de palabras se simplifica en una multiplicación de probabilidades condicionales de las palabras sucesivas dado su palabra predecesora inmediata:
 
 \[
 p(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = p(X_i = x_i|X_{i-1} = x_{i-1})
 \]
 
 
-Un proceso de Markov de segundo orden amplía la suposición de Markov de primer orden y considera el valor de dos variables anteriores en la secuencia. En el modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende de las dos palabras anteriores. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado sus dos predecesores inmediatos. La suposición de Markov de segundo orden es la siguiente:
+Un proceso de Markov de segundo orden amplía la suposición de Markov de primer orden y considera el valor de dos variables anteriores en la secuencia. En el modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende de las dos palabras anteriores. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado sus dos palabras predecesoras:
 
 \[
 p(X_i = x_i|X_1 = x_1, \ldots, X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) = p(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
@@ -140,17 +140,17 @@ p(X_i = x_i|X_1 = x_1, \ldots, X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) = p(X_i = x
 
 \subsection{Modelado de secuencias de longitud variable}
 
-Si queremos modelar secuencias de longitud variable, podemos considerar que la longitud de la secuencia, $n$, también es una variable aleatoria. Una forma simple de abordar esto es siempre definir $X_n = \text{STOP}$, donde "STOP" es un símbolo especial que marca el final de la secuencia. Luego, podemos usar un proceso de Markov como antes para modelar la probabilidad conjunta de las palabras en la secuencia:
+Si queremos modelar secuencias de longitud variable, podemos considerar que la longitud de la secuencia, $n$, también es una variable aleatoria. Una forma simple de abordar esto es siempre definir $X_n = \text{STOP}$, donde ``STOP'' es un símbolo especial que marca el final de la secuencia. Luego, podemos usar un proceso de Markov como antes para modelar la probabilidad conjunta de las palabras en la secuencia:
 
 \[
 p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \prod_{i=1}^{n} p(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
 \]
 
-Aquí, asumimos que $x_0 = x_{-1} = *$ por conveniencia, donde "*" es un símbolo especial de "inicio".
+Aquí, asumimos que $x_0 = x_{-1} = *$ por conveniencia, donde ``*'' es un símbolo especial de ``inicio'' de oración.
 
-\section{Modelos de lenguaje trigram}
+\section{Modelos de lenguaje de Trigramas}
 
-Un modelo de lenguaje trigram consiste en:
+Un modelo de lenguaje de trigrama es una implementación directa del proceso de Markov de segundo orden y consiste en:
 
 \begin{enumerate}
   \item Un conjunto finito $V$ de palabras.
@@ -178,7 +178,7 @@ El problema de estimación restante es determinar los valores de los parámetros
 \[
 q(\text{laughs} | \text{the, dog})
 \]
-Una estimación natural (la "estimación de máxima verosimilitud") es la siguiente:
+Una estimación natural (la ``estimación de máxima verosimilitud'') es la siguiente:
 \[
 q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
 \]
@@ -202,19 +202,16 @@ q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs}
 \end{itemize}
 
 \section{Evaluación de un modelo de lenguaje: Perplejidad}
-
-\begin{itemize}
-    \item Tenemos algunos datos de prueba, $m$ oraciones: $s_1, s_2, s_3, ..., s_m$
-    \item Podemos analizar la probabilidad bajo nuestro modelo $\prod_{i=1}^{m} p(s_i)$. O más convenientemente, la probabilidad logarítmica:
+Tenemos algunos datos de prueba, $m$ oraciones: $s_1, s_2, s_3, ..., s_m$. Podemos analizar la probabilidad bajo nuestro modelo $\prod_{i=1}^{m} p(s_i)$. O más convenientemente, la probabilidad logarítmica:
     \[
         \log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
     \]
-    \item De hecho, la medida de evaluación habitual es la perplejidad:
+
+De hecho, la medida de evaluación habitual es la perplejidad (o perplexity):
     \[
         \text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \frac{1}{M} \sum_{i=1}^{m} \log p(s_i)
     \]
-    \item $M$ es el número total de palabras en los datos de prueba.
-\end{itemize}
+$M$ es el número total de palabras en los datos de prueba.
 
 \paragraph{Algo de intuición sobre la perplejidad}
 

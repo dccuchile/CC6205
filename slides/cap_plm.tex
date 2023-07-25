@@ -153,11 +153,11 @@ Aquí, asumimos que $x_0 = x_{-1} = *$ por conveniencia, donde ``*'' es un símb
 Un modelo de lenguaje de trigrama es una implementación directa del proceso de Markov de segundo orden y consiste en:
 
 \begin{enumerate}
-  \item Un conjunto finito $V$ de palabras.
-  \item Un parámetro $q(w|u, v)$ para cada trigram $u, v, w$ donde $w \in V \cup \{\text{STOP}\}$ y $u, v \in V \cup \{*\}$.
+  \item Un vocabulario $V$ representado por un conjunto finito de palabras.
+  \item Un parámetro escalar $q(w|u, v)$ para cada trigrama $u, v, w$ donde $w \in V \cup \{\text{STOP}\}$ y $u, v \in V \cup \{*\}$.
 \end{enumerate}
 
-Para cualquier oración $x_1 \ldots x_n$, donde $x_i \in V$ para $i = 1 \ldots (n-1)$ y $x_n = \text{STOP}$, la probabilidad de la oración según el modelo de lenguaje trigram es:
+Para cualquier oración $x_1 \ldots x_n$, donde $x_i \in V$ para $i = 1 \ldots (n-1)$ y $x_n = \text{STOP}$, la probabilidad de la oración según el modelo de lenguaje trigrama es:
 
 \[
 p(x_1 \ldots x_n) = \prod_{i=1}^{n} q(x_i|x_{i-2}, x_{i-1})
@@ -165,43 +165,35 @@ p(x_1 \ldots x_n) = \prod_{i=1}^{n} q(x_i|x_{i-2}, x_{i-1})
 
 Aquí, definimos $x_0 = x_{-1} = *$ por conveniencia.
 
-\paragraph{Un ejemplo}
-
-Para la oración "el perro ladra STOP", tendríamos:
+Por ejemplo, para la oración ``el perro ladra STOP'', estimaríamos su probabilidad de la siguiente forma:
 \[
 p(\text{el perro ladra STOP}) = q(\text{el}|*, *) \times q(\text{perro}|*, \text{el}) \times q(\text{ladra}|\text{el, pedro}) \times q(\text{STOP}|\text{perro, ladra})
 \]
 
-\subsection{El problema de estimación trigram}
+Abordemos ahora el problema de la estimación de los parámetros $q(w_i | w_{i-2}, w_{i-1})$ a partir de un corpus $\mathcal{C}$.
 
-El problema de estimación restante es determinar los valores de los parámetros $q(w_i | w_{i-2}, w_{i-1})$. Por ejemplo:
-\[
-q(\text{laughs} | \text{the, dog})
-\]
-Una estimación natural (la ``estimación de máxima verosimilitud'') es la siguiente:
+
+Una estimación natural es la ``estimación de máxima verosimilitud'' (MLE), la cual es es una técnica común para estimar los parámetros de modelo estadísticos donde se estiman los parametros para maximizar la probabilidad de los datos de entrenamiento. 
+
+
 \[
 q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
 \]
+
+Esto requiere tokenizar el corpus de entrenamiento y guardar en una tabla los conteos de todos los trigramas y bigramas encontrados. 
+
 Por ejemplo:
 \[
 q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs})}}{{\text{Count}(\text{the, dog})}}
 \]
 
-\paragraph{Problemas de datos dispersos}
 
-Una estimación natural (la "estimación de máxima verosimilitud") es la siguiente:
-\[
-q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}
-\]
-\[
-q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs})}}{{\text{Count}(\text{the, dog})}}
-\]
-\begin{itemize}
-    \item Supongamos que el tamaño del vocabulario es $N = |V|$, entonces hay $N^3$ parámetros en el modelo.
-    \item Por ejemplo, si $N = 20,000$, entonces $20,000^3 = 8 \times 10^{12}$ parámetros.
-\end{itemize}
+
+
 
 \section{Evaluación de un modelo de lenguaje: Perplejidad}
+Recordemos que un buen modelo de lenguaje debiese asignarle probabilidades mayores a oraciones fluídas que a oraciones carented de sentido. 
+
 Tenemos algunos datos de prueba, $m$ oraciones: $s_1, s_2, s_3, ..., s_m$. Podemos analizar la probabilidad bajo nuestro modelo $\prod_{i=1}^{m} p(s_i)$. O más convenientemente, la probabilidad logarítmica:
     \[
         \log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
@@ -215,24 +207,21 @@ $M$ es el número total de palabras en los datos de prueba.
 
 \paragraph{Algo de intuición sobre la perplejidad}
 
-\begin{itemize}
-    \item Supongamos que tenemos un vocabulario $V$, y $N = |V| + 1$, y un modelo que predice:
+Supongamos que tenemos un vocabulario $V$, y $N = |V| + 1$, y un modelo que predice:
     \[
         q(w|u, v) = \frac{1}{N} \quad \text{para todo } w \in V \cup \{\text{STOP}\}, \text{ para todo } u, v \in V \cup \{*\}
     \]
-    \item Es fácil calcular la perplejidad en este caso:
+Es fácil calcular la perplejidad en este caso:
     \[
         \text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \log \frac{1}{N} \Rightarrow \text{Perplejidad} = N
     \]
-    \item La perplejidad se puede ver como una medida del "factor de ramificación" efectivo.
+La perplejidad se puede ver como una medida del "factor de ramificación" efectivo.
     
-    \item \textbf{Demostración:} Supongamos que tenemos $m$ oraciones de longitud $n$ en el corpus, y $M$ es la cantidad de tokens en el corpus, $M = m \cdot n$.
-    
-    \item Consideremos el logaritmo (base 2) de la probabilidad de una oración $s = w_1 w_2 \dots w_n$ bajo el modelo:
+\textbf{Demostración:} Supongamos que tenemos $m$ oraciones de longitud $n$ en el corpus, y $M$ es la cantidad de tokens en el corpus, $M = m \cdot n$. Consideremos el logaritmo (base 2) de la probabilidad de una oración $s = w_1 w_2 \dots w_n$ bajo el modelo:
     \[
         \log p(s) = \log \prod_{i=1}^{n} q(w_i|w_{i-2}, w_{i-1}) = \sum_{i=1}^{n} \log q(w_i|w_{i-2}, w_{i-1})
     \]
-    \item Dado que cada $q(w_i|w_{i-2}, w_{i-1})$ es igual a $\frac{1}{N}$, tenemos:
+Dado que cada $q(w_i|w_{i-2}, w_{i-1})$ es igual a $\frac{1}{N}$, tenemos:
     \[
         \log p(s) = \sum_{i=1}^{n} \log \frac{1}{N} = n \cdot \log \frac{1}{N} = -n \cdot \log N
     \]
@@ -243,55 +232,39 @@ $M$ es el número total de palabras en los datos de prueba.
     \]
     
             
-    \item Por lo tanto, la perplejidad está dada por:
+Por lo tanto, la perplejidad está dada por:
     \[
         \text{Perplejidad} = 2^{-l} = 2^{-(- \log N)} = N
     \]
-\end{itemize}
-
 
 
 \subsection{El trade-off entre sesgo y varianza}
 
+Una limitación de este enfoque tiene que ver con la dispersión del lenguaje (Capítulo~\ref{cap_intro} lo que hace muy grande la cantidad de parámetros a estimar, de hecho si el tamaño del vocabulario es $N = |V|$, entonces hay $N^3$ parámetros en el modelo. Por ejemplo, si $N = 20,000$, entonces $20,000^3 = 8 \times 10^{12}$ parámetros. Veremos más adelante
+
 En el contexto de los modelos de lenguaje, el trade-off entre sesgo y varianza se refiere a la compensación entre la simplicidad del modelo y su capacidad para capturar la complejidad y la variabilidad de los datos de lenguaje.
 
-\begin{itemize}
-    \item Modelos más simples, como los modelos de n-gramas de orden inferior, tienen un sesgo más alto pero una varianza más baja. Estos modelos asumen independencia condicional entre las palabras y simplifican la estructura del lenguaje.
+Modelos más simples, como los modelos de n-gramas de orden inferior, tienen un sesgo más alto pero una varianza más baja. Estos modelos asumen independencia condicional entre las palabras y simplifican la estructura del lenguaje.
     
-    \item Modelos más complejos, como los modelos basados en redes neuronales, tienen una varianza más alta pero un sesgo más bajo. Estos modelos pueden capturar relaciones más complejas entre las palabras, pero también son más propensos a sobreajustar los datos de entrenamiento y tener dificultades para generalizar a nuevas muestras.
-\end{itemize}
+Modelos más complejos, como los modelos basados en redes neuronales, tienen una varianza más alta pero un sesgo más bajo. Estos modelos pueden capturar relaciones más complejas entre las palabras, pero también son más propensos a sobreajustar los datos de entrenamiento y tener dificultades para generalizar a nuevas muestras.
 
-\subsection{Estimación de máxima verosimilitud y overfitting}
+Sin embargo, los modelos de lenguaje basados en MLE pueden sufrir de overfitting (sobreajuste) a los datos de entrenamiento.
 
-La estimación de máxima verosimilitud (MLE) es una técnica común para estimar los parámetros de un modelo de lenguaje. Sin embargo, los modelos de lenguaje basados en MLE pueden sufrir de overfitting (sobreajuste) a los datos de entrenamiento.
 
-\begin{itemize}
-    \item Cuando se entrena un modelo de lenguaje con MLE, se maximiza la probabilidad de los datos de entrenamiento. Esto puede llevar a la asignación de probabilidades altas a secuencias específicas que aparecen en los datos de entrenamiento, incluso si esas secuencias son poco probables en la distribución real del lenguaje.
+Cuando se entrena un modelo de lenguaje con MLE, se maximiza la probabilidad de los datos de entrenamiento. Esto puede llevar a la asignación de probabilidades altas a secuencias específicas que aparecen en los datos de entrenamiento, incluso si esas secuencias son poco probables en la distribución real del lenguaje.
     
-    \item Como resultado, el modelo puede tener un rendimiento deficiente en datos de prueba que contienen secuencias diferentes a las del conjunto de entrenamiento. Esto se debe a que el modelo se ha sobreajustado a los datos de entrenamiento y ha capturado sus características específicas en lugar de aprender patrones más generales del lenguaje.
-\end{itemize}
+Como resultado, el modelo puede tener un rendimiento deficiente en datos de prueba que contienen secuencias diferentes a las del conjunto de entrenamiento. Esto se debe a que el modelo se ha sobreajustado a los datos de entrenamiento y ha capturado sus características específicas en lugar de aprender patrones más generales del lenguaje.
 
-\subsection{Técnicas de regularización}
 
-Para abordar el problema del overfitting en modelos de lenguaje, se utilizan diversas técnicas de regularización. Estas técnicas ayudan a reducir la varianza del modelo y mejorar su capacidad de generalización.
+Para abordar el problema del overfitting en modelos de lenguaje, se utilizan diversas técnicas de regularización. 
+Estas técnicas de regularización ayudan a controlar la varianza del modelo y a mitigar el overfitting, permitiendo un mejor equilibrio entre el sesgo y la varianza y mejorando la generalización a nuevas muestras. A continuación veremos dos técnicas de regularización para modelos de lenguaje, la interporlación lineal y los modelos de descuento. 
 
-Algunas técnicas comunes de regularización para modelos de lenguaje incluyen:
 
-\begin{itemize}
-    \item \textbf{Suavizado de Laplace (Laplace smoothing):} Se agrega una cantidad pequeña a todas las cuentas de n-gramas para evitar la asignación de una probabilidad cero a n-gramas no observados en los datos de entrenamiento.
-    
-    \item \textbf{Suavizado de interpolación (Interpolation smoothing):} Se combina la distribución de probabilidad estimada por un modelo de n-gramas con las distribuciones estimadas por modelos de orden inferior. Esto permite incorporar información de n-gramas de orden inferior y reduce la varianza del modelo.
-    
-    \item \textbf{Modelos de interpolación de Kneser-Ney (Kneser-Ney interpolation models):} Estos modelos utilizan una técnica de suavizado específica (Kneser-Ney) que considera la frecuencia de unigramas y la frecuencia de n-gramas en context
 
-os específicos para asignar probabilidades a n-gramas no observados.
-    
-    \item \textbf{Regularización de peso máximo (Weighted maximum likelihood regularization):} Se aplica una regularización que reduce los pesos de las cuentas de n-gramas más frecuentes. Esto ayuda a reducir la varianza y mejorar el rendimiento en datos de prueba.
-\end{itemize}
-
-Estas técnicas de regularización ayudan a controlar la varianza del modelo y a mitigar el overfitting, permitiendo un mejor equilibrio entre el sesgo y la varianza y mejorando la generalización a nuevas muestras.
 
 \section{Interpolación Lineal}
+
+Se combina la distribución de probabilidad estimada por un modelo de n-gramas con las distribuciones estimadas por modelos de orden inferior. Esto permite incorporar información de n-gramas de orden inferior y reduce la varianza del modelo.
 \begin{itemize}
     \item Tomamos nuestra estimación $q(w_i | w_{i-2}, w_{i-1})$ como:
     \[

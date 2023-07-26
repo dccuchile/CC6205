@@ -58,13 +58,13 @@ Además la noción de modelamiento probabilistico del lenguaje se utiliza en muc
 
 \section{Regla de la Cadena en Modelos de Lenguaje}
 
-En el contexto de los modelos de lenguaje, se parte de la premisa de que cualquier oración $s$ puede ser vista como una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$. Cada una de estas variables aleatorias puede tomar valores de un conjunto finito $V$. Para simplificar, asumimos una longitud fija para la secuencia, por ejemplo, $n = 100$. Nuestro objetivo consiste en modelar la probabilidad conjunta $p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. Es importante notar que utilizamos letras mayúsculas para denotar las variables aleatorias ($X_1, X_2, \ldots, X_n$) y minúsculas para referirnos a instancias específicas de estas variables ($x_1, x_2, \ldots, x_n$), que representan elementos del vocabulario (por ejemplo, ``perro'', ``gato'', ``comida'').
+En el contexto de los modelos de lenguaje, se parte de la premisa de que cualquier oración $s$ puede ser vista como una secuencia de variables aleatorias $X_1, X_2, \ldots, X_n$. Cada una de estas variables aleatorias puede tomar valores de un conjunto finito $V$. Para simplificar, asumimos una longitud fija $n$ para la secuencia. Nuestro objetivo consiste en modelar la probabilidad conjunta $p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. Es importante notar que utilizamos letras mayúsculas para denotar las variables aleatorias ($X_1, X_2, \ldots, X_n$) y minúsculas para referirnos a instancias específicas de estas variables ($x_1, x_2, \ldots, x_n$), que representan elementos del vocabulario (por ejemplo, ``perro'', ``gato'', ``comida'').
 
 Una forma común de representar secuencias de variables aleatorias es mediante la aplicación de la regla de la cadena de probabilidades que definimos a continuación.
 
 Para un conjunto de variables aleatorias $X_1,\ldots, X_n$, la regla de la cadena de probabilidades nos permite expresar la función de probabilidad conjunta $p(X_1,X_2,\ldots, X_n)$ como un producto de $n$ probabilidades condicionales:
 
-\begin{equation}
+\begin{equation}\label{eq:cadena}
 p(X_1,X_2,\ldots,X_n)=p(X_1)p(X_2|X_1)p(X_3|X_2,X_1)\ldots p(X_n|X_{n-1},\ldots,X_2,X_1).
 \end{equation}
 
@@ -127,16 +127,19 @@ En consecuencia, muchas oraciones tendrán una probabilidad cero según el model
 
 Un proceso de Markov de primer orden asume que la probabilidad de que una variable aleatoria tome un valor depende únicamente del valor inmediatamente anterior en la secuencia. En el contexto del modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende solo de la palabra anterior. Si aplicamos este supuesto a la regla de cadena de probabilidades, la probabilidad conjunta de una secuencia de palabras se simplifica en una multiplicación de probabilidades condicionales de las palabras sucesivas dado su palabra predecesora inmediata:
 
-\[
+\begin{equation}
 p(X_i = x_i|X_1 = x_1, \ldots, X_{i-1} = x_{i-1}) = p(X_i = x_i|X_{i-1} = x_{i-1})
-\]
+\end{equation}
+
+
 
 
 Un proceso de Markov de segundo orden amplía la suposición de Markov de primer orden y considera el valor de dos variables anteriores en la secuencia. En el modelado del lenguaje, esto significa que la probabilidad de una palabra en una oración depende de las dos palabras anteriores. La probabilidad conjunta de una secuencia de palabras se calcula multiplicando las probabilidades condicionales de las palabras sucesivas dado sus dos palabras predecesoras:
 
-\[
+\begin{equation}
 p(X_i = x_i|X_1 = x_1, \ldots, X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1}) = p(X_i = x_i|X_{i-2} = x_{i-2}, X_{i-1} = x_{i-1})
-\]
+\end{equation}
+
 
 \subsection{Modelado de secuencias de longitud variable}
 
@@ -150,7 +153,15 @@ Aquí, asumimos que $x_0 = x_{-1} = *$ por conveniencia, donde ``*'' es un símb
 
 \section{Modelos de lenguaje de Trigramas}
 
-Un n-grama es una secuencia contigua de $n$ palabras. Un modelo de lenguaje de trigrama (n-grama con $n=3$) es una implementación directa del proceso de Markov de segundo orden que se discutió anteriormente. Este modelo está compuesto por:
+Un n-grama es una secuencia contigua de $n$ palabras. Un modelo de lenguaje de trigrama (n-grama con $n=3$) acoge los supuestos de independencia del modelo de Markov de segundo orden que se discutió anteriormente. De esta forma permite expresar la probabilidad de una oración de la siguiente forma:
+\begin{equation}
+p(X_1,X_2,\ldots,X_n)=p(X_1)p(X_2|X_1)p(X_3|X_2,X_1)\ldots p(X_n|X_{n-1},X_{n-2}).
+\end{equation}
+
+Nótese que en vez de condicionar por todas las palabras anteriores como en la Ecuación~\ref{eq:cadena} aquí solo se condiciona por las dos palabras anteriores.
+
+
+Los componentes que definen al modelo de lenguaje de trigrama se definen a continuación:
 
 \begin{enumerate}
   \item Un vocabulario $V$, representado por un conjunto finito de palabras.
@@ -163,7 +174,7 @@ Para cualquier oración $x_1 \ldots x_n$, donde $x_i \in V$ para $i = 1 \ldots (
 p(x_1 \ldots x_n) = \prod_{i=1}^{n} q(x_i|x_{i-2}, x_{i-1})
 \]
 
-Aquí, definimos $x_0 = x_{-1} = *$ como símbolos especiales por conveniencia.
+Aquí, definimos $x_0 = x_{-1} = *$ como dos tokens especiales antes del inicio del oración para poder condicionar tanto la primera como la segunda palabra de una oración por sus dos palabras. A este tipo de transformaciones se les conoce en PLN como ``padding''.
 
 Por ejemplo, para la oración ``el perro ladra STOP'', estimaríamos su probabilidad de la siguiente forma:
 \[
@@ -192,9 +203,9 @@ q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs}
 
 \section{Evaluación de un modelo de lenguaje: Perplejidad}
 
-Un buen modelo de lenguaje debe asignar probabilidades más altas a oraciones coherentes que a oraciones sin sentido. Para evaluar la calidad de un modelo de lenguaje, es crucial no utilizar el mismo corpus en el que fue entrenado, ya que el objetivo es verificar cómo generaliza a nuevas oraciones. La evaluación cuantitativa de modelos de lenguaje es una tarea fundamental en PLN, ya que nos permite comparar distintos enfoques y seleccionar el modelo más apropiado.
+Un modelo de lenguaje efectivo se caracteriza por asignar probabilidades más altas a oraciones coherentes que a oraciones sin sentido. Para evaluar la calidad de un modelo de lenguaje, es esencial utilizar un corpus de prueba independiente diferente al corpus en el que fue entrenado. Esto nos permitirá verificar cómo generaliza el modelo a nuevas oraciones.  La evaluación cuantitativa de modelos de lenguaje nos permite comparar distintos tipos de modelos de lenguaje y seleccionar el modelo más apropiado.
 
-Por lo tanto, es común utilizar un corpus de prueba independiente, $\mathcal{C}_{\text{test}}$, que contiene $m$ oraciones: $s_1, s_2, s_3, ..., s_m$, y cuantificar la probabilidad que el modelo asigna a estas oraciones. Para esto, calculamos la probabilidad total asignada por el modelo a las oraciones del corpus de prueba, lo cual se puede expresar más convenientemente mediante la probabilidad logarítmica:
+Para evaluar un modelo de lenguaje utilizamos un corpus de prueba independiente, $\mathcal{C}_{\text{test}}$, que contiene $m$ oraciones: $s_1, s_2, s_3, ..., s_m$, y cuantificamos la probabilidad que el modelo asigna a estas oraciones. Para esto, calculamos la probabilidad total asignada por el modelo a las oraciones del corpus de prueba, lo cual se puede expresar más convenientemente mediante la probabilidad logarítmica\footnote{El logaritmo es una función monótona y permite llevar los productos a suma que evita problemas de underflow al trabajar con números pequeños.}:
 \[
 \log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
 \]
@@ -206,7 +217,7 @@ La medida de evaluación estándar para modelos de lenguaje es la perplejidad (o
 
 Donde $M$ es el número total de palabras en los datos de prueba.
 
-La perplejidad tiene la propiedad de ser más fácil de interpretar que la probabilidad logarítmica, como se discutirá a continuación.
+La perplejidad es una métrica que favorece valores más bajos y tiene la propiedad de ser más fácil de interpretar que la probabilidad logarítmica, como se discutirá a continuación.
 
 
 \subsection{Intuición sobre la perplejidad}
@@ -215,17 +226,14 @@ Supongamos que tenemos un vocabulario $V$, y $N = |V| + 1$, y un modelo que pred
     \[
         q(w|u, v) = \frac{1}{N} \quad \text{para todo } w \in V \cup \{\text{STOP}\}, \text{ para todo } u, v \in V \cup \{*\}
     \]
-Es fácil calcular la perplejidad en este caso:
-    \[
-        \text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \log \frac{1}{N} \Rightarrow \text{Perplejidad} = N
-    \]
-La perplejidad se puede ver como una medida del "factor de ramificación" efectivo.
-    
-\textbf{Demostración:} Supongamos que tenemos $m$ oraciones de longitud $n$ en el corpus, y $M$ es la cantidad de tokens en el corpus, $M = m \cdot n$. Consideremos el logaritmo (base 2) de la probabilidad de una oración $s = w_1 w_2 \dots w_n$ bajo el modelo:
+
+La perplejidad de este modelo de lenguaje ``uniforme'' es $N$ tal como se demuestra a continuación.
+
+Supongamos que tenemos $m$ oraciones de longitud $n$ en el corpus, y $M$ es la cantidad de tokens en el corpus, $M = m \cdot n$. Consideremos el logaritmo (base 2) de la probabilidad de una oración $s = w_1 w_2 \dots w_n$ bajo el modelo:
     \[
         \log p(s) = \log \prod_{i=1}^{n} q(w_i|w_{i-2}, w_{i-1}) = \sum_{i=1}^{n} \log q(w_i|w_{i-2}, w_{i-1})
     \]
-Dado que cada $q(w_i|w_{i-2}, w_{i-1})$ es igual a $\frac{1}{N}$, tenemos:
+Dado que cada parámetro $q(w_i|w_{i-2}, w_{i-1})$ es igual a $\frac{1}{N}$, tenemos:
     \[
         \log p(s) = \sum_{i=1}^{n} \log \frac{1}{N} = n \cdot \log \frac{1}{N} = -n \cdot \log N
     \]
@@ -241,6 +249,21 @@ Por lo tanto, la perplejidad está dada por:
         \text{Perplejidad} = 2^{-l} = 2^{-(- \log N)} = N
     \]
 
+    
+Esperamos que cualquier modelo de lenguaje tenga una perplejidad menor que el tamaño del vocabulario, y la perplejidad nos proporciona una medida del ``factor de ramificación'' efectiva del vocabulario.
+
+En el estudio de Goodman titulado ``A bit of progress in language modeling'', donde $|V| = 50,000$ \cite{goodman2001bit}, se presentan los siguientes resultados:
+
+\begin{itemize}
+        \item Modelo de trigramas: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-2}, x_{i-1})$ \\
+        Perplejidad = 74
+        \item Modelo de bigramas: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-1})$ \\
+        Perplejidad = 137
+        \item Modelo de unigramas: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i)$ \\
+        Perplejidad = 955
+    \end{itemize}
+    
+Estos resultados muestran que la perplejidad disminuye a medida que aumentamos el nivel de contexto considerado en el modelo de lenguaje, lo que indica que los modelos con perplejidad más baja generalmente son más efectivos en la tarea de predicción del lenguaje. Sin embargo, como veremos a continuación, aumentar el tamaño del contexto no esta libre de problemas.   
 
 \subsection{El trade-off entre sesgo y varianza}
 

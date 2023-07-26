@@ -1,11 +1,5 @@
 
-
-
-\subsection{Funciones Parametrizadas}
-
  Cuando hacemos aprendizaje supervisado, en escencia tenemos que buscar sobre el conjunto de todas las posibles funciones que pueden mapear desde las entradas hacia las salidas. Si no acotamos el espacio de busqueda de alguna forma nos encontramos con  un problema muy difícil (y bastante mal definido) \cite{goldberg2017neural}. A menudo nos limitamos a buscar dentro de familias específicas de funciones. Por ejemplo, el espacio de todas las funciones lineales con $d_{in}$ entradas y $d_{out}$ salidas. Estas familias de funciones se llaman clases de hipótesis. Al restringirnos a una clase de hipótesis específica, estamos inyectando al aprendiz con sesgo inductivo, es decir, un conjunto de suposiciones sobre la forma de la solución deseada. Algunas clases de hipótesis facilitan procedimientos eficientes para buscar la solución.
-
-\section{Modelos Lineales}
 
 Una clase de hipótesis común es la de una función lineal de alta dimensión:
 
@@ -18,7 +12,7 @@ f(\vec{x}) = \vec{x} \cdot W + \vec{b}\\
 
 El vector $\vec{x}$ es la entrada de la función. La matriz $W$ y el vector $\vec{b}$ son los parámetros. El objetivo del aprendiz es establecer los valores de los parámetros $W$ y $\vec{b}$ de manera que la función se comporte como se pretende en una colección de valores de entrada $\vec{x}_{1:k} = \vec{x}_1,\dots,\vec{x}_k$ y las correspondientes salidas deseadas $\vec{y}_{1:k} = \vec{y}_1,\dots,\vec{y}_k$. La tarea de buscar en el espacio de funciones se reduce así a buscar en el espacio de parámetros.
 
-\subsection{Ejemplo: Detección de Idiomas}
+\section{Ejemplo: Detección de Idiomas}
 
 Consideremos la tarea de distinguir entre documentos escritos en inglés y documentos escritos en alemán. Este es un problema de clasificación binaria:
 

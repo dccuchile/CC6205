@@ -222,12 +222,12 @@ La perplejidad es una métrica que favorece valores más bajos y tiene la propie
 
 \subsection{Intuición sobre la perplejidad}
 
-Supongamos que tenemos un vocabulario $V$, y $N = |V| + 1$, y un modelo que predice:
+Supongamos que tenemos un vocabulario $V$, y $N = |V| + 1$, y un modelo de lenguaje ``uniforme'' que le asigna la misma probabilidad a todos los trigramas:
     \[
         q(w|u, v) = \frac{1}{N} \quad \text{para todo } w \in V \cup \{\text{STOP}\}, \text{ para todo } u, v \in V \cup \{*\}
     \]
 
-La perplejidad de este modelo de lenguaje ``uniforme'' es $N$ tal como se demuestra a continuación.
+La perplejidad de este modelo de lenguaje es $N$ tal como se demuestra a continuación.
 
 Supongamos que tenemos $m$ oraciones de longitud $n$ en el corpus, y $M$ es la cantidad de tokens en el corpus, $M = m \cdot n$. Consideremos el logaritmo (base 2) de la probabilidad de una oración $s = w_1 w_2 \dots w_n$ bajo el modelo:
     \[
@@ -250,9 +250,7 @@ Por lo tanto, la perplejidad está dada por:
     \]
 
     
-Esperamos que cualquier modelo de lenguaje tenga una perplejidad menor que el tamaño del vocabulario, y la perplejidad nos proporciona una medida del ``factor de ramificación'' efectiva del vocabulario.
-
-En el estudio de Goodman titulado ``A bit of progress in language modeling'', donde $|V| = 50,000$ \cite{goodman2001bit}, se presentan los siguientes resultados:
+Esperamos entonces, que cualquier modelo de lenguaje que sea capaz de aprovechar la distribución de las palabaras (como un modelo de trigramas) tenga una perplejidad menor que el tamaño del vocabulario. En el estudio de Goodman titulado ``A bit of progress in language modeling'', donde $|V| = 50,000$ \cite{goodman2001bit}, se presentan los siguientes resultados:
 
 \begin{itemize}
         \item Modelo de trigramas: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-2}, x_{i-1})$ \\

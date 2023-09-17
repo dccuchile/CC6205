@@ -57,6 +57,7 @@ The course material draws from various sources. In many instances, sentences fro
 13. [LASER:a library to calculate and use multilingual sentence embeddings](https://github.com/facebookresearch/LASER)
 14. [Sentence Transformers: Multilingual Sentence Embeddings using BERT / RoBERTa / XLM-RoBERTa & Co. with PyTorch](https://github.com/UKPLab/sentence-transformers)
 15. [Datasets: a lightweight library with one-line dataloaders for many public datasets in NLP](https://github.com/huggingface/datasets)
+16. [RiverText: A Python Library for Training and Evaluating Incremental Word Embeddings from Text Data Streams](https://dccuchile.github.io/rivertext/)
 
 
 ## Notes and Books 

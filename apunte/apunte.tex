@@ -1,0 +1,180 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  My documentation report
+%  Objetive: Explain what I did and how, so someone can continue with the investigation
+%
+% Important note:
+% Chapter heading images should have a 2:1 width:height ratio,
+% e.g. 920px width and 460px height.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
+
+
+\usepackage[top=3cm,bottom=3cm,left=3.2cm,right=3.2cm,headsep=10pt,letterpaper]{geometry} % Page margins
+
+\usepackage{xcolor} % Required for specifying colors by name
+\definecolor{ocre}{RGB}{52,177,201} % Define the orange color used for highlighting throughout the book
+
+% Font Settings
+\usepackage{avant} % Use the Avantgarde font for headings
+%\usepackage{times} % Use the Times font for headings
+\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage[utf8]{inputenc} % Required for including letters with accents
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{amsthm}
+
+% Bibliography
+%\usepackage[style=alphabetic,sorting=nyt,sortcites=true,autopunct=true,babel=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
+%\addbibresource{bio.bib} % BibTeX bibliography file
+%\defbibheading{bibempty}{}
+
+\input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+%----------------------------------------------------------------------------------------
+%	Definitions of new commands
+%----------------------------------------------------------------------------------------
+
+\def\R{\mathbb{R}}
+\newcommand{\cvx}{convex}
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begingroup
+\thispagestyle{empty}
+\AddToShipoutPicture*{\put(0,0){\includegraphics[scale=1.25]{portada}}} % Image background
+\centering
+\vspace*{5cm}
+\par\normalfont\fontsize{35}{35}\sffamily\selectfont
+\textbf{Procesamiento de Lenguaje Natural}\\
+{\LARGE Apunte de Clases (Borrador)}\par % Book title
+\vspace*{1cm}
+{\Huge Felipe Bravo Márquez}\par % Author name
+\endgroup
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\newpage
+~\vfill
+\thispagestyle{empty}
+
+%\noindent Copyright \copyright\ 2014 Andrea Hidalgo\\ % Copyright notice
+
+\noindent \textsc{Departamento de Ciencias de la Computación, Universidad de Chile}\\
+
+\noindent \textsc{github.com/dccuchile/CC6205}\\ % URL
+
+\noindent Apuntes de clases del curso de Procesamiento de Lenguaje Natural de la Universidad de Chile.\\ % License information
+
+\noindent \textit{Borrador, \today} % Printing/edition date
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\chapterimage{head3.png} % Table of contents heading image
+
+\pagestyle{empty} % No headers
+
+\tableofcontents % Print the table of contents itself
+
+%\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+\pagestyle{fancy} % Print headers again
+
+
+\chapter*{Prefacio}
+\addcontentsline{toc}{chapter}{Prefacio}
+Este apunte es el resultado de cinco años de experiencia en la enseñanza del curso de Procesamiento de Lenguaje Natural en la Universidad de Chile\footnote{El repositorio del curso se encuentra en: \url{https://github.com/dccuchile/CC6205}}. El objetivo es proporcionar una introducción a esta disciplina, centrándose en las técnicas y conceptos fundamentales. Se ha realizado un esfuerzo por lograr un equilibrio entre las técnicas tradicionales, como los modelos de lenguaje de N-gramas, Naive Bayes y los modelos ocultos de Markov (HMM), y los enfoques modernos basados en redes neuronales profundas, como los vectores de palabras, las redes neuronales recurrentes (RNN), los transformers y los grandes modelos de lenguaje. Sin embargo, es importante mencionar que existen temas relevantes que no se incluyen en este material, como el etiquetado de datos, las gramáticas, las técnicas de parsing, así como discusiones sobre tareas más específicas como el question answering.
+
+El contenido se ha recopilado de diversas fuentes. Los temas relacionados con las redes neuronales se basan principalmente en el libro "Neural Network Methods for Natural Language Processing" de Goldberg \cite{goldberg2017neural}. Los temas no relacionados con las redes neuronales, como los modelos probabilísticos del lenguaje, Naive Bayes y HMM, se han tomado del curso de Michael Collins de Columbia \cite{collins2013language} y del borrador de la tercera edición del libro de Dan Jurafsky y James H. Martin \cite{JurafskyBook}. Además, algunos capítulos se han adaptado de tutoriales en línea y otros cursos, como el curso de Stanford de Christopher Manning\footnote{\url{http://web.stanford.edu/class/cs224n/}}. Las imágenes utilizadas se han extraído intencionalmente directamente de sus fuentes correspondientes. Algún día se diseñarán imágenes propias.
+
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 1
+%----------------------------------------------------------------------------------------
+
+\chapterimage{head3.png} % Chapter heading image
+\chapter{Introducción}
+\label{cap_intro}
+\input{cap_intro}
+
+
+
+\chapter{Modelo de Espacio Vectorial y Recuperación de Información}
+\label{cap_ir}
+\input{cap_ir}
+
+
+\chapter{Modelos de Lenguaje Probabilísticos}
+\label{cap_plm}
+\input{cap_plm}
+
+
+\chapter{Modelo Naïve Bayes para Clasificación de Texto}
+\label{cap_nb}
+\input{cap_nb}
+
+
+\chapter{Modelos Lineales}
+\label{cap_lineales}
+\input{cap_lineales}
+
+
+\chapter{Redes Neuronales}
+\label{cap_redes}
+\input{cap_redes}
+
+\chapter{Vectores de Palabra}
+\label{cap_embeddings}
+\input{cap_embeddings}
+
+\chapter{Etiquetado de Secuencias}
+\label{cap_etisec}
+\input{cap_etisec}
+
+
+
+\chapter{Redes Neuronales Convolucionales}
+\label{cap_cnn}
+\input{cap_cnn}
+
+
+\chapter{Redes Neuronales Recurrentes}
+\label{cap_rnn}
+\input{cap_rnn}
+
+
+
+\chapter{Modelos Secuencia a Secuencia y Atención Neuronal}
+\label{cap_sec}
+\input{cap_sec}
+
+
+\chapter{Arquitectura de Transformer}
+\label{cap_trans}
+\input{cap_trans}
+
+
+
+
+
+\chapter{Grandes Modelos de Lenguaje}
+\label{cap_llm}
+\input{cap_llm}
+
+\bibliography{bio}
+\bibliographystyle{apalike}
+
+\end{document}

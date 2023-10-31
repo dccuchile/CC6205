@@ -1,9 +1,13 @@
+
 En esta sección introducimos el concepto de ``modelo de lenguaje''. Un enfoque para asignar probabilidades a las oraciones que, como veremos a lo largo del apunte, desempeñará un papel fundamental en los enfoques modernos de PLN.
 
 \section{El Problema del Modelado del Lenguaje}
 Supongamos que tenemos un corpus de documentos $\mathcal{C}$, del cual extraemos su vocabulario (finito) a partir de la tokenización de sus documentos, $\mathcal{V} = \{$el, un, hombre, telescopio, Zamorano, dos, fan, vio, jugar, para, Real, Madrid, Zamorano, . . .$\}$.
 
-Podemos formar a partir de este vocabulario un conjunto infinito de oraciones si dejamos que éstas sean de largo variable, $\mathcal{V}^*$.  Por ejemplo:
+Podemos formar a partir de este vocabulario un conjunto infinito de oraciones si dejamos que éstas sean de largo variable, $\mathcal{V}^*$. 
+
+\begin{example}
+Algunas oraciones que podríamos formar:
 \begin{itemize}
 \item el STOP
 \item un STOP
@@ -13,15 +17,19 @@ Podemos formar a partir de este vocabulario un conjunto infinito de oraciones si
 \item el fan vio a Zamorano jugar por el Real Madrid STOP
 \end{itemize}
 
-Donde STOP es un símbolo especial que indica el final de una oración. 
+Donde STOP es un símbolo especial que indica el final de una oración.  
+\end{example}
 
-Un modelo de lenguaje es una distriución de probabilidad $p$ sobre todas las oraciones que se pueden formar a partir de un vocabulario finito. Entonces, la probabilidad de cada oración debe ser mayor o igual que cero, y la suma de las probabilidades de todas las oraciones posibles debe ser uno: 
+\begin{definition}
+Un modelo de lenguaje es una distribución de probabilidad $p$ sobre todas las oraciones que se pueden formar a partir de un vocabulario finito. Entonces, la probabilidad de cada oración debe ser mayor o igual que cero, y la suma de las probabilidades de todas las oraciones posibles debe ser uno: 
 \begin{align*}
 \sum_{x\in V^*} p(x) &= 1 \\
 p(x) &\geq 0 \quad \text{para todo } x \in V^*
 \end{align*}
+\end{definition}
 
 
+\begin{example}
 A continuación mostramos ejemplos de probabilidades asignadas por un modelo de lenguaje imaginario a algunas oraciones:
 \begin{align*}
 p(\text{el STOP}) &= 10^{-12} \\
@@ -31,6 +39,9 @@ p(\text{el fan vio vio STOP}) &= 10^{-15} \\
 \ldots \\
 p(\text{el fan vio a Zamorano jugar por el Real Madrid STOP}) &= 2 \times 10^{-9}
 \end{align*}
+\end{example}
+
+
 
 Lo que esperamos del modelo es que le asigne una probabilidad más alta a las oraciones fluidas (aquellas que tienen sentido y son gramaticalmente correctas) de las que no. También esperamos poder estimar esta función de probabilidad a partir del texto (corpus).
 
@@ -39,7 +50,7 @@ A nivel general, el modelo de lenguaje ayuda a los modelos de generación de tex
 
 \subsection{¿Por qué querríamos hacer esto?}
 
-El reconocimiento del habla fue la motivación original. Consideremos las siguientes dos oraciones en inglés:
+La motivación original de estos modelos se origina en el problema de reconocimiento del habla o de transcripción automática para ayudar a estos sistemas a discernir entre disitntas oraciones compatibles con la señal acústica.  Consideremos las siguientes dos oraciones en inglés:
 \begin{enumerate}
  \item ``recognize speech''  (reconocer el habla)
  \item ``wreck a nice beach'' (arruinar una playa bonita).
@@ -51,9 +62,9 @@ Esto se debe a que la primera oración es más común y debería ocurrir con má
 
 Al incorporar modelos de lenguaje, los sistemas de reconocimiento del habla pueden mejorar  la precisión al seleccionar la oración que se alinea mejor con los patrones lingüísticos y el contexto, incluso cuando se enfrentan a alternativas que suenan similar.
 
-De hecho, los modelos de lenguaje son útiles en cualquier tarea de procesamiento del lenguaje natural que involucre la generación de lenguaje (por ejemplo, traducción automática, resumen, generación de resumenes, chatbots,  reconocimiento óptico de caracteres y el reconocimiento de escritura a mano).
+De hecho, los modelos de lenguaje son útiles en cualquier tarea de procesamiento del lenguaje natural que involucre la generación de lenguaje (por ejemplo, traducción automática, resumen, generación de resúmenes, chatbots,  reconocimiento óptico de caracteres y el reconocimiento de escritura a mano).
 
-Además la noción de modelamiento probabilistico del lenguaje se utiliza en muchos modelos y tareas de PLN, por lo que las técnicas de estimación desarrolladas en este capítulo serán muy útiles para entender muchos problemas en PLN.
+Además la noción de modelamiento probabilístico del lenguaje se utiliza en muchos modelos y tareas de PLN, por lo que las técnicas de estimación desarrolladas en este capítulo serán muy útiles para entender muchos problemas en PLN.
 
 
 \section{Regla de la Cadena en Modelos de Lenguaje}
@@ -79,11 +90,18 @@ Al utilizar la definición de probabilidades condicionales, podemos expresar $p(
 La aplicación de la regla de la cadena en los modelos de lenguaje no impone ningún supuesto específico sobre el modelo en sí. Más bien, nos proporciona una forma alternativa de modelar la probabilidad de una oración. Sin embargo, la ventaja de utilizar la regla de la cadena es que nos permite aplicar supuestos y hacer simplificaciones en el modelo para facilitar su implementación y cálculo.
 
 \section{Mirada Predictiva}
-La regla de la cadena nos permite darle una interpretación predictiva a los modelos de lenguaje. Cada probabilidad condicional $p(X_n|X_{n-1},\ldots,X_1)$ representa la predicción de la palabra $X_n$ dada la historia de palabras anteriores $X_{n-1},\ldots,X_1$ a la que llamaremos ``contexto''.  Entonces uno puede asumir que un modelo de lenguaje una vez entrenado (o construido) a partir de un corpus es capaz de entregar una distribución de probabilidad para todas las palabras a partir de un contexto específico.
-Por ejemplo supongamos que el contexto es $c=$``Cristóbal Colón descubrió''. El modelo de lenguaje sería capaz de determinar:
+La regla de la cadena nos permite darle una interpretación predictiva a los modelos de lenguaje. Uno puede asumir que un modelo de lenguaje una vez entrenado (o construido) a partir de un corpus es capaz de entregar una distribución de probabilidad para todas las palabras a partir de un contexto específico. Supongamos que tenemos un contexto formado por una secuencia de palabras $c=X_{n-1},\ldots,X_1$ y queremos predecir la palabra más probable a partir de ese contexto. Uno podría evaluar la probabilidad condicional $p(X_n|X_{n-1},\ldots,X_1)$ o $p(X_n|c)$ para todas las palabras del vocabulario que puede tomar $X_n$ y escoger la más probable:
+
+\begin{displaymath}
+x_n = \operatorname{argmax}_{X_n \in \mathcal{V}} p(X_n | c)
+\end{displaymath}
+
+
+\begin{example}
+Supongamos que el contexto es $c=$``Cristóbal Colón descubrió''. El modelo de lenguaje sería capaz de determinar:
 
 \begin{align*}
-p(X|\text{``descrubrió'', Colón'', ``Cristóbal''}) \\
+p(X|\text{``descubrió'', Colón'', ``Cristóbal''}) \\
 \forall X \in V, \quad \text{donde} \sum_{X\in V}p(X|c)=1 
 \end{align*}
 
@@ -98,7 +116,11 @@ p(\text{``camello''}|\text{``descrubrió'', ``Colón'', ``Cristóbal''}) = 0.000
 \ldots
 \end{align*}
 
-Uno esperaría que un buen modelo de lenguaje asigne una probabilidad mayor a $X=$``América'' que al resto de las opciones. Para realizar estas predicciones, el modelo de lenguaje necesita capturar las reglas sintácticas y semánticas del lenguaje, así como tener un amplio conocimiento del mundo. 
+Entonces, nuestro modelo de lenguaje predeciría $X=$``América'' como la palabra siguiente más probable.  
+\end{example}
+
+En el ejemplo anterior esperamos que un buen modelo de lenguaje asigne una probabilidad mayor a $X=$``América'' que al resto de las opciones. Para realizar estas predicciones, el modelo de lenguaje necesita capturar las reglas sintácticas y semánticas del lenguaje, así como tener un amplio conocimiento del mundo. 
+
 
 Otra propiedad relevante, que se abordará en el Capítulo~\ref{cap_llm} sobre grandes modelos de lenguaje, es que se puede codificar prácticamente cualquier tarea de PLN como una instrucción dentro del contexto de un modelo de lenguaje. Por ejemplo, se podría utilizar la instrucción ``traduce el siguiente texto de inglés a español: I like dogs'', para luego esperar que el modelo de lenguaje sea capaz de realizar la traducción correcta.
 
@@ -195,7 +217,7 @@ Esto requiere tokenizar el corpus de entrenamiento y guardar en una tabla los co
 
 Por ejemplo:
 \[
-q(\text{laughs} | \text{the, dog}) = \frac{{\text{Count}(\text{the, dog, laughs})}}{{\text{Count}(\text{the, dog})}}
+q(\text{ladra} | \text{el, perro}) = \frac{{\text{Count}(\text{el, perro, ladra})}}{{\text{Count}(\text{el, perro})}}
 \]
 
 
@@ -250,7 +272,7 @@ Por lo tanto, la perplejidad está dada por:
     \]
 
     
-Esperamos entonces, que cualquier modelo de lenguaje que sea capaz de aprovechar la distribución de las palabaras (como un modelo de trigramas) tenga una perplejidad menor que el tamaño del vocabulario. En el estudio de Goodman titulado ``A bit of progress in language modeling'', donde $|V| = 50,000$ \cite{goodman2001bit}, se presentan los siguientes resultados:
+Esperamos entonces, que cualquier modelo de lenguaje que sea capaz de aprovechar la distribución de las palabaras (como un modelo de trigramas) tenga una perplejidad menor que el tamaño del vocabulario. En \cite{goodman2001bit}, donde $|V| = 50,000$, se presentan los siguientes resultados:
 
 \begin{itemize}
         \item Modelo de trigramas: $p(x_1, \ldots, x_n) = \prod_{i=1}^n q(x_i | x_{i-2}, x_{i-1})$ \\
@@ -284,30 +306,42 @@ Para abordar el problema del sobreajuste en modelos de lenguaje, se utilizan div
 
 \section{Interpolación Lineal}
 
-Se combina la distribución de probabilidad estimada por un modelo de n-gramas con las distribuciones estimadas por modelos de orden inferior. Esto permite incorporar información de n-gramas de orden inferior y reduce la varianza del modelo.
+La premisa fundamental detrás de la técnica de interpolación lineal es combinar las distribuciones de probabilidad estimadas por modelos de n-gramas con las obtenidas a través de modelos de órdenes inferiores, como bigramas y unigramas. Esta estrategia ofrece la ventaja de incorporar información de n-gramas de órdenes más bajos, permitiendo abordar la indefinición de probabilidades en palabras no observadas durante el entrenamiento.
+
+En el modelo interpolado, se ponderan linealmente tres modelos distintos:
+
 \begin{itemize}
-    \item Tomamos nuestra estimación $q(w_i | w_{i-2}, w_{i-1})$ como:
-    \[
-    q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
-    \]
-    donde $\lambda_1 + \lambda_2 + \lambda_3 = 1$, y $\lambda_i \geq 0$ para todo $i$.    
-    \item Nuestra estimación define correctamente una distribución (definimos $V' = V \cup \{\text{STOP}\}$):
-    \[
-    \begin{aligned}
-        & \sum_{w \in V'} q(w | u, v) \\
-        &= \sum_{w \in V'} [\lambda_1 \cdot q_{\text{ML}}(w | u, v) + \lambda_2 \cdot q_{\text{ML}}(w | v) + \lambda_3 \cdot q_{\text{ML}}(w)] \\
-        &= \lambda_1 \sum_{w} q_{\text{ML}}(w | u, v) + \lambda_2 \sum_{w} q_{\text{ML}}(w | v) + \lambda_3 \sum_{w} q_{\text{ML}}(w) \\
-        &= \lambda_1 + \lambda_2 + \lambda_3 = 1
-    \end{aligned}
-    \]
-    \item También podemos demostrar que $q(w | u, v) \geq 0$ para todo $w \in V'$.
+    \item Modelo de trigramas: $q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}$ 
+    \item Modelo de bigramas: $q_{\text{ML}}(w_i | w_{i-1}) = \frac{{\text{Count}(w_{i-1}, w_i)}}{{\text{Count}(w_{i-1})}}$ 
+    \item Modelo de unigramas: $q_{\text{ML}}(w_i) = \frac{{\text{Count}(w_i)}}{{\text{Count}(\# \text{tokens en el corpus})}}$. 
 \end{itemize}
 
-\section{Estimación de los Valores $\lambda$}
-\begin{itemize}
-    \item Reservamos parte del conjunto de entrenamiento como datos de \textit{validación}.
-    \item Definimos $c'(w_1, w_2, w_3)$ como el número de veces que se observa el trigram $(w_1, w_2, w_3)$ en el conjunto de validación.
-    \item Elegimos $\lambda_1$, $\lambda_2$, $\lambda_3$ para maximizar:
+Cada parámetro $q(w_i | w_{i-2}, w_{i-1})$ se interpola de la siguiente manera:
+
+\[
+q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
+\]
+
+Donde $\lambda_1$, $\lambda_2$, y $\lambda_3$ son parámetros que deben definirse manualmente y cumplir con las condiciones $\lambda_1 + \lambda_2 + \lambda_3 = 1$, y $\lambda_i \geq 0$ para todo $i$. Esta técnica aborda el problema de indefinición de probabilidades en el modelo de trigramas, donde basta que una oración tenga un sólo trigrama no observado en entrenamiento para recibir una probabilidad de cero por el efecto multiplicativo de la regla de la cadena. 
+
+
+Además, se puede demostrar que el modelo interpolado define adecuadamente una distribución de probabilidad (donde definimos $V' = V \cup \{\text{STOP}\}$):
+
+\[
+\begin{aligned}
+    & \sum_{w \in V'} q(w | u, v) \\
+    &= \sum_{w \in V'} [\lambda_1 \cdot q_{\text{ML}}(w | u, v) + \lambda_2 \cdot q_{\text{ML}}(w | v) + \lambda_3 \cdot q_{\text{ML}}(w)] \\
+    &= \lambda_1 \sum_{w} q_{\text{ML}}(w | u, v) + \lambda_2 \sum_{w} q_{\text{ML}}(w | v) + \lambda_3 \sum_{w} q_{\text{ML}}(w) \\
+    &= \lambda_1 + \lambda_2 + \lambda_3 = 1
+\end{aligned}
+\]
+
+También es posible demostrar que $q(w | u, v) \geq 0$ para todas las palabras en $V'$, ya que es una suma ponderada de tres cantidades no negativas.
+
+
+
+\subsection{Estimación de los Valores $\lambda$}
+Reservamos parte del conjunto de entrenamiento como datos de \textit{validación}. Definimos $c'(w_1, w_2, w_3)$ como el número de veces que se observa el trigram $(w_1, w_2, w_3)$ en el conjunto de validación. Elegimos $\lambda_1$, $\lambda_2$, $\lambda_3$ para maximizar:
     \[
     L(\lambda_1, \lambda_2, \lambda_3) = \sum_{w_1,w_2,w_3} c'(w_1, w_2, w_3) \log q(w_3 | w_1, w_2)
     \]
@@ -315,12 +349,11 @@ Se combina la distribución de probabilidad estimada por un modelo de n-gramas c
     \[
     q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
     \]
-\end{itemize}
 
 \section{Métodos de Descuento}
-\begin{itemize}
-    \item Consideremos los siguientes recuentos y estimaciones de máxima verosimilitud:
-\end{itemize}
+
+Consideremos los siguientes conteos de n-gramas y sus estimaciones de máxima verosimilitud:
+
 
 \begin{table}[h]
     \centering
@@ -341,18 +374,16 @@ Se combina la distribución de probabilidad estimada por un modelo de n-gramas c
     \end{tabular}
 \end{table}
 
-\begin{itemize}
-    \item Las estimaciones de máxima verosimilitud son altas, especialmente para los elementos con recuentos bajos.
-    \item Definimos los recuentos "descontados" de la siguiente manera:
+Las estimaciones de máxima verosimilitud son altas, especialmente para los elementos con conteos bajos.  Definimos los conteos ``descontados'' de la siguiente manera:
     \[
-    \text{Recuento}^*(x) = \text{Recuento}(x) - 0.5
+    \text{Conteo}^*(x) = \text{Conteo}(x) - 0.5
     \]
-\end{itemize}
+
 
 \begin{table}[h]
     \centering
     \begin{tabular}{llll}
-        \textbf{Frase} & \textbf{Recuento} & \textbf{Recuento}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{ML}}(w_i | w_{i-1})}$ \\
+        \textbf{Frase} & \textbf{Conteo} & \textbf{Conteo}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{ML}}(w_i | w_{i-1})}$ \\
         \hline
         the & 48 & & \\
         the, dog & 15 & 14.5 & $14.5/48$ \\
@@ -368,9 +399,7 @@ Se combina la distribución de probabilidad estimada por un modelo de n-gramas c
     \end{tabular}
 \end{table}
 
-\begin{itemize}
-    \item Las nuevas estimaciones se basan en los recuentos descontados.
-    \item Ahora tenemos cierta ``masa de probabilidad faltante'':
+Las nuevas estimaciones se basan en los recuentos descontados. Ahora tenemos cierta ``masa de probabilidad faltante'':
     \[
     \alpha(w_{i-1}) = 1 - \sum_{w} \frac{{\text{{Recuento}}^*(w_{i-1}, w)}}{{\text{{Recuento}}(w_{i-1})}}
     \]
@@ -378,19 +407,20 @@ Se combina la distribución de probabilidad estimada por un modelo de n-gramas c
     \[
     \alpha(\text{{the}}) = \frac{{10 \times 0.5}}{{48}} = \frac{{5}}{{48}}
     \]
-\end{itemize}
+
 
 
 \subsection{Modelos de Katz Back-Off (Bigramas)}
-\begin{itemize}
-    \item Para un modelo de bigrama, definimos dos conjuntos:
+
+Para un modelo de bigrama, definimos dos conjuntos:
     \[
     A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
     \]
     \[
     B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
     \]
-    \item Un modelo de bigrama:
+
+Un modelo de bigrama:
     \[
     q_{\text{BO}}(w_i | w_{i-1}) =
     \begin{cases}
@@ -398,18 +428,20 @@ Se combina la distribución de probabilidad estimada por un modelo de n-gramas c
         \frac{\alpha(w_{i-1}) q_{\text{ML}}(w_i)}{\sum_{w \in B(w_{i-1})} q_{\text{ML}}(w)} & \text{si } w_i \in B(w_{i-1})
     \end{cases}
     \]
-    \item Donde:
+Donde:
     \[
     \alpha(w_{i-1}) = 1 - \sum_{w \in A(w_{i-1})} \frac{\text{Count}^*(w_{i-1}, w)}{\text{Count}(w_{i-1})}
     \]
-    \item Para un modelo de trigramas, primero definimos dos conjuntos:
+
+Para un modelo de trigramas, primero definimos dos conjuntos:
     \[
     A(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) > 0\}
     \]
     \[
     B(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) = 0\}
     \]
-    \item Un modelo de trigramas se define en términos del modelo de bigramas:
+
+Un modelo de trigramas se define en términos del modelo de bigramas:
     \[
     q_{\text{BO}}(w_i | w_{i-2}, w_{i-1}) =
     \begin{cases}
@@ -417,11 +449,10 @@ Se combina la distribución de probabilidad estimada por un modelo de n-gramas c
         \frac{\alpha(w_{i-2}, w_{i-1}) q_{\text{BO}}(w_i|w_{i-1})}{\sum_{w \in B(w_{i-2}, w_{i-1})} q_{\text{BO}}(w|w_{i-1})} & \text{si } w_i \in B(w_{i-2}, w_{i-1})
     \end{cases}
     \]
-    \item Donde:
+Donde:
     \[
     \alpha(w_{i-2}, w_{i-1}) = 1 - \sum_{w \in A(w_{i-2}, w_{i-1})} \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w)}{\text{Count}(w_{i-2}, w_{i-1})}
     \]
-\end{itemize}
 
 
 Los modelos de Katz Back-Off son una técnica utilizada en modelos de lenguaje para abordar el desafío de la escasez de datos. Estos modelos permiten estimar las probabilidades condicionales de palabras en función de contextos más pequeños cuando no hay suficientes datos disponibles para estimar directamente las probabilidades completas.
@@ -471,7 +502,18 @@ La derivación de probabilidades en modelos de lenguaje probabilísticos implica
         $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1}) = p(w_i | w_{i-2}, w_{i-1})$.
         \item Suavizar las estimaciones utilizando conteos de orden inferior.
     \end{enumerate}
+    
+No obstante, los modelos de lenguaje de bigramas o trigramas (que consideran dos palabras anteriores como contexto) tienen limitaciones en contextos largos y no pueden aprovechar contextos similares. Por ejemplo, consideremos los contextos:
+\begin{itemize}
+ \item $c_1$: Después de comer cereales
+\item  $c_2$: Luego de desayunar avena 
+\end{itemize}
+
+Aunque esperaríamos que las distribuciones de probabilidad $p(w|c_1)$ y $p(w|c_2)$ fueran similares, dado que $c_1$ y $c_2$ casi no comparten palabras, los modelos de n-gramas que se limitan a contar frecuencia de palabras no pueden capturar estas similitudes entre contextos.
+    
+    
 Otros métodos para mejorar los modelos de lenguaje incluyen introducir variables latentes para representar tópicos, conocidos como modelos de tópicos \cite{blei2003latent} presentados en el Capítulo~\ref{cap_ir}. O alternativamente, reemplazar $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1})$ con una red neuronal predictiva y una ``capa de embedding'' para representar mejor contextos más grandes y aprovechar similitudes entre palabras en el contexto. \cite{bengio2000neural}
 
 Los modelos de lenguaje modernos utilizan redes neuronales profundas en su estructura principal y tienen un vasto espacio de parámetros como se verá en el Capítulo~\ref{cap_llm}.
+
 

@@ -153,8 +153,7 @@ Esto generalmente se hace buscando en una grilla de posibles valores de todos lo
 
 Los modelos de descuento son una técnica alternativa a la interpolación para que el modelo de lenguaje generalice mejor a datos distintos a los de entrenamiento y no sobreestime conteos para n-gramas de poca frecuencia.
 
-
-Consideremos los conteos de n-gramas y sus estimaciones de máxima verosimilitud mostradas en la Tabla~\ref{tab:ej}.
+Ilustraremos estos modelos con un ejemplo. Consideremos los conteos de bigramas que parten con el unigrama ``la'' en un corpus, junto a sus estimaciones de máxima verosimilitud mostradas en la Tabla~\ref{tab:ej}.
 
 
 \begin{table}[h]
@@ -176,16 +175,18 @@ Consideremos los conteos de n-gramas y sus estimaciones de máxima verosimilitud
     \end{tabular}\caption{Ejemplo de conteos de bigramas}\label{tab:ej}
 \end{table}
 
-Las estimaciones de máxima verosimilitud son altas, especialmente para los elementos con conteos bajos.  Definimos los conteos ``descontados'' de la siguiente manera:
+Uno puede plantearse que estas estimaciones sobre-estiman lo observado en el corpus y sub-estiman lo ``no'' observado.
+Podemos definir entonces, conteos ``descontados'' de la siguiente manera:
     \[
-    \text{Conteo}^*(x) = \text{Conteo}(x) - 0.5
+    \text{Conteo}^*(x) = \text{Conteo}(x) - \beta
     \]
 
+Donde $\beta$ es una constante entre $0$ y $1$, un valor típico es $0.5$. Con $\beta=0.5$ los conteos descontados   
 
 \begin{table}[h]
     \centering
     \begin{tabular}{|l|l|l|l|}\hline
-        \textbf{Frase} & \textbf{Conteo} & \textbf{Conteo}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{ML}}(w_i | w_{i-1})}$ \\
+        \textbf{Frase} & \textbf{Conteo} & \textbf{Conteo}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{D}}(w_i | w_{i-1})}$ \\
         \hline
         la & 48 & & \\
         la, gata & 15 & 14.5 & $14.5/48$ \\
@@ -198,21 +199,30 @@ Las estimaciones de máxima verosimilitud son altas, especialmente para los elem
         la, tarde & 1 & 0.5 & $0.5/48$ \\
         la, ciudad & 1 & 0.5 & $0.5/48$ \\
         la, calle & 1 & 0.5 & $0.5/48$ \\\hline
-    \end{tabular}
+    \end{tabular}\caption{Ejemplo de conteos de bigramas con conteos descontados}\label{tab:ej2}
 \end{table}
 
 Las nuevas estimaciones se basan en los recuentos descontados. Ahora tenemos cierta ``masa de probabilidad faltante'':
     \[
-    \alpha(w_{i-1}) = 1 - \sum_{w} \frac{{\text{{Recuento}}^*(w_{i-1}, w)}}{{\text{{Recuento}}(w_{i-1})}}
+    \alpha(w_{i-1}) = 1 - \sum_{w} \frac{{\text{{Conteo}}^*(w_{i-1}, w)}}{{\text{{Conteo}}(w_{i-1})}}
     \]
     Por ejemplo, en nuestro caso:
     \[
-    \alpha(\text{{the}}) = \frac{{10 \times 0.5}}{{48}} = \frac{{5}}{{48}}
+    \alpha(\text{{la}}) = \frac{{10 \times 0.5}}{{48}} = \frac{{5}}{{48}}
     \]
 
 
 
-En un modelo de bigrama, se define el conjunto $A(w_{i-1})$ como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es mayor que cero, es decir, $\text{Count}(w_{i-1}, w) > 0$. Por otro lado, el conjunto $B(w_{i-1})$ se define como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es igual a cero, es decir, $\text{Count}(w_{i-1}, w) = 0$.
+En un modelo de bigrama, se define el conjunto $A(w_{i-1})$ como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es mayor que cero, es decir, $\text{Count}(w_{i-1}, w) > 0$.
+
+Por otro lado, el conjunto $B(w_{i-1})$ se define como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es igual a cero, es decir, $\text{Count}(w_{i-1}, w) = 0$.
+
+    \[
+    A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
+    \]
+    \[
+    B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
+    \]
 
 En un modelo de bigrama, la probabilidad condicional $q_{\text{BO}}(w_i | w_{i-1})$ se calcula de la siguiente manera: si la palabra $w_i$ está en el conjunto $A(w_{i-1})$, se utiliza una estimación basada en las frecuencias relativas de la secuencia $(w_{i-1}, w_i)$ dividida por la frecuencia de $w_{i-1}$. Por otro lado, si $w_i$ está en el conjunto $B(w_{i-1})$, se utiliza una estimación suavizada que combina una constante de suavizado $\alpha(w_{i-1})$ y las probabilidades condicionales de máxima verosimilitud $q_{\text{ML}}(w_i)$ de las palabras en el conjunto $B(w_{i-1})$.
 
@@ -222,13 +232,7 @@ En el caso de un modelo de trigramas, se definen conjuntos similares $A(w_{i-2},
 
     
     
-Para un modelo de bigrama, definimos dos conjuntos:
-    \[
-    A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
-    \]
-    \[
-    B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
-    \]
+
 
 Un modelo de bigrama:
     \[

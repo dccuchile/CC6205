@@ -1,0 +1,324 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  My documentation report
+%  Objetive: Explain what I did and how, so someone can continue with the investigation
+%
+% Important note:
+% Chapter heading images should have a 2:1 width:height ratio,
+% e.g. 920px width and 460px height.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
+
+
+\usepackage[top=3cm,bottom=3cm,left=3.2cm,right=3.2cm,headsep=10pt,letterpaper]{geometry} % Page margins
+
+\usepackage{xcolor} % Required for specifying colors by name
+\definecolor{ocre}{RGB}{52,177,201} % Define the orange color used for highlighting throughout the book
+
+% Font Settings
+\usepackage{avant} % Use the Avantgarde font for headings
+%\usepackage{times} % Use the Times font for headings
+\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage[utf8]{inputenc} % Required for including letters with accents
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{amsthm}
+
+% Bibliography
+%\usepackage[style=alphabetic,sorting=nyt,sortcites=true,autopunct=true,babel=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
+%\addbibresource{bio.bib} % BibTeX bibliography file
+%\defbibheading{bibempty}{}
+
+\input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+%----------------------------------------------------------------------------------------
+%	Definitions of new commands
+%----------------------------------------------------------------------------------------
+
+\def\R{\mathbb{R}}
+\newcommand{\cvx}{convex}
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begingroup
+\thispagestyle{empty}
+\AddToShipoutPicture*{\put(0,0){\includegraphics[scale=1.25]{portada5}}} % Image background
+\centering
+\vspace*{5cm}
+\par\normalfont\fontsize{35}{35}\sffamily\selectfont
+\textbf{\textcolor{white}{Procesamiento de Lenguaje Natural}}\\
+{\LARGE \textcolor{white}{Apunte de Clases (Borrador)}}\par % Book title
+\vspace*{1cm}
+{\Huge \textcolor{white}{Felipe Bravo Márquez}}\par % Author name
+\endgroup
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\newpage
+~\vfill
+\thispagestyle{empty}
+
+\noindent Felipe Bravo Márquez\\
+
+\noindent Ilustración Portada por Paulette Filla\\
+
+\noindent \textsc{Departamento de Ciencias de la Computación, Universidad de Chile}\\
+
+\noindent \textsc{github.com/dccuchile/CC6205}\\ % URL
+
+\noindent Apuntes de clases del curso de Procesamiento de Lenguaje Natural de la Universidad de Chile.\\ % License information
+
+\noindent El formato del apunte fue tomado del template de Jasmine Hao. \\
+
+\noindent \textit{Borrador, \today} % Printing/edition date
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\chapterimage{head3.png} % Table of contents heading image
+
+\pagestyle{empty} % No headers
+
+\tableofcontents % Print the table of contents itself
+
+%\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+\pagestyle{fancy} % Print headers again
+
+
+
+
+\section{Interpolación Lineal}
+
+La pricipal idea detrás de la técnica de interpolación lineal es combinar las distribuciones de probabilidad estimadas por modelos de n-gramas con las obtenidas a través de modelos de órdenes inferiores, como bigramas y unigramas. Esta estrategia ofrece la ventaja de incorporar información de n-gramas de órdenes más bajos, permitiendo abordar la indefinición de probabilidades en palabras no observadas durante el entrenamiento. Pues basta que una oración tenga un sólo trigrama no observado en entrenamiento para recibir una probabilidad de cero por el efecto multiplicativo de la regla de la cadena. 
+
+En el modelo interpolado, se ponderan linealmente tres modelos distintos:
+
+\begin{enumerate}
+    \item Modelo de trigramas: $q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{Count}(w_{i-2}, w_{i-1})}}$ 
+    \item Modelo de bigramas: $q_{\text{ML}}(w_i | w_{i-1}) = \frac{{\text{Count}(w_{i-1}, w_i)}}{{\text{Count}(w_{i-1})}}$ 
+    \item Modelo de unigramas: $q_{\text{ML}}(w_i) = \frac{{\text{Count}(w_i)}}{{\text{Count}(\# \text{tokens en el corpus})}}$. 
+\end{enumerate}
+
+Cada parámetro $q(w_i | w_{i-2}, w_{i-1})$ se interpola de la siguiente manera:
+
+\[
+q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
+\]
+
+Donde $\lambda_1$, $\lambda_2$, y $\lambda_3$ son hiper-parámetros que deben definirse manualmente y cumplir con las condiciones $\lambda_1 + \lambda_2 + \lambda_3 = 1$, y $\lambda_i \geq 0$ para todo $i$. Como podemos ver, con esta técnica abordamos el problema de indefinición de probabilidades en el modelo de trigramas, puesto que si se le quiere asignar probabilidad a un trigrama no observado durante entrenamiento, este no necesariamente indefine las probabilidades pues puede recurrir a las probabilidades de los bigramas y unigramas correspondientes. 
+
+
+Además, se puede demostrar que el modelo interpolado define adecuadamente una distribución de probabilidad (donde definimos $V' = V \cup \{\text{STOP}\}$):
+
+\[
+\begin{aligned}
+    & \sum_{w \in V'} q(w | u, v) \\
+    &= \sum_{w \in V'} [\lambda_1 \cdot q_{\text{ML}}(w | u, v) + \lambda_2 \cdot q_{\text{ML}}(w | v) + \lambda_3 \cdot q_{\text{ML}}(w)] \\
+    &= \lambda_1 \sum_{w} q_{\text{ML}}(w | u, v) + \lambda_2 \sum_{w} q_{\text{ML}}(w | v) + \lambda_3 \sum_{w} q_{\text{ML}}(w) \\
+    &= \lambda_1 + \lambda_2 + \lambda_3 = 1
+\end{aligned}
+\]
+
+También es posible demostrar que $q(w | u, v) \geq 0$ para todas las palabras en $V'$, ya que es una suma ponderada de tres cantidades no negativas.
+
+
+
+\subsection{Estimación de los Valores $\lambda$}
+Para encontrar un valor adecuado de los hiper-parámetros $\lambda$ se suele reservar una parte del conjunto de entrenamiento como datos de \textit{validación}. Definimos $c'(w_1, w_2, w_3)$ como el número de veces que se observa el trigrama $(w_1, w_2, w_3)$ en el conjunto de validación. Elegimos $\lambda_1$, $\lambda_2$, $\lambda_3$ para maximizar:
+    \[
+    L(\lambda_1, \lambda_2, \lambda_3) = \sum_{w_1,w_2,w_3} c'(w_1, w_2, w_3) \log q(w_3 | w_1, w_2)
+    \]
+    sujetos a $\lambda_1 + \lambda_2 + \lambda_3 = 1$, y $\lambda_i \geq 0$ para todo $i$, donde
+    \[
+    q(w_i | w_{i-2}, w_{i-1}) = \lambda_1 \cdot q_{\text{ML}}(w_i | w_{i-2}, w_{i-1}) + \lambda_2 \cdot q_{\text{ML}}(w_i | w_{i-1}) + \lambda_3 \cdot q_{\text{ML}}(w_i)
+    \]
+    
+Esto generalmente se hace buscando en una grilla de posibles valores de todos los hiper-parámetros. Nótese que maximizar $L(\lambda_1, \lambda_2, \lambda_3)$ es equivalente a minimizar la perplejidad en validación.  
+
+
+\section{Modelos de Descuento (Katz Back-Off)}
+
+Los modelos de descuento son una técnica alternativa a la interpolación para que el modelo de lenguaje generalice mejor a datos distintos a los de entrenamiento y no sobreestime conteos para n-gramas de poca frecuencia.
+
+
+Consideremos los conteos de n-gramas y sus estimaciones de máxima verosimilitud mostradas en la Tabla~\ref{tab:ej}.
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|}\hline
+        \textbf{Frase} & \textbf{Conteo} & \textbf{$q_{\text{ML}}(w_i | w_{i-1})$} \\
+        \hline
+        la & 48 & \\
+        la, gata & 15 & $15/48$ \\
+        la, mujer & 11 & $11/48$ \\
+        la, persona & 10 & $10/48$ \\
+        la, plaza & 5 & $5/48$ \\
+        la, actividad & 2 & $2/48$ \\
+        la, tuerca & 1 & $1/48$ \\
+        la, revista & 1 & $1/48$ \\
+        la, tarde & 1 & $1/48$ \\
+        la, ciudad & 1 & $1/48$ \\
+        la, calle & 1 & $1/48$ \\ \hline
+    \end{tabular}\caption{Ejemplo de conteos de bigramas}\label{tab:ej}
+\end{table}
+
+Las estimaciones de máxima verosimilitud son altas, especialmente para los elementos con conteos bajos.  Definimos los conteos ``descontados'' de la siguiente manera:
+    \[
+    \text{Conteo}^*(x) = \text{Conteo}(x) - 0.5
+    \]
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}\hline
+        \textbf{Frase} & \textbf{Conteo} & \textbf{Conteo}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{ML}}(w_i | w_{i-1})}$ \\
+        \hline
+        la & 48 & & \\
+        la, gata & 15 & 14.5 & $14.5/48$ \\
+        la, mujer & 11 & 10.5 & $10.5/48$ \\
+        la, persona & 10 & 9.5 & $9.5/48$ \\
+        la, plaza & 5 & 4.5 & $4.5/48$ \\
+        la, actividad & 2 & 1.5 & $1.5/48$ \\
+        la, tuerca & 1 & 0.5 & $0.5/48$ \\
+        la, revista & 1 & 0.5 & $0.5/48$ \\
+        la, tarde & 1 & 0.5 & $0.5/48$ \\
+        la, ciudad & 1 & 0.5 & $0.5/48$ \\
+        la, calle & 1 & 0.5 & $0.5/48$ \\\hline
+    \end{tabular}
+\end{table}
+
+Las nuevas estimaciones se basan en los recuentos descontados. Ahora tenemos cierta ``masa de probabilidad faltante'':
+    \[
+    \alpha(w_{i-1}) = 1 - \sum_{w} \frac{{\text{{Recuento}}^*(w_{i-1}, w)}}{{\text{{Recuento}}(w_{i-1})}}
+    \]
+    Por ejemplo, en nuestro caso:
+    \[
+    \alpha(\text{{the}}) = \frac{{10 \times 0.5}}{{48}} = \frac{{5}}{{48}}
+    \]
+
+
+
+En un modelo de bigrama, se define el conjunto $A(w_{i-1})$ como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es mayor que cero, es decir, $\text{Count}(w_{i-1}, w) > 0$. Por otro lado, el conjunto $B(w_{i-1})$ se define como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es igual a cero, es decir, $\text{Count}(w_{i-1}, w) = 0$.
+
+En un modelo de bigrama, la probabilidad condicional $q_{\text{BO}}(w_i | w_{i-1})$ se calcula de la siguiente manera: si la palabra $w_i$ está en el conjunto $A(w_{i-1})$, se utiliza una estimación basada en las frecuencias relativas de la secuencia $(w_{i-1}, w_i)$ dividida por la frecuencia de $w_{i-1}$. Por otro lado, si $w_i$ está en el conjunto $B(w_{i-1})$, se utiliza una estimación suavizada que combina una constante de suavizado $\alpha(w_{i-1})$ y las probabilidades condicionales de máxima verosimilitud $q_{\text{ML}}(w_i)$ de las palabras en el conjunto $B(w_{i-1})$.
+
+La constante de suavizado $\alpha(w_{i-1})$ se calcula restando la suma de las frecuencias relativas de las palabras en $A(w_{i-1})$ de uno.
+
+En el caso de un modelo de trigramas, se definen conjuntos similares $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$ para las secuencias trigramas. La probabilidad condicional $q_{\text{BO}}(w_i | w_{i-2}, w_{i-1})$ en un modelo de trigramas se calcula utilizando el modelo de bigrama correspondiente y aplicando la misma lógica de suavizado basado en los conjuntos $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$.
+
+    
+    
+Para un modelo de bigrama, definimos dos conjuntos:
+    \[
+    A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
+    \]
+    \[
+    B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
+    \]
+
+Un modelo de bigrama:
+    \[
+    q_{\text{BO}}(w_i | w_{i-1}) =
+    \begin{cases}
+        \frac{\text{Count}^*(w_{i-1}, w_i)}{\text{Count}(w_{i-1})} & \text{si } w_i \in A(w_{i-1}) \\
+        \frac{\alpha(w_{i-1}) q_{\text{ML}}(w_i)}{\sum_{w \in B(w_{i-1})} q_{\text{ML}}(w)} & \text{si } w_i \in B(w_{i-1})
+    \end{cases}
+    \]
+Donde:
+    \[
+    \alpha(w_{i-1}) = 1 - \sum_{w \in A(w_{i-1})} \frac{\text{Count}^*(w_{i-1}, w)}{\text{Count}(w_{i-1})}
+    \]
+
+Para un modelo de trigramas, primero definimos dos conjuntos:
+    \[
+    A(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) > 0\}
+    \]
+    \[
+    B(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) = 0\}
+    \]
+
+Un modelo de trigramas se define en términos del modelo de bigramas:
+    \[
+    q_{\text{BO}}(w_i | w_{i-2}, w_{i-1}) =
+    \begin{cases}
+        \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w_i)}{\text{Count}(w_{i-2}, w_{i-1})} & \text{si } w_i \in A(w_{i-2}, w_{i-1}) \\
+        \frac{\alpha(w_{i-2}, w_{i-1}) q_{\text{BO}}(w_i|w_{i-1})}{\sum_{w \in B(w_{i-2}, w_{i-1})} q_{\text{BO}}(w|w_{i-1})} & \text{si } w_i \in B(w_{i-2}, w_{i-1})
+    \end{cases}
+    \]
+Donde:
+    \[
+    \alpha(w_{i-2}, w_{i-1}) = 1 - \sum_{w \in A(w_{i-2}, w_{i-1})} \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w)}{\text{Count}(w_{i-2}, w_{i-1})}
+    \]
+
+
+
+Estos modelos de Katz Back-Off permiten aproximar las probabilidades condicionales en situaciones donde la información disponible es limitada, al aprovechar información de contextos más pequeños cuando no se dispone de suficientes datos para estimaciones directas.
+
+\section{Historia}
+En 1951, mientras trabajaba en los laboratorios Bell, Claude Shannon (en la Figura~\ref{fig:shannon}) realizó experimentos sobre la entropía del inglés, modelando el lenguaje escrito de manera estadística y predictiva \cite{shannon1951prediction}. Utilizando modelos de lenguaje de n-gramas, Shannon exploró la dificultad de predecir palabras basándose en las palabras anteriores.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.4]{pics/shannon.png}
+    \caption{Imagen de Shannon.}
+    \label{fig:shannon}
+\end{figure}
+
+Por otro lado, en su libro \textit{Syntactic Structures} (1957), Noam Chomsky (en la Figura~\ref{fig:chomsky}), un lingüista y científico cognitivo, cuestionó la capacidad de los modelos de lenguaje probabilísticos para capturar y comprender la gramática del lenguaje humano \cite{chomsky2009syntactic}. Según Chomsky, la noción de ``gramaticamente correcto'' no puede ser equiparada a ``significativo'' en un sentido probabilista. Para ilustrar esto, presentó dos oraciones ficticias, ambas carentes de sentido:
+
+\begin{enumerate}
+    \item Colorless green ideas sleep furiously.
+    \item Furiously sleep ideas green colorless.
+\end{enumerate}
+
+Aunque ambas oraciones carecen de significado, Chomsky argumentó que solo la primera se considera gramaticalmente correcta por los hablantes de inglés. Además, enfatizó que la corecctitud gramatical en inglés no puede determinarse únicamente mediante aproximaciones estadísticas. Aunque es poco probable que ninguna de las dos oraciones (1) o (2) haya surgido en documentos escritos en inglés, un modelo estadístico como los modelos de lenguaje vistos en este capítulo las consideraría igualmente ``remotas'' en relación al inglés. Sin embargo, la oración (1) es gramaticalmente correcta, mientras que la oración (2) no lo es, lo que destaca las limitaciones de los enfoques estadísticos para capturar la gramática. Estos argumentos retrasaron el estudio de los modelos de lenguaje probabilísticos durante varios años \cite{JurafskyBook}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.4]{pics/chomsky.png}
+    \caption{Imagen de Chomsky}
+    \label{fig:chomsky}
+\end{figure}
+
+
+\section{Conclusiones}
+La derivación de probabilidades en modelos de lenguaje probabilísticos implica tres pasos:
+    \begin{enumerate}
+        \item Expandir $p(w_1, w_2, \ldots, w_n)$ usando la regla de la Cadena.
+        \item Aplicar los supuestos Independencia de Markov \\
+        $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1}) = p(w_i | w_{i-2}, w_{i-1})$.
+        \item Suavizar las estimaciones utilizando conteos de orden inferior.
+    \end{enumerate}
+    
+No obstante, los modelos de lenguaje de bigramas o trigramas (que consideran dos palabras anteriores como contexto) tienen limitaciones en contextos largos y no pueden aprovechar contextos similares. Por ejemplo, consideremos los contextos:
+\begin{itemize}
+ \item $c_1$: Después de comer cereales
+\item  $c_2$: Luego de desayunar avena 
+\end{itemize}
+
+Aunque esperaríamos que las distribuciones de probabilidad $p(w|c_1)$ y $p(w|c_2)$ fueran similares, dado que $c_1$ y $c_2$ casi no comparten palabras, los modelos de n-gramas que se limitan a contar frecuencia de palabras no pueden capturar estas similitudes entre contextos.
+    
+    
+Otros métodos para mejorar los modelos de lenguaje incluyen introducir variables latentes para representar tópicos, conocidos como modelos de tópicos \cite{blei2003latent} presentados en el Capítulo~\ref{cap_ir}. O alternativamente, reemplazar $p(w_i | w_1, w_2, \ldots, w_{i-2}, w_{i-1})$ con una red neuronal predictiva y una ``capa de embedding'' para representar mejor contextos más grandes y aprovechar similitudes entre palabras en el contexto. \cite{bengio2000neural}
+
+Los modelos de lenguaje modernos utilizan redes neuronales profundas en su estructura principal y tienen un vasto espacio de parámetros como se verá en el Capítulo~\ref{cap_llm}.
+
+
+\bibliography{bio}
+\bibliographystyle{apalike}
+
+\end{document}

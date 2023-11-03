@@ -66,8 +66,7 @@
 \contentsline {subsection}{\numberline {3.8.2}El trade-off entre sesgo y varianza}{44}{subsection.3.8.2}%
 \contentsline {section}{\numberline {3.9}Interpolación Lineal}{45}{section.3.9}%
 \contentsline {subsection}{\numberline {3.9.1}Estimación de los Valores $\lambda $}{46}{subsection.3.9.1}%
-\contentsline {section}{\numberline {3.10}Métodos de Descuento}{46}{section.3.10}%
-\contentsline {subsection}{\numberline {3.10.1}Modelos de Katz Back-Off (Bigramas)}{47}{subsection.3.10.1}%
+\contentsline {section}{\numberline {3.10}Modelos de Descuento (Katz Back-Off)}{46}{section.3.10}%
 \contentsline {section}{\numberline {3.11}Historia}{48}{section.3.11}%
 \contentsline {section}{\numberline {3.12}Conclusiones}{49}{section.3.12}%
 \contentsline {chapter}{\numberline {4}Clasificación de Texto y Naïve Bayes}{51}{chapter.4}%

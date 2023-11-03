@@ -151,10 +151,9 @@ Esto generalmente se hace buscando en una grilla de posibles valores de todos lo
 
 \section{Modelos de Descuento (Katz Back-Off)}
 
-Los modelos de descuento son una técnica alternativa a la interpolación para que el modelo de lenguaje generalice mejor a datos distintos a los de entrenamiento y no sobreestime conteos para n-gramas de poca frecuencia.
+Los modelos de descuento representan una técnica alternativa a la interpolación con el propósito de mejorar la generalización del modelo de lenguaje a datos que difieren de los utilizados en el entrenamiento. Además, estos modelos ayudan a evitar la sobreestimación de conteos para n-gramas con baja frecuencia de aparición. La idea principal detrás de los modelos de descuento es redistribuir la probabilidad de los n-gramas observados hacia aquellos que no se han observado.
 
-Ilustraremos estos modelos con un ejemplo. Consideremos los conteos de bigramas que parten con el unigrama ``la'' en un corpus, junto a sus estimaciones de máxima verosimilitud mostradas en la Tabla~\ref{tab:ej}.
-
+Para ilustrar estos modelos, consideremos un ejemplo utilizando los conteos de bigramas que comienzan con el unigrama ``la'' en un corpus, junto con sus estimaciones de máxima verosimilitud, que se presentan en la Tabla~\ref{tab:plm_ej}. Se puede notar que estas estimaciones tienden a sobrevalorar lo que se ha observado en el corpus y subestimar lo que no se ha observado.
 
 \begin{table}[h]
     \centering
@@ -172,21 +171,21 @@ Ilustraremos estos modelos con un ejemplo. Consideremos los conteos de bigramas 
         la, tarde & 1 & $1/48$ \\
         la, ciudad & 1 & $1/48$ \\
         la, calle & 1 & $1/48$ \\ \hline
-    \end{tabular}\caption{Ejemplo de conteos de bigramas}\label{tab:ej}
+    \end{tabular}\caption{Ejemplo de conteos de bigramas}\label{tab:plm_ej}
 \end{table}
 
-Uno puede plantearse que estas estimaciones sobre-estiman lo observado en el corpus y sub-estiman lo ``no'' observado.
-Podemos definir entonces, conteos ``descontados'' de la siguiente manera:
-    \[
-    \text{Conteo}^*(x) = \text{Conteo}(x) - \beta
-    \]
+Podemos definir los conteos ``descontados'' de la siguiente manera:
 
-Donde $\beta$ es una constante entre $0$ y $1$, un valor típico es $0.5$. Con $\beta=0.5$ los conteos descontados   
+\[
+\text{Conteo}^*(x) = \text{Conteo}(x) - \beta
+\]
+
+Donde $\beta$ es una constante que generalmente se encuentra entre 0 y 1, siendo un valor típico 0.5. Con $\beta=0.5$, los conteos se descuentan, es decir, se reduce la probabilidad de los datos observados, como se muestra en la Tabla~\ref{tab:plm_ej}.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{|l|l|l|l|}\hline
-        \textbf{Frase} & \textbf{Conteo} & \textbf{Conteo}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{D}}(w_i | w_{i-1})}$ \\
+        \textbf{Frase} & \textbf{Conteo} & \textbf{Conteo}$\mathbf{^*(x)}$ & $\mathbf{q_{\text{BO}}(w_i | w_{i-1})}$ \\
         \hline
         la & 48 & & \\
         la, gata & 15 & 14.5 & $14.5/48$ \\
@@ -199,78 +198,79 @@ Donde $\beta$ es una constante entre $0$ y $1$, un valor típico es $0.5$. Con $
         la, tarde & 1 & 0.5 & $0.5/48$ \\
         la, ciudad & 1 & 0.5 & $0.5/48$ \\
         la, calle & 1 & 0.5 & $0.5/48$ \\\hline
-    \end{tabular}\caption{Ejemplo de conteos de bigramas con conteos descontados}\label{tab:ej2}
+    \end{tabular}\caption{Ejemplo de conteos de bigramas con conteos descontados}\label{tab:plm_ej}
 \end{table}
 
-Las nuevas estimaciones se basan en los recuentos descontados. Ahora tenemos cierta ``masa de probabilidad faltante'':
-    \[
-    \alpha(w_{i-1}) = 1 - \sum_{w} \frac{{\text{{Conteo}}^*(w_{i-1}, w)}}{{\text{{Conteo}}(w_{i-1})}}
-    \]
-    Por ejemplo, en nuestro caso:
-    \[
-    \alpha(\text{{la}}) = \frac{{10 \times 0.5}}{{48}} = \frac{{5}}{{48}}
-    \]
+Las nuevas estimaciones se basan en los conteos descontados, y se introduce una ``masa de probabilidad faltante'' como se muestra a continuación:
+
+\[
+\alpha(w_{i-1}) = 1 - \sum_{w} \frac{\text{Conteo}^*(w_{i-1}, w)}{\text{Conteo}(w_{i-1})}
+\]
+
+Por ejemplo, en nuestro caso:
+
+\[
+\alpha(\text{la}) = 1 - \frac{14.5+10.5+9.5+4.5+1.5+0.5+0.5+0.5+0.5+0.5}{48} = 1-\frac{43}{48} = \frac{5}{48}
+\]
+
+La idea es redistribuir esta masa faltante entre todos los bigramas que comienzan con la palabra ``la'' y que no fueron observados en el corpus, como por ejemplo ``rana'', ``bailarina'' y ``puerta''.
+
+En el modelo de Katz Back-Off de bigramas, se definen dos conjuntos: $A(w_{i-1})$ y $B(w_{i-1})$, como se detalla a continuación:
+
+\[
+A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
+\]
+
+En nuestro ejemplo, $A(\text{la}) = \{$ gata, mujer, persona, plaza, actividad, tuerca, revista, tarde, ciudad, calle $\}$.
+
+Por otro lado, $B(w_{i-1})$ se define como:
+
+\[
+B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
+\]
+
+En nuestro ejemplo, $B(\text{la}) = \{$ rana, bailarina, puerta, $\dots$ $\}$.
+
+Luego, la probabilidad condicional $q_{\text{BO}}(w_i | w_{i-1})$ se calcula de la siguiente manera: si la palabra $w_i$ está en el conjunto $A(w_{i-1})$, se utiliza una estimación basada en las frecuencias relativas de la secuencia $(w_{i-1}, w_i)$ dividida por la frecuencia de $w_{i-1}$. Si $w_i$ está en el conjunto $B(w_{i-1})$, se utiliza una estimación suavizada que combina la constante $\alpha(w_{i-1})$ y las probabilidades condicionales de máxima verosimilitud  de un modelo orden inferior (unigramas) $q_{\text{ML}}(w_i)$ de las palabras en el conjunto $B(w_{i-1})$. Esta última ponderación asegura que las probabilidades queden bien definidas.
+
+\[
+q_{\text{BO}}(w_i | w_{i-1}) =
+\begin{cases}
+    \frac{\text{Count}^*(w_{i-1}, w_i)}{\text{Count}(w_{i-1})} & \text{si } w_i \in A(w_{i-1}) \\
+    \frac{\alpha(w_{i-1}) q_{\text{ML}}(w_i)}{\sum_{w \in B(w_{i-1})} q_{\text{ML}}(w)} & \text{si } w_i \in B(w_{i-1})
+\end{cases}
+\]
+
+La constante $\alpha(w_{i-1})$ se calcula restando la suma de las frecuencias relativas de las palabras en $A(w_{i-1})$ de uno tal como se definió anteriormente.
 
 
 
-En un modelo de bigrama, se define el conjunto $A(w_{i-1})$ como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es mayor que cero, es decir, $\text{Count}(w_{i-1}, w) > 0$.
+Para extender este enfoque a trigramas, se definen conjuntos similares $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$ para las secuencias de trigramas:
 
-Por otro lado, el conjunto $B(w_{i-1})$ se define como el conjunto de palabras $w$ para las cuales la frecuencia de aparición de la secuencia $(w_{i-1}, w)$ es igual a cero, es decir, $\text{Count}(w_{i-1}, w) = 0$.
+\[
+A(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) > 0\}
+\]
+\[
+B(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) = 0\}
+\]
 
-    \[
-    A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
-    \]
-    \[
-    B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
-    \]
+La probabilidad condicional $q_{\text{BO}}(w_i | w_{i-2}, w_{i-1})$ en un modelo de trigramas se calcula utilizando el modelo de bigrama correspondiente y aplicando la misma lógica anterior:
 
-En un modelo de bigrama, la probabilidad condicional $q_{\text{BO}}(w_i | w_{i-1})$ se calcula de la siguiente manera: si la palabra $w_i$ está en el conjunto $A(w_{i-1})$, se utiliza una estimación basada en las frecuencias relativas de la secuencia $(w_{i-1}, w_i)$ dividida por la frecuencia de $w_{i-1}$. Por otro lado, si $w_i$ está en el conjunto $B(w_{i-1})$, se utiliza una estimación suavizada que combina una constante de suavizado $\alpha(w_{i-1})$ y las probabilidades condicionales de máxima verosimilitud $q_{\text{ML}}(w_i)$ de las palabras en el conjunto $B(w_{i-1})$.
+\[
+q_{\text{BO}}(w_i | w_{i-2}, w_{i-1}) =
+\begin{cases}
+    \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w_i)}{\text{Count}(w_{i-2}, w_{i-1})} & \text{si } w_i \in A(w_{i-2}, w_{i-1}) \\
+    \frac{\alpha(w_{i-2}, w_{i-1}) q_{\text{BO}}(w_i|w_{i-1})}{\sum_{w \in B(w_{i-2}, w_{i-1})} q_{\text{BO}}(w|w_{i-1})} & \text{si } w_i \in B(w_{i-2}, w_{i-1})
+\end{cases}
+\]
 
-La constante de suavizado $\alpha(w_{i-1})$ se calcula restando la suma de las frecuencias relativas de las palabras en $A(w_{i-1})$ de uno.
-
-En el caso de un modelo de trigramas, se definen conjuntos similares $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$ para las secuencias trigramas. La probabilidad condicional $q_{\text{BO}}(w_i | w_{i-2}, w_{i-1})$ en un modelo de trigramas se calcula utilizando el modelo de bigrama correspondiente y aplicando la misma lógica de suavizado basado en los conjuntos $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$.
-
-    
-    
-
-
-Un modelo de bigrama:
-    \[
-    q_{\text{BO}}(w_i | w_{i-1}) =
-    \begin{cases}
-        \frac{\text{Count}^*(w_{i-1}, w_i)}{\text{Count}(w_{i-1})} & \text{si } w_i \in A(w_{i-1}) \\
-        \frac{\alpha(w_{i-1}) q_{\text{ML}}(w_i)}{\sum_{w \in B(w_{i-1})} q_{\text{ML}}(w)} & \text{si } w_i \in B(w_{i-1})
-    \end{cases}
-    \]
 Donde:
-    \[
-    \alpha(w_{i-1}) = 1 - \sum_{w \in A(w_{i-1})} \frac{\text{Count}^*(w_{i-1}, w)}{\text{Count}(w_{i-1})}
-    \]
 
-Para un modelo de trigramas, primero definimos dos conjuntos:
-    \[
-    A(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) > 0\}
-    \]
-    \[
-    B(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) = 0\}
-    \]
+\[
+\alpha(w_{i-2}, w_{i-1}) = 1 - \sum_{w \in A(w_{i-2}, w_{i-1})} \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w)}{\text{Count}(w_{i-2}, w_{i-1})}
+\]
 
-Un modelo de trigramas se define en términos del modelo de bigramas:
-    \[
-    q_{\text{BO}}(w_i | w_{i-2}, w_{i-1}) =
-    \begin{cases}
-        \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w_i)}{\text{Count}(w_{i-2}, w_{i-1})} & \text{si } w_i \in A(w_{i-2}, w_{i-1}) \\
-        \frac{\alpha(w_{i-2}, w_{i-1}) q_{\text{BO}}(w_i|w_{i-1})}{\sum_{w \in B(w_{i-2}, w_{i-1})} q_{\text{BO}}(w|w_{i-1})} & \text{si } w_i \in B(w_{i-2}, w_{i-1})
-    \end{cases}
-    \]
-Donde:
-    \[
-    \alpha(w_{i-2}, w_{i-1}) = 1 - \sum_{w \in A(w_{i-2}, w_{i-1})} \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w)}{\text{Count}(w_{i-2}, w_{i-1})}
-    \]
-
-
-
-Estos modelos de Katz Back-Off permiten aproximar las probabilidades condicionales en situaciones donde la información disponible es limitada, al aprovechar información de contextos más pequeños cuando no se dispone de suficientes datos para estimaciones directas.
+Estos modelos de Katz Back-Off ofrecen una aproximación efectiva de las probabilidades condicionales en situaciones en las que la información disponible es limitada, al aprovechar la información de contextos más pequeños cuando no se dispone de suficientes datos para estimaciones directas.
 
 \section{Historia}
 En 1951, mientras trabajaba en los laboratorios Bell, Claude Shannon (en la Figura~\ref{fig:shannon}) realizó experimentos sobre la entropía del inglés, modelando el lenguaje escrito de manera estadística y predictiva \cite{shannon1951prediction}. Utilizando modelos de lenguaje de n-gramas, Shannon exploró la dificultad de predecir palabras basándose en las palabras anteriores.
@@ -282,7 +282,7 @@ En 1951, mientras trabajaba en los laboratorios Bell, Claude Shannon (en la Figu
     \label{fig:shannon}
 \end{figure}
 
-Por otro lado, en su libro \textit{Syntactic Structures} (1957), Noam Chomsky (en la Figura~\ref{fig:chomsky}), un lingüista y científico cognitivo, cuestionó la capacidad de los modelos de lenguaje probabilísticos para capturar y comprender la gramática del lenguaje humano \cite{chomsky2009syntactic}. Según Chomsky, la noción de ``gramaticamente correcto'' no puede ser equiparada a ``significativo'' en un sentido probabilista. Para ilustrar esto, presentó dos oraciones ficticias, ambas carentes de sentido:
+Por otro lado, en su libro \textit{Syntactic Structures} (1957), Noam Chomsky (en la Figura~\ref{fig:chomsky}), un lingüista y científico cognitivo, cuestionó la capacidad de los modelos de lenguaje probabilísticos para capturar y comprender la gramática del lenguaje humano \cite{chomsky2009syntactic}. Según Chomsky, la noción de ``gramaticalmente correcto'' no puede ser equiparada a ``significativo'' en un sentido probabilista. Para ilustrar esto, presentó dos oraciones ficticias, ambas carentes de sentido:
 
 \begin{enumerate}
     \item Colorless green ideas sleep furiously.
@@ -300,7 +300,7 @@ Aunque ambas oraciones carecen de significado, Chomsky argumentó que solo la pr
 
 
 \section{Conclusiones}
-La derivación de probabilidades en modelos de lenguaje probabilísticos implica tres pasos:
+El cálculo de probabilidades en modelos de lenguaje probabilísticos implica tres pasos:
     \begin{enumerate}
         \item Expandir $p(w_1, w_2, \ldots, w_n)$ usando la regla de la Cadena.
         \item Aplicar los supuestos Independencia de Markov \\

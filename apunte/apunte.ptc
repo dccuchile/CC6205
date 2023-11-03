@@ -54,10 +54,10 @@
 \ttl@starttoc {default@3}
 \contentsline {section}{\numberline {3.1}El Problema del Modelado del Lenguaje}{37}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}¿Por qué querríamos hacer esto?}{38}{subsection.3.1.1}%
-\contentsline {section}{\numberline {3.2}Regla de la Cadena en Modelos de Lenguaje}{38}{section.3.2}%
+\contentsline {section}{\numberline {3.2}Regla de la Cadena en Modelos de Lenguaje}{39}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Mirada Predictiva}{39}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Mirada Generativa}{40}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Un Método Ingenuo}{40}{section.3.5}%
+\contentsline {section}{\numberline {3.5}Un Método Ingenuo}{41}{section.3.5}%
 \contentsline {section}{\numberline {3.6}Procesos de Markov}{41}{section.3.6}%
 \contentsline {subsection}{\numberline {3.6.1}Modelado de secuencias de longitud variable}{41}{subsection.3.6.1}%
 \contentsline {section}{\numberline {3.7}Modelos de lenguaje de Trigramas}{42}{section.3.7}%
@@ -67,8 +67,8 @@
 \contentsline {section}{\numberline {3.9}Interpolación Lineal}{45}{section.3.9}%
 \contentsline {subsection}{\numberline {3.9.1}Estimación de los Valores $\lambda $}{46}{subsection.3.9.1}%
 \contentsline {section}{\numberline {3.10}Modelos de Descuento (Katz Back-Off)}{46}{section.3.10}%
-\contentsline {section}{\numberline {3.11}Historia}{48}{section.3.11}%
-\contentsline {section}{\numberline {3.12}Conclusiones}{49}{section.3.12}%
+\contentsline {section}{\numberline {3.11}Historia}{49}{section.3.11}%
+\contentsline {section}{\numberline {3.12}Conclusiones}{50}{section.3.12}%
 \contentsline {chapter}{\numberline {4}Clasificación de Texto y Naïve Bayes}{51}{chapter.4}%
 \ttl@stoptoc {default@3}
 \ttl@starttoc {default@4}

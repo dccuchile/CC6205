@@ -1,8 +1,8 @@
 
-En esta sección introducimos el concepto de ``modelo de lenguaje''. Un enfoque para asignar probabilidades a las oraciones que, como veremos a lo largo del apunte, desempeñará un papel fundamental en los enfoques modernos de PLN.
+En esta sección introducimos el concepto de ``modelo de lenguaje''. Un enfoque para asignar probabilidades a las oraciones que, como veremos a lo largo del apunte, desempeñará un papel fundamental en los enfoques modernos de PLN. De hecho, los grandes modelos de lenguaje como ``ChatGPT'' y ``Google Bard'' están basados en esta tecnología.
 
 \section{El Problema del Modelado del Lenguaje}
-Supongamos que tenemos un corpus de documentos $\mathcal{C}$, del cual extraemos su vocabulario (finito) a partir de la tokenización de sus documentos, $\mathcal{V} = \{$el, un, hombre, telescopio, Zamorano, dos, fan, vio, jugar, para, Real, Madrid, Zamorano, . . .$\}$.
+Supongamos que tenemos un corpus de documentos $\mathcal{C}$, del cual extraemos su vocabulario (finito) a partir de la tokenización de sus documentos, $\mathcal{V} = \{$el, un, hombre, telescopio, dos, fan, vió, jugar, por, Real, Madrid, Zamorano, . . .$\}$.
 
 Podemos formar a partir de este vocabulario un conjunto infinito de oraciones si dejamos que éstas sean de largo variable, $\mathcal{V}^*$. 
 
@@ -198,10 +198,13 @@ p(x_1 \ldots x_n) = \prod_{i=1}^{n} q(x_i|x_{i-2}, x_{i-1})
 
 Aquí, definimos $x_0 = x_{-1} = *$ como dos tokens especiales antes del inicio del oración para poder condicionar tanto la primera como la segunda palabra de una oración por sus dos palabras. A este tipo de transformaciones se les conoce en PLN como ``padding''.
 
+\begin{example}
 Por ejemplo, para la oración ``el perro ladra STOP'', estimaríamos su probabilidad de la siguiente forma:
 \[
 p(\text{el perro ladra STOP}) = q(\text{el}|*, *) \times q(\text{perro}|*, \text{el}) \times q(\text{ladra}|\text{el}, \text{perro}) \times q(\text{STOP}|\text{perro}, \text{ladra})
-\]
+\] 
+\end{example}
+
 
 Ahora abordemos el problema de la estimación de los parámetros $q(w_i | w_{i-2}, w_{i-1})$ a partir de un corpus $\mathcal{C}$.
 
@@ -215,10 +218,12 @@ q(w_i | w_{i-2}, w_{i-1}) = \frac{{\text{Count}(w_{i-2}, w_{i-1}, w_i)}}{{\text{
 
 Esto requiere tokenizar el corpus de entrenamiento y guardar en una tabla los conteos de todos los trigramas (secuencias contiguas de 3 palabras) y bigramas (secuencias contiguas de dos palabras) encontrados.
 
+\begin{example}
 Por ejemplo:
 \[
 q(\text{ladra} | \text{el, perro}) = \frac{{\text{Count}(\text{el, perro, ladra})}}{{\text{Count}(\text{el, perro})}}
-\]
+\] 
+\end{example}
 
 
 
@@ -232,12 +237,16 @@ Para evaluar un modelo de lenguaje utilizamos un corpus de prueba independiente,
 \log \left( \prod_{i=1}^{m} p(s_i) \right) = \sum_{i=1}^{m} \log p(s_i)
 \]
 
+\begin{definition}
 La medida de evaluación estándar para modelos de lenguaje es la perplejidad (o perplexity), que se calcula de la siguiente manera:
 \[
 \text{Perplejidad} = 2^{-l} \quad \text{donde} \quad l = \frac{1}{M} \sum_{i=1}^{m} \log p(s_i)
 \]
 
-Donde $M$ es el número total de palabras en los datos de prueba.
+Donde $M$ es el número total de palabras en los datos de prueba. 
+\end{definition}
+
+
 
 La perplejidad es una métrica que favorece valores más bajos y tiene la propiedad de ser más fácil de interpretar que la probabilidad logarítmica, como se discutirá a continuación.
 
@@ -287,7 +296,7 @@ Estos resultados muestran que la perplejidad disminuye a medida que aumentamos e
 
 \subsection{El trade-off entre sesgo y varianza}
 
-Una limitación de los modelos de trigramas está relacionada con la dispersión del lenguaje, discutida en el Capítulo~\ref{cap_intro}. A grandes rasgos, si el tamaño del vocabulario es $N = |V|$, entonces el modelo tiene $N^3$ parámetros. Por ejemplo, si $N = 20,000$, habría $20,000^3 = 8 \times 10^{12}$ parámetros. Esta cantidad de parámetros es enorme y dificulta la estimación adecuada de todos ellos sin requerir un corpus de entrenamiento de tamaño enorme. Como resultado, puede surgir un problema de sobreajuste (overfitting) a los datos de entrenamiento. Por otro lado, modelos más simples, como un modelo de lenguaje de unigrama o de bigrama, no son capaces de modelar adecuadamente el contexto.
+Una limitación de los modelos de trigramas está relacionada con la dispersión del lenguaje, discutida en el Capítulo~\ref{cap_intro}. A grandes rasgos, si el tamaño del vocabulario es $N = |V|$, entonces el modelo tiene $N^3$ parámetros. Por ejemplo, si $N = 20,000$, habría $20,000^3 = 8 \times 10^{12}$ parámetros. Esta cantidad de parámetros es enorme y dificulta la estimación adecuada de todos ellos sin requerir un corpus de entrenamiento de tamaño enorme. Como resultado, puede surgir un problema de sobreajuste (overfitting) a los datos de entrenamiento. Por otro lado, modelos más simples, como un modelo de lenguaje de unigrama o de bigrama, no son capaces de modelar adecuadamente contextos más largos.
 
 Este dilema es conocido en estadística y aprendizaje automático como el trade-off entre sesgo y varianza, que se refiere a la compensación entre la simplicidad del modelo y su capacidad para capturar la complejidad y variabilidad de los datos.
 
@@ -306,7 +315,7 @@ Para abordar el problema del sobreajuste en modelos de lenguaje, se utilizan div
 
 \section{Interpolación Lineal}
 
-La pricipal idea detrás de la técnica de interpolación lineal es combinar las distribuciones de probabilidad estimadas por modelos de n-gramas con las obtenidas a través de modelos de órdenes inferiores, como bigramas y unigramas. Esta estrategia ofrece la ventaja de incorporar información de n-gramas de órdenes más bajos, permitiendo abordar la indefinición de probabilidades en palabras no observadas durante el entrenamiento. Pues basta que una oración tenga un sólo trigrama no observado en entrenamiento para recibir una probabilidad de cero por el efecto multiplicativo de la regla de la cadena.
+La pricipal idea detrás de la técnica de interpolación lineal es combinar las distribuciones de probabilidad estimadas por modelos de trigramas con las obtenidas a través de modelos de órdenes inferiores, como bigramas y unigramas. Esta estrategia ofrece la ventaja de incorporar información de n-gramas de órdenes más bajos, permitiendo abordar la indefinición de probabilidades en palabras no observadas durante el entrenamiento. Pues basta que una oración tenga un sólo trigrama no observado en entrenamiento para recibir una probabilidad de cero por el efecto multiplicativo de la regla de la cadena.
 
 En el modelo interpolado, se ponderan linealmente tres modelos distintos:
 
@@ -355,9 +364,9 @@ Esto generalmente se hace buscando en una grilla de posibles valores de todos lo
 
 \section{Modelos de Descuento (Katz Back-Off)}
 
-Los modelos de descuento representan una técnica alternativa a la interpolación con el propósito de mejorar la generalización del modelo de lenguaje a datos que difieren de los utilizados en el entrenamiento. Además, estos modelos ayudan a evitar la sobreestimación de conteos para n-gramas con baja frecuencia de aparición. La idea principal detrás de los modelos de descuento es redistribuir la probabilidad de los n-gramas observados hacia aquellos que no se han observado.
+Los modelos de descuento representan una técnica alternativa a la interpolación con el propósito de mejorar la generalización del modelo de lenguaje a datos que difieren de los utilizados en el entrenamiento.La idea principal detrás de los modelos de descuento es redistribuir la probabilidad de los n-gramas observados hacia aquellos que no se han observado.
 
-Para ilustrar estos modelos, consideremos un ejemplo utilizando los conteos de bigramas que comienzan con el unigrama ``la'' en un corpus, junto con sus estimaciones de máxima verosimilitud, que se presentan en la Tabla~\ref{tab:plm_ej}. Se puede notar que estas estimaciones tienden a sobrevalorar lo que se ha observado en el corpus y subestimar lo que no se ha observado.
+Para ilustrar estos modelos, consideremos un ejemplo utilizando los conteos de bigramas que inician con el unigrama ``la'' en un corpus, junto con sus estimaciones de máxima verosimilitud, detalladas en la Tabla~\ref{tab:plm_ej}. 
 
 \begin{table}[h]
     \centering
@@ -378,11 +387,17 @@ Para ilustrar estos modelos, consideremos un ejemplo utilizando los conteos de b
     \end{tabular}\caption{Ejemplo de conteos de bigramas}\label{tab:plm_ej}
 \end{table}
 
-Podemos definir los conteos ``descontados'' de la siguiente manera:
+Si miramos las probabilidades de bigramas con baja frecuencia, como ``la tuerca,'' que se observa solo una vez y tiene una probabilidad de $1/48$, en contraste con un bigrama no observado, como ``la puerta,'' que tiene una probabilidad de $0$. ¿Podemos confiar plenamente en estas estimaciones o son simplemente el resultado de la aleatoriedad inherente al proceso de construir el corpus? Es posible que, si hubiéramos utilizado otro corpus, habríamos obtenido estimaciones diferentes. Esto indica que las estimaciones de MLE tienden a exagerar lo que se ha observado en el corpus y a subestimar lo que no se ha observado. Para abordar este problema, recurriremos al uso de conteos ``descontados''.
+
+\begin{definition}
+Definimos los conteos ``descontados'' de la siguiente manera:
 
 \[
 \text{Conteo}^*(x) = \text{Conteo}(x) - \beta
 \]
+\end{definition}
+
+
 
 Donde $\beta$ es una constante que generalmente se encuentra entre 0 y 1, siendo un valor típico 0.5. Con $\beta=0.5$, los conteos se descuentan, es decir, se reduce la probabilidad de los datos observados, como se muestra en la Tabla~\ref{tab:plm_ej}.
 
@@ -407,9 +422,12 @@ Donde $\beta$ es una constante que generalmente se encuentra entre 0 y 1, siendo
 
 Las nuevas estimaciones se basan en los conteos descontados, y se introduce una ``masa de probabilidad faltante'' como se muestra a continuación:
 
+\begin{definition}
 \[
 \alpha(w_{i-1}) = 1 - \sum_{w} \frac{\text{Conteo}^*(w_{i-1}, w)}{\text{Conteo}(w_{i-1})}
 \]
+\end{definition}
+
 
 Por ejemplo, en nuestro caso:
 
@@ -417,13 +435,15 @@ Por ejemplo, en nuestro caso:
 \alpha(\text{la}) = 1 - \frac{14.5+10.5+9.5+4.5+1.5+0.5+0.5+0.5+0.5+0.5}{48} = 1-\frac{43}{48} = \frac{5}{48}
 \]
 
-La idea es redistribuir esta masa faltante entre todos los bigramas que comienzan con la palabra ``la'' y que no fueron observados en el corpus, como por ejemplo ``rana'', ``bailarina'' y ``puerta''.
+La idea es redistribuir esta masa faltante entre todos los bigramas que comienzan con la palabra ``la'' y que no fueron observados en el corpus, como por ejemplo ``rana'', ``bailarina'' y ``puerta''. No queremos distribuirlo uniformemente sino proporcionalmente con la probabilidad de cada unigrama considerado.
 
+
+
+\begin{definition}
 En el modelo de Katz Back-Off de bigramas, se definen dos conjuntos: $A(w_{i-1})$ y $B(w_{i-1})$, como se detalla a continuación:
-
 \[
 A(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) > 0\}
-\]
+\] 
 
 En nuestro ejemplo, $A(\text{la}) = \{$ gata, mujer, persona, plaza, actividad, tuerca, revista, tarde, ciudad, calle $\}$.
 
@@ -431,11 +451,15 @@ Por otro lado, $B(w_{i-1})$ se define como:
 
 \[
 B(w_{i-1}) = \{w : \text{Count}(w_{i-1}, w) = 0\}
-\]
+\] 
+
 
 En nuestro ejemplo, $B(\text{la}) = \{$ rana, bailarina, puerta, $\dots$ $\}$.
 
-Luego, la probabilidad condicional $q_{\text{BO}}(w_i | w_{i-1})$ se calcula de la siguiente manera: si la palabra $w_i$ está en el conjunto $A(w_{i-1})$, se utiliza una estimación basada en las frecuencias relativas de la secuencia $(w_{i-1}, w_i)$ dividida por la frecuencia de $w_{i-1}$. Si $w_i$ está en el conjunto $B(w_{i-1})$, se utiliza una estimación suavizada que combina la constante $\alpha(w_{i-1})$ y las probabilidades condicionales de máxima verosimilitud  de un modelo orden inferior (unigramas) $q_{\text{ML}}(w_i)$ de las palabras en el conjunto $B(w_{i-1})$. Esta última ponderación asegura que las probabilidades queden bien definidas.
+\end{definition}
+
+
+Luego, la probabilidad condicional $q_{\text{BO}}(w_i | w_{i-1})$ se calcula de la siguiente manera: si la palabra $w_i$ está en el conjunto $A(w_{i-1})$, se utiliza una estimación basada en las frecuencias relativas de la secuencia $(w_{i-1}, w_i)$ dividida por la frecuencia de $w_{i-1}$. Si $w_i$ está en el conjunto $B(w_{i-1})$, se utiliza una estimación suavizada que combina la constante $\alpha(w_{i-1})$ y las probabilidades condicionales de máxima verosimilitud  de un modelo orden inferior (unigramas) $q_{\text{ML}}(w_i)$ de las palabras en el conjunto $B(w_{i-1})$. La idea aquí es distribuir la masa de probabilidad faltante en proporción a la probabilidad de unigrama de $w_i $   asegurando que las probabilidades resultantes queden bien definidas.
 
 \[
 q_{\text{BO}}(w_i | w_{i-1}) =
@@ -451,12 +475,16 @@ La constante $\alpha(w_{i-1})$ se calcula restando la suma de las frecuencias re
 
 Para extender este enfoque a trigramas, se definen conjuntos similares $A(w_{i-2}, w_{i-1})$ y $B(w_{i-2}, w_{i-1})$ para las secuencias de trigramas:
 
+\begin{definition}
 \[
 A(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) > 0\}
 \]
 \[
 B(w_{i-2}, w_{i-1}) = \{w : \text{Count}(w_{i-2}, w_{i-1}, w) = 0\}
-\]
+\] 
+\end{definition}
+
+
 
 La probabilidad condicional $q_{\text{BO}}(w_i | w_{i-2}, w_{i-1})$ en un modelo de trigramas se calcula utilizando el modelo de bigrama correspondiente y aplicando la misma lógica anterior:
 
@@ -474,7 +502,7 @@ Donde:
 \alpha(w_{i-2}, w_{i-1}) = 1 - \sum_{w \in A(w_{i-2}, w_{i-1})} \frac{\text{Count}^*(w_{i-2}, w_{i-1}, w)}{\text{Count}(w_{i-2}, w_{i-1})}
 \]
 
-Estos modelos de Katz Back-Off ofrecen una aproximación efectiva de las probabilidades condicionales en situaciones en las que la información disponible es limitada, al aprovechar la información de contextos más pequeños cuando no se dispone de suficientes datos para estimaciones directas.
+Estos modelos de Katz Back-Off y las técnicas de inteporlación le agregan flexibilidad a los modelos de trigramas al aprovechar la información de contextos más pequeños ayudando a que no se indefinan probabilidades de n-gramas no observadas en entrenamiento y generalizar mejor a datos desconocidos. 
 
 \section{Historia}
 En 1951, mientras trabajaba en los laboratorios Bell, Claude Shannon (en la Figura~\ref{fig:shannon}) realizó experimentos sobre la entropía del inglés, modelando el lenguaje escrito de manera estadística y predictiva \cite{shannon1951prediction}. Utilizando modelos de lenguaje de n-gramas, Shannon exploró la dificultad de predecir palabras basándose en las palabras anteriores.

@@ -19,17 +19,24 @@ Ambas disciplinas están estrechamente vinculadas al PLN, y las fronteras entre 
 
 El primer paso en el procesamiento de texto es, generalmente, la \textbf{tokenización}, que consiste en dividir una oración o documento en fragmentos llamados \emph{tokens}. A menudo, se acompañan otras transformaciones adicionales, como la eliminación de caracteres especiales (por ejemplo, puntuación), la conversión de todo el texto a minúsculas y otras operaciones descritas en este capítulo.
 
-\paragraph{Ejemplo}
-
+\begin{example}
 Entrada: ``Me gustan los lenguajes humanos y los lenguajes de programación.''
 
-Tokens: [Me] [gustan] [los] [lenguajes] [humanos] [y] [los] [lenguajes] [de] [programación]
+Tokens: [Me] [gustan] [los] [lenguajes] [humanos] [y] [los] [lenguajes] [de] [programación] 
+\end{example}
+
+
+
 
 \subsection{Tipos}
 
 Un \emph{tipo} es una clase de \emph{token} que contiene una secuencia única de caracteres. Los tipos se obtienen identificando los tokens únicos dentro del documento.
 
-Por ejemplo, para la oración anterior, los tipos serían: [Me] [gustan] [los] [lenguajes] [humanos] [y] [de] [programación]. Observemos que el token \emph{lenguajes} se incluye solo una vez en la lista de tipos.
+\begin{example}
+Por ejemplo, para la oración anterior, los tipos serían: [Me] [gustan] [los] [lenguajes] [humanos] [y] [de] [programación]. Observemos que el token \emph{lenguajes} se incluye solo una vez en la lista de tipos. 
+\end{example}
+
+
 
 \paragraph{Extracción de Vocabulario}
 
@@ -39,9 +46,18 @@ Un \emph{término} es un \emph{tipo} normalizado. La normalización implica la c
 
 Con el fin de reducir el tamaño del vocabulario y eliminar términos que no aportan mucha información, se eliminan los términos que ocurren con alta frecuencia en el corpus (o colección de documentos). Estos términos se llaman \emph{stopwords} e incluyen artículos, pronombres, preposiciones y conjunciones.
 
-Ejemplo de stopwords: [un, una, y, cualquier, no, el, en].
+\begin{example}
+Ejemplo de stopwords: [un, una, y, cualquier, no, el, en]. 
+\end{example}
 
-Es importante tener en cuenta que la eliminación de stopwords puede ser inconveniente en muchas tareas de procesamiento del lenguaje natural. Por ejemplo, en la oración ``No me gusta la pizza'', al eliminar la negación, se pierde información valiosa sobre el sentimiento de la oración.
+
+Es importante tener en cuenta que la eliminación de stopwords puede ser inconveniente en muchas tareas de procesamiento del lenguaje natural. 
+
+\begin{example}
+Por ejemplo, en la oración ``No me gusta la pizza'', al eliminar la negación, se pierde información valiosa sobre el sentimiento de la oración. 
+\end{example}
+
+
 
 \section{Stemming}
 
@@ -63,6 +79,8 @@ S $\rightarrow$ & cats $\rightarrow$ cat \\
 \label{tab:porter}
 \end{table}
 
+\begin{example}
+
 A continuación se muestra ejemplo usando el método de stemming Snowball para español para el lenguaje \textbf{python} usando la biblioteca \textbf{nltk}\footnote{\url{https://www.nltk.org/}}.
 
 \begin{verbatim}
@@ -75,13 +93,16 @@ def stem_sentence(text):
 print(stem_sentence(texto))
 >>
 me gust los lenguaj human y los lenguaj de program
-\end{verbatim}
+\end{verbatim} 
+\end{example}
+
 
 
 
 \section{Lematización}
 Otra estrategia de normalización de términos. También transforma las palabras en sus raíces.  Realiza un análisis morfológico utilizando diccionarios de referencia (tablas de búsqueda) para crear clases de equivalencia entre \emph{tipos}. Por ejemplo, para el token \emph{yendo}, una regla de stemming devolvería el término \emph{yend}, mientras que a través de la lematización obtendríamos el término \emph{ir}.
 
+\begin{example}
 Veamos a continuación el resultado de aplicar lematización a la misma oración anterior con la biblioteca \textbf{spacy}\footnote{\url{https://spacy.io/}}:
 
 \begin{verbatim}
@@ -97,6 +118,9 @@ print(lemmatizer(texto))
 >>
 yo gustar el lenguaje humano y el lenguaje de programación
 \end{verbatim}
+\end{example}
+
+
 
 
 
@@ -121,13 +145,19 @@ Cuando trazamos un gráfico en escala logarítmica ($log$-$log$), se obtiene una
 \section{Listas de posteo y el índice invertido}
 Sea $D$ una colección de documentos y $V$ el vocabulario de todos los términos extraídos de la colección:
 
-\begin{itemize}
-\item La lista de posteo de un término es la lista de todos los documentos donde el término aparece al menos una vez. Los documentos se identifican por sus identificadores.
-\item Un índice invertido es una estructura de datos tipo diccionario que mapea los términos $t_{i} \in V$ con sus listas de posteo correspondientes.
+
+\begin{definition}
+La lista de posteo de un término es la lista de todos los documentos donde el término aparece al menos una vez. Los documentos se identifican por sus identificadores. 
+\end{definition}
+
+\begin{definition}
+Un índice invertido es una estructura de datos tipo diccionario que mapea los términos $t_{i} \in V$ con sus listas de posteo correspondientes.
 \begin{displaymath}
 <\text{término}> \rightarrow <\text{idDocumento}>^*
-\end{displaymath}
-\end{itemize}
+\end{displaymath} 
+\end{definition}
+
+
 
 \begin{figure}[h!]
 \centering
@@ -157,7 +187,7 @@ Un motor de búsqueda es un sistema de recuperación de información diseñado p
 
 
 \section{El modelo de espacio vectorial}
-Para clasificar consultas o medir la similitud entre dos documentos, necesitamos una métrica de similitud. Los documentos pueden ser \textit{representados} como vectores de términos, donde cada término es una dimensión del vector \cite{salton1975vector}. Documentos con diferentes palabras y longitudes residirán en el mismo espacio vectorial. Este tipo de representaciones se llaman \emph{Bolsa-de-palabras} (Bag of Words). En las representaciones de bolsa de palabras, se pierde el orden de las palabras y la estructura lingüística de una oración tal como se muestra en la Figura~\ref{fig_bow}.
+Para clasificar consultas o medir la similitud entre dos documentos, es esencial contar con una métrica que evalúe la similitud entre pares de documentos. Una estrategia para habilitar esta comparación implica la \textit{representación} de los documentos como vectores de términos, en la que cada término se convierte en una dimensión en el espacio vectorial \cite{salton1975vector}. De esta manera, documentos con diferentes palabras y longitudes pueden coexistir en el mismo espacio vectorial, lo que facilita su comparación. Estas representaciones se conocen como modelos de \emph{Bolsa-de-palabras} (Bag of Words), en los cuales se pierde información respecto al orden de las palabras y de la estructura lingüística de las oraciones, como se ilustra en la Figura~\ref{fig_bow}.
 
 
 \begin{figure}[h!]
@@ -175,25 +205,35 @@ El valor de cada dimensión es un peso que representa la relevancia del término
 d_{j} \rightarrow \overrightarrow{d_{j}}=(w(t_{1},d_{j}),...,w(t_{|V|},d_{j}))
 \end{equation}
 
-¿Cómo podemos modelar la información que aporta un término a un documento? Necesitamos formas de ponderar eso.  Una forma común de modelar $w(t_{i},d_{j})$ es el modelo Frecuencia de Término - Frecuencia Inversa de Documento o TF-IDF (por sus siglas en inglés).
+Para cuantificar la importancia que un término aporta a un documento, es necesario emplear métodos de ponderación de su relevancia, denotada como $w(t_{i},d_{j})$. Una técnica ampliamente utilizada para abordar esto es el modelo de Frecuencia de Término - Frecuencia Inversa de Documento, comúnmente conocido como ``TF-IDF'' (por sus siglas en inglés).
 
 \subsection{El modelo TF-IDF}
-Sea $tf_{i,j}$ la frecuencia del término $t_{i}$ en el documento $d_{j}$.  Un término que ocurre 10 veces debería proporcionar más información que uno que ocurre solo una vez. ¿Qué ocurre cuando tenemos documentos que son mucho más largos que otros? Podemos normalizar dividiendo por la frecuencia máxima del término en el documento.
-\begin{displaymath}
-ntf_{i,j}=\frac{tf_{i,j}}{\max_i (tf_{i,j})}
-\end{displaymath}
+Definimos $tf_{i,j}$ como la frecuencia del término $t_{i}$ en el documento $d_{j}$. La lógica subyacente en esta ponderación es que un término que aparece 10 veces en un documento debería aportar más información que uno que solo aparece una vez. Sin embargo, surge un problema cuando tenemos documentos de diferentes longitudes, ya que no deseamos favorecer a los documentos más extensos. Para abordar esta cuestión, normalizamos la frecuencia dividiendo por la frecuencia máxima del término en el documento, como se muestra a continuación:
 
-Ahora podemos preguntarnos ¿un término que ocurre en muy pocos documentos proporciona más o menos información que uno que ocurre varias veces? Por ejemplo, el documento \emph{El respetado alcalde de Pelotillehue}. El término \emph{Pelotillehue} ocurre en menos documentos que el término \emph{alcalde}, por lo que debería ser más descriptivo.
+\[
+ntf_{i,j} = \frac{tf_{i,j}}{\max_i (tf_{i,j})}
+\]
 
+Ahora podemos preguntarnos ¿un término que ocurre en muy pocos documentos proporciona más o menos información que uno que ocurre varias veces? Por ejemplo, el documento \emph{El respetado alcalde de Pelotillehue}. El término \emph{Pelotillehue} ocurre en menos documentos que el término \emph{alcalde}, por lo que debería ser más descriptivo. La frecuencia del término en el documento no es capaz de considerar esa relevancia. 
+
+\begin{definition}
 Sea $N$ el número de documentos en la colección y $n_{i}$ el número de documentos que contienen el término $t_{i}$, definimos la frecuencia inversa de documento ($idf$) de $t_{i}$ de la siguiente manera:
 \begin{displaymath}
 idf_{t_{i}}= \log_{10}\left(\frac{N}{n_{i}}\right)
 \end{displaymath}
 
-Un término que aparece en todos los documentos tendría $idf=0$, y uno que aparece en el $10\%$ de los documentos tendría $idf=1$. El modelo $tf$-$idf$ combina los valores de $tf$ e $idf$, y resulta en los siguientes pesos $w$ para un término en un documento:
+\end{definition}
+
+Un término que aparece en todos los documentos tendría $idf=0$, y uno que aparece en el $10\%$ de los documentos tendría $idf=1$. 
+
+\begin{definition}
+ El modelo $tf$-$idf$ combina los valores de $tf$ e $idf$, y resulta en los siguientes pesos $w$ para un término en un documento:
 \begin{displaymath}
 w(t_{i},d_{j})=tf_{i}\times \log_{10}\left(\frac{N}{n_{i}}\right)
-\end{displaymath}
+\end{displaymath} 
+\end{definition}
+
+
 
 Las consultas de los motores de búsqueda también pueden ser modeladas como vectores. Sin embargo, en promedio, las consultas suelen tener entre 2 y 3 términos. Para evitar tener demasiadas dimensiones nulas, los vectores de consulta pueden suavizarse de la siguiente manera:
 \begin{displaymath}
@@ -201,10 +241,16 @@ w(t_{i},d_{j})=(0.5+0.5\times tf_{i,j})\log_{10}\left(\frac{N}{n_{i}}\right)
 \end{displaymath}
 
 \subsection{Similitud entre vectores}
-Representar consultas y documentos como vectores permite calcular su similitud. Un enfoque podría ser utilizar la distancia euclidiana. El enfoque común es calcular el coseno del ángulo entre los dos vectores. Si ambos documentos son iguales, el ángulo sería $0$ y su coseno sería $1$. Por otro lado, si son ortogonales, el coseno es $0$. La similitud del coseno se calcula de la siguiente manera:
+Representar consultas y documentos como vectores permite calcular su similitud. Un enfoque podría ser utilizar la distancia euclidiana. El enfoque común es calcular el coseno del ángulo entre los dos vectores. Si ambos documentos son iguales, el ángulo sería $0$ y su coseno sería $1$. Por otro lado, si son ortogonales, el coseno es $0$. 
+
+\begin{definition}
+La similitud del coseno se calcula de la siguiente manera:
 \begin{displaymath}
 \text{similitud del coseno}(\vec{d}{1},\vec{d}{2})= \frac{\vec{d}{1}\cdot \vec{d}{2}}{|\vec{d}{1}|\times|\vec{d}{2}|} = \frac{\sum_{i=1}^{|V|}(w(t_{i},d_{1})\times w(t_{i},d_{2}))}{\sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{1})^2}\times \sqrt{\sum_{i=1}^{|V|} w(t_{i},d_{2})^2}}
-\end{displaymath}
+\end{displaymath} 
+\end{definition}
+
+
 
 Esto se llama incorrectamente ``distancia del coseno''. En realidad, es una métrica de similitud pues entre más cerca dos vectores mayor es el valor asociado. Nótese que la similitud del coseno normaliza los vectores por su norma euclidiana $||\vec{d}||_{2}$.
 

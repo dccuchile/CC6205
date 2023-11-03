@@ -12,20 +12,32 @@ A continuación, se discuten varias propiedades del lenguaje humano que hacen ex
 
 \paragraph{Ambigüedad}
 
-El lenguaje humano es sumamente ambiguo. Tomemos, por ejemplo, las siguientes oraciones:
-`
+El lenguaje humano es sumamente ambiguo. 
+
+\begin{example}
+Tomemos, por ejemplo, las siguientes oraciones:
+
 \begin{enumerate}
   \item ``Yo comí pizza con amigos.''
   \item ``Yo comí pizza con aceitunas.''
   \item ``Yo comí pizza con un tenedor.''
-\end{enumerate}
+\end{enumerate} 
+\end{example}
 
-Aunque las tres oraciones tienen una estructura gramatical muy similar, difieren en cómo las frases nominales siguientes a la preposición ``con'' se relacionan con las partes anteriores. En la primera oración, ``amigos'' modifica al pronombre ``yo''; en la segunda, ``aceitunas'' modifica a la pizza; y en la tercera, ``un tenedor'' modifica al verbo ``comer''. Otra fuente de ambigüedad es la polisemia; palabras con más de un significado. Por ejemplo:
+
+
+Aunque las tres oraciones tienen una estructura gramatical muy similar, difieren en cómo las frases nominales siguientes a la preposición ``con'' se relacionan con las partes anteriores. En la primera oración, ``amigos'' modifica al pronombre ``yo''; en la segunda, ``aceitunas'' modifica a la pizza; y en la tercera, ``un tenedor'' modifica al verbo ``comer''. Otra fuente de ambigüedad es la polisemia; palabras con más de un significado.
+
+\begin{example}
+Por ejemplo:
 \begin{enumerate}
  \item ``Me senté en el banco''.
  \item ``Fui al banco a sacar plata''.
 \end{enumerate}
- En estas dos oraciones ``banco'' tiene significado distintos. Para poder comprender estas oraciones es necesaria realizar  distinciones muy precisas que requieren tener en cuenta el contexto situacional, lo cual puede resultar natural para una persona, pero muy complejo para una máquina.
+ En estas dos oraciones ``banco'' tiene significado distintos. 
+\end{example}
+
+Para poder comprender estas oraciones es necesaria realizar  distinciones muy precisas que requieren tener en cuenta el contexto situacional, lo cual puede resultar natural para una persona, pero muy complejo para una máquina.
 
 \paragraph{Dinamismo}
 
@@ -33,7 +45,12 @@ El lenguaje está en constante cambio y evolución. Siempre surgen nuevas palabr
 
 \paragraph{Discretitud}
 
-El lenguaje escrito, como una oración o un documento, se puede entender como una secuencia de palabras discretas provenientes de un vocabulario finito. La naturaleza discreta de las palabras implica que no podemos inferir la relación entre dos palabras basándonos únicamente en las letras que las componen. Por ejemplo, las palabras ``hamburguesa'', ``pizza'' y ``tiza'', aunque las dos primeras están más cerca entre sí semánticamente, las dos últimas tienen una mayor similitud en cuanto a las letras que las forman.
+El lenguaje escrito, como una oración o un documento, se puede entender como una secuencia de palabras discretas provenientes de un vocabulario finito. La naturaleza discreta de las palabras implica que no podemos inferir la relación entre dos palabras basándonos únicamente en las letras que las componen. 
+
+\begin{example}
+Por ejemplo, las palabras ``hamburguesa'', ``pizza'' y ``tiza'', aunque las dos primeras están más cerca entre sí semánticamente, las dos últimas tienen una mayor similitud en cuanto a las letras que las forman. 
+\end{example}
+
 
 \paragraph{Composicionalidad}
 El significado de una oración va más allá del significado individual de sus palabras. Esto implica que, aunque tengamos formas de representar computacionalmente el significado de las palabras, esto no garantiza que podamos representar cómo se componen para formar significados a nivel de oración.
@@ -104,14 +121,26 @@ La fonética es la rama de la lingüística que se ocupa del estudio de los soni
 
 \subsection{Fonología}
 
-La fonología se centra en el estudio de cómo los sonidos del habla forman patrones y construyen significado. Los fonemas son las unidades básicas de sonido que diferencian el significado de las palabras. Por ejemplo, en inglés, la ``p'' y la ``b'' son fonemas distintos porque cambian el significado de las palabras en las que se encuentran (piensen las palabras ``pat'' y ``bat'').
+La fonología se centra en el estudio de cómo los sonidos del habla forman patrones y construyen significado. Los fonemas son las unidades básicas de sonido que diferencian el significado de las palabras.
+\begin{example}
+Por ejemplo, en inglés, la ``p'' y la ``b'' son fonemas distintos porque cambian el significado de las palabras en las que se encuentran (piensen las palabras ``pat'' y ``bat''). 
+\end{example}
 
 La fonología también examina las variaciones en la pronunciación de los sonidos en diferentes contextos y dialectos \cite{fromkin2018introduction}.
 \subsection{Morfología}
 
-La morfología es el campo de estudio encargado de analizar la estructura interna de las palabras. Los morfemas, que son las unidades mínimas de significado, son los componentes fundamentales de las palabras. Por ejemplo, en la palabra ``deshacer'', los morfemas presentes son ``des-'', ``hacer'' y ``-er''. Además, la morfología examina los procesos de formación de palabras, como la derivación, que implica agregar prefijos o sufijos a una palabra existente para crear una nueva palabra con un significado diferente \cite{JohnsonMLSS}.
+La morfología es el campo de estudio encargado de analizar la estructura interna de las palabras. Los morfemas, que son las unidades mínimas de significado, son los componentes fundamentales de las palabras. 
+\begin{example}
+Por ejemplo, en la palabra ``deshacer'', los morfemas presentes son ``des-'', ``hacer'' y ``-er''.  
+\end{example}
 
-Un ejemplo ilustrativo de la morfología derivativa es la palabra en inglés ``revitalization''. En esta palabra, los morfemas ``re+vital+ize+ation'' se combinan para formar una estructura jerárquica en su morfología derivativa, como se muestra en la Figura~\ref{fig:morfo_der}. El sufijo ``ation'' determina la categoría gramatical (part-of-speech) de la palabra derivada, en este caso, un sustantivo (noun).
+Además, la morfología examina los procesos de formación de palabras, como la derivación, que implica agregar prefijos o sufijos a una palabra existente para crear una nueva palabra con un significado diferente \cite{JohnsonMLSS}.
+
+\begin{example}
+Un ejemplo ilustrativo de la morfología derivativa es la palabra en inglés ``revitalization''. En esta palabra, los morfemas ``re+vital+ize+ation'' se combinan para formar una estructura jerárquica en su morfología derivativa, como se muestra en la Figura~\ref{fig:morfo_der}. El sufijo ``ation'' determina la categoría gramatical (part-of-speech) de la palabra derivada, en este caso, un sustantivo (noun). 
+\end{example}
+
+
 
 \begin{figure}[h]
 	\centering
@@ -124,7 +153,12 @@ Otra propiedad morfológica importante es la inflexión, que se refiere a los ca
 
 \subsection{Sintaxis}
 
-La sintaxis es el estudio de cómo las palabras se combinan para formar frases y oraciones gramaticales. Examina las reglas y estructuras que determinan la organización de las palabras en una oración para un idioma particular y cómo influyen en el significado. La sintaxis también se ocupa de la relación entre las palabras y las funciones que desempeñan dentro de una oración. Por ejemplo, en la oración ``The cat chased the dog'', ``The cat'' es el sujeto, ``chased'' es el verbo y ``the dog'' es el complemento directo \cite{JohnsonMLSS}, tal como muestra el árbol sintáctico en la Figura~\ref{fig:arbol_sintactico}. El análisis sintáctico ayuda a identificar \textbf{quién hizo qué a quién} en una oración, lo cual es muy útil para comprender su significado.
+La sintaxis es el estudio de cómo las palabras se combinan para formar frases y oraciones gramaticales. Examina las reglas y estructuras que determinan la organización de las palabras en una oración para un idioma particular y cómo influyen en el significado. La sintaxis también se ocupa de la relación entre las palabras y las funciones que desempeñan dentro de una oración. 
+\begin{example}
+Por ejemplo, en la oración ``The cat chased the dog'', ``The cat'' es el sujeto, ``chased'' es el verbo y ``the dog'' es el complemento directo \cite{JohnsonMLSS}, tal como muestra el árbol sintáctico en la Figura~\ref{fig:arbol_sintactico}. 
+\end{example}
+
+El análisis sintáctico ayuda a identificar \textbf{quién hizo qué a quién} en una oración, lo cual es muy útil para comprender su significado.
 
 \begin{figure}[h]
 	\centering
@@ -138,13 +172,28 @@ La sintaxis es el estudio de cómo las palabras se combinan para formar frases y
 
 \subsection{Semántica}
 
-La semántica es el estudio del significado de las palabras, frases y oraciones, examinando cómo se construye e interpreta este significado en el contexto del lenguaje. Además, la semántica se interesa por los roles semánticos, que indican la función de cada entidad en una oración.  Algunos ejemplos de roles semánticos son: \textcolor[rgb]{0.00,0.00,1.00}{\textbf{agente}} (la entidad que realiza la acción), \textcolor[rgb]{1.00,0.00,0.00}{\textbf{tema}} (la entidad involucrada en la acción) y \textcolor[rgb]{0.00,1.00,0.00}{\textbf{instrumento}} (otra entidad utilizada por el agente para llevar a cabo la acción). En la oración ``El niño cortó la cuerda con un cuchillo'', se puede identificar el agente como \textcolor[rgb]{0.00,0.00,1.00}{\textbf{el niño}}, el tema como \textcolor[rgb]{1.00,0.00,0.00}{\textbf{la cuerda}} y el instrumento como \textcolor[rgb]{0.00,1.00,0.00}{\textbf{un cuchillo}} \cite{JohnsonMLSS}.
+La semántica es el estudio del significado de las palabras, frases y oraciones, examinando cómo se construye e interpreta este significado en el contexto del lenguaje. Además, la semántica se interesa por los roles semánticos, que indican la función de cada entidad en una oración.  
 
-Además de los roles semánticos, la semántica también se ocupa de las relaciones léxicas (o semántica léxica), que son las conexiones entre distintas palabras \cite{yule2016study}. Algunos ejemplos de estas relaciones incluyen la sinonimia, que se refiere a palabras con significados similares como ``esconder'' y ``ocultar''; la antonimia, que involucra palabras con significados opuestos como ``alto'' y ``bajo''; y la hiponimia, que establece una relación entre una palabra más específica y otra más general, como ``perro'' y ``animal''. Además, existe la hiperonimia, que representa la relación contraria.
+\begin{example}
+Algunos ejemplos de roles semánticos son: \textcolor[rgb]{0.00,0.00,1.00}{\textbf{agente}} (la entidad que realiza la acción), \textcolor[rgb]{1.00,0.00,0.00}{\textbf{tema}} (la entidad involucrada en la acción) y \textcolor[rgb]{0.00,1.00,0.00}{\textbf{instrumento}} (otra entidad utilizada por el agente para llevar a cabo la acción). En la oración ``El niño cortó la cuerda con un cuchillo'', se puede identificar el agente como \textcolor[rgb]{0.00,0.00,1.00}{\textbf{el niño}}, el tema como \textcolor[rgb]{1.00,0.00,0.00}{\textbf{la cuerda}} y el instrumento como \textcolor[rgb]{0.00,1.00,0.00}{\textbf{un cuchillo}} \cite{JohnsonMLSS}. 
+\end{example}
+
+
+
+Además de los roles semánticos, la semántica también se ocupa de las relaciones léxicas (o semántica léxica), que son las conexiones entre distintas palabras \cite{yule2016study}.
+
+\begin{example}
+Algunos ejemplos de estas relaciones incluyen la sinonimia, que se refiere a palabras con significados similares como ``esconder'' y ``ocultar''; la antonimia, que involucra palabras con significados opuestos como ``alto'' y ``bajo''; y la hiponimia, que establece una relación entre una palabra más específica y otra más general, como ``perro'' y ``animal''. Además, existe la hiperonimia, que representa la relación contraria. 
+\end{example}
+
 
 \subsection{Pragmática}
 
-La pragmática se centra en cómo el contexto influye en la interpretación y el significado de las expresiones lingüísticas. Examina cómo se utilizan las expresiones lingüísticas en situaciones reales y cómo los hablantes interpretan el significado implícito. Por ejemplo, la oración ``Hace frío aquí'' puede interpretarse como una sugerencia implícita parra cerrar las ventanas \cite{fromkin2018introduction}.
+La pragmática se centra en cómo el contexto influye en la interpretación y el significado de las expresiones lingüísticas. Examina cómo se utilizan las expresiones lingüísticas en situaciones reales y cómo los hablantes interpretan el significado implícito. 
+
+\begin{example}
+Por ejemplo, la oración ``Hace frío aquí'' puede interpretarse como una sugerencia implícita parra cerrar las ventanas \cite{fromkin2018introduction}. 
+\end{example}
 
 
 \section{Aprendizaje Automático en PLN}
@@ -153,6 +202,7 @@ Dotar a los computadores de habilidades para comprender y producir el lenguaje h
 
 Por ejemplo, si la tarea es distinguir entre correos electrónicos de spam y no spam, los ejemplos etiquetados serían correos electrónicos etiquetados como spam y correos electrónicos etiquetados como no spam. Se espera que la función resultante produzca predicciones de etiquetas correctas también para instancias que no ha visto durante el entrenamiento.
 
+\begin{example}
 A continuación se muestra un ejemplo etiquetado tanto para la tarea de etiquetado gramatical como la de extracción de entidades nombradas del dataset NER CoNLL-2003\footnote{Fuente: \url{https://www.clips.uantwerpen.be/conll2003/ner/}}. Cada línea contiene un token, una etiqueta de categoría gramatical, una etiqueta de sintagma y una etiqueta de entidad nombrada.
 
 \begin{center}
@@ -166,6 +216,8 @@ Baghdad      NNP  I-NP  I-LOC
 .            .    O     O
 \end{verbatim}
 \end{center}
+\end{example}
+
 
 
 A continuación desarrollamos de forma más concreta el uso del aprendizaje automático para tareas de PLN mediante dos ejemplos.

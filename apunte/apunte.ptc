@@ -18,14 +18,14 @@
 \contentsline {subsection}{\numberline {1.4.5}Semántica}{17}{subsection.1.4.5}%
 \contentsline {subsection}{\numberline {1.4.6}Pragmática}{18}{subsection.1.4.6}%
 \contentsline {section}{\numberline {1.5}Aprendizaje Automático en PLN}{18}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Ejemplo 1: Clasificación de Tópicos}{18}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.1}Ejemplo 1: Clasificación de Tópicos}{19}{subsection.1.5.1}%
 \contentsline {subsection}{\numberline {1.5.2}Ejemplo 2: Análisis de Sentimiento}{19}{subsection.1.5.2}%
-\contentsline {subsection}{\numberline {1.5.3}Lingüística y Procesamiento del Lenguaje Natural (PNL)}{19}{subsection.1.5.3}%
-\contentsline {subsection}{\numberline {1.5.4}Limitaciones del Aprendizaje Supervisado}{20}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.3}Lingüística y Procesamiento del Lenguaje Natural (PNL)}{21}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Limitaciones del Aprendizaje Supervisado}{21}{subsection.1.5.4}%
 \contentsline {section}{\numberline {1.6}Etiquetado de Datos en PLN}{21}{section.1.6}%
 \contentsline {subsection}{\numberline {1.6.1}Supervisión a Distancia}{22}{subsection.1.6.1}%
-\contentsline {subsection}{\numberline {1.6.2}Crowdsourcing}{22}{subsection.1.6.2}%
-\contentsline {section}{\numberline {1.7}Paradigmas de Aprendizaje Automático}{22}{section.1.7}%
+\contentsline {subsection}{\numberline {1.6.2}Crowdsourcing}{23}{subsection.1.6.2}%
+\contentsline {section}{\numberline {1.7}Paradigmas de Aprendizaje Automático}{23}{section.1.7}%
 \contentsline {paragraph}{Aprendizaje Profundo y Conceptos Lingüísticos}{24}{section*.8}%
 \contentsline {section}{\numberline {1.8}Historia de PLN}{24}{section.1.8}%
 \contentsline {section}{\numberline {1.9}Conclusiones y Estructura del Apunte}{25}{section.1.9}%
@@ -33,9 +33,8 @@
 \ttl@stoptoc {default@1}
 \ttl@starttoc {default@2}
 \contentsline {section}{\numberline {2.1}Tokens y Tipos}{27}{section.2.1}%
-\contentsline {paragraph}{Ejemplo}{27}{section*.9}%
 \contentsline {subsection}{\numberline {2.1.1}Tipos}{27}{subsection.2.1.1}%
-\contentsline {paragraph}{Extracción de Vocabulario}{28}{section*.10}%
+\contentsline {paragraph}{Extracción de Vocabulario}{28}{section*.9}%
 \contentsline {section}{\numberline {2.2}Eliminación de Stopwords}{28}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Stemming}{28}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Lematización}{29}{section.2.4}%
@@ -44,10 +43,10 @@
 \contentsline {section}{\numberline {2.7}Motores de búsqueda web}{30}{section.2.7}%
 \contentsline {section}{\numberline {2.8}El modelo de espacio vectorial}{31}{section.2.8}%
 \contentsline {subsection}{\numberline {2.8.1}El modelo TF-IDF}{32}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Similitud entre vectores}{32}{subsection.2.8.2}%
-\contentsline {paragraph}{Ejercicio}{33}{section*.11}%
-\contentsline {section}{\numberline {2.9}Clustering de Documentos}{33}{section.2.9}%
-\contentsline {section}{\numberline {2.10}Modelos de Tópicos}{34}{section.2.10}%
+\contentsline {subsection}{\numberline {2.8.2}Similitud entre vectores}{33}{subsection.2.8.2}%
+\contentsline {paragraph}{Ejercicio}{33}{section*.10}%
+\contentsline {section}{\numberline {2.9}Clustering de Documentos}{34}{section.2.9}%
+\contentsline {section}{\numberline {2.10}Modelos de Tópicos}{35}{section.2.10}%
 \contentsline {section}{\numberline {2.11}Conclusiones y Conceptos Adicionales}{36}{section.2.11}%
 \contentsline {chapter}{\numberline {3}Modelos de Lenguaje Probabilísticos}{37}{chapter.3}%
 \ttl@stoptoc {default@2}
@@ -72,9 +71,9 @@
 \contentsline {chapter}{\numberline {4}Clasificación de Texto y Naïve Bayes}{51}{chapter.4}%
 \ttl@stoptoc {default@3}
 \ttl@starttoc {default@4}
-\contentsline {paragraph}{¿Por qué el análisis de sentimientos?}{52}{section*.12}%
-\contentsline {paragraph}{Clasificación básica de sentimientos}{52}{section*.13}%
-\contentsline {paragraph}{Resumen: Clasificación de texto}{53}{section*.14}%
+\contentsline {paragraph}{¿Por qué el análisis de sentimientos?}{52}{section*.11}%
+\contentsline {paragraph}{Clasificación básica de sentimientos}{52}{section*.12}%
+\contentsline {paragraph}{Resumen: Clasificación de texto}{53}{section*.13}%
 \contentsline {section}{\numberline {4.1}Clasificación de texto: Definición}{53}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Métodos de clasificación: Reglas codificadas a mano}{53}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Métodos de clasificación: Aprendizaje automático supervisado}{53}{subsection.4.1.2}%
@@ -130,20 +129,20 @@
 \ttl@stoptoc {default@5}
 \ttl@starttoc {default@6}
 \contentsline {section}{\numberline {6.1}Redes neuronales feedforward}{79}{section.6.1}%
-\contentsline {paragraph}{Capas completamente conectadas como multiplicaciones de vectores y matrices}{80}{section*.15}%
+\contentsline {paragraph}{Capas completamente conectadas como multiplicaciones de vectores y matrices}{80}{section*.14}%
 \contentsline {subsection}{\numberline {6.1.1}Redes neuronales como funciones matemáticas}{80}{subsection.6.1.1}%
 \contentsline {section}{\numberline {6.2}Capacidad de representación}{81}{section.6.2}%
 \contentsline {section}{\numberline {6.3}Funciones de activación}{81}{section.6.3}%
-\contentsline {paragraph}{Sigmoide}{81}{section*.16}%
-\contentsline {paragraph}{Tangente hiperbólica (tanh)}{82}{section*.17}%
-\contentsline {paragraph}{Hard tanh}{82}{section*.18}%
-\contentsline {paragraph}{ReLU}{83}{section*.19}%
-\contentsline {paragraph}{Leaky ReLU}{83}{section*.20}%
-\contentsline {paragraph}{ELU}{83}{section*.21}%
+\contentsline {paragraph}{Sigmoide}{81}{section*.15}%
+\contentsline {paragraph}{Tangente hiperbólica (tanh)}{82}{section*.16}%
+\contentsline {paragraph}{Hard tanh}{82}{section*.17}%
+\contentsline {paragraph}{ReLU}{83}{section*.18}%
+\contentsline {paragraph}{Leaky ReLU}{83}{section*.19}%
+\contentsline {paragraph}{ELU}{83}{section*.20}%
 \contentsline {subsection}{\numberline {6.3.1}Problemas Prácticos}{83}{subsection.6.3.1}%
 \contentsline {section}{\numberline {6.4}Capas de Embedding}{83}{section.6.4}%
 \contentsline {subsection}{\numberline {6.4.1}Vectores Densos vs Representaciones One-hot}{84}{subsection.6.4.1}%
-\contentsline {paragraph}{Ejemplo: Vectores Densos vs Representaciones One-hot}{85}{section*.22}%
+\contentsline {paragraph}{Ejemplo: Vectores Densos vs Representaciones One-hot}{85}{section*.21}%
 \contentsline {section}{\numberline {6.5}Entrenamiento de Redes Neuronales}{86}{section.6.5}%
 \contentsline {section}{\numberline {6.6}Recordatorio de la Regla de la Cadena en Derivadas}{86}{section.6.6}%
 \contentsline {section}{\numberline {6.7}Retropropagación}{87}{section.6.7}%
@@ -176,13 +175,13 @@
 \contentsline {section}{\numberline {8.1}Tareas de Etiquetado de Secuencias o Etiquetado}{105}{section.8.1}%
 \contentsline {section}{\numberline {8.2}Etiquetado de Partes del Discurso}{105}{section.8.2}%
 \contentsline {section}{\numberline {8.3}Reconocimiento de Entidades Nombradas (NER)}{106}{section.8.3}%
-\contentsline {paragraph}{Etiquetado BIO: NER como Etiquetado de Secuencias}{106}{section*.23}%
+\contentsline {paragraph}{Etiquetado BIO: NER como Etiquetado de Secuencias}{106}{section*.22}%
 \contentsline {subsection}{\numberline {8.3.1}Etiquetado de secuencias como aprendizaje supervisado}{107}{subsection.8.3.1}%
 \contentsline {subsection}{\numberline {8.3.2}Enfoque generativo para el etiquetado de secuencias}{107}{subsection.8.3.2}%
 \contentsline {section}{\numberline {8.4}Modelos Ocultos de Markov}{107}{section.8.4}%
 \contentsline {section}{\numberline {8.5}Modelos Ocultos de Markov Trigramas (Trigram HMM)}{107}{section.8.5}%
 \contentsline {subsection}{\numberline {8.5.1}Parámetros del modelo}{108}{subsection.8.5.1}%
-\contentsline {paragraph}{Un ejemplo}{108}{section*.24}%
+\contentsline {paragraph}{Un ejemplo}{108}{section*.23}%
 \contentsline {section}{\numberline {8.6}Supuestos de independencia en los HMM trigramas}{108}{section.8.6}%
 \contentsline {section}{\numberline {8.7}¿Por qué el nombre?}{109}{section.8.7}%
 \contentsline {section}{\numberline {8.8}Estimación Suavizada}{109}{section.8.8}%
@@ -190,27 +189,27 @@
 \contentsline {section}{\numberline {8.10}Problema de Decodificación}{110}{section.8.10}%
 \contentsline {subsection}{\numberline {8.10.1}Método Bruto Ingenuo}{111}{subsection.8.10.1}%
 \contentsline {section}{\numberline {8.11}Decodificación de Viterbi con Programación Dinámica}{111}{section.8.11}%
-\contentsline {paragraph}{Factorial}{111}{section*.25}%
-\contentsline {paragraph}{Fibonacci}{112}{section*.26}%
-\contentsline {paragraph}{Complejidad}{112}{section*.27}%
+\contentsline {paragraph}{Factorial}{111}{section*.24}%
+\contentsline {paragraph}{Fibonacci}{112}{section*.25}%
+\contentsline {paragraph}{Complejidad}{112}{section*.26}%
 \contentsline {section}{\numberline {8.12}El Algoritmo de Viterbi}{112}{section.8.12}%
-\contentsline {paragraph}{Un Ejemplo}{113}{section*.28}%
+\contentsline {paragraph}{Un Ejemplo}{113}{section*.27}%
 \contentsline {subsection}{\numberline {8.12.1}Una Definición Recursiva}{113}{subsection.8.12.1}%
-\contentsline {paragraph}{Justificación de la Definición Recursiva}{113}{section*.29}%
+\contentsline {paragraph}{Justificación de la Definición Recursiva}{113}{section*.28}%
 \contentsline {subsection}{\numberline {8.12.2}El Algoritmo de Viterbi}{114}{subsection.8.12.2}%
 \contentsline {subsection}{\numberline {8.12.3}El Algoritmo de Viterbi con Punteros de Retroceso}{114}{subsection.8.12.3}%
 \contentsline {subsection}{\numberline {8.12.4}El Algoritmo de Viterbi: Tiempo de Ejecución}{115}{subsection.8.12.4}%
-\contentsline {paragraph}{Ventajas y Desventajas}{115}{section*.30}%
+\contentsline {paragraph}{Ventajas y Desventajas}{115}{section*.29}%
 \contentsline {section}{\numberline {8.13}MEMMs}{115}{section.8.13}%
 \contentsline {section}{\numberline {8.14}Ejemplo de características utilizadas en el etiquetado de partes del habla}{117}{section.8.14}%
 \contentsline {section}{\numberline {8.15}Plantillas de características}{117}{section.8.15}%
-\contentsline {paragraph}{Ejemplo}{117}{section*.31}%
+\contentsline {paragraph}{Ejemplo}{117}{section*.30}%
 \contentsline {section}{\numberline {8.16}MEMMs y Softmax Multiclase}{117}{section.8.16}%
 \contentsline {section}{\numberline {8.17}Entrenamiento de los MEMMs}{118}{section.8.17}%
 \contentsline {section}{\numberline {8.18}Decodificación con MEMMs}{118}{section.8.18}%
 \contentsline {section}{\numberline {8.19}Comparación entre MEMMs y HMMs}{120}{section.8.19}%
 \contentsline {section}{\numberline {8.20}Campos Aleatorios Condicionales (CRFs)}{120}{section.8.20}%
-\contentsline {paragraph}{Ejemplo}{121}{section*.32}%
+\contentsline {paragraph}{Ejemplo}{121}{section*.31}%
 \contentsline {section}{\numberline {8.21}Decodificación con CRFs}{122}{section.8.21}%
 \contentsline {section}{\numberline {8.22}Estimación de Parámetros en CRFs (Entrenamiento)}{123}{section.8.22}%
 \contentsline {section}{\numberline {8.23}CRFs y MEMMs}{123}{section.8.23}%
@@ -247,9 +246,9 @@
 \contentsline {section}{\numberline {11.1}Modelos de lenguaje y generación de lenguaje}{143}{section.11.1}%
 \contentsline {section}{\numberline {11.2}Problemas de secuencia a secuencia}{144}{section.11.2}%
 \contentsline {subsection}{\numberline {11.2.1}Generación condicionada}{144}{subsection.11.2.1}%
-\contentsline {paragraph}{Gráfico de entrenamiento de secuencia a secuencia}{144}{section*.33}%
-\contentsline {paragraph}{Traducción automática neuronal}{144}{section*.34}%
-\contentsline {paragraph}{Progreso de BLEU en traducción automática}{144}{section*.35}%
+\contentsline {paragraph}{Gráfico de entrenamiento de secuencia a secuencia}{144}{section*.32}%
+\contentsline {paragraph}{Traducción automática neuronal}{144}{section*.33}%
+\contentsline {paragraph}{Progreso de BLEU en traducción automática}{144}{section*.34}%
 \contentsline {section}{\numberline {11.3}Enfoques de decodificación}{145}{section.11.3}%
 \contentsline {subsection}{\numberline {11.3.1}Búsqueda Beam}{145}{subsection.11.3.1}%
 \contentsline {section}{\numberline {11.4}Generación condicionada con atención}{146}{section.11.4}%
@@ -266,13 +265,13 @@
 \contentsline {subsection}{\numberline {12.2.3}Valores}{155}{subsection.12.2.3}%
 \contentsline {subsection}{\numberline {12.2.4}Atención de producto puntual escalado}{155}{subsection.12.2.4}%
 \contentsline {section}{\numberline {12.3}El Codificador}{155}{section.12.3}%
-\contentsline {paragraph}{Introduciendo los tensores en la imagen}{156}{section*.36}%
+\contentsline {paragraph}{Introduciendo los tensores en la imagen}{156}{section*.35}%
 \contentsline {section}{\numberline {12.4}Autoatención a alto nivel}{157}{section.12.4}%
 \contentsline {section}{\numberline {12.5}Autoatención en detalle}{157}{section.12.5}%
-\contentsline {paragraph}{Paso 1}{157}{section*.37}%
-\contentsline {paragraph}{Paso 2}{158}{section*.38}%
-\contentsline {paragraph}{Pasos 3 y 4}{159}{section*.39}%
-\contentsline {paragraph}{Autoatención en detalle: pasos 5 y 6}{159}{section*.40}%
+\contentsline {paragraph}{Paso 1}{157}{section*.36}%
+\contentsline {paragraph}{Paso 2}{158}{section*.37}%
+\contentsline {paragraph}{Pasos 3 y 4}{159}{section*.38}%
+\contentsline {paragraph}{Autoatención en detalle: pasos 5 y 6}{159}{section*.39}%
 \contentsline {section}{\numberline {12.6}Cálculo matricial de la autoatención}{160}{section.12.6}%
 \contentsline {section}{\numberline {12.7}Atención multi-head}{161}{section.12.7}%
 \contentsline {section}{\numberline {12.8}Conexiones residuales}{162}{section.12.8}%
@@ -288,7 +287,7 @@
 \contentsline {section}{\numberline {13.2}Los Modelos de Lenguaje Neurales pueden producir Incrustaciones Contextualizadas}{169}{section.13.2}%
 \contentsline {section}{\numberline {13.3}ELMo: Incrustaciones de Modelos de Lenguaje}{169}{section.13.3}%
 \contentsline {subsection}{\numberline {13.3.1}ELMo: Uso con una tarea}{170}{subsection.13.3.1}%
-\contentsline {paragraph}{ELMo: Resultados}{170}{section*.41}%
+\contentsline {paragraph}{ELMo: Resultados}{170}{section*.40}%
 \contentsline {section}{\numberline {13.4}ULMfit}{170}{section.13.4}%
 \contentsline {subsection}{\numberline {13.4.1}Énfasis de ULMfit}{171}{subsection.13.4.1}%
 \contentsline {subsection}{\numberline {13.4.2}Transferencia de aprendizaje con ULMfit}{171}{subsection.13.4.2}%
@@ -299,17 +298,17 @@
 \contentsline {section}{\numberline {13.9}Arquitectura y entrenamiento del modelo BERT}{173}{section.13.9}%
 \contentsline {section}{\numberline {13.10}Ajuste fino del modelo BERT}{173}{section.13.10}%
 \contentsline {subsection}{\numberline {13.10.1}Resultados de BERT en tareas GLUE}{173}{subsection.13.10.1}%
-\contentsline {paragraph}{Tareas de GLUE}{174}{section*.42}%
+\contentsline {paragraph}{Tareas de GLUE}{174}{section*.41}%
 \contentsline {subsection}{\numberline {13.10.2}Efecto de la tarea de preentrenamiento en BERT}{174}{subsection.13.10.2}%
 \contentsline {section}{\numberline {13.11}Decodificadores de preentrenamiento GPT y GPT-2}{174}{section.13.11}%
-\contentsline {paragraph}{Salida del modelo GPT-2 (seleccionada)}{175}{section*.43}%
+\contentsline {paragraph}{Salida del modelo GPT-2 (seleccionada)}{175}{section*.42}%
 \contentsline {section}{\numberline {13.12}¿Qué tipos de cosas aprende el preentrenamiento?}{176}{section.13.12}%
 \contentsline {section}{\numberline {13.13}Cambio de fase: GPT-3 (2020)}{177}{section.13.13}%
 \contentsline {section}{\numberline {13.14}Aprendizaje sin ejemplos, con un solo ejemplo y con pocos ejemplos con GPT-3}{177}{section.13.14}%
 \contentsline {section}{\numberline {13.15}Chain-of-thought Prompting}{178}{section.13.15}%
 \contentsline {section}{\numberline {13.16}Modelos de Lenguaje como Asistentes de Usuario (o Chatbots)}{178}{section.13.16}%
 \contentsline {subsection}{\numberline {13.16.1}LaMDA: Modelos de Lenguaje para Aplicaciones de Diálogo}{179}{subsection.13.16.1}%
-\contentsline {paragraph}{Criterios de Optimización de LaMDA}{180}{section*.44}%
+\contentsline {paragraph}{Criterios de Optimización de LaMDA}{180}{section*.43}%
 \contentsline {subsection}{\numberline {13.16.2}ChatGPT y RLHF}{180}{subsection.13.16.2}%
 \contentsline {subsection}{\numberline {13.16.3}GPT-4 (2023)}{181}{subsection.13.16.3}%
 \contentsline {section}{\numberline {13.17}Ajuste Fino de Instrucciones}{182}{section.13.17}%

@@ -4,10 +4,10 @@ La clasificación, que implica la asignación de un objeto a una categoría espe
 El propósito subyacente de la clasificación es tomar una única observación, identificar y extraer características relevantes de la misma, y, en última instancia, ubicarla en una de las categorías discretas predefinidas. 
 
 \begin{definition}
-Formalmente, definimos el problema de clasificación de texto, al escenario en que se tiene undocumento $d$ y un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$, se requiere predecir un clase  $c \in C$ para $d$.
+Formalmente, definimos el problema de clasificación de texto, al escenario en que se tiene undocumento $d$ y un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$ y se requiere predecir un clase  $c \in C$ para $d$.
 \end{definition}
 
-Como se discutió en el Capítulo~\ref{cap_intro}, la construcción de clasificadores mediante reglas manuales no resulta ser un enfoque eficaz. En el procesamiento del lenguaje, la mayoría de las tareas de clasificación se abordan mediante enfoques de aprendizaje automático supervisado.
+Como se discutió en el Capítulo~\ref{cap_intro}, la construcción de clasificadores mediante reglas manuales no resulta ser un enfoque eficaz. Hoy en día la mayoría de las tareas de clasificación en PLN se abordan mediante enfoques de aprendizaje automático supervisado.
 
 Formalmente, se parte de un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$ y un conjunto de entrenamiento compuesto por $m$ documentos que han sido etiquetados manualmente como $(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m)$. A través de un proceso de entrenamiento, se desarrolla un clasificador que se define como una función $\gamma: d \to c$.
 
@@ -43,7 +43,8 @@ Clasificación de spam. En este problema el objeto a clasificar es un correo el�
 
 
 \begin{example}
-Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa hasta que en 1963, Mosteller y Wallace utilizaron métodos bayesianos para resolverlo.
+Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas de la Constitución de EE. UU. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa entre James Madison y Alexander Hamilton hasta que en 1963, Mosteller y Wallace \cite{mosteller1963inference} utilizaron métodos bayesianos para identificar que Hamilton era el autor de los mismos.
+
 
 \begin{table}[h]
     \centering
@@ -51,7 +52,6 @@ Detección de Autoría. Un ejemplo histórico de detección de autoría se refie
         \includegraphics[width=0.3\textwidth]{pics/madison.png} & \includegraphics[width=0.3\textwidth]{pics/hamilton.png} \\
         James Madison & Alexander Hamilton \\
     \end{tabular}
-    \caption{Comparison of Figures}
 \end{table}
 
 

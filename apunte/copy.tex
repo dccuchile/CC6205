@@ -145,15 +145,17 @@ Clasificación de spam. En este problema el objeto a clasificar es un correo el�
 
 
 \begin{example}
-Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas de la Constitución de EE. UU. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa entre James Madison y Alexander Hamilton hasta que en 1963, Mosteller y Wallace \cite{mosteller1963inference} utilizaron métodos bayesianos para identificar que Hamilton era el autor de los mismos.
+Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas de la Constitución de EE. UU. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa entre James Madison y Alexander Hamilton (Tabla~\ref{fig:autores}) hasta que en 1963, Mosteller y Wallace \cite{mosteller1963inference} utilizaron métodos bayesianos para identificar que Hamilton era el autor de los mismos.
 
 
 \begin{table}[h]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.3\textwidth]{pics/madison.png} & \includegraphics[width=0.3\textwidth]{pics/hamilton.png} \\
+        \includegraphics[height=0.3\textwidth]{pics/madison.png} & \includegraphics[height=0.3\textwidth]{pics/hamilton.png} \\
         James Madison & Alexander Hamilton \\
     \end{tabular}
+    \caption{Autores candidatos a autoría.}
+    \label{fig:autores}
 \end{table}
 
 
@@ -194,16 +196,14 @@ Este enfoque se aplica en diversos casos, como medir la confianza del consumidor
 
 
 \section{Clasificador Naïve Bayes}
-Tenemos ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$. Cada $x^{(i)}$ es una entrada, cada $y^{(i)}$ es una etiqueta. La tarea es aprender una función $f$ que asigna las entradas $x$ a las etiquetas $f(x)$. En el enfoque probabilista se busca aprender una distribución $p(y|x)$ a partir de ejemplos de entrenamiento, para luego para cualquier entrada de prueba $x$, definir $f(x) = \arg \max_y p(y|x)$.
-   
-En los modelos generativos se aprende la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
-Usando la definición de probabilidad condicional tenemos $p(x, y) = p(y)p(x|y)$. Luego tenemos
-        \[
-        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{donde} \quad p(x) = \sum_y p(y)p(x|y).
-        \]
+Definimos formalmente nuestro conjunto de entrenamiento como el conjunto de pares $(d^{(i)}, c^{(i)})$ para $i = 1, \ldots, m$. Cada $d^{(i)}$ representa una entrada (en nuestro caso, un documento), mientras que $c^{(i)}$ corresponde a una etiqueta.
 
+La tarea principal es aprender una función $f$ que asigne etiquetas $f(d)$ a las entradas $d$. El modelo Naïve Bayes sigue un enfoque probabilístico, en el cual buscamos estimar la probabilidad condicional $p(c|d)$ utilizando ejemplos de entrenamiento para todas las clases o etiquetas (por ejemplo, $c=c_1, c=c_2, \ldots, c=c_k$), donde $0 \leq p(c=c_j|x) \leq 1$ para cada $j$ y $\sum_j p(c=c_j|x) = 1$. Luego, para cualquier entrada de prueba $d$, definimos $f(x) = \arg \max_y p(y|x)$, lo cual equivale a seleccionar la clase más probable condicionada por los datos.
 
-El Bayes Ingenuo es un método de clasificación simple ("ingenuo") basado en la regla de Bayes. Se basa en una representación muy simple de un documento: \textit{Bolsa de palabras}.
+Los modelos de aprendizaje automático que intentan estimar $p(c|d)$ directamente de los datos se conocen como modelos discriminativos, como la regresión logística a estudiarse en el Capítulo~\ref{cap_lineales}. 
+
+Naïve Bayes, por otro lado, es un modelo generativo, donde la idea general es construir un modelo para cada clase y clasificar viendo cual clase generaría el ejemplo objetivo con mayor probabilidad.  
+
 
 Para un documento $d$ y una clase $c$:
 \[
@@ -227,6 +227,17 @@ Para clasificar el documento $d$, usamos la estimación MAP:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(d | c)P(c)
     \]
+
+
+Alternativamente, podemos entender a los modelos generativos como un intento de estimar la  la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
+Usando la definición de probabilidad condicional tenemos $p(x, y) = p(y)p(x|y)$. Luego tenemos
+        \[
+        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{donde} \quad p(x) = \sum_y p(y)p(x|y).
+        \]
+
+
+El Bayes Ingenuo es un método de clasificación simple ("ingenuo") basado en la regla de Bayes. Se basa en una representación muy simple de un documento: \textit{Bolsa de palabras}.
+
 El documento $d$ se representa como un conjunto de características $x_1, x_2, \ldots, x_n$.  El clasificador calcula la probabilidad condicional de las características dada una clase y la probabilidad a priori de la clase:
     \[
     = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)

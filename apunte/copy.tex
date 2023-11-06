@@ -612,6 +612,22 @@ F_1 = \frac{2PR}{P + R}
 \includegraphics[scale=0.28]{pics/cv.png}
 \end{center}
 
+\section{Conjuntos de entrenamiento, prueba y validación}
+Cuando entrenamos un modelo, nuestro objetivo es producir una función $f(\vec{x})$ que mapee correctamente las entradas $\vec{x}$ a las salidas $\hat{y}$ según lo evidenciado por el conjunto de entrenamiento. La evaluación del rendimiento en los datos de entrenamiento puede ser engañosa, ya que nuestro objetivo es entrenar una función capaz de generalizar a ejemplos no vistos. Una forma común de abordar esto es dividir el conjunto de entrenamiento en subconjuntos de entrenamiento y prueba (80\% y 20\% respectivamente). Se entrena el modelo en el subconjunto de entrenamiento y se calcula la precisión en el subconjunto de prueba.
+
+Sin embargo, este enfoque tiene una limitación. En la práctica, a menudo se entrenan varios modelos, se comparan sus calidades y se selecciona el mejor. Si se selecciona el mejor modelo en función de la precisión en el subconjunto de prueba, se obtendrá una estimación excesivamente optimista de la calidad del modelo. No se sabe si la configuración elegida del clasificador final es buena en general o simplemente es buena para los ejemplos particulares en los subconjuntos de prueba.
+
+La metodología aceptada es utilizar una división de tres vías de los datos en conjuntos de entrenamiento, validación (también llamado desarrollo) y prueba\footnote{Un enfoque alternativo es la validación cruzada, pero no se escala bien para entrenar redes neuronales profundas.}. Esto proporciona dos conjuntos apartados: un conjunto de validación (también llamado conjunto de desarrollo) y un conjunto de prueba. Todos los experimentos, ajustes, análisis de errores y selección de modelos deben realizarse
+
+basados en el conjunto de validación. Luego, una única ejecución del modelo final sobre el conjunto de prueba proporcionará una buena estimación de su calidad esperada en ejemplos no vistos. Es importante mantener el conjunto de prueba lo más limpio posible, realizando la menor cantidad de experimentos posible en él. Incluso algunos defienden que no se deben mirar siquiera los ejemplos en el conjunto de prueba, para evitar sesgar el diseño del modelo.
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.55]{pics/validation.png}
+\end{figure}
+
+\footnotetext{Fuente: \url{https://www.codeproject.com/KB/AI/1146582/validation.PNG}}
+
 
 \subsection{Matriz de Confusión para clasificación de 3 clases}
 

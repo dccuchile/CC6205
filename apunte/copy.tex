@@ -100,17 +100,20 @@
 
 
 
+
 La clasificación, que implica la asignación de un objeto a una categoría específica, desempeña un papel fundamental tanto en la inteligencia humana como en la artificial. En este contexto, la clasificación abarca diversas tareas, que van desde determinar qué letra, palabra o imagen se ha presentado a nuestros sentidos, hasta reconocer caras, voces, clasificar correos electrónicos o calificar tareas. 
 
-El propósito subyacente de la clasificación es tomar una única observación, identificar y extraer características relevantes de la misma, y, en última instancia, ubicarla en una de las categorías discretas predefinidas. En el procesamiento del lenguaje, la mayoría de las tareas de clasificación se abordan mediante enfoques de aprendizaje automático supervisado.
+El propósito subyacente de la clasificación es tomar una única observación, identificar y extraer características relevantes de la misma, y, en última instancia, ubicarla en una de las categorías discretas predefinidas. 
 
 \begin{definition}
-Formalmente, definimos el problema de clasificación de texto, al escenario en que se tiene undocumento $d$ y un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$, se requiere predecir un clase  $c \in C$ para $d$.
+Formalmente, definimos el problema de clasificación de texto, al escenario en que se tiene undocumento $d$ y un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$ y se requiere predecir un clase  $c \in C$ para $d$.
 \end{definition}
 
+Como se discutió en el Capítulo~\ref{cap_intro}, la construcción de clasificadores mediante reglas manuales no resulta ser un enfoque eficaz. Hoy en día la mayoría de las tareas de clasificación en PLN se abordan mediante enfoques de aprendizaje automático supervisado.
 
+Formalmente, se parte de un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$ y un conjunto de entrenamiento compuesto por $m$ documentos que han sido etiquetados manualmente como $(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m)$. A través de un proceso de entrenamiento, se desarrolla un clasificador que se define como una función $\gamma: d \to c$.
 
-Este capítulo se basa en el material del curso de Daniel Jurafsky, al que se puede acceder a través del siguiente enlace\footnote{\url{https://web.stanford.edu/~jurafsky/slp3/4.pdf}}.
+Diversos algoritmos de clasificación están disponibles para este propósito, como Naïve Bayes, Regresión logística, Redes neuronales, k-vecinos más cercanos, entre otros. En este capítulo, nos centraremos en el modelo Naïve Bayes. Este capítulo se basa en el material del curso de Daniel Jurafsky, al que se puede acceder a través del siguiente enlace\footnote{\url{https://web.stanford.edu/~jurafsky/slp3/4.pdf}}.
 
 \section{Ejemplos de Problemas de Clasificación}
 La clasificación de texto se puede aplicar a varias tareas, incluyendo:
@@ -131,7 +134,7 @@ Clasificación de spam. En este problema el objeto a clasificar es un correo el�
 \begin{figure}[h]
     \centering
     \includegraphics[scale = 0.35]{pics/spam.png}
-    \caption{Ejemplo de clasificación de Spam}
+    \caption{Ejemplo de Spam}
     \label{fig:chomsky}
 \end{figure}
  
@@ -142,213 +145,116 @@ Clasificación de spam. En este problema el objeto a clasificar es un correo el�
 
 
 \begin{example}
-Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa hasta que en 1963, Mosteller y Wallace utilizaron métodos bayesianos para resolverlo.
+Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas de la Constitución de EE. UU. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa entre James Madison y Alexander Hamilton hasta que en 1963, Mosteller y Wallace \cite{mosteller1963inference} utilizaron métodos bayesianos para identificar que Hamilton era el autor de los mismos.
 
-\begin{center}
-    \begin{figure}[h]
-        \begin{minipage}{0.3\textwidth}
-            \centering
-            \includegraphics[width=\linewidth]{pics/madison.png}
-            \caption{James Madison}
-        \end{minipage}\hfill
-        \begin{minipage}{0.3\textwidth}
-            \centering
-            \includegraphics[width=\linewidth]{pics/hamilton.png}
-            \caption{Alexander Hamilton}
-        \end{minipage}
-    \end{figure}
-\end{center}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{cc}
+        \includegraphics[width=0.3\textwidth]{pics/madison.png} & \includegraphics[width=0.3\textwidth]{pics/hamilton.png} \\
+        James Madison & Alexander Hamilton \\
+    \end{tabular}
+\end{table}
+
+
 
 \end{example}
 
 
 \begin{example}
-Clasificación por tópico. La idea es etiquetar automáticamente un artículo médico en una categoría específica.
+Clasificación por tópico. Aquí los ejemplos incluyen clasificar una noticia en una categoría temática (ej: deportes, política, economía) o etiquetar automáticamente un artículo en ciencias de la vida en una categoría del Medical Subject Headings (MeSH) como se ilustra en la Figura~\ref{fig:medarticle}.
 
 \begin{figure}[h]
-\includegraphics[scale = 0.2]{pics/medarticle.png}
+    \centering
+    \includegraphics[scale = 0.2]{pics/medarticle.png}
+    \caption{Ejemplo de clasificación por categorías clínicas.}
+    \label{fig:medarticle}
 \end{figure}
+ 
+
  
 \end{example}
 
 
 
 \begin{example}
-Clasificación de sentimientos.
-Este tipo de clasificación se utiliza para determinar si una reseña de una película, por ejemplo, es positiva o negativa. Se basa en analizar el tono y las palabras utilizadas en el texto.
-
-
+Clasificación de sentimientos. La clasificación de sentimientos se utiliza para determinar si un documento exhibe un sentimiento positivo o negativo. Este enfoque se basa en el análisis del tono y las palabras utilizadas en el texto. A continuación, se presentan ejemplos de reseñas de películas y comentarios de restaurantes:
 
 \begin{itemize}
-    \item \textcolor{blue}{\textbf{+}} ...personajes extravagantes y sátira \textcolor{blue}{rico} aplicada, y algunos \textcolor{blue}{grandes} giros de la trama.
-    \item \textcolor{red}{\textbf{-}} Fue \textcolor{red}{patético}. La peor parte fue las escenas de boxeo...
-    \item \textcolor{blue}{\textbf{+}} ...salsa de chocolate \textcolor{blue}{increíble} con almendras dulces y tostadas. ¡Me \textcolor{blue}{encanta} este lugar!
-    \item \textcolor{red}{\textbf{-}} ... \textcolor{red}{horrible} la pizza y \textcolor{red}{ridículamente} cara...
+    \item \textcolor{blue}{\textbf{+}} ...una película muy \textcolor{blue}{buena}, especialmente por los giros de la trama. ¡Fue \textcolor{blue}{espectacular}!
+    \item \textcolor{red}{\textbf{-}} La actuación fue \textcolor{red}{patética}, destacando las escenas de baile como lo \textcolor{red}{peor}.
+    \item \textcolor{blue}{\textbf{+}} ...la salsa de chocolate con almendras dulces es simplemente \textcolor{blue}{increíble} en este lugar. ¡Me \textcolor{blue}{encanta}!
+    \item \textcolor{red}{\textbf{-}} ...la pizza estaba \textcolor{red}{horrible} y tenía un precio \textcolor{red}{ridículamente} alto.
 \end{itemize}
 
-Otros casos de uso incluyen evaluar la opinión del público sobre un producto o candidato, medir la confianza del consumidor y predecir resultados electorales o tendencias del mercado en función del sentimiento público.
+Este enfoque se aplica en diversos casos, como medir la confianza del consumidor respecto a un producto o predecir resultados electorales y tendencias del mercado en función del sentimiento. Estas aplicaciones suelen ser el resultado de la implementación de modelos de análisis de sentimientos en datos procedentes de las redes sociales.
 \end{example}
 
 
 
 
-
-
-
-
-
-\subsection{Métodos de clasificación: Reglas codificadas a mano}
-
-Reglas basadas en combinaciones de palabras u otras características.
-
-\begin{itemize}
-    \item Spam: \textit{dirección-en-lista-negra} O (\textit{“dólares” Y “has sido seleccionado”})
-    \item La precisión puede ser alta si las reglas se refinan cuidadosamente por expertos
-    \item Pero construir y mantener estas reglas es costoso
-\end{itemize}
-
-\subsection{Métodos de clasificación: Aprendizaje automático supervisado}
-
-\textbf{Entrada}:
-\begin{itemize}
-    \item Un documento $d$
-    \item Un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$
-    \item Un conjunto de entrenamiento de $m$ documentos etiquetados manualmente: $(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m)$
-\end{itemize}
-
-\textbf{Salida}:
-\begin{itemize}
-    \item Un clasificador aprendido $\gamma: d \to c$
-\end{itemize}
-
-Cualquier tipo de clasificador se puede utilizar:
-\begin{itemize}
-    \item Naïve Bayes
-    \item Regresión logística
-    \item Redes neuronales
-    \item k-vecinos más cercanos
-    % Agrega más clasificadores según sea necesario
-\end{itemize}
-
-\subsection{Problemas de aprendizaje supervisado}
-\begin{itemize}
-    \item Tenemos ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$. Cada $x^{(i)}$ es una entrada, cada $y^{(i)}$ es una etiqueta.
-    \item La tarea es aprender una función $f$ que asigna las entradas $x$ a las etiquetas $f(x)$.
-    \item Modelos condicionales:
-    \begin{itemize}
-        \item Aprender una distribución $p(y|x)$ a partir de ejemplos de entrenamiento.
-        \item Para cualquier entrada de prueba $x$, definir $f(x) = \arg \max_y p(y|x)$.
-    \end{itemize}
-\end{itemize}
-
-\subsection{Modelos generativos}
-\begin{itemize}
-    \item Dados ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$, la tarea es aprender una función $f$ que asigna las entradas $x$ a las etiquetas $f(x)$.
-    \item Modelos generativos:
-    \begin{itemize}
-        \item Aprender la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
-        \item A menudo, tenemos $p(x, y) = p(y)p(x|y)$.
-        \item Nota: Luego tenemos
+\section{Clasificador Naïve Bayes}
+Tenemos ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$. Cada $x^{(i)}$ es una entrada, cada $y^{(i)}$ es una etiqueta. La tarea es aprender una función $f$ que asigna las entradas $x$ a las etiquetas $f(x)$. En el enfoque probabilista se busca aprender una distribución $p(y|x)$ a partir de ejemplos de entrenamiento, para luego para cualquier entrada de prueba $x$, definir $f(x) = \arg \max_y p(y|x)$.
+   
+En los modelos generativos se aprende la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
+Usando la definición de probabilidad condicional tenemos $p(x, y) = p(y)p(x|y)$. Luego tenemos
         \[
         p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{donde} \quad p(x) = \sum_y p(y)p(x|y).
         \]
-    \end{itemize}
-\end{itemize}
-
-\subsection{Clasificación con Modelos Generativos}
-\begin{itemize}
-    \item Dados ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$. La tarea consiste en aprender una función $f$ que mapee las entradas $x$ a las etiquetas $f(x)$.
-    \item Modelos generativos:
-    \begin{itemize}
-        \item Aprenden la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
-        \item A menudo, tenemos $p(x, y) = p(y)p(x|y)$.
-    \end{itemize}
-    \item La salida del modelo es:
-    \[
-    \begin{aligned}
-    f(x) = \arg\max_y p(y|x) &= \arg\max_y \frac{p(y)p(x|y)}{p(x)} \\
-    &= \arg\max_y p(y)p(x|y)
-    \end{aligned}
-    \]
-\end{itemize}
 
 
-\section{Intuición del Bayes Ingenuo}
-El Bayes Ingenuo es un método de clasificación simple ("ingenuo") basado en la regla de Bayes.
-\begin{itemize}
-    \item Se basa en una representación muy simple de un documento: \textit{Bolsa de palabras}.
-\end{itemize}
+El Bayes Ingenuo es un método de clasificación simple ("ingenuo") basado en la regla de Bayes. Se basa en una representación muy simple de un documento: \textit{Bolsa de palabras}.
 
-
-
-\subsection{Aplicación de la Regla de Bayes a Documentos y Clases}
 Para un documento $d$ y una clase $c$:
 \[
 P(c | d) = \frac{P(d | c)P(c)}{P(d)}
 \]
 
-
-\section{Clasificador Bayes Ingenuo}
-\begin{itemize}
-    \item MAP significa ``máximo a posteriori'', que representa la clase más probable:
+MAP significa ``máximo a posteriori'', que representa la clase más probable:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(c | d)
     \]
-    \item Para calcular la clase más probable, aplicamos la regla de Bayes:
+
+Para calcular la clase más probable, aplicamos la regla de Bayes:
     \[
     = \arg\max_{c \in C} \frac{P(d | c)P(c)}{P(d)}
     \]
-    \item Finalmente, podemos eliminar el denominador ya que permanece constante para todas las clases:
+Finalmente, podemos eliminar el denominador ya que permanece constante para todas las clases:
     \[
     = \arg\max_{c \in C} P(d | c)P(c)
     \]
-    \item Para clasificar el documento $d$, usamos la estimación MAP:
+Para clasificar el documento $d$, usamos la estimación MAP:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(d | c)P(c)
     \]
-    \item El documento $d$ se representa como un conjunto de características $x_1, x_2, \ldots, x_n$.
-    \item El clasificador calcula la probabilidad condicional de las características dada una clase y la probabilidad a priori de la clase:
+El documento $d$ se representa como un conjunto de características $x_1, x_2, \ldots, x_n$.  El clasificador calcula la probabilidad condicional de las características dada una clase y la probabilidad a priori de la clase:
     \[
     = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
     \]
-    \item El término $P(x_1, x_2, \ldots, x_n | c)$ representa la
-
- "verosimilitud" de las características dada la clase.
-    \item El término $P(c)$ representa la probabilidad "a priori" de la clase.
-    \item El clasificador Bayes Ingenuo \cite{mccallum1998comparison} calcula la estimación MAP considerando las probabilidades de verosimilitud y a priori:
+El término $P(x_1, x_2, \ldots, x_n | c)$ representa la ``verosimilitud'' de las características dada la clase. El término $P(c)$ representa la probabilidad ``a priori'' de la clase. El clasificador Bayes Ingenuo \cite{mccallum1998comparison} calcula la estimación MAP considerando las probabilidades de verosimilitud y a priori:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
     \]
-    \item La probabilidad de las características dada la clase, $P(x_1, x_2, \ldots, x_n | c)$, puede estimarse contando las frecuencias relativas en un corpus.
-    \item La probabilidad a priori de la clase, $P(c)$, representa con qué frecuencia ocurre esta clase.
-    \item Sin algunas suposiciones simplificadoras, estimar la probabilidad de cada posible combinación de características en $P(x_1, x_2, \ldots, x_n | c)$ requeriría un gran número de parámetros y conjuntos de entrenamiento imposiblemente grandes.
-    \item Por lo tanto, los clasificadores Bayes Ingenuo realizan dos suposiciones simplificadoras.
-\end{itemize}
+La probabilidad de las características dada la clase, $P(x_1, x_2, \ldots, x_n | c)$, puede estimarse contando las frecuencias relativas en un corpus. La probabilidad a priori de la clase, $P(c)$, representa con qué frecuencia ocurre esta clase. Sin algunas suposiciones simplificadoras, estimar la probabilidad de cada posible combinación de características en $P(x_1, x_2, \ldots, x_n | c)$ requeriría un gran número de parámetros y conjuntos de entrenamiento imposiblemente grandes. Por lo tanto, los clasificadores Bayes Ingenuo realizan dos suposiciones simplificadoras.
 
 
 \subsection{Suposiciones de Independencia del Bayes Ingenuo Multinomial}
-\begin{itemize}
-    \item Suposición de Bolsa de Palabras: asumimos que la posición de las palabras en el documento no importa.
-    \item Suposición de Independencia Condicional: asumimos que las probabilidades de las características $P(x_i | c_j)$ son independientes dada la clase $c_j$.
-    \item En el clasificador Bayes Ingenuo Multinomial, la probabilidad de un documento con características $x_1, x_2, \ldots, x_n$ dada la clase $c$ se puede calcular como:
+Suposición de Bolsa de Palabras: asumimos que la posición de las palabras en el documento no importa. Suposición de Independencia Condicional: asumimos que las probabilidades de las características $P(x_i | c_j)$ son independientes dada la clase $c_j$.  En el clasificador Bayes Ingenuo Multinomial, la probabilidad de un documento con características $x_1, x_2, \ldots, x_n$ dada la clase $c$ se puede calcular como:
     \[
     P(x_1, x_2, \ldots, x_n | c) = P(x_1 | c) \cdot P(x_2 | c) \cdot P(x_3 | c) \cdot \ldots \cdot P(x_n | c)
     \]
-\end{itemize}
 
 \subsection{Clasificador Bayes Ingenuo Multinomial}
-\begin{itemize}
-    \item La estimación del Máximo A Posteriori (MAP) para la clase $c$ en el clasificador Bayes Ingenuo Multinomial se calcula como:
+La estimación del Máximo A Posteriori (MAP) para la clase $c$ en el clasificador Bayes Ingenuo Multinomial se calcula como:
     \[
     c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
     \]
-    \item Alternativamente, podemos escribirlo como:
+Alternativamente, podemos escribirlo como:
     \[
     c_{\text{NB}} = \arg\max_{c \in C} P(c_j) \prod_{x \in X} P(x | c)
     \]
-    \item $P(c_j)$ representa la probabilidad a priori de la clase $c_j$.
-    \item $\prod_{x \in X} P(x | c)$ representa la verosimilitud de las características $x_1, x_2, \ldots, x_n$ dadas la clase $c$.
-\end{itemize}
+$P(c_j)$ representa la probabilidad a priori de la clase $c_j$.
+$\prod_{x \in X} P(x | c)$ representa la verosimilitud de las características $x_1, x_2, \ldots, x_n$ dadas la clase $c$.
 
 
 \subsection{Aplicación de los clasificadores Naive Bayes multinomiales a la clasificación de texto}

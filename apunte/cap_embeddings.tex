@@ -59,7 +59,7 @@ Almacenar explícitamente la matriz de co-ocurrencia puede requerir mucha memori
 Algunos modelos de clasificación no escalan bien con datos de alta dimensionalidad.
 La comunidad de redes neuronales prefiere utilizar representaciones \textbf{distribuidas}\footnote{Idea: El significado de la palabra está "distribuido" en una combinación de dimensiones.} o \textbf{word embeddings}.
 Los word embeddings son vectores densos de palabras de baja dimensionalidad que se entrenan a partir de corpus de documentos utilizando redes neuronales.
-Las dimensiones no son directamente interpretables, es decir, representan características latentes de la palabra, "capturando esperanzadamente propiedades sintácticas y semánticas útiles" \cite{turian2010word}.
+Las dimensiones no son directamente interpretables, es decir, representan características latentes de la palabra, ``capturando esperanzadamente propiedades sintácticas y semánticas útiles'' \cite{turian2010word}.
 Se han convertido en un componente crucial de las arquitecturas de redes neuronales para el procesamiento del lenguaje natural.
 
 
@@ -77,8 +77,28 @@ Los modelos más populares basados en el segundo enfoque son skip-gram \cite{Mik
 Los word embeddings han demostrado ser más poderosos que los enfoques distribucionales en muchas tareas de procesamiento del lenguaje natural \cite{baroni2014don}.
 En \cite{amir2015SemEval}, se utilizaron como características en un modelo de regresión para determinar la asociación entre palabras de Twitter y sentimientos positivos.
 
+\section{Modelo de Lenguaje Neuronal}
+En el año 2000, Bengio y colaboradores propusieron utilizar redes neuronales feed-forward para construir modelos de lenguaje \cite{bengio2000neural}. Utilizando la regla de la cadena (ver Capítulo~\ref{cap_plm}) y restringiendo el contexto a un tamaño fijo de palabras (por ejemplo, 5), se puede modelar la probabilidad $p(w|c)$ mediante una red neuronal. En este enfoque, las palabras anteriores que conforman el contexto se convierten en las entradas de la red neuronal, y la palabra siguiente es la salida deseada. Luego se aplica una función denominada softmax, que transforma las salidas de la red (que es un vector de puntajes para cada palabra del vocabulario) en una distribución de probabilidad. De esta forma es posible tomar un corpus de texto y recorrerlo, extrayendo ventanas de palabras junto con sus palabras siguientes para entrenar la red neuronal y desarrollar un modelo de lenguaje. Este proceso se ilustra en la Figura~\ref{img_emb_neu}.
+
+
+Las palabras en el contexto se transforman en vectores de dimensionalidad igual a la del vocabulario. Cada palabra se codifica utilizando la técnica ``one-hot'', asignando un valor de 1 a la posición correspondiente a la palabra en el vocabulario y cero a todas las demás posiciones. Estos vectores luego son proyectados en una capa de embeddings, donde se convierten en vectores densos. Estos vectores resultantes se combinan en una capa intermedia y posteriormente se proyectan hacia la salida, cuya dimensionalidad coincide con la del vocabulario. Finalmente, se aplica la función Softmax para generar una distribución de probabilidad que abarca todas las palabras posibles en la salida.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[scale=0.6]{pics/LMneuronal.png}
+\caption{Modelo de Lenguaje Neuronal}
+\label{img_emb_neu}
+\end{figure}
+
+
+
+Sin duda, la propiedad más interesante de los modelos de lenguaje neuronales es la noción de ``word embedding'' o representación vectorial de palabras. Esto implica proyectar las palabras discretas presentes en el contexto hacia vectores densos de cientos de dimensiones. Lo que resulta particularmente fascinante es que las palabras con significado relacionado (por ejemplo sinónimos) tienden a adquirir vectores o ``embeddings'' cercanos en el espacio vectorial. Este fenómeno encuentra su raíz en una teoría lingüística denominada hipótesis distribucional \cite{harris1954,firth1957synopsis}, que sostiene que las palabras presentes en contextos parecidos suelen compartir significados. Como resultado, los modelos de lenguaje neuronales se distinguen de sus contrapartes basadas en n-gramas al ser capaces de aprovechar contextos similares aunque estos difieran en las palabras utilizadas.
+
 
 \section{Word2Vec}
+Tuvieron que pasar 13 años para que los modelos de lenguaje neuronales fueran adoptados de forma masiva. Esto fue posible gracias al lanzamiento del software de código abierto llamado Word2Vec \cite{Mikolov2013}, el cual permitía entrenar vectores de palabras empleando modelos similares a los propuestos por \cite{bengio2000neural}, pero con una eficiencia superior. Este software permitió a miles de usuarios entrenar sus propios vectores de palabra utilizando sus colecciones de documentos particulares, lo que les permitió explorar las características intrínsecas de sus palabras.
+
+
 Word2Vec es un paquete de software que implementa dos arquitecturas de redes neuronales para entrenar word embeddings: Continuous Bag of Words (CBOW) y Skip-gram.
 Implementa dos modelos de optimización: Muestreo Negativo (Negative Sampling) y Softmax Jerárquico (Hierarchical Softmax).
 Estos modelos son redes neuronales poco profundas que se entrenan para predecir los contextos de las palabras.
@@ -243,20 +263,23 @@ El objetivo de optimización es la pérdida de mínimos cuadrados ponderada, asi
 Cuando se utiliza el mismo vocabulario de palabras y contextos, el modelo sugiere representar cada palabra como la suma de sus vectores de embedding de palabra y contexto correspondientes.
 
 \section{Analogías de palabras}
+Una propiedad descubierta fue la capacidad de realizar analogías semánticas a través de operaciones aritméticas en el espacio vectorial de las palabras tales como ``hombre es a mujer como rey es a reina'', relaciones verbales como ``nadar es a nadando como comer es a comiendo'', además de establecer relaciones entre países y sus capitales, como ``Santiago es a Chile como Madrid es a España'', entre otras. Ver Figura~\ref{fig_emb_rela}.
+
 Los word embeddings pueden capturar ciertas relaciones semánticas, como relaciones de género, tiempo verbal y país-capital entre palabras.
 
 Por ejemplo, la siguiente relación se encuentra en los word embeddings entrenados con Word2Vec: $\vec{w}_{king} - \vec{w}_{man} + \vec{w}_{woman} \approx \vec{w}_{queen}$.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.2]{pics/linear-relationships.png}
-	\caption{Fuente: \url{https://www.tensorflow.org/tutorials/word2vec}}
+	\includegraphics[scale=0.4]{pics/linear-relationships.png}
+	\caption{Relaciones Encontradas}
+	\label{fig_emb_rela}
 \end{figure}
 
 \section{Evaluación}
 Existen muchos conjuntos de datos con asociaciones de palabras anotadas por humanos o analogías de oro que se pueden utilizar para evaluar algoritmos de word embeddings.
 
-Estos enfoques se llaman "Enfoques de Evaluación Intrínseca".
+Estos enfoques se llaman ``Enfoques de Evaluación Intrínseca''.
 
 La mayoría de ellos están implementados en: \url{https://github.com/kudkudak/word-embeddings-benchmarks}.
 

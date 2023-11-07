@@ -21,7 +21,7 @@ La idea detrás de ELMo es entrenar un modelo de lenguaje grande (LM) con una re
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.29]{pics/elmo.png}
+  \includegraphics[scale=0.5]{pics/elmo.png}
   \caption{Arquitectura de ELMo}
 \end{figure}
 
@@ -122,7 +122,7 @@ El ajuste fino implica personalizar el modelo preentrenado de BERT para tareas e
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.2]{pics/BERTFineTuning.png}
+  \includegraphics[scale=0.5]{pics/BERTFineTuning.png}
   \caption{Ajuste fino del modelo BERT}
 \end{figure}
 
@@ -174,17 +174,11 @@ Ejemplo de tarea: CoLa
 \end{figure}
 
 \section{Decodificadores de preentrenamiento GPT y GPT-2}
+ De manera contemporánea a BERT, OpenAI presentó un enfoque alternativo llamado Generative Pretrained Transformer (GPT) \cite{radford2018improving}. La idea detrás de GPT es entrenar un gran modelo de lenguaje estándar utilizando la parte generativa del Transformer, específicamente el decodificador. GPT es un decodificador Transformer con 12 capas y 117 millones de parámetros.
+Tiene estados ocultos de 768 dimensiones y capas ocultas de avance feed-forward de 3072 dimensiones. GPT utiliza codificación de pares de bytes con 40,000 fusiones para manejar unidades de subpalabras. GPT fue entrenado en BooksCorpus, que consta de más de 7,000 libros únicos.
 
-\begin{itemize}
-\item De manera contemporánea a BERT, OpenAI presentó un enfoque alternativo llamado Generative Pretrained Transformer (GPT) \cite{radford2018improving}.
-\item La idea detrás de GPT es entrenar un gran modelo de lenguaje estándar utilizando la parte generativa del Transformer, específicamente el decodificador.
-\item GPT es un decodificador Transformer con 12 capas y 117 millones de parámetros.
-\item Tiene estados ocultos de 768 dimensiones y capas ocultas de avance feed-forward de 3072 dimensiones.
-\item GPT utiliza codificación de pares de bytes con 40,000 fusiones para manejar unidades de subpalabras.
-\item GPT fue entrenado en BooksCorpus, que consta de más de 7,000 libros únicos.
-\item Posteriormente, OpenAI presentó GPT-2, una versión más grande con 1.5 mil millones de parámetros, entrenada con aún más datos.
-\item Se ha demostrado que GPT-2 genera muestras relativamente convincentes de lenguaje natural.
-\end{itemize}
+Posteriormente, OpenAI presentó GPT-2, una versión más grande con 1.5 mil millones de parámetros, entrenada con aún más datos. Se ha demostrado que GPT-2 genera muestras relativamente convincentes de lenguaje natural.
+
 
 \paragraph{Salida del modelo GPT-2 (seleccionada)}
 \textbf{Inicio proporcionado por un humano}:
@@ -213,13 +207,10 @@ El Dr. Jorge Pérez, un biólogo evolutivo de la Universidad de La Paz, y varios
 
 
 \section{Cambio de fase: GPT-3 (2020)}
-\begin{itemize}
-\item GPT-3 es otro modelo de lenguaje basado en Transformer (LM) que empujó los límites con casi 200 mil millones de parámetros, convirtiéndolo en el modelo más grande en ese momento \cite{brown2020language}.
-\item Fue entrenado en un corpus masivo que consiste en casi 500 mil millones de palabras.
-\item \textbf{Aprendizaje en contexto}: GPT-3 demostró la capacidad de resolver varias tareas de procesamiento del lenguaje natural (NLP) utilizando \textbf{aprendizaje sin ejemplos}, \textbf{aprendizaje con un solo ejemplo} y \textbf{aprendizaje con pocos ejemplos}.
-\item La clave de esta capacidad reside en la instrucción o contexto proporcionado a GPT-3.
-\item GPT-3 demostró la capacidad de resolver diversas tareas sin realizar actualizaciones de gradiente en el modelo base.
-\end{itemize}
+GPT-3 es otro modelo de lenguaje basado en Transformer (LM) que empujó los límites con casi 200 mil millones de parámetros, convirtiéndolo en el modelo más grande en ese momento \cite{brown2020language}. Fue entrenado en un corpus masivo que consiste en casi 500 mil millones de palabras.
+
+\textbf{Aprendizaje en contexto}: GPT-3 demostró la capacidad de resolver varias tareas de procesamiento del lenguaje natural (NLP) utilizando \textbf{aprendizaje sin ejemplos}, \textbf{aprendizaje con un solo ejemplo} y \textbf{aprendizaje con pocos ejemplos}.  La clave de esta capacidad reside en la instrucción o contexto proporcionado a GPT-3.  GPT-3 demostró la capacidad de resolver diversas tareas sin realizar actualizaciones de gradiente en el modelo base.
+
 
  \begin{figure}[h]
         	\includegraphics[scale = 0.08]{pics/gpt3.png}
@@ -342,7 +333,7 @@ El enfoque RLHF tiene como objetivo mejorar la calidad y la relevancia de las re
 \end{figure}
 
  \begin{figure}[h]
-        	\includegraphics[scale = 0.12]{pics/RLHF.png}
+        	\includegraphics[scale = 0.5]{pics/RLHF.png}
         \end{figure}
         Source: \url{https://huggingface.co/blog/rlhf}
 

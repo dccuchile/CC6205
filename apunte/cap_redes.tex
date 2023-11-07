@@ -2,17 +2,7 @@
 
 
 %Translate this Latex book chapter to Spanish. Output in Latex format. Rearrange bullet points (\items) into full paragraphs. Make sure that sentences are connected in a more fluid way as they come.
-
-\begin{itemize}
-\item Las redes neuronales son una familia muy popular de modelos de aprendizaje automático formados por unidades llamadas \textbf{neuronas}.
-\item Una neurona es una unidad computacional que tiene entradas y salidas escalares.
-\item Cada entrada tiene asociado un peso $w$.
-\item La neurona multiplica cada entrada por su peso y luego los suma (también son posibles otras funciones como \textbf{max}).
-\item Aplica una función de activación $g$ (generalmente no lineal) al resultado y lo pasa a su salida.
-\item Se pueden apilar múltiples capas.
-\item La función de activación no lineal $g$ juega un papel crucial en la capacidad de la red para representar funciones complejas.
-\item Sin la no linealidad en $g$, la red neuronal solo puede representar transformaciones lineales de la entrada.
-\end{itemize}
+Las redes neuronales son una familia muy popular de modelos de aprendizaje automático formados por unidades llamadas \textbf{neuronas}. Una neurona es una unidad computacional que tiene entradas y salidas escalares. Cada entrada tiene asociado un peso $w$. La neurona multiplica cada entrada por su peso y luego los suma (también son posibles otras funciones como \textbf{max}).  Aplica una función de activación $g$ (generalmente no lineal) al resultado y lo pasa a su salida. Se pueden apilar múltiples capas.  La función de activación no lineal $g$ juega un papel crucial en la capacidad de la red para representar funciones complejas.  Sin la no linealidad en $g$, la red neuronal solo puede representar transformaciones lineales de la entrada.
 
 Ejemplo: Red feedforward con dos capas
 
@@ -207,6 +197,13 @@ Estos vectores luego se consideran parámetros del modelo y se entrenan conjunta
 	\centering
 	 \includegraphics[scale=0.65]{pics/emb_matrix.pdf}
 \end{figure}
+
+\begin{figure}[htb]
+	\centering
+	 \includegraphics[scale=0.65]{pics/emb_matrix2.png}
+\end{figure}
+
+
 
 \subsection{Vectores Densos vs Representaciones One-hot}
 ¿Cuáles son los beneficios de representar nuestras características como vectores en lugar de como identificadores únicos? ¿Deberíamos siempre representar las características como vectores densos? Consideremos los dos tipos de representaciones.

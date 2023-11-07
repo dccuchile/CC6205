@@ -14,7 +14,7 @@ P(w_i | w_1, w_2, \cdots, w_{i-1}) = \frac{P(w_1, w_2, \cdots, w_{i-1}, w_i)}{P(
 \item Después de predecir una distribución sobre los siguientes símbolos de salida $P(t_i = k | t_{1:i-1})$, se elige un token $t_i$ y su vector de incrustación correspondiente se alimenta como entrada al siguiente paso.
          \begin{figure}[h]
         	\centering
-        	\includegraphics[scale = 0.25]{pics/generator.png}
+        	\includegraphics[scale = 0.5]{pics/rnnLM.png}
         	\caption{Arquitectura de generación de lenguaje con una RNN.}
         \end{figure}
 \item Teacher-forcing: durante el \textbf{entrenamiento}, se alimenta al generador con la palabra anterior verdadera, incluso si su propia predicción le asignó una pequeña probabilidad.

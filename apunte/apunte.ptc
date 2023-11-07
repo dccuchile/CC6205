@@ -71,29 +71,24 @@
 \contentsline {chapter}{\numberline {4}Clasificación de Texto y Naïve Bayes}{51}{chapter.4}%
 \ttl@stoptoc {default@3}
 \ttl@starttoc {default@4}
-\contentsline {section}{\numberline {4.1}Ejemplos de Problemas de Clasificación}{51}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Clasificador Naïve Bayes}{53}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Suposiciones de Independencia del Bayes Ingenuo Multinomial}{54}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Clasificador Bayes Ingenuo Multinomial}{54}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Aplicación de los clasificadores Naive Bayes multinomiales a la clasificación de texto}{55}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Problemas al multiplicar muchas probabilidades}{55}{subsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.2.5}Aprendizaje del modelo Naive Bayes multinomial}{55}{subsection.4.2.5}%
-\contentsline {subsection}{\numberline {4.2.6}Estimación de parámetros}{56}{subsection.4.2.6}%
-\contentsline {subsection}{\numberline {4.2.7}Probabilidades cero y el problema de las palabras no vistas}{56}{subsection.4.2.7}%
-\contentsline {subsection}{\numberline {4.2.8}Suavizado Laplaciano (Add-1) para Naïve Bayes}{57}{subsection.4.2.8}%
-\contentsline {subsection}{\numberline {4.2.9}Naïve Bayes multinomial: aprendizaje}{57}{subsection.4.2.9}%
-\contentsline {subsection}{\numberline {4.2.10}Palabras desconocidas}{57}{subsection.4.2.10}%
-\contentsline {section}{\numberline {4.3}Ejemplo}{58}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Naive Bayes como modelo de lenguaje}{58}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Evaluación}{59}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}La Matriz de Confusión 2x2}{59}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Evaluación: Exactitud}{60}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Evaluación: Precisión y Recall}{60}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}¿Por qué Precisión y Recall?}{60}{subsection.4.5.4}%
-\contentsline {subsection}{\numberline {4.5.5}Una Medida Combinada: Medida F}{60}{subsection.4.5.5}%
-\contentsline {subsection}{\numberline {4.5.6}Conjuntos de Prueba de Desarrollo ("Devsets")}{61}{subsection.4.5.6}%
-\contentsline {subsection}{\numberline {4.5.7}Validación Cruzada: Múltiples Divisiones}{61}{subsection.4.5.7}%
-\contentsline {subsection}{\numberline {4.5.8}Matriz de Confusión para clasificación de 3 clases}{62}{subsection.4.5.8}%
+\contentsline {section}{\numberline {4.1}Ejemplos de Problemas de Clasificación}{52}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Modelos Generativos}{53}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Naïve Bayes Multinomial}{54}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Estimación de parámetros}{55}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Problemas al multiplicar muchas probabilidades}{55}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Probabilidades cero y el problema de las palabras no vistas}{56}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Suavizado de Laplace (Add-1) para Naïve Bayes}{56}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Ejemplo}{56}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Naive Bayes como modelo de lenguaje}{57}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Evaluación}{58}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}La Matriz de Confusión 2x2}{58}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Evaluación: Exactitud}{58}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Evaluación: Precisión y Recall}{59}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}¿Por qué Precisión y Recall?}{59}{subsection.4.6.4}%
+\contentsline {subsection}{\numberline {4.6.5}Una Medida Combinada: Medida F}{59}{subsection.4.6.5}%
+\contentsline {subsection}{\numberline {4.6.6}Conjuntos de Prueba de Desarrollo ("Devsets")}{60}{subsection.4.6.6}%
+\contentsline {subsection}{\numberline {4.6.7}Validación Cruzada: Múltiples Divisiones}{60}{subsection.4.6.7}%
+\contentsline {subsection}{\numberline {4.6.8}Matriz de Confusión para clasificación de 3 clases}{61}{subsection.4.6.8}%
 \contentsline {chapter}{\numberline {5}Modelos Lineales}{63}{chapter.5}%
 \ttl@stoptoc {default@4}
 \ttl@starttoc {default@5}
@@ -112,9 +107,8 @@
 \contentsline {subsection}{\numberline {5.7.2}Regularización L$_1$}{73}{subsection.5.7.2}%
 \contentsline {subsection}{\numberline {5.7.3}Elastic-Net}{73}{subsection.5.7.3}%
 \contentsline {section}{\numberline {5.8}Más allá del SGD}{73}{section.5.8}%
-\contentsline {section}{\numberline {5.9}Conjuntos de entrenamiento, prueba y validación}{73}{section.5.9}%
-\contentsline {section}{\numberline {5.10}Una limitación de los modelos lineales: el problema XOR}{74}{section.5.10}%
-\contentsline {subsection}{\numberline {5.10.1}Transformaciones no lineales de las entradas}{75}{subsection.5.10.1}%
+\contentsline {section}{\numberline {5.9}Una limitación de los modelos lineales: el problema XOR}{73}{section.5.9}%
+\contentsline {subsection}{\numberline {5.9.1}Transformaciones no lineales de las entradas}{74}{subsection.5.9.1}%
 \contentsline {chapter}{\numberline {6}Redes Neuronales}{77}{chapter.6}%
 \ttl@stoptoc {default@5}
 \ttl@starttoc {default@6}

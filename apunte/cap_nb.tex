@@ -1,7 +1,7 @@
 
-La clasificación, que implica la asignación de un objeto a una categoría específica, desempeña un papel fundamental tanto en la inteligencia humana como en la artificial. En este contexto, la clasificación abarca diversas tareas, que van desde determinar qué letra, palabra o imagen se ha presentado a nuestros sentidos, hasta reconocer caras, voces, clasificar correos electrónicos o calificar tareas. 
+La clasificación, que implica la asignación de un objeto a una categoría específica, desempeña un papel fundamental tanto en la inteligencia humana como en la artificial. En este contexto, la clasificación abarca diversas tareas, que van desde determinar qué letra, palabra o imagen se ha presentado a nuestros sentidos, hasta reconocer caras, voces, clasificar correos electrónicos o calificar tareas.
 
-El propósito subyacente de la clasificación es tomar una única observación, identificar y extraer características relevantes de la misma, y, en última instancia, ubicarla en una de las categorías discretas predefinidas. 
+El propósito subyacente de la clasificación es tomar una única observación, identificar y extraer características relevantes de la misma, y, en última instancia, ubicarla en una de las categorías discretas predefinidas.
 
 \begin{definition}
 Formalmente, definimos el problema de clasificación de texto, al escenario en que se tiene undocumento $d$ y un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$ y se requiere predecir un clase  $c \in C$ para $d$.
@@ -9,7 +9,11 @@ Formalmente, definimos el problema de clasificación de texto, al escenario en q
 
 Como se discutió en el Capítulo~\ref{cap_intro}, la construcción de clasificadores mediante reglas manuales no resulta ser un enfoque eficaz. Hoy en día la mayoría de las tareas de clasificación en PLN se abordan mediante enfoques de aprendizaje automático supervisado.
 
-Formalmente, se parte de un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$ y un conjunto de entrenamiento compuesto por $m$ documentos que han sido etiquetados manualmente como $(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m)$. A través de un proceso de entrenamiento, se desarrolla un clasificador que se define como una función $\gamma: d \to c$.
+Formalmente, se parte de un conjunto fijo de clases $C = \{c_1, c_2, \ldots, c_J\}$ y un conjunto de entrenamiento compuesto por $m$ documentos que han sido etiquetados manualmente como
+\[
+(d_1, c_1), (d_2, c_2), \ldots, (d_m, c_m).
+\]
+A través de un proceso de entrenamiento, se desarrolla un clasificador que se define como una función $\gamma: d \to c$.
 
 Diversos algoritmos de clasificación están disponibles para este propósito, como Naïve Bayes, Regresión logística, Redes neuronales, k-vecinos más cercanos, entre otros. En este capítulo, nos centraremos en el modelo Naïve Bayes. Este capítulo se basa en el material del curso de Daniel Jurafsky, al que se puede acceder a través del siguiente enlace\footnote{\url{https://web.stanford.edu/~jurafsky/slp3/4.pdf}}.
 
@@ -35,23 +39,25 @@ Clasificación de spam. En este problema el objeto a clasificar es un correo el�
     \caption{Ejemplo de Spam}
     \label{fig:chomsky}
 \end{figure}
- 
- 
+
+
 \end{example}
 
 
 
 
 \begin{example}
-Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas de la Constitución de EE. UU. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa entre James Madison y Alexander Hamilton hasta que en 1963, Mosteller y Wallace \cite{mosteller1963inference} utilizaron métodos bayesianos para identificar que Hamilton era el autor de los mismos.
+Detección de Autoría. Un ejemplo histórico de detección de autoría se refiere a la autoría de los Ensayos Federalistas de la Constitución de EE. UU. En 1787, se escribieron ensayos anónimos para persuadir a Nueva York de ratificar la Constitución de EE. UU. La autoría de 12 de estos ensayos estuvo en disputa entre James Madison y Alexander Hamilton (Tabla~\ref{fig:autores}) hasta que en 1963, Mosteller y Wallace \cite{mosteller1963inference} utilizaron métodos bayesianos para identificar que Hamilton era el autor de los mismos.
 
 
 \begin{table}[h]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.3\textwidth]{pics/madison.png} & \includegraphics[width=0.3\textwidth]{pics/hamilton.png} \\
+        \includegraphics[height=0.3\textwidth]{pics/madison.png} & \includegraphics[height=0.3\textwidth]{pics/hamilton.png} \\
         James Madison & Alexander Hamilton \\
     \end{tabular}
+    \caption{Autores candidatos a autoría.}
+    \label{fig:autores}
 \end{table}
 
 
@@ -60,116 +66,115 @@ Detección de Autoría. Un ejemplo histórico de detección de autoría se refie
 
 
 \begin{example}
-Clasificación por tópico. La idea es etiquetar automáticamente un artículo médico en una categoría específica.
+Clasificación por tópico. Aquí los ejemplos incluyen clasificar una noticia en una categoría temática (ej: deportes, política, economía) o etiquetar automáticamente un artículo en ciencias de la vida en una categoría del Medical Subject Headings (MeSH) como se ilustra en la Figura~\ref{fig:medarticle}.
 
 \begin{figure}[h]
-\includegraphics[scale = 0.2]{pics/medarticle.png}
+    \centering
+    \includegraphics[scale = 0.2]{pics/medarticle.png}
+    \caption{Ejemplo de clasificación por categorías clínicas.}
+    \label{fig:medarticle}
 \end{figure}
- 
+
+
+
 \end{example}
 
 
 
 \begin{example}
-Clasificación de sentimientos.
-Este tipo de clasificación se utiliza para determinar si una reseña de una película, por ejemplo, es positiva o negativa. Se basa en analizar el tono y las palabras utilizadas en el texto.
-
-
+Clasificación de sentimientos. La clasificación de sentimientos se utiliza para determinar si un documento exhibe un sentimiento positivo o negativo. Este enfoque se basa en el análisis del tono y las palabras utilizadas en el texto. A continuación, se presentan ejemplos de reseñas de películas y comentarios de restaurantes:
 
 \begin{itemize}
-    \item \textcolor{blue}{\textbf{+}} ...personajes extravagantes y sátira \textcolor{blue}{rico} aplicada, y algunos \textcolor{blue}{grandes} giros de la trama.
-    \item \textcolor{red}{\textbf{-}} Fue \textcolor{red}{patético}. La peor parte fue las escenas de boxeo...
-    \item \textcolor{blue}{\textbf{+}} ...salsa de chocolate \textcolor{blue}{increíble} con almendras dulces y tostadas. ¡Me \textcolor{blue}{encanta} este lugar!
-    \item \textcolor{red}{\textbf{-}} ... \textcolor{red}{horrible} la pizza y \textcolor{red}{ridículamente} cara...
+    \item \textcolor{blue}{\textbf{+}} ...una película muy \textcolor{blue}{buena}, especialmente por los giros de la trama. ¡Fue \textcolor{blue}{espectacular}!
+    \item \textcolor{red}{\textbf{-}} La actuación fue \textcolor{red}{patética}, destacando las escenas de baile como lo \textcolor{red}{peor}.
+    \item \textcolor{blue}{\textbf{+}} ...la salsa de chocolate con almendras dulces es simplemente \textcolor{blue}{increíble} en este lugar. ¡Me \textcolor{blue}{encanta}!
+    \item \textcolor{red}{\textbf{-}} ...la pizza estaba \textcolor{red}{horrible} y tenía un precio \textcolor{red}{ridículamente} alto.
 \end{itemize}
 
-Otros casos de uso incluyen evaluar la opinión del público sobre un producto o candidato, medir la confianza del consumidor y predecir resultados electorales o tendencias del mercado en función del sentimiento público.
+Este enfoque se aplica en diversos casos, como medir la confianza del consumidor respecto a un producto o predecir resultados electorales y tendencias del mercado en función del sentimiento. Estas aplicaciones suelen ser el resultado de la implementación de modelos de análisis de sentimientos en datos procedentes de las redes sociales.
 \end{example}
 
 
 
-\section{Clasificador Naïve Bayes}
-Tenemos ejemplos de entrenamiento $x^{(i)}$, $y^{(i)}$ para $i = 1, \ldots, m$. Cada $x^{(i)}$ es una entrada, cada $y^{(i)}$ es una etiqueta. La tarea es aprender una función $f$ que asigna las entradas $x$ a las etiquetas $f(x)$. En el enfoque probabilista se busca aprender una distribución $p(y|x)$ a partir de ejemplos de entrenamiento, para luego para cualquier entrada de prueba $x$, definir $f(x) = \arg \max_y p(y|x)$.
-   
-En los modelos generativos se aprende la distribución conjunta $p(x, y)$ a partir de los ejemplos de entrenamiento.
-Usando la definición de probabilidad condicional tenemos $p(x, y) = p(y)p(x|y)$. Luego tenemos
-        \[
-        p(y|x) = \frac{p(y)p(x|y)}{p(x)} \quad \text{donde} \quad p(x) = \sum_y p(y)p(x|y).
-        \]
 
+\section{Modelos Generativos}
 
-El Bayes Ingenuo es un método de clasificación simple ("ingenuo") basado en la regla de Bayes. Se basa en una representación muy simple de un documento: \textit{Bolsa de palabras}.
+Nuestra tarea principal consiste en aprender una función $f$ que asigne etiquetas $f(d)$ a las entradas $d$. El modelo Naïve Bayes sigue un enfoque probabilístico en el que buscamos estimar la probabilidad condicional $p(c|d)$ utilizando ejemplos de entrenamiento para todas las clases o etiquetas (por ejemplo, $c=c_1, c=c_2, \ldots, c=c_k$), donde $0 \leq p(c=c_j|d) \leq 1$ para cada $j$ y la suma de todas las probabilidades condicionales para una entrada dada es igual a 1. Luego, para cualquier entrada de prueba $d$, definimos $f(d) = \arg \max_c p(c|d)$, lo cual equivale a seleccionar la clase más probable dada la información disponible en los datos.
 
-Para un documento $d$ y una clase $c$:
+Es importante señalar que existen dos enfoques principales en el aprendizaje automático en términos de la modelización de esta probabilidad condicional $p(c|d)$. Los modelos que intentan estimar $p(c|d)$ directamente de los datos se denominan modelos ``discriminativos'', como la regresión logística que exploraremos en el Capítulo~\ref{cap_lineales}.
+
+Por otro lado, Naïve Bayes se clasifica como un ``modelo generativo''. Bajo este enfoque, se busca construir un modelo para cada clase y clasificar una entrada observando cuál clase tiene la mayor probabilidad de generar el ejemplo objetivo.
+
+Este concepto puede formalizarse mediante el teorema de Bayes. Dado un documento $d$ y una clase $c$, tenemos:
+
 \[
-P(c | d) = \frac{P(d | c)P(c)}{P(d)}
+p(c | d) = \frac{p(d | c)p(c)}{p(d)}
 \]
 
-MAP significa ``máximo a posteriori'', que representa la clase más probable:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(c | d)
-    \]
+Aquí, $p(d | c)$ representa la ``verosimilitud'' que representa la probabilidad de que una clase particular ``genere'' el documento. Por otro lado, $p(c)$ se refiere a la probabilidad ``a priori'' de la clase y $p(d)$ corresponde a la probabilidad del documento, también conocida como ``evidencia''.
 
-Para calcular la clase más probable, aplicamos la regla de Bayes:
-    \[
-    = \arg\max_{c \in C} \frac{P(d | c)P(c)}{P(d)}
-    \]
-Finalmente, podemos eliminar el denominador ya que permanece constante para todas las clases:
-    \[
-    = \arg\max_{c \in C} P(d | c)P(c)
-    \]
-Para clasificar el documento $d$, usamos la estimación MAP:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(d | c)P(c)
-    \]
-El documento $d$ se representa como un conjunto de características $x_1, x_2, \ldots, x_n$.  El clasificador calcula la probabilidad condicional de las características dada una clase y la probabilidad a priori de la clase:
-    \[
-    = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
-    \]
-El término $P(x_1, x_2, \ldots, x_n | c)$ representa la ``verosimilitud'' de las características dada la clase. El término $P(c)$ representa la probabilidad ``a priori'' de la clase. El clasificador Bayes Ingenuo \cite{mccallum1998comparison} calcula la estimación MAP considerando las probabilidades de verosimilitud y a priori:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
-    \]
-La probabilidad de las características dada la clase, $P(x_1, x_2, \ldots, x_n | c)$, puede estimarse contando las frecuencias relativas en un corpus. La probabilidad a priori de la clase, $P(c)$, representa con qué frecuencia ocurre esta clase. Sin algunas suposiciones simplificadoras, estimar la probabilidad de cada posible combinación de características en $P(x_1, x_2, \ldots, x_n | c)$ requeriría un gran número de parámetros y conjuntos de entrenamiento imposiblemente grandes. Por lo tanto, los clasificadores Bayes Ingenuo realizan dos suposiciones simplificadoras.
+Dado que solo estamos interesados en encontrar la clase más probable para la clasificación, podemos eliminar el denominador, ya que se mantiene constante para todas las clases. Esto se expresa como:
 
-
-\subsection{Suposiciones de Independencia del Bayes Ingenuo Multinomial}
-Suposición de Bolsa de Palabras: asumimos que la posición de las palabras en el documento no importa. Suposición de Independencia Condicional: asumimos que las probabilidades de las características $P(x_i | c_j)$ son independientes dada la clase $c_j$.  En el clasificador Bayes Ingenuo Multinomial, la probabilidad de un documento con características $x_1, x_2, \ldots, x_n$ dada la clase $c$ se puede calcular como:
-    \[
-    P(x_1, x_2, \ldots, x_n | c) = P(x_1 | c) \cdot P(x_2 | c) \cdot P(x_3 | c) \cdot \ldots \cdot P(x_n | c)
-    \]
-
-\subsection{Clasificador Bayes Ingenuo Multinomial}
-La estimación del Máximo A Posteriori (MAP) para la clase $c$ en el clasificador Bayes Ingenuo Multinomial se calcula como:
-    \[
-    c_{\text{MAP}} = \arg\max_{c \in C} P(x_1, x_2, \ldots, x_n | c)P(c)
-    \]
-Alternativamente, podemos escribirlo como:
-    \[
-    c_{\text{NB}} = \arg\max_{c \in C} P(c_j) \prod_{x \in X} P(x | c)
-    \]
-$P(c_j)$ representa la probabilidad a priori de la clase $c_j$.
-$\prod_{x \in X} P(x | c)$ representa la verosimilitud de las características $x_1, x_2, \ldots, x_n$ dadas la clase $c$.
-
-
-\subsection{Aplicación de los clasificadores Naive Bayes multinomiales a la clasificación de texto}
-
-El clasificador Naive Bayes multinomial para la clasificación de texto se puede aplicar de la siguiente manera:
 \[
-c_{\text{NB}} = \arg\max_{c_j \in C} P(c_j) \prod_{i \in \text{positions}} P(x_i | c_j)
+c_{\text{MAP}}  = \arg\max_{c} p(d | c)p(c)
 \]
-Donde:
-\begin{itemize}
-    \item $c_{\text{NB}}$ representa la clase predicha para el documento de prueba.
-    \item $C$ es el conjunto de todas las clases posibles.
-    \item $P(c_j)$ es la probabilidad previa de la clase $c_j$.
-    \item $\prod_{i \in \text{positions}} P(x_i | c_j)$ calcula la probabilidad de cada característica $x_i$ en la posición $i$ dada la clase $c_j$.
-    \item El producto se toma sobre todas las posiciones de palabras en el documento de prueba.
-\end{itemize}
+
+En resumen, el estimador MAP (Maximum a Posteriori) se utiliza para encontrar la clase más probable según la expresión anterior.
+
+Alternativamente, podemos entender los modelos generativos como un intento de estimar la distribución conjunta $p(d, c)$ a partir de los ejemplos de entrenamiento. Utilizando la definición de probabilidad condicional, tenemos $p(d, c) = p(c)p(d|c)$, lo cual es equivalente al numerador que maximizamos previamente utilizando el teorema de Bayes.
+
+\section{Naïve Bayes Multinomial}
+
+Naïve Bayes, o el modelo Bayesiano ``ingenuo'' \cite{mccallum1998comparison}, se presenta como un modelo de clasificación generativo en el que un documento $d$ se representa como una bolsa de palabras $x_1, x_2, \ldots, x_n$. Similar al modelo vectorial explorado en el Capítulo~\ref{cap_ir}, en este modelo se omiten las posiciones de las palabras dentro del documento.
+
+La verosimilitud del modelo probabilístico se expresa de la siguiente manera:
+
+\[
+p(d|c) = p(x_1, x_2, \ldots, x_n | c)
+\]
+
+Luego, se aplica el supuesto de independencia condicional, que establece que las palabras son independientes entre sí cuando se condicionan a la clase. Esto permite factorizar la verosimilitud como el producto de factores para cada palabra del vocabulario:
+
+\[
+p(x_1, x_2, \ldots, x_n | c) = p(x_1 | c) \cdot p(x_2 | c) \cdot p(x_3 | c) \cdot \ldots \cdot p(x_n | c) = \prod_{i} p(x_i | c)
+\]
+
+Con esta factorización, la estimación MAP del modelo para clasificar un documento se formula de la siguiente manera:
+
+\[
+c_{\text{MAP}} = \arg\max_{c \in C} \prod_{i} p(x_i | c)p(c)
+\]
+
+\subsection{Estimación de parámetros}
+
+Para estimar los parámetros del modelo Naive Bayes multinomial, se utiliza el método de estimación por máxima verosimilitud, asumiendo una distribución multinomial para $p(x_1, x_2, \ldots, x_n | c)$. Esto implica la creación de un ``mega-documento'' para cada clase $c_j$ mediante la concatenación de todos los documentos de esa clase. Luego, se calcula la frecuencia de todas las palabras $w_i$ del vocabulario en el mega-documento para cada clase $\text{count}(w_i, c_j)$.
+
+La probabilidad estimada $\hat{p}(w_i | c_j)$ de la palabra $w_i$ dada la clase $c_j$ se obtiene dividiendo el conteo de ocurrencias de $w_i$ en el mega-documento de la clase $c_j$ por el total de palabras en el mega-documento:
+
+\[
+\hat{P}(w_i | c_j) = \frac{{\text{count}(w_i, c_j)}}{\sum_{w\in V}{\text{count}(w, c_j)}}
+\]
+
+
+La probabilidad previa de una clase $c_j$, $p(c_j)$, se estima de la siguiente manera:
+    \[
+    \hat{p}(c_j) = \frac{N_{c_j}}{N_{\text{total}}}
+    \]
+donde $N_{c_j}$ es el número de documentos en la clase $c_j$ y $N_{\text{total}}$ es el número total de documentos.
+
+
+Una vez que el modelo Naïve Bayes (NB) ha sido entrenado, se puede emplear para clasificar un nuevo documento $\tilde{d}$ de la siguiente manera:
+
+\[
+c_{\text{NB}} = \arg\max_{c_j} p(c_j) \prod_{i \in \text{posiciones}} p(x_i | c_j)
+\]
+
+Básicamente, se debe iterar a través de las palabras en las posiciones del documento y calcular las probabilidades $p(c_j)$ y $p(x_i | c_j)$ para todas las clases y palabras del documento, para finalmente retornar la clase más probable. Estas probabilidades se derivan de los conteos almacenados durante el proceso de entrenamiento.
+
+Cuando el documento de prueba $\tilde{d}$ contiene palabras que son desconocidas, es decir, no se encuentran en los datos de entrenamiento ni en el vocabulario, optamos por omitirlas. En este contexto, no asignamos ninguna probabilidad a estas palabras desconocidas durante el proceso de clasificación.
 
 \subsection{Problemas al multiplicar muchas probabilidades}
-
-Multiplicar muchas probabilidades puede resultar en un desbordamiento de punto flotante, especialmente cuando se manejan probabilidades pequeñas. Por ejemplo, $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$.
+Multiplicar muchas probabilidades puede resultar en un desbordamiento de punto flotante,  especialmente cuando se manejan probabilidades pequeñas. Por ejemplo, $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$.
 
 Para solucionar este problema, podemos utilizar logaritmos, ya que $\log(ab) = \log(a) + \log(b)$. En lugar de multiplicar las probabilidades, podemos sumar los logaritmos de las probabilidades. Así, el clasificador Naive Bayes multinomial se puede expresar utilizando logaritmos de la siguiente manera:
 \[
@@ -178,41 +183,9 @@ c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{posi
 
 Al tomar logaritmos, evitamos el problema del desbordamiento de punto flotante y realizamos cálculos en el espacio logarítmico. El clasificador se convierte en un modelo lineal, donde la predicción es el argmax de la suma de pesos (logaritmos de probabilidades) y las entradas (logaritmos de probabilidades condicionales). Por lo tanto, Naive Bayes es un clasificador lineal que opera en el espacio logarítmico.
 
-\subsection{Aprendizaje del modelo Naive Bayes multinomial}
-
-El primer intento: Estimaciones de máxima verosimilitud
-\begin{itemize}
-    \item Las probabilidades se estiman utilizando las frecuencias observadas en los datos de entrenamiento.
-    \item La probabilidad previa de una clase $c_j$ se estima como:
-    \[
-    \hat{P}(c_j) = \frac{N_{c_j}}{N_{\text{total}}}
-    \]
-    donde $N_{c_j}$ es el número de documentos en la clase $c_j$ y $N_{\text{total}}$ es el número total de documentos.
-    \item La estimación de la probabilidad de la palabra $w_i$ dada la clase $c_j$ se calcula como:
-    \[
-    \hat{P}(w_i | c_j) = \frac{{\text{count}(w_i, c_j)}}{\sum_{w\in V}{\text{count}(w, c_j)}}
-    \]
-    donde $w \in V$ representa una palabra en el vocabulario $V$.
-    \item El denominador es la suma de las frecuencias de todas las palabras en el vocabulario dentro de la clase $c_j$.
-\end{itemize}
-
-\subsection{Estimación de parámetros}
-
-Para estimar los parámetros del modelo Naive Bayes multinomial, seguimos estos pasos:
-
-\begin{itemize}
-  \item Creamos un mega-documento para cada tema $c_j$ concatenando todos los documentos de ese tema.
-  \item Calculamos la frecuencia de la palabra $w_i$ en el mega-documento, que representa la fracción de veces que la palabra $w_i$ aparece entre todas las palabras en los documentos del tema $c_j$.
-  \item La probabilidad estimada $\hat{P}(w_i | c_j)$ de la palabra $w_i$ dada la clase $c_j$ se obtiene dividiendo el recuento de ocurrencias de $w_i$ en el mega-documento del tema $c_j$ por el recuento total de palabras en el mega-documento:
-  \[
-  \hat{P}(w_i | c_j) = \frac{{\text{count}(w_i, c_j)}}{\sum_{w\in V}{\text{count}(w, c_j)}}
-  \]
-  Aquí, $\text{count}(w_i, c_j)$ representa el número de veces que la palabra $w_i$ aparece en el mega-documento del tema $c_j$, y $\text{count}(w, c_j)$ es el recuento total de palabras en el mega-documento.
-\end{itemize}
-
 \subsection{Probabilidades cero y el problema de las palabras no vistas}
 
-Consideremos el escenario en el que no hemos encontrado la palabra "fantástico" en ningún documento de entrenamiento clasificado como positivo (pulgar hacia arriba). Utilizando la estimación de máxima verosimilitud, la probabilidad $\hat{P}(\text{``fantástico''} \mid \text{positivo})$ se calcularía como:
+Consideremos el escenario en el que no hemos encontrado la palabra ``fantástico'' en ningún documento de entrenamiento clasificado como positivo (pulgar hacia arriba). Utilizando la estimación de máxima verosimilitud, la probabilidad $\hat{P}(\text{``fantástico''} \mid \text{positivo})$ se calcularía como:
 \[
 \hat{P}(\text{``fantástico''} \mid \text{positivo}) = \frac{\text{count}(\text{``fantástico''}, \text{positivo})}{\sum_{w \in V} \text{count}(w, \text{positivo})}
 \]
@@ -229,52 +202,12 @@ c_{\text{MAP}} = \arg\max_c \left(\hat{P}(c) \prod_{i} \hat{P}(x_i \mid c)\right
 
 Con una probabilidad cero para una palabra, toda la expresión se vuelve cero, independientemente de la otra evidencia.
 
-\subsection{Suavizado Laplaciano (Add-1) para Naïve Bayes}
-
-Manejo de probabilidades cero con el suavizado Laplaciano (Add-1):
-\begin{itemize}
-    \item Para abordar el problema de las probabilidades cero, podemos utilizar la técnica de suavizado Laplaciano (Add-1).
-    \item La estimación suavizada $\hat{P}(w_i \mid c)$ se calcula como:
+\subsection{Suavizado de Laplace (Add-1) para Naïve Bayes}
+Para abordar el problema de las probabilidades cero, podemos utilizar la técnica de suavizado Laplaciano (Add-1). La estimación suavizada $\hat{P}(w_i \mid c)$ se calcula como:
     \[
     \hat{P}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)}
     \]
-    \item Aquí, se agrega un recuento adicional de 1 tanto al numerador como al denominador.
-    \item El denominador se ajusta agregando el tamaño del vocabulario $V$ para garantizar una normalización adecuada.
-    \item Al hacerlo, evitamos las probabilidades cero y permitimos que cierta masa de probabilidad se distribuya a palabras no vistas.
-    \item Esta técnica de suavizado ayuda a mitigar el problema de las palabras no vistas y evita la eliminación completa de ciertas clases durante la clasificación.
-\end{itemize}
-
-\subsection{Naïve Bayes multinomial: aprendizaje}
-
-Aprendiendo el modelo Naïve Bayes multinomial:
-\begin{itemize}
-    \item Para aprender los parámetros del modelo, necesitamos calcular los términos $P(c_j)$ y $P(w_k \mid c_j)$.
-    \item Para cada clase $c_j$ en el conjunto de clases $C$, realizamos los siguientes pasos:
-    \begin{itemize}
-        \item Recuperamos todos los documentos $docs_j$ que pertenecen a la clase $c_j$.
-        \item Calculamos el término $P(w_k \mid c_j)$ para cada palabra $w_k$ en el vocabulario $V$:
-        \[
-        P(w_k \mid c_j) = \frac{{n_k + \alpha}}{{n + \alpha \cdot \lvert \text{Vocabulary} \rvert}}
-        \]
-        donde $n_k$ representa el número de ocurrencias de la palabra $w_k$ en el documento concatenado $Text_j$.
-        \item Calculamos la probabilidad a priori $P(c_j)$:
-        \[
-        P(c_j) = \frac{{\lvert docs_j \rvert}}{{\lvert \text{total number of documents} \rvert}}
-        \]
-    \end{itemize}
-    \item Para calcular $P(w_k \mid c_j)$, necesitamos extraer el vocabulario $V$ del corpus de entrenamiento.
-\end{itemize}
-
-\subsection{Palabras desconocidas}
-
-Tratamiento de palabras desconocidas en los datos de prueba:
-\begin{itemize}
-    \item Cuando encontramos palabras desconocidas en los datos de prueba que no aparecen en los datos de entrenamiento o en el vocabulario, las ignoramos.
-    \item Eliminamos estas palabras desconocidas del documento de prueba como si no estuvieran presentes en absoluto.
-    \item No asignamos ninguna probabilidad a estas palabras desconocidas en el proceso de clasificación.
-\end{itemize}
-
-Esto es una visión general del modelo Naive Bayes multinomial y su aplicación a la clasificación de texto. Cabe destacar que existen variantes y extensiones más sofisticadas de Naive Bayes que se adaptan a diferentes requisitos y características de los datos.
+Aquí, se agrega un conteo adicional de 1 tanto al numerador como al denominador. El denominador se ajusta agregando el tamaño del vocabulario $V$ para garantizar una normalización adecuada. Al hacerlo, evitamos las probabilidades cero y permitimos que cierta masa de probabilidad se distribuya a palabras no vistas.  Esta técnica de suavizado ayuda a mitigar el problema de las palabras no vistas y evita la eliminación completa de ciertas clases durante la clasificación.
 
 
 \section{Ejemplo}

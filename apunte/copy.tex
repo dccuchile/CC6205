@@ -201,7 +201,7 @@ Este enfoque se aplica en diversos casos, como medir la confianza del consumidor
 
 \section{Modelos Generativos}
 
-Nuestra tarea principal consiste en aprender una función $f$ que asigne etiquetas $f(d)$ a las entradas $d$. El modelo Naïve Bayes sigue un enfoque probabilístico en el que buscamos estimar la probabilidad condicional $p(c|d)$ utilizando ejemplos de entrenamiento para todas las clases o etiquetas (por ejemplo, $c=c_1, c=c_2, \ldots, c=c_k$), donde $0 \leq p(c=c_j|d) \leq 1$ para cada $j$ y la suma de todas las probabilidades condicionales para una entrada dada es igual a 1. Luego, para cualquier entrada de prueba $d$, definimos $f(d) = \arg \max_c p(c|d)$, lo cual equivale a seleccionar la clase más probable dada la información disponible en los datos.
+Nuestra tarea principal consiste en aprender una función $f$ que asigne etiquetas $f(d)$ a las entradas $d$. El modelo Naïve Bayes sigue un enfoque probabilístico en el que buscamos estimar la probabilidad condicional $p(c|d)$ utilizando ejemplos de entrenamiento para todas las clases o etiquetas (por ejemplo, $c=c_1, c=c_2, \ldots, c=c_k$), donde $0 \leq p(c=c_j|d) \leq 1$ para cada $j$ y $\sum_j p(c=c_j|d)=1$. Luego, para cualquier entrada de prueba $\tilde{d}$, definimos $f(\tilde{d}) = c_{\text{MAP}} = \arg \max_c p(c|\tilde{d})$ como el estimador MAP (Maximum a Posteriori), lo cual equivale a seleccionar la clase más probable dada la información disponible en los datos.
 
 Es importante señalar que existen dos enfoques principales en el aprendizaje automático en términos de la modelización de esta probabilidad condicional $p(c|d)$. Los modelos que intentan estimar $p(c|d)$ directamente de los datos se denominan modelos ``discriminativos'', como la regresión logística que exploraremos en el Capítulo~\ref{cap_lineales}.
 
@@ -221,7 +221,7 @@ Dado que solo estamos interesados en encontrar la clase más probable para la cl
 c_{\text{MAP}}  = \arg\max_{c} p(d | c)p(c)
 \]
 
-En resumen, el estimador MAP (Maximum a Posteriori) se utiliza para encontrar la clase más probable según la expresión anterior.
+En resumen, el estimador MAP se utiliza para encontrar la clase más probable según la expresión anterior.
 
 Alternativamente, podemos entender los modelos generativos como un intento de estimar la distribución conjunta $p(d, c)$ a partir de los ejemplos de entrenamiento. Utilizando la definición de probabilidad condicional, tenemos $p(d, c) = p(c)p(d|c)$, lo cual es equivalente al numerador que maximizamos previamente utilizando el teorema de Bayes.
 

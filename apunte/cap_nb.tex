@@ -1,4 +1,5 @@
 
+
 La clasificación, que implica la asignación de un objeto a una categoría específica, desempeña un papel fundamental tanto en la inteligencia humana como en la artificial. En este contexto, la clasificación abarca diversas tareas, que van desde determinar qué letra, palabra o imagen se ha presentado a nuestros sentidos, hasta reconocer caras, voces, clasificar correos electrónicos o calificar tareas.
 
 El propósito subyacente de la clasificación es tomar una única observación, identificar y extraer características relevantes de la misma, y, en última instancia, ubicarla en una de las categorías discretas predefinidas.
@@ -99,7 +100,7 @@ Este enfoque se aplica en diversos casos, como medir la confianza del consumidor
 
 \section{Modelos Generativos}
 
-Nuestra tarea principal consiste en aprender una función $f$ que asigne etiquetas $f(d)$ a las entradas $d$. El modelo Naïve Bayes sigue un enfoque probabilístico en el que buscamos estimar la probabilidad condicional $p(c|d)$ utilizando ejemplos de entrenamiento para todas las clases o etiquetas (por ejemplo, $c=c_1, c=c_2, \ldots, c=c_k$), donde $0 \leq p(c=c_j|d) \leq 1$ para cada $j$ y la suma de todas las probabilidades condicionales para una entrada dada es igual a 1. Luego, para cualquier entrada de prueba $d$, definimos $f(d) = \arg \max_c p(c|d)$, lo cual equivale a seleccionar la clase más probable dada la información disponible en los datos.
+Nuestra tarea principal consiste en aprender una función $f$ que asigne etiquetas $f(d)$ a las entradas $d$. El modelo Naïve Bayes sigue un enfoque probabilístico en el que buscamos estimar la probabilidad condicional $p(c|d)$ utilizando ejemplos de entrenamiento para todas las clases o etiquetas (por ejemplo, $c=c_1, c=c_2, \ldots, c=c_k$), donde $0 \leq p(c=c_j|d) \leq 1$ para cada $j$ y $\sum_j p(c=c_j|d)=1$. Luego, para cualquier entrada de prueba $\tilde{d}$, definimos $f(\tilde{d}) = c_{\text{MAP}} = \arg \max_c p(c|\tilde{d})$ como el estimador MAP (Maximum a Posteriori), lo cual equivale a seleccionar la clase más probable dada la información disponible en los datos.
 
 Es importante señalar que existen dos enfoques principales en el aprendizaje automático en términos de la modelización de esta probabilidad condicional $p(c|d)$. Los modelos que intentan estimar $p(c|d)$ directamente de los datos se denominan modelos ``discriminativos'', como la regresión logística que exploraremos en el Capítulo~\ref{cap_lineales}.
 
@@ -119,7 +120,7 @@ Dado que solo estamos interesados en encontrar la clase más probable para la cl
 c_{\text{MAP}}  = \arg\max_{c} p(d | c)p(c)
 \]
 
-En resumen, el estimador MAP (Maximum a Posteriori) se utiliza para encontrar la clase más probable según la expresión anterior.
+En resumen, el estimador MAP se utiliza para encontrar la clase más probable según la expresión anterior.
 
 Alternativamente, podemos entender los modelos generativos como un intento de estimar la distribución conjunta $p(d, c)$ a partir de los ejemplos de entrenamiento. Utilizando la definición de probabilidad condicional, tenemos $p(d, c) = p(c)p(d|c)$, lo cual es equivalente al numerador que maximizamos previamente utilizando el teorema de Bayes.
 
@@ -174,79 +175,150 @@ Básicamente, se debe iterar a través de las palabras en las posiciones del doc
 Cuando el documento de prueba $\tilde{d}$ contiene palabras que son desconocidas, es decir, no se encuentran en los datos de entrenamiento ni en el vocabulario, optamos por omitirlas. En este contexto, no asignamos ninguna probabilidad a estas palabras desconocidas durante el proceso de clasificación.
 
 \subsection{Problemas al multiplicar muchas probabilidades}
-Multiplicar muchas probabilidades puede resultar en un desbordamiento de punto flotante,  especialmente cuando se manejan probabilidades pequeñas. Por ejemplo, $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$.
 
-Para solucionar este problema, podemos utilizar logaritmos, ya que $\log(ab) = \log(a) + \log(b)$. En lugar de multiplicar las probabilidades, podemos sumar los logaritmos de las probabilidades. Así, el clasificador Naive Bayes multinomial se puede expresar utilizando logaritmos de la siguiente manera:
+La multiplicación de muchas probabilidades puede llevar a un underflow de punto flotante\footnote{\url{https://en.wikipedia.org/wiki/Arithmetic_underflow}}, especialmente cuando se manejan probabilidades pequeñas. Por ejemplo, $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$. Esto resulta en productos con valores nulos y clasificaciones erróneas.
+
+Para abordar este problema, podemos recurrir a los logaritmos, ya que $\log(ab) = \log(a) + \log(b)$. En lugar de multiplicar las probabilidades, sumamos los logaritmos de las probabilidades. Así, el clasificador Naïve Bayes multinomial se puede expresar utilizando logaritmos de la siguiente manera:
+
 \[
-c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{position}} \log(P(x_i | c_j))\right)
+c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{posiciones}} \log(P(x_i | c_j))\right)
 \]
 
-Al tomar logaritmos, evitamos el problema del desbordamiento de punto flotante y realizamos cálculos en el espacio logarítmico. El clasificador se convierte en un modelo lineal, donde la predicción es el argmax de la suma de pesos (logaritmos de probabilidades) y las entradas (logaritmos de probabilidades condicionales). Por lo tanto, Naive Bayes es un clasificador lineal que opera en el espacio logarítmico.
+La función logaritmo es monótona creciente, lo que significa que si una probabilidad es mayor que otra, el logaritmo de esa probabilidad también será mayor que el logaritmo de la otra probabilidad. Esto preserva el orden relativo de las probabilidades, por lo que el resultado óptimo de la clasificación no se ve afectado.
 
-\subsection{Probabilidades cero y el problema de las palabras no vistas}
+Al aplicar logaritmos, el clasificador Naive Bayes se convierte en un modelo lineal (consulte el Capítulo~\ref{cap_lineales}), donde la predicción es el argmax de la suma de los logaritmos de las probabilidades y las entradas (logaritmos de las probabilidades condicionales). En otras palabras, Naive Bayes se convierte en un clasificador lineal que opera en el espacio logarítmico.
 
-Consideremos el escenario en el que no hemos encontrado la palabra ``fantástico'' en ningún documento de entrenamiento clasificado como positivo (pulgar hacia arriba). Utilizando la estimación de máxima verosimilitud, la probabilidad $\hat{P}(\text{``fantástico''} \mid \text{positivo})$ se calcularía como:
+\subsection{Suavizamiento de Laplace}
+
+De forma similar a los modelos de lenguaje de n-gramas mencionados en el Capítulo~\ref{cap_plm}, Naïve Bayes también enfrenta problemas de probabilidades nulas.
+
+Supongamos que estamos trabajando en un problema de clasificación de sentimientos con clases positivo y negativo. Por alguna razón, la palabra ``fantástico'' no aparece en ningún documento negativo. Luego, imaginemos que queremos clasificar el documento $\tilde{d}=$ ``Qué fantástico, acabo de aburrirme como nunca viendo la peor película de mi vida''. Claramente, este documento es negativo, pero si usamos la estimación de máxima verosimilitud, la probabilidad $\hat{p}(\text{``fantástico''} \mid \text{negativo})$ sería:
+
 \[
-\hat{P}(\text{``fantástico''} \mid \text{positivo}) = \frac{\text{count}(\text{``fantástico''}, \text{positivo})}{\sum_{w \in V} \text{count}(w, \text{positivo})}
+\hat{p}(\text{``fantástico''} \mid \text{negativo}) = \frac{\text{count}(\text{``fantástico''}, \text{negativo})}{\sum_{w \in V} \text{count}(w, \text{negativo})} = \frac{0}{\sum_{w \in V} \text{count}(w, \text{positivo})} = 0
 \]
 
-En este caso, el recuento de la palabra ``fantástico'' en los documentos positivos es cero, lo que conduce a una probabilidad cero:
+El problema es que esta probabilidad cero anularía toda la evidencia proporcionada por otras palabras muy indicativas de la clase negativa, como ``aburrirme'' y ``peor'' por la forma multiplicativa de la función de verosimilitud del modelo, y el clasificador Naïve Bayes terminaría clasificando el ejemplo en la clase ``positiva''.
+
+Para abordar este problema, podemos utilizar la técnica de suavizamiento de Laplace, que consiste en agregar un conteo adicional a todas las combinaciones de palabras y clases y ajustar el denominador con el tamaño del vocabulario $V$ para garantizar una normalización adecuada. La estimación suavizada $\hat{p}(w_i \mid c)$ queda de la siguiente manera:
+
 \[
-\hat{P}(\text{``fantástico''} \mid \text{positivo}) = \frac{0}{\sum_{w \in V} \text{count}(w, \text{positivo})} = 0
+\hat{p}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)} = \frac{\text{count}(w_i, c) + 1}{(\sum_{w \in V} \text{count}(w, c))+|V|}
 \]
 
-Sin embargo, las probabilidades cero no pueden eliminarse, independientemente de la evidencia adicional presente. Esto plantea un problema al calcular la estimación del máximo a posteriori (MAP), que se utiliza para la clasificación:
-\[
-c_{\text{MAP}} = \arg\max_c \left(\hat{P}(c) \prod_{i} \hat{P}(x_i \mid c)\right)
-\]
+Esta técnica aborda el problema de las probabilidades nulas, ya que ahora cualquier palabra del vocabulario, incluso si nunca se ha visto con alguna clase, recibirá una probabilidad condicional mayor a cero. Como pueden ver, esta técnica permite que cierta masa de probabilidad se distribuya a palabras no vistas de manera similar a  las técnicas de descuento vistas en el Capítulo de modelos de lenguaje (Capítulo~\ref{cap_plm}).
 
-Con una probabilidad cero para una palabra, toda la expresión se vuelve cero, independientemente de la otra evidencia.
 
-\subsection{Suavizado de Laplace (Add-1) para Naïve Bayes}
-Para abordar el problema de las probabilidades cero, podemos utilizar la técnica de suavizado Laplaciano (Add-1). La estimación suavizada $\hat{P}(w_i \mid c)$ se calcula como:
-    \[
-    \hat{P}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)}
-    \]
-Aquí, se agrega un conteo adicional de 1 tanto al numerador como al denominador. El denominador se ajusta agregando el tamaño del vocabulario $V$ para garantizar una normalización adecuada. Al hacerlo, evitamos las probabilidades cero y permitimos que cierta masa de probabilidad se distribuya a palabras no vistas.  Esta técnica de suavizado ayuda a mitigar el problema de las palabras no vistas y evita la eliminación completa de ciertas clases durante la clasificación.
+
+
+
+
 
 
 \section{Ejemplo}
 
-\textbf{Datos de Entrenamiento:} 
+Supongamos que tenemos el siguiente conjunto de entrenamiento:
 
+\textbf{Entrenamiento:}
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
 \hline
 \textbf{Categoría} & \textbf{Texto} \\
 \hline
-Negative & Just plain boring, entirely predictable and lacks energy. \\
+Perú & Lima Lima Trujillo \\
 \hline
-Negative & No surprises and very few laughs. \\
+Chile & Santiago Concepción Concepción\\
 \hline
-Positive & Very powerful. \\
+Perú & Perú Lima Trujillo América\\
 \hline
-Positive & The most fun film of the summer. \\
+Chile & Chile América Santiago \\
 \hline
 \end{tabular}
 \end{table}
 
+Y queremos clasificar el siguiente ejemplo:
 
-\textbf{Test:} 
+\textbf{Test:}
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
 \hline
 \textbf{Categoría} & \textbf{Texto} \\
 \hline
-? & Predictable with no fun. \\
+? & América Lima Perú Santiago \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[h]
-\includegraphics[scale = 0.23]{pics/naive_example.png}
-\end{figure}
+En este ejemplo, $|V|=7$, y tenemos dos clases: $c_1=$ Perú y $c_2=$ Chile.
+
+La tabla de conteos que calculamos de los datos de entrenamiento quedaría de la siguiente manera:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+id\_palabra & palabra & count($w_i$,Perú) & count($w_i$,Chile) \\
+\hline
+$w_1$ & América & 1 & 1 \\
+$w_2$ & Chile & 0 & 1 \\
+$w_3$ & Concepción & 0 & 2 \\
+$w_4$ & Lima & 3 & 0 \\
+$w_5$ & Perú & 1 & 0 \\
+$w_6$ & Santiago & 0 & 2 \\
+$w_7$ & Trujillo & 2 & 0 \\
+\hline
+\end{tabular}
+\end{table}
+
+Ahora, debemos calcular las probabilidades condicionales suavizadas:
+\[
+\hat{p}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\left(\sum_{w \in V} \text{count}(w, c)\right) + |V|}
+\]
+para todas las palabras y clases.
+
+El denominador de esta expresión para cada clase corresponde al largo del ``mega-documento'' que junta todos los documentos de la misma clase más el tamaño del vocabulario, que sería $7+7=14$ para Perú y $6+7=13$ para Chile.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+id\_palabra & palabra & $\hat{p}(w_i \mid c=\text{Perú})$ & $\hat{p}(w_i \mid c=\text{Chile})$ \\
+\hline
+$w_1$ & América & $\frac{1+1}{14}=0.14$ & $\frac{1+1}{13}=0.15$ \\
+$w_2$ & Chile & $\frac{0+1}{14}=0.07$ & $\frac{1+1}{13}=0.15$ \\
+$w_3$ & Concepción & $\frac{0+1}{14}=0.07$ & $\frac{2+1}{13}=0.23$ \\
+$w_4$ & Lima & $\frac{3+1}{14}=0.29$ & $\frac{0+1}{13}=0.08$ \\
+$w_5$ & Perú & $\frac{1+1}{14}=0.14$ & $\frac{0+1}{13}=0.08$ \\
+$w_6$ & Santiago & $\frac{0+1}{14}=0.07$ & $\frac{2+1}{13}=0.23$ \\
+$w_7$ & Trujillo & $\frac{2+1}{14}=0.21$ & $\frac{0+1}{13}=0.08$ \\
+\hline
+\end{tabular}
+\end{table}
+
+Ahora necesitamos estimar la probabilidad a priori de cada clase:
+    \[
+    \hat{p}(c_j) = \frac{N_{c_j}}{N_{\text{total}}}
+    \]
+
+Ambas clases ocurren en 2 documentos sobre un total de 4. Entonces, $\hat{p}(c=\text{Perú})=0.5$ y $\hat{p}(c=\text{Chile})=0.5$.
+
+Ahora debemos calcular:
+\[
+c_{\text{NB}} = \arg\max_{c_j} p(c_j) \prod_{i \in \text{posiciones}} p(x_i | c_j)
+\]
+
+Esto implica iterar posiciones para ambas clases del documento de prueba:
+
+\[
+p(\tilde{d}|c=\text{Perú})\approx 0.14\times 0.29\times 0.14\times 0.07\times 0.5=0.00019894
+\]
+
+\[
+p(\tilde{d}|c=\text{Chile})\approx 0.15\times 0.08\times 0.08\times 0.23\times 0.5=0.0001104
+\]
+Entonces, clasificamos el documento en la clase ``Perú''.
 
 \section{Naive Bayes como modelo de lenguaje}
 

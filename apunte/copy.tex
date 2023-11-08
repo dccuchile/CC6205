@@ -277,40 +277,39 @@ Cuando el documento de prueba $\tilde{d}$ contiene palabras que son desconocidas
 
 \subsection{Problemas al multiplicar muchas probabilidades}
 
-Multiplicar muchas probabilidades puede resultar en un desbordamiento de punto flotante, especialmente cuando se manejan probabilidades pequeñas. Por ejemplo, $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$.
+La multiplicación de muchas probabilidades puede llevar a un underflow de punto flotante\footnote{\url{https://en.wikipedia.org/wiki/Arithmetic_underflow}}, especialmente cuando se manejan probabilidades pequeñas. Por ejemplo, $0.0006 \times 0.0007 \times 0.0009 \times 0.01 \times 0.5 \times 0.000008 \ldots$. Esto resulta en productos con valores nulos y clasificaciones erróneas.
 
-Para solucionar este problema, podemos utilizar logaritmos, ya que $\log(ab) = \log(a) + \log(b)$. En lugar de multiplicar las probabilidades, podemos sumar los logaritmos de las probabilidades. Así, el clasificador Naive Bayes multinomial se puede expresar utilizando logaritmos de la siguiente manera:
+Para abordar este problema, podemos recurrir a los logaritmos, ya que $\log(ab) = \log(a) + \log(b)$. En lugar de multiplicar las probabilidades, sumamos los logaritmos de las probabilidades. Así, el clasificador Naïve Bayes multinomial se puede expresar utilizando logaritmos de la siguiente manera:
+
 \[
-c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{position}} \log(P(x_i | c_j))\right)
+c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{posiciones}} \log(P(x_i | c_j))\right)
 \]
 
-Al tomar logaritmos, evitamos el problema del desbordamiento de punto flotante y realizamos cálculos en el espacio logarítmico. El clasificador se convierte en un modelo lineal, donde la predicción es el argmax de la suma de pesos (logaritmos de probabilidades) y las entradas (logaritmos de probabilidades condicionales). Por lo tanto, Naive Bayes es un clasificador lineal que opera en el espacio logarítmico.
+La función logaritmo es monótona creciente, lo que significa que si una probabilidad es mayor que otra, el logaritmo de esa probabilidad también será mayor que el logaritmo de la otra probabilidad. Esto preserva el orden relativo de las probabilidades, por lo que el resultado óptimo de la clasificación no se ve afectado.
 
-\subsection{Probabilidades cero y el problema de las palabras no vistas}
+Al aplicar logaritmos, el clasificador Naive Bayes se convierte en un modelo lineal (consulte el Capítulo~\ref{cap_lineales}), donde la predicción es el argmax de la suma de los logaritmos de las probabilidades y las entradas (logaritmos de las probabilidades condicionales). En otras palabras, Naive Bayes se convierte en un clasificador lineal que opera en el espacio logarítmico.
 
-Consideremos el escenario en el que no hemos encontrado la palabra ``fantástico'' en ningún documento de entrenamiento clasificado como positivo (pulgar hacia arriba). Utilizando la estimación de máxima verosimilitud, la probabilidad $\hat{P}(\text{``fantástico''} \mid \text{positivo})$ se calcularía como:
+\subsection{Suavizamiento de Laplace}
+
+De forma similar a los modelos de lenguaje de n-gramas mencionados en el Capítulo~\ref{cap_plm}, Naïve Bayes también enfrenta problemas de probabilidades nulas.
+
+Supongamos que estamos trabajando en un problema de clasificación de sentimientos con clases positivo y negativo. Por alguna razón, la palabra ``fantástico'' no aparece en ningún documento negativo. Luego, imaginemos que queremos clasificar el documento $\tilde{d}=$ ``Qué fantástico, acabo de aburrirme como nunca viendo la peor película de mi vida''. Claramente, este documento es negativo, pero si usamos la estimación de máxima verosimilitud, la probabilidad $\hat{p}(\text{``fantástico''} \mid \text{negativo})$ sería:
+
 \[
-\hat{P}(\text{``fantástico''} \mid \text{positivo}) = \frac{\text{count}(\text{``fantástico''}, \text{positivo})}{\sum_{w \in V} \text{count}(w, \text{positivo})}
+\hat{p}(\text{``fantástico''} \mid \text{negativo}) = \frac{\text{count}(\text{``fantástico''}, \text{negativo})}{\sum_{w \in V} \text{count}(w, \text{negativo})} = \frac{0}{\sum_{w \in V} \text{count}(w, \text{positivo})} = 0
 \]
 
-En este caso, el recuento de la palabra ``fantástico'' en los documentos positivos es cero, lo que conduce a una probabilidad cero:
+El problema es que esta probabilidad cero anularía toda la evidencia proporcionada por otras palabras muy indicativas de la clase negativa, como ``aburrirme'' y ``peor'' por la forma multiplicativa de la función de verosimilitud del modelo, y el clasificador Naïve Bayes terminaría clasificando el ejemplo en la clase ``positiva''.
+
+Para abordar este problema, podemos utilizar la técnica de suavizamiento de Laplace, que consiste en agregar un conteo adicional a todas las combinaciones de palabras y clases y ajustar el denominador con el tamaño del vocabulario $V$ para garantizar una normalización adecuada. La estimación suavizada $\hat{p}(w_i \mid c)$ queda de la siguiente manera:
+
 \[
-\hat{P}(\text{``fantástico''} \mid \text{positivo}) = \frac{0}{\sum_{w \in V} \text{count}(w, \text{positivo})} = 0
+\hat{p}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)} = \frac{\text{count}(w_i, c) + 1}{(\sum_{w \in V} \text{count}(w, c))+|V|}
 \]
 
-Sin embargo, las probabilidades cero no pueden eliminarse, independientemente de la evidencia adicional presente. Esto plantea un problema al calcular la estimación del máximo a posteriori (MAP), que se utiliza para la clasificación:
-\[
-c_{\text{MAP}} = \arg\max_c \left(\hat{P}(c) \prod_{i} \hat{P}(x_i \mid c)\right)
-\]
+Esta técnica aborda el problema de las probabilidades nulas, ya que ahora cualquier palabra del vocabulario, incluso si nunca se ha visto con alguna clase, recibirá una probabilidad condicional mayor a cero. Como pueden ver, esta técnica permite que cierta masa de probabilidad se distribuya a palabras no vistas de manera similar a  las técnicas de descuento vistas en el Capítulo de modelos de lenguaje (Capítulo~\ref{cap_plm}).
 
-Con una probabilidad cero para una palabra, toda la expresión se vuelve cero, independientemente de la otra evidencia.
 
-\subsection{Suavizado de Laplace (Add-1) para Naïve Bayes}
-Para abordar el problema de las probabilidades cero, podemos utilizar la técnica de suavizado Laplaciano (Add-1). La estimación suavizada $\hat{P}(w_i \mid c)$ se calcula como:
-    \[
-    \hat{p}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)} = \frac{\text{count}(w_i, c) + 1}{(\sum_{w \in V} \text{count}(w, c))+|V|}
-    \]
-Aquí, se agrega un conteo adicional de 1 tanto al numerador como al denominador. El denominador se ajusta agregando el tamaño del vocabulario $V$ para garantizar una normalización adecuada. Al hacerlo, evitamos las probabilidades cero y permitimos que cierta masa de probabilidad se distribuya a palabras no vistas.  Esta técnica de suavizado ayuda a mitigar el problema de las palabras no vistas y evita la eliminación completa de ciertas clases durante la clasificación.
 
 
 

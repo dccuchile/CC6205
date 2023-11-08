@@ -287,7 +287,7 @@ c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{posi
 
 La función logaritmo es monótona creciente, lo que significa que si una probabilidad es mayor que otra, el logaritmo de esa probabilidad también será mayor que el logaritmo de la otra probabilidad. Esto preserva el orden relativo de las probabilidades, por lo que el resultado óptimo de la clasificación no se ve afectado.
 
-Al aplicar logaritmos, el clasificador Naive Bayes se convierte en un modelo lineal (consulte el Capítulo~\ref{cap_lineales}), donde la predicción es el argmax de la suma de los logaritmos de las probabilidades y las entradas (logaritmos de las probabilidades condicionales). En otras palabras, Naive Bayes se convierte en un clasificador lineal que opera en el espacio logarítmico.
+Al aplicar logaritmos, el clasificador Naive Bayes se convierte en un modelo lineal (Capítulo~\ref{cap_lineales}), donde la predicción es el argmax de la suma de los logaritmos de las probabilidades y las entradas (logaritmos de las probabilidades condicionales). En otras palabras, Naive Bayes se convierte en un clasificador lineal que opera en el espacio logarítmico.
 
 \subsection{Suavizamiento de Laplace}
 
@@ -310,17 +310,11 @@ Para abordar este problema, podemos utilizar la técnica de suavizamiento de Lap
 Esta técnica aborda el problema de las probabilidades nulas, ya que ahora cualquier palabra del vocabulario, incluso si nunca se ha visto con alguna clase, recibirá una probabilidad condicional mayor a cero. Como pueden ver, esta técnica permite que cierta masa de probabilidad se distribuya a palabras no vistas de manera similar a  las técnicas de descuento vistas en el Capítulo de modelos de lenguaje (Capítulo~\ref{cap_plm}).
 
 
+\begin{example}
+
+Supongamos que tenemos el conjunto de entrenamiento mostrado en la Tabla~\ref{tab_nb_train}.
 
 
-
-
-
-
-\section{Ejemplo}
-
-Supongamos que tenemos el siguiente conjunto de entrenamiento:
-
-\textbf{Entrenamiento:}
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
@@ -336,11 +330,13 @@ Perú & Perú Lima Trujillo América\\
 Chile & Chile América Santiago \\
 \hline
 \end{tabular}
+\caption{Datos de Entrenamiento.}
+\label{tab_nb_train}
 \end{table}
 
-Y queremos clasificar el siguiente ejemplo:
+Y queremos clasificar el ejemplo de la Tabla~\ref{tab_nb_test}.
 
-\textbf{Test:}
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
@@ -350,11 +346,13 @@ Y queremos clasificar el siguiente ejemplo:
 ? & América Lima Perú Santiago \\
 \hline
 \end{tabular}
+\caption{Ejemplo de Prueba.}
+\label{tab_nb_test}
 \end{table}
 
 En este ejemplo, $|V|=7$, y tenemos dos clases: $c_1=$ Perú y $c_2=$ Chile.
 
-La tabla de conteos que calculamos de los datos de entrenamiento quedaría de la siguiente manera:
+La Tabla~\ref{tab_nb_conteos} muestra los conteos calculados a partir de los datos de entrenamiento.
 
 \begin{table}[h]
 \centering
@@ -371,6 +369,8 @@ $w_6$ & Santiago & 0 & 2 \\
 $w_7$ & Trujillo & 2 & 0 \\
 \hline
 \end{tabular}
+\caption{Tabla de Conteos.}
+\label{tab_nb_conteos}
 \end{table}
 
 Ahora, debemos calcular las probabilidades condicionales suavizadas:
@@ -380,6 +380,8 @@ Ahora, debemos calcular las probabilidades condicionales suavizadas:
 para todas las palabras y clases.
 
 El denominador de esta expresión para cada clase corresponde al largo del ``mega-documento'' que junta todos los documentos de la misma clase más el tamaño del vocabulario, que sería $7+7=14$ para Perú y $6+7=13$ para Chile.
+
+Las probabilidades resultantes se muestran en la Tabla~\ref{tab_nb_probs}.
 
 \begin{table}[h]
 \centering
@@ -396,6 +398,8 @@ $w_6$ & Santiago & $\frac{0+1}{14}=0.07$ & $\frac{2+1}{13}=0.23$ \\
 $w_7$ & Trujillo & $\frac{2+1}{14}=0.21$ & $\frac{0+1}{13}=0.08$ \\
 \hline
 \end{tabular}
+\caption{Probabilidades condicionales suavizadas.}
+\label{tab_nb_probs}
 \end{table}
 
 Ahora necesitamos estimar la probabilidad a priori de cada clase:
@@ -413,16 +417,19 @@ c_{\text{NB}} = \arg\max_{c_j} p(c_j) \prod_{i \in \text{posiciones}} p(x_i | c_
 Esto implica iterar posiciones para ambas clases del documento de prueba:
 
 \[
-p(\tilde{d}|c=\text{Perú})\approx 0.14\times 0.29\times 0.14\times 0.07\times 0.5=0.00019894
+c_{\text{Perú}} = 0.14\times 0.29\times 0.14\times 0.07\times 0.5=0.00019894
 \]
 
 \[
-p(\tilde{d}|c=\text{Chile})\approx 0.15\times 0.08\times 0.08\times 0.23\times 0.5=0.0001104
+c_{\text{Chile}} = 0.15\times 0.08\times 0.08\times 0.23\times 0.5=0.0001104
 \]
-Entonces, clasificamos el documento en la clase ``Perú''.
+Entonces, $c_{\text{NB}}=$``Perú'' y clasificamos el documento a la clase ``Perú''.
+\end{example}
 
 
-\section{Naive Bayes como modelo de lenguaje}
+
+
+\subsection{Naïve Bayes como modelo de lenguaje}
 
 Cuando utilizamos características de palabras individuales y consideramos todas las palabras en el texto, el naive Bayes tiene una similitud importante con la modelización del lenguaje.
 

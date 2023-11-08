@@ -221,7 +221,7 @@ Dado que solo estamos interesados en encontrar la clase más probable para la cl
 c_{\text{MAP}}  = \arg\max_{c} p(d | c)p(c)
 \]
 
-En resumen, el estimador MAP ^se utiliza para encontrar la clase más probable según la expresión anterior.
+En resumen, el estimador MAP se utiliza para encontrar la clase más probable según la expresión anterior.
 
 Alternativamente, podemos entender los modelos generativos como un intento de estimar la distribución conjunta $p(d, c)$ a partir de los ejemplos de entrenamiento. Utilizando la definición de probabilidad condicional, tenemos $p(d, c) = p(c)p(d|c)$, lo cual es equivalente al numerador que maximizamos previamente utilizando el teorema de Bayes.
 
@@ -308,7 +308,7 @@ Con una probabilidad cero para una palabra, toda la expresión se vuelve cero, i
 \subsection{Suavizado de Laplace (Add-1) para Naïve Bayes}
 Para abordar el problema de las probabilidades cero, podemos utilizar la técnica de suavizado Laplaciano (Add-1). La estimación suavizada $\hat{P}(w_i \mid c)$ se calcula como:
     \[
-    \hat{P}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)}
+    \hat{p}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\sum_{w \in V} (\text{count}(w, c) + 1)} = \frac{\text{count}(w_i, c) + 1}{(\sum_{w \in V} \text{count}(w, c))+|V|}
     \]
 Aquí, se agrega un conteo adicional de 1 tanto al numerador como al denominador. El denominador se ajusta agregando el tamaño del vocabulario $V$ para garantizar una normalización adecuada. Al hacerlo, evitamos las probabilidades cero y permitimos que cierta masa de probabilidad se distribuya a palabras no vistas.  Esta técnica de suavizado ayuda a mitigar el problema de las palabras no vistas y evita la eliminación completa de ciertas clases durante la clasificación.
 
@@ -319,41 +319,109 @@ Aquí, se agrega un conteo adicional de 1 tanto al numerador como al denominador
 
 \section{Ejemplo}
 
-\textbf{Datos de Entrenamiento:} 
+Supongamos que tenemos el siguiente conjunto de entrenamiento:
 
+\textbf{Entrenamiento:}
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
 \hline
 \textbf{Categoría} & \textbf{Texto} \\
 \hline
-Negative & Just plain boring, entirely predictable and lacks energy. \\
+Perú & Lima Lima Trujillo \\
 \hline
-Negative & No surprises and very few laughs. \\
+Chile & Santiago Concepción Concepción\\
 \hline
-Positive & Very powerful. \\
+Perú & Perú Lima Trujillo América\\
 \hline
-Positive & The most fun film of the summer. \\
+Chile & Chile América Santiago \\
 \hline
 \end{tabular}
 \end{table}
 
+Y queremos clasificar el siguiente ejemplo:
 
-\textbf{Test:} 
+\textbf{Test:}
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
 \hline
 \textbf{Categoría} & \textbf{Texto} \\
 \hline
-? & Predictable with no fun. \\
+? & América Lima Perú Santiago \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[h]
-\includegraphics[scale = 0.23]{pics/naive_example.png}
-\end{figure}
+En este ejemplo, $|V|=7$, y tenemos dos clases: $c_1=$ Perú y $c_2=$ Chile.
+
+La tabla de conteos que calculamos de los datos de entrenamiento quedaría de la siguiente manera:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+id\_palabra & palabra & count($w_i$,Perú) & count($w_i$,Chile) \\
+\hline
+$w_1$ & América & 1 & 1 \\
+$w_2$ & Chile & 0 & 1 \\
+$w_3$ & Concepción & 0 & 2 \\
+$w_4$ & Lima & 3 & 0 \\
+$w_5$ & Perú & 1 & 0 \\
+$w_6$ & Santiago & 0 & 2 \\
+$w_7$ & Trujillo & 2 & 0 \\
+\hline
+\end{tabular}
+\end{table}
+
+Ahora, debemos calcular las probabilidades condicionales suavizadas:
+\[
+\hat{p}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\left(\sum_{w \in V} \text{count}(w, c)\right) + |V|}
+\]
+para todas las palabras y clases.
+
+El denominador de esta expresión para cada clase corresponde al largo del ``mega-documento'' que junta todos los documentos de la misma clase más el tamaño del vocabulario, que sería $7+7=14$ para Perú y $6+7=13$ para Chile.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+id\_palabra & palabra & $\hat{p}(w_i \mid c=\text{Perú})$ & $\hat{p}(w_i \mid c=\text{Chile})$ \\
+\hline
+$w_1$ & América & $\frac{1+1}{14}=0.14$ & $\frac{1+1}{13}=0.15$ \\
+$w_2$ & Chile & $\frac{0+1}{14}=0.07$ & $\frac{1+1}{13}=0.15$ \\
+$w_3$ & Concepción & $\frac{0+1}{14}=0.07$ & $\frac{2+1}{13}=0.23$ \\
+$w_4$ & Lima & $\frac{3+1}{14}=0.29$ & $\frac{0+1}{13}=0.08$ \\
+$w_5$ & Perú & $\frac{1+1}{14}=0.14$ & $\frac{0+1}{13}=0.08$ \\
+$w_6$ & Santiago & $\frac{0+1}{14}=0.07$ & $\frac{2+1}{13}=0.23$ \\
+$w_7$ & Trujillo & $\frac{2+1}{14}=0.21$ & $\frac{0+1}{13}=0.08$ \\
+\hline
+\end{tabular}
+\end{table}
+
+Ahora necesitamos estimar la probabilidad a priori de cada clase:
+    \[
+    \hat{p}(c_j) = \frac{N_{c_j}}{N_{\text{total}}}
+    \]
+
+Ambas clases ocurren en 2 documentos sobre un total de 4. Entonces, $\hat{p}(c=\text{Perú})=0.5$ y $\hat{p}(c=\text{Chile})=0.5$.
+
+Ahora debemos calcular:
+\[
+c_{\text{NB}} = \arg\max_{c_j} p(c_j) \prod_{i \in \text{posiciones}} p(x_i | c_j)
+\]
+
+Esto implica iterar posiciones para ambas clases del documento de prueba:
+
+\[
+p(\tilde{d}|c=\text{Perú})\approx 0.14\times 0.29\times 0.14\times 0.07\times 0.5=0.00019894
+\]
+
+\[
+p(\tilde{d}|c=\text{Chile})\approx 0.15\times 0.08\times 0.08\times 0.23\times 0.5=0.0001104
+\]
+Entonces, clasificamos el documento en la clase ``Perú''.
+
 
 \section{Naive Bayes como modelo de lenguaje}
 

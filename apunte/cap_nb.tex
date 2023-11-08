@@ -1,5 +1,3 @@
-
-
 La clasificación, que implica la asignación de un objeto a una categoría específica, desempeña un papel fundamental tanto en la inteligencia humana como en la artificial. En este contexto, la clasificación abarca diversas tareas, que van desde determinar qué letra, palabra o imagen se ha presentado a nuestros sentidos, hasta reconocer caras, voces, clasificar correos electrónicos o calificar tareas.
 
 El propósito subyacente de la clasificación es tomar una única observación, identificar y extraer características relevantes de la misma, y, en última instancia, ubicarla en una de las categorías discretas predefinidas.
@@ -134,7 +132,9 @@ La verosimilitud del modelo probabilístico se expresa de la siguiente manera:
 p(d|c) = p(x_1, x_2, \ldots, x_n | c)
 \]
 
-Luego, se aplica el supuesto de independencia condicional, que establece que las palabras son independientes entre sí cuando se condicionan a la clase. Esto permite factorizar la verosimilitud como el producto de factores para cada palabra del vocabulario:
+Al estimar esta expresión sin hacer supuestos de independencia (es decir, contando las ocurrencias de $x_1, x_2, \ldots, x_n$ en cada clase), nos enfrentamos al mismo problema que se presenta en los modelos de lenguaje de n-gramas discutidos en el Capítulo~\ref{cap_plm}. A menos que tengamos un corpus infinitamente grande, este enfoque asignaría probabilidades nulas a las nuevas oraciones en las que se aplica el modelo, ya que es muy poco probable que éstas aparezcan en el corpus de entrenamiento.
+
+Por lo tanto, recurrimos al supuesto de independencia condicional, que postula que las palabras son independientes entre sí cuando se condicionan a la clase. Esto nos permite factorizar la verosimilitud como el producto de factores individuales para cada palabra en el vocabulario:
 
 \[
 p(x_1, x_2, \ldots, x_n | c) = p(x_1 | c) \cdot p(x_2 | c) \cdot p(x_3 | c) \cdot \ldots \cdot p(x_n | c) = \prod_{i} p(x_i | c)
@@ -148,7 +148,7 @@ c_{\text{MAP}} = \arg\max_{c \in C} \prod_{i} p(x_i | c)p(c)
 
 \subsection{Estimación de parámetros}
 
-Para estimar los parámetros del modelo Naive Bayes multinomial, se utiliza el método de estimación por máxima verosimilitud, asumiendo una distribución multinomial para $p(x_1, x_2, \ldots, x_n | c)$. Esto implica la creación de un ``mega-documento'' para cada clase $c_j$ mediante la concatenación de todos los documentos de esa clase. Luego, se calcula la frecuencia de todas las palabras $w_i$ del vocabulario en el mega-documento para cada clase $\text{count}(w_i, c_j)$.
+Para estimar los parámetros del modelo Naive Bayes multinomial, se utiliza el método de estimación por máxima verosimilitud, asumiendo una distribución multinomial para $p(x_1, x_2, \ldots, x_n | c)$\footnote{Existe otra variante que asume una distribución Binomial pero no funciona tan bien para texto.}. Esto implica la creación de un ``mega-documento'' para cada clase $c_j$ mediante la concatenación de todos los documentos de esa clase. Luego, se calcula la frecuencia de todas las palabras $w_i$ del vocabulario en el mega-documento para cada clase $\text{count}(w_i, c_j)$.
 
 La probabilidad estimada $\hat{p}(w_i | c_j)$ de la palabra $w_i$ dada la clase $c_j$ se obtiene dividiendo el conteo de ocurrencias de $w_i$ en el mega-documento de la clase $c_j$ por el total de palabras en el mega-documento:
 
@@ -186,7 +186,7 @@ c_{\text{NB}} = \arg\max_{c_j \in C} \left(\log(P(c_j)) + \sum_{i \in \text{posi
 
 La función logaritmo es monótona creciente, lo que significa que si una probabilidad es mayor que otra, el logaritmo de esa probabilidad también será mayor que el logaritmo de la otra probabilidad. Esto preserva el orden relativo de las probabilidades, por lo que el resultado óptimo de la clasificación no se ve afectado.
 
-Al aplicar logaritmos, el clasificador Naive Bayes se convierte en un modelo lineal (consulte el Capítulo~\ref{cap_lineales}), donde la predicción es el argmax de la suma de los logaritmos de las probabilidades y las entradas (logaritmos de las probabilidades condicionales). En otras palabras, Naive Bayes se convierte en un clasificador lineal que opera en el espacio logarítmico.
+Al aplicar logaritmos, el clasificador Naive Bayes se convierte en un modelo lineal (Capítulo~\ref{cap_lineales}), donde la predicción es el argmax de la suma de los logaritmos de las probabilidades y las entradas (logaritmos de las probabilidades condicionales). En otras palabras, Naive Bayes se convierte en un clasificador lineal que opera en el espacio logarítmico.
 
 \subsection{Suavizamiento de Laplace}
 
@@ -209,17 +209,11 @@ Para abordar este problema, podemos utilizar la técnica de suavizamiento de Lap
 Esta técnica aborda el problema de las probabilidades nulas, ya que ahora cualquier palabra del vocabulario, incluso si nunca se ha visto con alguna clase, recibirá una probabilidad condicional mayor a cero. Como pueden ver, esta técnica permite que cierta masa de probabilidad se distribuya a palabras no vistas de manera similar a  las técnicas de descuento vistas en el Capítulo de modelos de lenguaje (Capítulo~\ref{cap_plm}).
 
 
+\begin{example}
+
+Supongamos que tenemos el conjunto de entrenamiento mostrado en la Tabla~\ref{tab_nb_train} y queremos clasificar el ejemplo de la Tabla~\ref{tab_nb_test}.
 
 
-
-
-
-
-\section{Ejemplo}
-
-Supongamos que tenemos el siguiente conjunto de entrenamiento:
-
-\textbf{Entrenamiento:}
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
@@ -235,11 +229,13 @@ Perú & Perú Lima Trujillo América\\
 Chile & Chile América Santiago \\
 \hline
 \end{tabular}
+\caption{Datos de Entrenamiento.}
+\label{tab_nb_train}
 \end{table}
 
-Y queremos clasificar el siguiente ejemplo:
 
-\textbf{Test:}
+
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|p{0.7\textwidth}|}
@@ -249,11 +245,13 @@ Y queremos clasificar el siguiente ejemplo:
 ? & América Lima Perú Santiago \\
 \hline
 \end{tabular}
+\caption{Ejemplo de Prueba.}
+\label{tab_nb_test}
 \end{table}
 
 En este ejemplo, $|V|=7$, y tenemos dos clases: $c_1=$ Perú y $c_2=$ Chile.
 
-La tabla de conteos que calculamos de los datos de entrenamiento quedaría de la siguiente manera:
+La Tabla~\ref{tab_nb_conteos} muestra los conteos calculados a partir de los datos de entrenamiento.
 
 \begin{table}[h]
 \centering
@@ -270,15 +268,19 @@ $w_6$ & Santiago & 0 & 2 \\
 $w_7$ & Trujillo & 2 & 0 \\
 \hline
 \end{tabular}
+\caption{Tabla de Conteos.}
+\label{tab_nb_conteos}
 \end{table}
 
 Ahora, debemos calcular las probabilidades condicionales suavizadas:
 \[
 \hat{p}(w_i \mid c) = \frac{\text{count}(w_i, c) + 1}{\left(\sum_{w \in V} \text{count}(w, c)\right) + |V|}
 \]
-para todas las palabras y clases.
+para todas las palabras y clases\footnote{Alternativamente podríamos sumar los logartimos de las probabilidades.}.
 
 El denominador de esta expresión para cada clase corresponde al largo del ``mega-documento'' que junta todos los documentos de la misma clase más el tamaño del vocabulario, que sería $7+7=14$ para Perú y $6+7=13$ para Chile.
+
+Las probabilidades resultantes se muestran en la Tabla~\ref{tab_nb_probs}.
 
 \begin{table}[h]
 \centering
@@ -295,6 +297,8 @@ $w_6$ & Santiago & $\frac{0+1}{14}=0.07$ & $\frac{2+1}{13}=0.23$ \\
 $w_7$ & Trujillo & $\frac{2+1}{14}=0.21$ & $\frac{0+1}{13}=0.08$ \\
 \hline
 \end{tabular}
+\caption{Probabilidades condicionales suavizadas.}
+\label{tab_nb_probs}
 \end{table}
 
 Ahora necesitamos estimar la probabilidad a priori de cada clase:
@@ -312,48 +316,50 @@ c_{\text{NB}} = \arg\max_{c_j} p(c_j) \prod_{i \in \text{posiciones}} p(x_i | c_
 Esto implica iterar posiciones para ambas clases del documento de prueba:
 
 \[
-p(\tilde{d}|c=\text{Perú})\approx 0.14\times 0.29\times 0.14\times 0.07\times 0.5=0.00019894
+c_{\text{Perú}} = 0.14\times 0.29\times 0.14\times 0.07\times 0.5=0.00019894
 \]
 
 \[
-p(\tilde{d}|c=\text{Chile})\approx 0.15\times 0.08\times 0.08\times 0.23\times 0.5=0.0001104
+c_{\text{Chile}} = 0.15\times 0.08\times 0.08\times 0.23\times 0.5=0.0001104
 \]
-Entonces, clasificamos el documento en la clase ``Perú''.
+Entonces, $c_{\text{NB}}=$``Perú'' y clasificamos el documento a la clase ``Perú''.
+\end{example}
 
-\section{Naive Bayes como modelo de lenguaje}
 
-Cuando utilizamos características de palabras individuales y consideramos todas las palabras en el texto, el naive Bayes tiene una similitud importante con la modelización del lenguaje.
 
-Específicamente, un modelo naive Bayes se puede ver como un conjunto de modelos de lenguaje de unigramas específicos de cada clase, en el que el modelo para cada clase instancia un modelo de lenguaje de unigrama.
+\subsection{Naïve Bayes como modelo de lenguaje}
 
-Las características de verosimilitud del modelo naive Bayes asignan una probabilidad a cada palabra $P(\text{word}|c)$, y el modelo también asigna una probabilidad a cada oración:
+A continuación, exploraremos una interpretación del modelo Naïve Bayes utilizando conceptos de modelos de lenguaje. El supuesto de independencia condicional de palabras en Naïve Bayes lo asemeja mucho a un modelo de lenguaje de unigramas que se discutió en el Capítulo~\ref{cap_plm}.
 
-\[P(s|c) = \prod_{i\in \text{positions}} P(w_i|c)\]
+Específicamente, la función de verosimilitud en el modelo Naïve Bayes multinomial se puede entender como la construcción de un modelo de lenguaje de unigramas para cada clase.
 
-Consideremos un modelo naive Bayes con las clases positiva (+) y negativa (-) y los siguientes parámetros del modelo:
+\begin{example}
+Por ejemplo, consideremos un problema de clasificación de sentimientos con las clases ``positivo'' y ``negativo'' y los siguientes parámetros del modelo:
 
 \begin{center}
-\begin{tabular}{ccc}
-\textbf{w} & $P(w|+)$ & $P(w|-)$ \\
-I & 0.1 & 0.2 \\
-love & 0.1 & 0.001 \\
-this & 0.01 & 0.01 \\
-fun & 0.05 & 0.005 \\
-film & 0.1 & 0.1 \\
-... & ... & ...
+\begin{tabular}{|ccc|} \hline
+\textbf{Palabra} & $p(w|c=\text{``positivo''})$ & $p(w|c=\text{``negativo''})$  \\ \hline
+Yo & 0.1 & 0.2 \\
+amé & 0.1 & 0.001 \\
+esta & 0.01 & 0.01 \\
+gran & 0.05 & 0.005 \\
+película & 0.1 & 0.1 \\
+... & ... & ... \\ \hline
 \end{tabular}
 \end{center}
 
-Cada una de las dos columnas anteriores instancian un modelo de lenguaje que puede asignar una probabilidad a la oración "I love this fun film":
+Cada una de las dos columnas anteriores se puede interpretar tanto como las probabilidades condicionales del modelo Naïve Bayes como las probabilidades de dos modelos de lenguaje de unigramas construidos con los datos de entrenamiento de cada clase. Para ilustrar esto, supongamos que deseamos clasificar la oración $d=$ ``Yo amé esta gran película''. Podemos calcular:
 
-\[P("\text{I love this fun film}"|+) = 0.1 \times 0.1 \times 0.01 \times 0.05 \times 0.1 = 0.0000005\]
-\[P("\text{I love this fun film}"|-) = 0.2 \times 0.001 \times 0.01 \times 0.005 \times 0.1 = 0.0000000010\]
+\[p(d|\text{``positivo''}) = 0.1 \times 0.1 \times 0.01 \times 0.05 \times 0.1 = 0.0000005\]
+\[p(d|\text{``negativo''}) = 0.2 \times 0.001 \times 0.01 \times 0.005 \times 0.1 = 0.0000000010\]
 
-Como sucede, el modelo positivo asigna una probabilidad más alta a la oración:
-\[P(s|\text{pos}) > P(s|\text{neg})\]
+Observamos que el modelo positivo asigna una probabilidad más alta a la oración:
+\[p(d|\text{''positivo''}) > p(d|\text{''negativo''})\]
 
-Cabe destacar que esto es solo la parte de verosimilitud del modelo naive Bayes; una vez que multiplicamos por la probabilidad a priori, un modelo naive Bayes completo podría tomar una decisión de clasificación diferente.
+Este cálculo puede interpretarse indistintamente como la probabilidad asignada por cada modelo de lenguaje a la oración objetivo o como el resultado de la función de verosimilitud del modelo Naïve Bayes.
+\end{example}
 
+Es importante destacar que en este análisis estamos utilizando solo la parte de verosimilitud del modelo Naïve Bayes. Una vez que multiplicamos por la probabilidad a priori de las clases en Naïve Bayes, podríamos obtener resultados diferentes a los obtenidos con el modelo de lenguaje.
 
 
 \section{Evaluación}

@@ -77,17 +77,16 @@
 \contentsline {subsection}{\numberline {4.3.1}Estimación de parámetros}{55}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}Problemas al multiplicar muchas probabilidades}{55}{subsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.3.3}Suavizamiento de Laplace}{56}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}Ejemplo}{56}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Naive Bayes como modelo de lenguaje}{58}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Evaluación}{59}{section.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}La Matriz de Confusión 2x2}{59}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {4.6.2}Evaluación: Exactitud}{59}{subsection.4.6.2}%
-\contentsline {subsection}{\numberline {4.6.3}Evaluación: Precisión y Recall}{59}{subsection.4.6.3}%
-\contentsline {subsection}{\numberline {4.6.4}¿Por qué Precisión y Recall?}{60}{subsection.4.6.4}%
-\contentsline {subsection}{\numberline {4.6.5}Una Medida Combinada: Medida F}{60}{subsection.4.6.5}%
-\contentsline {subsection}{\numberline {4.6.6}Conjuntos de Prueba de Desarrollo ("Devsets")}{60}{subsection.4.6.6}%
-\contentsline {subsection}{\numberline {4.6.7}Validación Cruzada: Múltiples Divisiones}{61}{subsection.4.6.7}%
-\contentsline {subsection}{\numberline {4.6.8}Matriz de Confusión para clasificación de 3 clases}{61}{subsection.4.6.8}%
+\contentsline {subsection}{\numberline {4.3.4}Naïve Bayes como modelo de lenguaje}{58}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Evaluación}{59}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}La Matriz de Confusión 2x2}{59}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Evaluación: Exactitud}{60}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Evaluación: Precisión y Recall}{60}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}¿Por qué Precisión y Recall?}{60}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Una Medida Combinada: Medida F}{60}{subsection.4.4.5}%
+\contentsline {subsection}{\numberline {4.4.6}Conjuntos de Prueba de Desarrollo ("Devsets")}{61}{subsection.4.4.6}%
+\contentsline {subsection}{\numberline {4.4.7}Validación Cruzada: Múltiples Divisiones}{61}{subsection.4.4.7}%
+\contentsline {subsection}{\numberline {4.4.8}Matriz de Confusión para clasificación de 3 clases}{62}{subsection.4.4.8}%
 \contentsline {chapter}{\numberline {5}Modelos Lineales}{63}{chapter.5}%
 \ttl@stoptoc {default@4}
 \ttl@starttoc {default@5}

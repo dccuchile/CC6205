@@ -1,0 +1,204 @@
+
+%\documentclass[mathserif]{beamer}
+\documentclass[handout]{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Singapore}
+
+
+
+%\usetheme{Frankfurt}
+%\usetheme{Copenhagen}
+%\usetheme{Szeged}
+%\usetheme{Montpellier}
+%\usetheme{CambridgeUS}
+%\usecolortheme{}
+%\setbeamercovered{transparent}
+\usepackage[english, activeacute]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont}
+\usepackage{graphics}
+\usepackage{cases}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{multirow}	
+\usepackage{amstext}
+\usepackage[ruled,vlined,lined]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{fontenc}
+\usepackage{framed,color}
+\usepackage{palatino, url, multicol}
+%\algsetup{indent=2em}
+\newcommand{\factorial}{\ensuremath{\mbox{\sc Factorial}}}
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+\vspace{-0.5cm}
+\title{Natural Language Processing \\ Large Languade Models Usage Patterns}
+\vspace{-0.5cm}
+\author[Felipe Bravo Márquez]{\footnotesize
+%\author{\footnotesize  
+ \textcolor[rgb]{0.00,0.00,1.00}{Felipe Bravo-Marquez}} 
+  
+ 
+
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+
+
+\end{frame}
+
+
+
+\section{Introduction}
+\begin{frame}{Introduction}
+\begin{scriptsize}
+\begin{itemize}
+\item Since the inception of Large Language Models, different usage patterns of this technology have emerged.
+\item In this talk we try to organize these patterns and give a general overview of them.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{What is an LLM}
+\begin{scriptsize}
+\begin{itemize}
+\item An autoregressive language model trained with a Transformer neural network on a large corpus and a large parameter space.
+\item It is usually later aligned to work as a user assistant.
+\item Some are private: Google Bard, ChatGPT
+\item Others are open: LLama2, Falcon
+\item \url{https://ai.meta.com/llama/get-started/?trk=feed_main-feed-card_reshare_feed-article-content}.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{LLMs Usage Patterns}
+\begin{scriptsize}
+\begin{itemize}
+\item Prompting
+\item Vector Databases
+\item Fine-Tuning
+\item Evaluation
+\item Agents
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\section{Prompting}
+
+\begin{frame}{Prompting}
+\begin{scriptsize}
+\begin{itemize}
+\item Prompt Engineering 
+\item Chain of thought Prompting
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+\section{Vector Databases}
+
+\begin{frame}{Vector Databases}
+\begin{scriptsize}
+\begin{itemize}
+\item Idea incorporate domain-scpefific knowledge not included during training.
+\item Rely on a Vector Database embed queries, retrieve relevant documents, append them into the prompt \cite{lewis2021retrievalaugmented}.
+
+\item \url{https://www.infoworld.com/article/3709912/vector-databases-in-llms-and-search.html}
+\item \url{https://learn.deeplearning.ai/vector-databases-embeddings-applications/lesson/1/introduction}
+\item \url{https://stackoverflow.blog/2023/10/09/from-prototype-to-production-vector-databases-in-generative-ai-applications/}
+\end{itemize}
+\end{scriptsize}
+
+    \begin{figure}[h]
+        	\includegraphics[scale = 0.4]{pics/vectordatabase.png}
+        \end{figure}  
+
+
+\end{frame}
+
+
+
+
+\section{Fine-Tuning}
+
+\begin{frame}{Instruction Fine-Tuning}
+\begin{scriptsize}
+\begin{itemize}
+\item Paid Fine-Tuning (GPT-4??)
+\item Alpaca, Vicuna, Llama, Llama2
+\item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-quantized-llms-a3c857cd0cca
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}{Parameter Efficient Fine Tuning}
+\begin{scriptsize}
+\begin{itemize}
+\item Lora, QLora
+\item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-quantized-llms-a3c857cd0cca
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\section{Evaluation}
+\begin{frame}{LLMBench and LLm Arena}
+\begin{scriptsize}
+\begin{itemize}
+\item Bla
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\section{Agents}
+
+\begin{frame}{LangChain and Agents}
+%https://arxiv.org/pdf/2304.03442.pdf
+%https://bootcamp.uxdesign.cc/a-comprehensive-and-hands-on-guide-to-autonomous-agents-with-gpt-b58d54724d50
+\begin{scriptsize}
+\begin{itemize}
+\item Bla
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Questions?}
+%\vspace{1.5cm}
+\begin{center}\LARGE Thanks for your Attention!\\ \end{center}
+
+
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]\scriptsize
+\frametitle{References}
+\bibliography{bio}
+\bibliographystyle{apalike}
+%\bibliographystyle{flexbib}
+\end{frame}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

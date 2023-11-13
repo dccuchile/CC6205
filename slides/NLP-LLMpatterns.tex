@@ -63,22 +63,26 @@
 \begin{frame}{Introduction}
 \begin{scriptsize}
 \begin{itemize}
-\item Since the inception of Large Language Models, different usage patterns of this technology have emerged.
-\item In this talk we try to organize these patterns and give a general overview of them.
+\item Since the inception of Large Language Models, various patterns of use of this technology have emerged.
+\item In this talk, we will try to organize these patterns and give a general overview of them.
 \end{itemize}
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.2]{pics/Large-Language-Models.jpg}
+        \end{figure}
+Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \end{scriptsize}
 \end{frame}
 
 
 
-\begin{frame}{What is an LLM}
+\begin{frame}{Recap: What is an LLM}
 \begin{scriptsize}
 \begin{itemize}
-\item An autoregressive language model trained with a Transformer neural network on a large corpus and a large parameter space.
-\item It is usually later aligned to work as a user assistant.
-\item Some are private: Google Bard, ChatGPT
-\item Others are open: LLama2, Falcon
-\item \url{https://ai.meta.com/llama/get-started/?trk=feed_main-feed-card_reshare_feed-article-content}.
+\item  An autoregressive language model trained with a Transformer neural network on a large corpus (hundreds of bullions of tokens) and a large parameter space (billions) to predict the next word.
+\item It is usually later aligned to work as a user assistant using techniques such as Reinforcement Learning From Human Feedback  \cite{ouyang2022training} or supervised fine-tuning.
+\item Some are private (access via API or web browser): Google Bard, ChatGPT, etc.
+\item Others are open (model's weights can be downloaded): Llama, LLama2, Falcon, etc.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -95,6 +99,8 @@
 \end{scriptsize}
 \end{frame}
 
+
+% \url{https://ai.meta.com/llama/get-started/?trk=feed_main-feed-card_reshare_feed-article-content}.
 
 \section{Prompting}
 
@@ -144,7 +150,16 @@
 \end{scriptsize}
 \end{frame}
 
-
+\begin{frame}{Datasets for Instruction Fine-Tuning}
+\begin{scriptsize}
+\begin{itemize}
+\item Standford Alpaca Dataset (Vicuna)
+\item ShareGPT (Alpaca)
+\item Dolly-15K
+\item Orca Dataset
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 \begin{frame}{Parameter Efficient Fine Tuning}
 \begin{scriptsize}
@@ -155,13 +170,22 @@
 \end{scriptsize}
 \end{frame}
 
-
+\begin{frame}{Token-Incrementation}
+\begin{scriptsize}
+\begin{itemize}
+\item Lora, QLora
+\item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-quantized-llms-a3c857cd0cca
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 \section{Evaluation}
 \begin{frame}{LLMBench and LLm Arena}
 \begin{scriptsize}
 \begin{itemize}
-\item Bla
+\item MT-bench (categories)
+\item HuggingFace Open LLM Leaderboard
+\item LLM Arena
 \end{itemize}
 \end{scriptsize}
 \end{frame}

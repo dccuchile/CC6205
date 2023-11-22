@@ -96,9 +96,8 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \begin{block}{Usage Patterns}
 \begin{enumerate}
 \item Fixed-knowledge Assistant
-\item knowledge-augmented Assistant
-\item Applications with LLMs in the middle
-\item Agents
+\item Knowledge-augmented Assistant
+\item Applications 
 \end{enumerate}
 \end{block}
 
@@ -125,25 +124,56 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 
 % \url{https://ai.meta.com/llama/get-started/?trk=feed_main-feed-card_reshare_feed-article-content}.
 
-\section{Prompting}
+\section{Fixed-Knowledge Assistant}
 
-\begin{frame}{Prompting}
+\begin{frame}[fragile]{Prompting}
 \begin{scriptsize}
 \begin{itemize}
 \item Prompt Engineering 
+\item Roles
+\item JSON outputs
+\begin{verbatim}
+   {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+    {"role": "user", "content": "Who won the world series in 2020?"}
+\end{verbatim}
+
+
 \item Chain of thought Prompting
 \end{itemize}
 \end{scriptsize}
 \end{frame}
 
 
-\section{Vector Databases}
+\section{Knowledge-augmented Assistant}
 
-\begin{frame}{Vector Databases}
+\begin{frame}{Knowledge-augmented Assistant}
 \begin{scriptsize}
 \begin{itemize}
 \item Idea incorporate domain-scpefific knowledge not included during training.
-\item Rely on a Vector Database embed queries, retrieve relevant documents, append them into the prompt \cite{lewis2021retrievalaugmented}.
+\item There two main patterns to achieve this:
+\begin{enumerate}\scriptsize
+ \item Retrieval-Augmented Generation (Vector Databases)
+ \item Instruction Fine-Tuning
+\end{enumerate}
+\end{itemize}
+
+    Setting the style, tone, format, or other qualitative aspects
+    Improving reliability at producing a desired output
+    Correcting failures to follow complex prompts
+    Handling many edge cases in specific ways
+    Performing a new skill or task that’s hard to articulate in a prompt
+
+\end{scriptsize}
+% https://platform.openai.com/docs/guides/fine-tuning/common-use-cases
+\end{frame}
+
+
+\begin{frame}{Retrieval-Augmented Generation}
+\begin{scriptsize}
+\begin{itemize}
+\item Rely on a Vector Database embed queries, retrieve relevant documents, append them into the prompt
+\cite{lewis2021retrievalaugmented}.
+\item Many ideas of Informatrion Retrieval are employed here.
 
 \item \url{https://www.infoworld.com/article/3709912/vector-databases-in-llms-and-search.html}
 \item \url{https://learn.deeplearning.ai/vector-databases-embeddings-applications/lesson/1/introduction}
@@ -152,7 +182,7 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \end{scriptsize}
 
     \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/vectordatabase.png}
+        	\includegraphics[scale = 0.2]{pics/vectordatabase.png}
         \end{figure}  
 
 
@@ -160,13 +190,12 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 
 
 
-
-\section{Fine-Tuning}
-
 \begin{frame}{Instruction Fine-Tuning}
 \begin{scriptsize}
 \begin{itemize}
-\item Paid Fine-Tuning (GPT-4??)
+\item Idea: instead of training the LM with raw text with next token prediction, train it with pairs of prompts and user-aligned answers.
+\item Paid Fine-Tuning (GPT-4??)  
+\item OpenAI offers many more specific gpts: \url{https://openai.com/blog/introducing-gpts}
 \item Alpaca, Vicuna, Llama, Llama2
 \item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-quantized-llms-a3c857cd0cca
 \end{itemize}
@@ -202,32 +231,49 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \end{scriptsize}
 \end{frame}
 
-\section{Evaluation}
+
+
+
+\section{Applications}
+
+\begin{frame}{Applications}
+\begin{scriptsize}
+\begin{itemize}
+\item LLMs can be embbeded into any software via API calls. For example a Search Engine (you.com)
+\item https://gptstore.ai/
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Autonomous Agents}
+%https://arxiv.org/pdf/2304.03442.pdf
+% https://arxiv.org/abs/2210.03629
+%https://bootcamp.uxdesign.cc/a-comprehensive-and-hands-on-guide-to-autonomous-agents-with-gpt-b58d54724d50
+% https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-autogpt-langchain-and-all-that/
+\begin{scriptsize}
+\begin{itemize}
+\item Agents are a special kind of LLMs application in which the LLM serves as the reasoning and planning component of the software.
+\item agent in the sense of perceiving an environment and taking actions to achieve goals. 
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
+
+
+\section{Evaluation Patterns}
 \begin{frame}{LLMBench and LLm Arena}
 \begin{scriptsize}
 \begin{itemize}
+\item Standard NLP evaluation: human annotated gold-labels and metrics.
+\item LLMS are intrinsically multi-task and not easily evaluated with this approach.
+\item Machines evaluating machines??
 \item MT-bench (categories)
 \item HuggingFace Open LLM Leaderboard
 \item LLM Arena
 \end{itemize}
 \end{scriptsize}
 \end{frame}
-
-
-
-\section{Agents}
-
-\begin{frame}{LangChain and Agents}
-%https://arxiv.org/pdf/2304.03442.pdf
-%https://bootcamp.uxdesign.cc/a-comprehensive-and-hands-on-guide-to-autonomous-agents-with-gpt-b58d54724d50
-\begin{scriptsize}
-\begin{itemize}
-\item Bla
-\end{itemize}
-\end{scriptsize}
-\end{frame}
-
-
 
 \begin{frame}
 \frametitle{Questions?}

@@ -83,13 +83,33 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \item It is usually later aligned to work as a user assistant using techniques such as Reinforcement Learning From Human Feedback  \cite{ouyang2022training} or supervised fine-tuning.
 \item Some are private (access via API or web browser): Google Bard, ChatGPT, etc.
 \item Others are open (model's weights can be downloaded): Llama, LLama2, Falcon, etc.
+\item The most remarkable feature of these models is their few-shot, one-shot, zero-shot learning capabilities.
+\item This means that they can learn new tasks without large amounts of human-annotated data.
 \end{itemize}
 \end{scriptsize}
+\end{frame}
+
+\begin{frame}{Zero-shot, One-shot, and Few-shot Learning}
+
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.18]{pics/zeroonefew.png}
+        \end{figure}  
+
+
+
 \end{frame}
 
 
 \begin{frame}{Talk Overview}
 \begin{scriptsize}
+\begin{itemize}
+ \item Despite the recency of this technology, its adoption has been tremendous in many areas. 
+ \item Below, we propose a simple categorization of the ways in which LLMs are used and evaluated.
+  \item These patterns will serve as the narrative backbone of this presentation.
+\end{itemize}
+
+
 
 \begin{columns}[t]
 \column{0.5\textwidth}
@@ -97,7 +117,7 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \begin{enumerate}
 \item Fixed-knowledge Assistant
 \item Knowledge-augmented Assistant
-\item Applications 
+\item LLM-based Applications 
 \end{enumerate}
 \end{block}
 
@@ -125,6 +145,17 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 % \url{https://ai.meta.com/llama/get-started/?trk=feed_main-feed-card_reshare_feed-article-content}.
 
 \section{Fixed-Knowledge Assistant}
+
+\begin{frame}[fragile]{Usage Pattern 1: Fixed-Knowledge Assistant}
+\begin{scriptsize}
+\begin{itemize}
+\item In this pattern a user interacts with the LLM proving prompts as input and receiving a text as answer.
+\item The knowledge the LLM has access is limited to the corpus on which it was trained and the context given in the prompt.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
+
 
 \begin{frame}[fragile]{Prompting}
 \begin{scriptsize}

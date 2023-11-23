@@ -83,7 +83,7 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \item It is usually later aligned to work as a user assistant using techniques such as Reinforcement Learning From Human Feedback  \cite{ouyang2022training} or supervised fine-tuning.
 \item Some are private (access via API or web browser): Google Bard, ChatGPT, etc.
 \item Others are open (model's weights can be downloaded): Llama, LLama2, Falcon, etc.
-\item The most remarkable feature of these models is their few-shot, one-shot, zero-shot learning capabilities.
+\item The most remarkable feature of these models is their few-shot, one-shot, zero-shot learning capabilities (also known as ``in-context-learning'').
 \item This means that they can learn new tasks without large amounts of human-annotated data.
 \end{itemize}
 \end{scriptsize}
@@ -146,12 +146,33 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 
 \section{Fixed-Knowledge Assistant}
 
-\begin{frame}[fragile]{Usage Pattern 1: Fixed-Knowledge Assistant}
+\begin{frame}{Usage Pattern 1: Fixed-Knowledge Assistant}
 \begin{scriptsize}
 \begin{itemize}
 \item In this pattern a user interacts with the LLM proving prompts as input and receiving a text as answer.
 \item The knowledge the LLM has access is limited to the corpus on which it was trained and the context given in the prompt.
 \end{itemize}
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.6]{pics/assistantpattern.pdf}
+        \end{figure}  
+
+
+\end{scriptsize}
+\end{frame}
+
+
+\begin{frame}{Task}
+\begin{scriptsize}
+LLMs can solve many tasks with this pattern:
+
+\begin{itemize}
+\item Textual: Language understanding and common sense (e.g., rewriting, summarizing, translating, answering questions)
+\item Arithmetic: Mathematical reasoning  
+\item Visual: Multimodal reasoning involving pictures (GPT-4, Llava)
+\item Symbolic: Structured input such as programming languages
+\end{itemize}
+Source: \url{https://twitter.com/IntuitMachine/status/1727079666001870877}.
 \end{scriptsize}
 \end{frame}
 

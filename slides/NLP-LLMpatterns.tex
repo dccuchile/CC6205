@@ -79,23 +79,27 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \begin{frame}{Recap: What is an LLM}
 \begin{scriptsize}
 \begin{itemize}
-\item  An autoregressive language model trained with a Transformer neural network on a large corpus (hundreds of bullions of tokens) and a large parameter space (billions) to predict the next word.
+\item  Large Language Model: An autoregressive language model trained with a Transformer neural network on a large corpus (hundreds of bullions of tokens) and a large parameter space (billions) to predict the next word.
 \item It is usually later aligned to work as a user assistant using techniques such as Reinforcement Learning From Human Feedback  \cite{ouyang2022training} or supervised fine-tuning.
 \item Some are private (access via API or web browser): Google Bard, ChatGPT, etc.
 \item Others are open (model's weights can be downloaded): Llama, LLama2, Falcon, etc.
-\item The most remarkable feature of these models is their few-shot, one-shot, zero-shot learning capabilities (also known as ``in-context-learning'').
-\item This means that they can learn new tasks without large amounts of human-annotated data.
 \end{itemize}
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.4]{pics/gptllama.png}
+        \end{figure}
+
 \end{scriptsize}
 \end{frame}
 
 \begin{frame}{Zero-shot, One-shot, and Few-shot Learning}
-
-
+\scriptsize
+The most remarkable feature of these models is their few-shot, one-shot, zero-shot learning capabilities (also known as ``in-context-learning'').
  \begin{figure}[h]
-        	\includegraphics[scale = 0.18]{pics/zeroonefew.png}
+        	\includegraphics[scale = 0.12]{pics/zeroonefew.png}
         \end{figure}  
 
+This means that they can learn new tasks without large amounts of human-annotated data.
 
 
 \end{frame}
@@ -115,9 +119,17 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \column{0.5\textwidth}
 \begin{block}{Usage Patterns}
 \begin{enumerate}
-\item Fixed-knowledge Assistant
-\item Knowledge-augmented Assistant
-\item LLM-based Applications 
+\item General-domain Assistant
+\item Domain-specific Assistant
+\begin{enumerate}\scriptsize
+\item Retrieval-augmented generation
+\item Fine-Tuning
+\end{enumerate}
+\item LLM-based Applications
+\begin{enumerate}\scriptsize
+\item API calls
+\item Autonomous Agents
+\end{enumerate}
 \end{enumerate}
 \end{block}
 
@@ -144,9 +156,9 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 
 % \url{https://ai.meta.com/llama/get-started/?trk=feed_main-feed-card_reshare_feed-article-content}.
 
-\section{Fixed-Knowledge Assistant}
+\section{General-domain Assistant}
 
-\begin{frame}{Usage Pattern 1: Fixed-Knowledge Assistant}
+\begin{frame}{Usage Pattern 1: General-domain Assistant}
 \begin{scriptsize}
 \begin{itemize}
 \item In this pattern a user interacts with the LLM proving prompts as input and receiving a text as answer.
@@ -162,13 +174,13 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \end{frame}
 
 
-\begin{frame}{Task}
+\begin{frame}{Tasks}
 \begin{scriptsize}
 LLMs can solve many tasks with this pattern:
 
 \begin{itemize}
 \item Textual: Language understanding and common sense (e.g., rewriting, summarizing, translating, answering questions)
-\item Arithmetic: Mathematical reasoning  
+\item Arithmetic: Mathematical reasoning  (it can fail in many cases though)
 \item Visual: Multimodal reasoning involving pictures (GPT-4, Llava)
 \item Symbolic: Structured input such as programming languages
 \end{itemize}
@@ -177,28 +189,43 @@ Source: \url{https://twitter.com/IntuitMachine/status/1727079666001870877}.
 \end{frame}
 
 
-
-\begin{frame}[fragile]{Prompting}
+\begin{frame}{Prompt Engineering: Guiding the Language Model}
 \begin{scriptsize}
+Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``art'' of crafting effective prompts to guide the Language Model (LM) towards generating accurate responses. Some common prompting guidelines: \vspace{0.5cm}
+
 \begin{itemize}
-\item Prompt Engineering : https://twitter.com/IntuitMachine/status/1727079666001870877
-\item Roles
-\item JSON outputs
-\begin{verbatim}
-   {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
-    {"role": "user", "content": "Who won the world series in 2020?"}
-\end{verbatim}
-
-
-\item Chain of thought Prompting
+\item \textbf{Clarity and Conciseness}: Clearly articulate the prompt to minimize ambiguity and ensure the LM understands the task at hand.
+\item \textbf{Use of Specific Examples}: Provide concrete examples within the prompt to offer the LM context.
+\item \textbf{Role-based Prompts}: incorporating roles into the prompts (e.g., a tour guide, a teacher, a doctor).
+\item \textbf{Desired Output Specification}: Clearly define the desired format of the output (e.g, JSON, HTML, csv). 
 \end{itemize}
 \end{scriptsize}
 \end{frame}
 
 
-\section{Knowledge-augmented Assistant}
+\begin{frame}{Chain-of-thought Prompting}
 
-\begin{frame}{Knowledge-augmented Assistant}
+\begin{scriptsize}
+\begin{itemize}
+\item Chain-of-thought prompting is a simple mechanism for eliciting multi-step reasoning behavior in large language models.
+\item  This method involves augmenting each exemplar in a few-shot prompt with a connected sequence of thoughts, creating a structured chain of logical steps. \cite{wei2022chain}
+\end{itemize}
+\end{scriptsize}
+
+
+
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.3]{pics/chainoftought.png}
+        \end{figure}
+
+
+
+\end{frame}
+
+
+\section{Domain-specific Assistant}
+
+\begin{frame}{Usage Pattern 2: Domain-specific Assistant}
 \begin{scriptsize}
 \begin{itemize}
 \item Idea incorporate domain-scpefific knowledge not included during training.

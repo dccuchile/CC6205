@@ -233,19 +233,15 @@ Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``a
 \begin{frame}{Usage Pattern 2: Domain-specific Assistant}
 \begin{scriptsize}
 \begin{itemize}
-\item Idea incorporate domain-scpefific knowledge not included during training.
-\item There two main patterns to achieve this:
+\item Idea: Incorporate domain-specific knowledge not covered in training (e.g., recent news, private documents).
+\item This is very common for companies developing chatbots with private documents or for creating more domain-specific chatbots.
+\item There are two main patterns to achieve this:
 \begin{enumerate}\scriptsize
  \item Retrieval-Augmented Generation (Vector Databases)
- \item Instruction Fine-Tuning
+ \item Fine-Tuning
 \end{enumerate}
 \end{itemize}
 
-    Setting the style, tone, format, or other qualitative aspects
-    Improving reliability at producing a desired output
-    Correcting failures to follow complex prompts
-    Handling many edge cases in specific ways
-    Performing a new skill or task that’s hard to articulate in a prompt
 
 \end{scriptsize}
 % https://platform.openai.com/docs/guides/fine-tuning/common-use-cases
@@ -254,27 +250,67 @@ Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``a
 
 \begin{frame}{Retrieval-Augmented Generation}
 \begin{scriptsize}
-\begin{itemize}
-\item Rely on a Vector Database embed queries, retrieve relevant documents, append them into the prompt
-\cite{lewis2021retrievalaugmented}.
-\item Many ideas of Informatrion Retrieval are employed here.
+Idea: Incorporate domain-specific knowledge into the query using information retrieval and document embeddings (i.e., densely encoded vectors that capture the semantic information of the document). \cite{lewis2021retrievalaugmented}.
 
-\item \url{https://www.infoworld.com/article/3709912/vector-databases-in-llms-and-search.html}
-\item \url{https://learn.deeplearning.ai/vector-databases-embeddings-applications/lesson/1/introduction}
-\item \url{https://stackoverflow.blog/2023/10/09/from-prototype-to-production-vector-databases-in-generative-ai-applications/}
-\end{itemize}
 \end{scriptsize}
 
     \begin{figure}[h]
-        	\includegraphics[scale = 0.2]{pics/vectordatabase.png}
+        	\includegraphics[scale = 0.4]{pics/retrievalaugmented.pdf}
         \end{figure}  
 
 
 \end{frame}
 
 
+\begin{frame}{Retrieval-Augmented Generation Process}
+\begin{scriptsize}
+\begin{enumerate}
+ \item Encode all domain-specific documents using document embeddings and store them in a vector database.  
+  \begin{itemize}\scriptsize
+    \item OpenAI provides a vectorizer called (text2vec-openai), but there are many open source alternatives.
+ \item There are also many vector databases available, a popular one is \textbf{weaviate}.
+  \end{itemize}
+ \item Encode the prompt with the same vectorizer used to encode documents.
+ \item Use prompt embedding and the vecto database to retrieve relevant documents based on similarity.
+ \item Create a refined prompt that includes a domain-specific role, the user prompt, and the retrieved documents as contexts.
+ \item Send the refined prompt to the LLM and return the response to the user.
+\end{enumerate}
+
+\end{scriptsize}
+
+
+
+\end{frame}
+
+ 
+
+%\item \url{https://www.infoworld.com/article/3709912/vector-databases-in-llms-and-search.html}
+%\item \url{https://learn.deeplearning.ai/vector-databases-embeddings-applications/lesson/1/introduction}
+%\item \url{https://stackoverflow.blog/2023/10/09/from-prototype-to-production-vector-databases-in-generative-ai-applications/}
+
+
+\begin{frame}{Fine-Tuning}
+\begin{scriptsize}
+Idea: Incorporate domain-specific knowledge by fine-tuning a pre-trained LLM with the next-token prediction task over a domain-specific corpus and interact with the resulting LLM. 
+
+
+
+    \begin{figure}[h]
+        	\includegraphics[scale = 0.35]{pics/llmfinetuning.pdf}
+        \end{figure}  
+
+This can be computationally expensive unless some tricks are used.
+\end{scriptsize}
+\end{frame}
+
+
+
 
 \begin{frame}{Instruction Fine-Tuning}
+
+%Setting the style, tone, format, or other qualitative aspects, Improving reliability at producing a desired output Correcting failures to follow complex prompts   Handling many edge cases in specific ways     Performing a new skill or task that’s hard to articulate in a prompt
+
+
 \begin{scriptsize}
 \begin{itemize}
 \item Idea: instead of training the LM with raw text with next token prediction, train it with pairs of prompts and user-aligned answers.
@@ -323,8 +359,10 @@ Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``a
 \begin{frame}{Applications}
 \begin{scriptsize}
 \begin{itemize}
-\item LLMs can be embbeded into any software via API calls. For example a Search Engine (you.com)
+\item LLMs can be embedded into any software via API calls. For example, a search engine (you.com)
 \item https://gptstore.ai/
+\item For example, PDF summarization software. You write software that first converts the PDF to raw text and then sends it to an LLM for summarization.
+\item Or a software for summarizing videoconferences. First the audio is transcribed and then summarized with an LLM.
 \end{itemize}
 \end{scriptsize}
 \end{frame}

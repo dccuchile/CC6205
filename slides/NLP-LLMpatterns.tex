@@ -304,35 +304,83 @@ This can be computationally expensive unless some tricks are used.
 \end{frame}
 
 
+\begin{frame}{Instruction Fine-tuning}
+
+\begin{scriptsize}
+\begin{itemize}
+\item A more efficient way to fine-tune Large Language Models is Instruction Fine-Tuning  \cite{chung2022scaling}.
+\item Idea: instead of fine-tuning the LLM with raw text with next token prediction, train it with pairs of prompts and user-aligned answers.
+\item Collect examples of (instruction, output) pairs across many tasks and finetune an LM.
+\item Evaluate on unseen tasks.
+\end{itemize}
+
+\begin{figure}[h]
+	\includegraphics[scale = 0.35]{pics/instructionfinetuning.png}
+\end{figure}
 
 
-\begin{frame}{Instruction Fine-Tuning}
+\end{scriptsize}
+
+
+
+
+
+
+\end{frame}
+
+
+%\begin{frame}{Instruction Fine-Tuning}
 
 %Setting the style, tone, format, or other qualitative aspects, Improving reliability at producing a desired output Correcting failures to follow complex prompts   Handling many edge cases in specific ways     Performing a new skill or task that’s hard to articulate in a prompt
 
 % https://nlpnewsletter.substack.com/p/instruction-tuning-vol-1
 
-\begin{scriptsize}
-\begin{itemize}
-\item Idea: instead of training the LM with raw text with next token prediction, train it with pairs of prompts and user-aligned answers.
-\item Paid Fine-Tuning (GPT-4??)  
-\item OpenAI offers many more specific gpts: \url{https://openai.com/blog/introducing-gpts}
-\item Alpaca, Vicuna, Llama, Llama2
-\item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-quantized-llms-a3c857cd0cca
-\end{itemize}
-\end{scriptsize}
-\end{frame}
+%\begin{scriptsize}
+%\begin{itemize}
+%\item Paid Fine-Tuning (GPT-4??)
+%\item OpenAI offers many more specific gpts: \url{https://openai.com/blog/%introducing-gpts}
+%\item Alpaca, Vicuna, Llama, Llama2
+%\item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-%quantized-llms-a3c857cd0cca
+%\end{itemize}
+%\end{scriptsize}
+%\end{frame}
 
 \begin{frame}{Datasets for Instruction Fine-Tuning}
 \begin{scriptsize}
 \begin{itemize}
-\item Standford Alpaca Dataset (Vicuna)
-\item ShareGPT (Alpaca)
-\item Dolly-15K
-\item Orca Dataset
+\item Alpaca Data: 52k English instruction examples generated using OpenAI’s text-davinci-003 with self-instruct.
+\item Evol-Instruct (Xu et al., April 2023): A rewritten set of 250k English instruction-response pairs based on the Alpaca data
+\item Vicuna ShareGPT: 70k English conversations shared by users and scraped from \item Baize data (Xu et al., April 2023)
+\item databricks-dolly-15k (Conover et al., April 2023)
+\item OpenAssistant Conversations (Köpf et al., April 2023)
+\item LIMA data (Zhou et al., May 2023).
 \end{itemize}
+source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
 \end{scriptsize}
 \end{frame}
+
+\begin{frame}{Considerations for Instruction Tuning}
+\scriptsize
+
+
+\begin{itemize}
+    \item \textbf{Data Source:} How was the data obtained? Most datasets have been generated using ChatGPT. They may thus inherit biases of the source model or may be noisy.
+
+    \item \textbf{Data Quality:} Was any filtering done to improve the quality of the generated data? In most cases, filtering is based on simple heuristics or a pre-trained model, which can result in noisy data.
+
+    \item \textbf{Domain and Language Coverage:} Most datasets focus on general QA-style in English, but methods can be adapted for other domains or languages.
+
+    \item \textbf{Number of Dialog Turns:} Single-turn datasets include a prompt and response. Consider multi-turn data for training a more conversational model.
+
+    \item \textbf{License Terms:} Data from OpenAI models follows OpenAI terms, restricting use for competing models. Seek datasets with more permissive licenses to avoid legal complications.
+\end{itemize}
+source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
+\end{frame}
+
+
+
+
+
 
 \begin{frame}{Parameter Efficient Fine Tuning}
 \begin{scriptsize}
@@ -352,7 +400,78 @@ This can be computationally expensive unless some tricks are used.
 \end{scriptsize}
 \end{frame}
 
+\begin{frame}{Low-Rank Adaptation (LoRA)}
+\scriptsize
+  \begin{itemize}
+    \item Traditional model training is time and resource-intensive.
+    \item LoRA is an effective reparameterization technique.
+    \item Preserves pre-trained model weights.
+    \item Introduces adjustable low-rank decomposition matrices.
+  \end{itemize}
 
+  Forward-pass equation:
+  \begin{equation}
+    h = W_0x + \Delta W x = W_0x + BAx, \quad B \in \mathbb{R}^{d \times r}, \quad A \in \mathbb{R}^{r \times d}
+  \end{equation}
+
+  \begin{itemize}
+    \item \(h\) is the output, \(x\) is the input.
+    \item \(W_0\): Pre-trained weight matrix.
+    \item \(B\), \(A\): Trainable low-rank decomposition matrices.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{LoRA Implementation}
+  \framesubtitle{Linear Layer}
+
+  \begin{itemize}
+    \item For a linear layer with \(W_0 \in \mathbb{R}^{d \times k}\):
+      \begin{itemize}
+        \item \(d\): Output dimension.
+        \item \(k\): Input dimension.
+      \end{itemize}
+    \item LoRA adds trainable matrices \(B \in \mathbb{R}^{d \times r}\) and \(A \in \mathbb{R}^{r \times k}\).
+    \item \(r\): Predefined low-rank.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Training Process}
+  \framesubtitle{Freeze and Update}
+
+  \begin{itemize}
+    \item During training:
+      \begin{itemize}
+        \item \(W_0\) remains frozen.
+        \item \(B\) and \(A\) receive gradient updates.
+      \end{itemize}
+    \item \(r \ll \min(d, k)\): Reduces memory consumption.
+    \item Optimizer states only stored for \(B\) and \(A\).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Benefits of LoRA}
+
+  \begin{itemize}
+    \item Significant reduction in trainable parameters.
+    \item Facilitates language model training with lower computational resources.
+    \item Efficiently maintains the pre-trained model's weights.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Conclusion}
+  \framesubtitle{Low-Rank Adaptation (LoRA)}
+
+  \begin{itemize}
+    \item LoRA offers an efficient training approach.
+    \item Preserving pre-trained weights.
+    \item Notable reduction in the number of trainable parameters.
+    \item Ideal for language models with resource constraints.
+  \end{itemize}
+\end{frame}
 
 
 \section{Applications}

@@ -201,8 +201,8 @@ Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``a
 \begin{itemize}
 \item \textbf{Clarity and Conciseness}: Clearly articulate the prompt to minimize ambiguity and ensure the LM understands the task at hand.
 \item \textbf{Use of Specific Examples}: Provide concrete examples within the prompt to offer the LM context.
-\item \textbf{Role-based Prompts}: incorporating roles into the prompts (e.g., a tour guide, a teacher, a doctor).
-\item \textbf{Desired Output Specification}: Clearly define the desired format of the output (e.g, JSON, HTML, csv). 
+\item \textbf{Role-based Prompts}: incorporating roles into the prompts (e.g., a tour guide, a teacher, a doctor, a sales person).
+\item \textbf{Desired Output Specification}: Clearly define the desired format of the output (e.g, JSON, HTML, csv, markdown, latex).
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -379,115 +379,132 @@ source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
 
 
 
+%LoRA is an improved finetuning method where instead of finetuning all the weights that constitute the weight matrix of the pre-trained large language model, two smaller matrices that approximate this larger matrix are fine-tuned. These matrices constitute the LoRA adapter. This fine-tuned adapter is then loaded to the pretrained model and used for inference.
+
+%QLoRA is an even more memory efficient version of LoRA where the pretrained model is loaded to GPU memory as quantized 4-bit weights (compared to 8-bits in the case of LoRA), while preserving similar effectiveness to LoRA. Probing this method, comparing the two methods when necessary, and figuring out the best combination of QLoRA hyperparameters to achieve optimal performance with the quickest training time will be the focus here.
+
+% Token-Incrementation
 
 
 
-\begin{frame}{Parameter Efficient Fine Tuning}
+\begin{frame}{Parameter Efficient Fine Tuning (PEFT)}
 \begin{scriptsize}
 \begin{itemize}
-\item Lora, QLora
-\item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-quantized-llms-a3c857cd0cca
+    \item Traditional model fine-tuning (i.e., adjusting all Transformer weights via backpropagation) is time and resource-intensive.
+    \item Parameter Efficient Fine Tuning (PEFT) are a series of techniques to mitigate this problem.
+    \item The most popular ones are LoRA (Low Rank Adaptation) \cite{hu2021lora} and QLoRA \cite{dettmers2023qlora}.
+    \item These approaches achieve siginficant reduction in the number of trainable parameters allowing to perform fine-tuning with affordable hardware.
 \end{itemize}
 \end{scriptsize}
 \end{frame}
 
-\begin{frame}{Token-Incrementation}
+
+\begin{frame}{LoRA}
 \begin{scriptsize}
 \begin{itemize}
-\item Lora, QLora
-\item https://blog.gopenai.com/paper-review-qlora-efficient-finetuning-of-quantized-llms-a3c857cd0cca
-\end{itemize}
+    \item LoRa is based on the idea of adapters.
+\item Instead of fine-tuning the whole network, we freeze it during the fine-tuning process and add a few parameters that are trained to adapt the original model to the new data.
+          \end{itemize}
+
+      \begin{figure}[h]
+	\includegraphics[scale = 0.35]{pics/lora.png}
+\end{figure}
+
 \end{scriptsize}
 \end{frame}
 
-\begin{frame}{Low-Rank Adaptation (LoRA)}
-\scriptsize
-  \begin{itemize}
-    \item Traditional model training is time and resource-intensive.
-    \item LoRA is an effective reparameterization technique.
-    \item Preserves pre-trained model weights.
-    \item Introduces adjustable low-rank decomposition matrices.
-  \end{itemize}
 
-  Forward-pass equation:
-  \begin{equation}
-    h = W_0x + \Delta W x = W_0x + BAx, \quad B \in \mathbb{R}^{d \times r}, \quad A \in \mathbb{R}^{r \times d}
+\begin{frame}{LoRA}
+\begin{scriptsize}
+\begin{itemize}
+        \item Let $W_0 \in \mathbb{R}^{d \times k}$ be the weight matrix of the pre-trained network.
+    \item LoRA uses two adjustable low-rank decomposition matrices of predefined rank $r$, \(B \in \mathbb{R}^{d \times r}\) and \(A \in \mathbb{R}^{r \times k}\).
+    \item The resulting fine-tuned network $W_L$ is obtained as follows:
+      \begin{equation}
+    W_L = W_0 + \Delta W = W_0 + BA, \quad B \in \mathbb{R}^{d \times r}, \quad A \in \mathbb{R}^{r \times d}
   \end{equation}
-
-  \begin{itemize}
-    \item \(h\) is the output, \(x\) is the input.
-    \item \(W_0\): Pre-trained weight matrix.
-    \item \(B\), \(A\): Trainable low-rank decomposition matrices.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{LoRA Implementation}
-  \framesubtitle{Linear Layer}
-
-  \begin{itemize}
-    \item For a linear layer with \(W_0 \in \mathbb{R}^{d \times k}\):
-      \begin{itemize}
-        \item \(d\): Output dimension.
-        \item \(k\): Input dimension.
+ \item During training, \(W_0\) remains frozen, and only \(B\) and \(A\) receive gradient updates.
+ \item The lower the value of $r$, the fewer parameters will be trained during fine-tuning (there is a trade-off between performance and computation costs).
       \end{itemize}
-    \item LoRA adds trainable matrices \(B \in \mathbb{R}^{d \times r}\) and \(A \in \mathbb{R}^{r \times k}\).
-    \item \(r\): Predefined low-rank.
-  \end{itemize}
+
+\end{scriptsize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Training Process}
-  \framesubtitle{Freeze and Update}
+\begin{frame}{QLoRA}
+\begin{scriptsize}
+\begin{itemize}
+\item QLoRA is an even more memory efficient version of LoRA where the pretrained model is loaded to GPU memory as \textbf{quantized} 4-bit weights.
+\item QLoRA dequantizes weights from the storage data type to the computation data type to perform the forward and backward passes.
+\item It only computes weight gradients for the LoRA parameters which use 16-bit bfloat.
+\item QLORA reduces the average memory requirements of finetuning a 65B parameter model from $>780GB$ of GPU memory to $<48GB$.
+\end{itemize}
+\end{scriptsize}
+     \begin{figure}[h]
+	\includegraphics[scale = 0.22]{pics/qlora.png}
+\end{figure}
 
-  \begin{itemize}
-    \item During training:
-      \begin{itemize}
-        \item \(W_0\) remains frozen.
-        \item \(B\) and \(A\) receive gradient updates.
-      \end{itemize}
-    \item \(r \ll \min(d, k)\): Reduces memory consumption.
-    \item Optimizer states only stored for \(B\) and \(A\).
-  \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Benefits of LoRA}
-
-  \begin{itemize}
-    \item Significant reduction in trainable parameters.
-    \item Facilitates language model training with lower computational resources.
-    \item Efficiently maintains the pre-trained model's weights.
-  \end{itemize}
+\begin{frame}{Quantization}
+\scriptsize
+    \begin{itemize}
+        \item Quantization: Process of discretizing input from high-bit representation to low-bit representation.
+      \item To ensure that the entire range of the low-bit data type is used, the input data type is commonly rescaled into the target data type range through normalization by the absolute maximum of the input elements.
+        \item Example: quantizing a 32-bit Floating Point (FP32) tensor into a Int8 tensor with range $[-127, 127]$:
+        \[X_{\text{Int8}} = \text{round}\left(\frac{127}{\text{absmax}(X_{\text{FP32}})} \cdot X_{\text{FP32}}\right) = \text{round}\left(c_{\text{FP32}} \cdot X_{\text{FP32}}\right)\]
+        where $c$ is the quantization constant or quantization scale.
+        \item Dequantization:
+    \[\text{dequant}(c_{\text{FP32}}, X_{\text{Int8}}) = \frac{X_{\text{Int8}}}{ c_{\text{FP32}}} = X_{\text{FP32}}\]
+    \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Conclusion}
-  \framesubtitle{Low-Rank Adaptation (LoRA)}
-
-  \begin{itemize}
-    \item LoRA offers an efficient training approach.
-    \item Preserving pre-trained weights.
-    \item Notable reduction in the number of trainable parameters.
-    \item Ideal for language models with resource constraints.
-  \end{itemize}
+\begin{frame}{Quantization}
+     \begin{figure}[h]
+	\includegraphics[scale = 0.22]{pics/quant-freeze.png}
+\end{figure}
+source: \url{https://huggingface.co/blog/hf-bitsandbytes-integration}
 \end{frame}
+
+
+\begin{frame}{QLoRA main Ideas}
+\begin{scriptsize}
+\begin{itemize}
+\item  4-bit NormalFloat, an information theoretically optimal quantization data type for normally distributed data\footnote{pretrained neural network weights usually have a zero-centered normal distribution with standard deviation $\sigma$}  that yields better empirical results than 4-bit Integers and 4-bit Floats.
+\item Double Quantization, a method that quantizes the quantization constants, saving an average of about 0.37 bits per parameter (approximately 3 GB for a 65B model).
+\item Paged Optimizers, using NVIDIA unified memory to avoid the gradient checkpointing memory spikes that occur when processing a mini-batch with a long sequence length.
+\end{itemize}
+\end{scriptsize}
+
+\end{frame}
+
 
 
 \section{Applications}
 
-\begin{frame}{Applications}
+\begin{frame}{Usage Pattern 3: Applications}
 \begin{scriptsize}
 \begin{itemize}
-\item LLMs can be embedded into any software via API calls. For example, a search engine (you.com)
-\item https://gptstore.ai/
+\item LLMs are widely embedded in software through API calls.
+\item Example: search engines (\url{you.com}), Bing chat.
 \item For example, PDF summarization software. You write software that first converts the PDF to raw text and then sends it to an LLM for summarization.
-\item Or a software for summarizing videoconferences. First the audio is transcribed and then summarized with an LLM.
+\item Or software for summarizing video conferences. First the audio is transcribed and then summarized with an LLM.
+\item From a software point of view, this isn't much different from any software that interacts with an external API.
+\item ChatGPT Plugins: \url{https://gptstore.ai/}
 \end{itemize}
 \end{scriptsize}
 \end{frame}
 
-\begin{frame}{Autonomous Agents}
+
+\begin{frame}{Usage Pattern 3: Applications}
+
+      \begin{figure}[h]
+	\includegraphics[scale = 0.55]{pics/llmsapp.pdf}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Usage Pattern 3.1: Autonomous Agents}
 %https://arxiv.org/pdf/2304.03442.pdf
 % https://arxiv.org/abs/2210.03629
 %https://bootcamp.uxdesign.cc/a-comprehensive-and-hands-on-guide-to-autonomous-agents-with-gpt-b58d54724d50

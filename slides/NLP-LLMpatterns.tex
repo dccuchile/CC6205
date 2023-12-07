@@ -487,6 +487,7 @@ source: \url{https://huggingface.co/blog/hf-bitsandbytes-integration}
 \begin{scriptsize}
 \begin{itemize}
 \item LLMs are widely embedded in software through API calls.
+\item Why? Because LLM's apart from generating text cannot perform other type of actions.
 \item Example: search engines (\url{you.com}), Bing chat.
 \item For example, PDF summarization software. You write software that first converts the PDF to raw text and then sends it to an LLM for summarization.
 \item Or software for summarizing video conferences. First the audio is transcribed and then summarized with an LLM.
@@ -515,39 +516,84 @@ source: \url{https://huggingface.co/blog/hf-bitsandbytes-integration}
 \begin{itemize}
 \item Autonomous agents lie at the heart of classical AI.
 \item Agents are programs that interact autonomously with an environment and perform actions to achieve specific goals.
-\item The REACT pattern \cite{yao2022react} aims uses LLMs to generate both reasoning traces and task-specific actions in an interleaved manner for agents.
+\item The ReaAct (Reasoning and Acting) pattern \cite{yao2022react} is a framework is which LLMs are used to generate both reasoning traces and task-specific actions in an interleaved manner for agents.
 
 
 \item Agents are a special kind of LLMs application in which the LLM serves as the reasoning and planning component of the software.
+
+\item LangChain is a very popular python Library for implementing LLM-based agents. 
 \end{itemize}
+
+
+      \begin{figure}[h]
+	\includegraphics[scale = 0.3]{pics/langchain3.png}
+\end{figure}
+
 \end{scriptsize}
 \end{frame}
 
 
-\begin{frame}{Agents}
+\begin{frame}{General setup of an agent}
 \scriptsize
     \begin{itemize}
-        \item General setup: Agent interacting with an environment.
-        \item At time step $t$, agent receives observation $o_t \in O$ and  takes action $a_t \in A$ following policy $\pi(a_t | c_t)$ where context $c_t = (o_1, a_1, \ldots, o_{t-1}, a_{t-1}, o_t)$.
-        \item Implicit mapping $c_t \mapsto a_t$ with extensive computation.
-        \item Example: Agent in Figure 1(1c) unable to generate correct final action (Act 4).
-        \item Example: Agent in Figure 1(2a) fails to comprehend context, producing hallucinating actions.
+    \item Consider a general setup of an agent interacting with an environment to solve a task.
+        \item There are several discrete time steps $t_0,t_1,\dots,t_n$.
+        \item There is a set of all possible states or observations $O$ received from the environment.
+        \item There is a set of actions $A$ that the agent can take.    
+        \item At each time step $t$, the agent receives an observation $o_t \in O$ and  takes the action $a_t \in A$ following a policy $\pi(a_t | c_t)$ where context $c_t = (o_1, a_1, \ldots, o_{t-1}, a_{t-1}, o_t)$.
+        \item Learning a policy is challenging when the mapping  $c_t \mapsto a_t$ is highly implicit and requires extensive computation.
     \end{itemize}
 \end{frame}
 
-\begin{frame}{The ReAct Approach}
+\begin{frame}{General setup of an agent}
 \scriptsize
-\begin{itemize}
-        \item Augment agent's action space: $\hat{A} = A \cup L$, where $L$ is the language space.
-        \item $\hat{a}_t \in L$ is a thought or reasoning trace, not affecting the environment.
-        \item Thought aims to compose useful information by reasoning over the context $c_t$.
-        \item Update context: $c_{t+1} = (c_t, \hat{a}_t)$ for future reasoning or acting.
-        \item Decomposing task goals and creating action plans (2b, Act 1; 1d, Thought 1).
-        \item Injecting commonsense knowledge relevant to task solving (2b, Act 1).
-        \item Extracting important parts from observations (1d, Thought 2, 4).
-        \item Tracking progress and transiting action plans (2b, Act 8).
-        \item Handling exceptions and adjusting action plans (1d, Thought 3).
+      \begin{figure}[h]
+	\includegraphics[scale = 0.3]{pics/autonomousagent.png}
+\end{figure}
+Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-autogpt-langchain-and-all-that/}
+\end{frame}
+
+
+\begin{frame}{ReAct: Synergizing Reasoning + Acting}
+\scriptsize
+    \begin{itemize}
+\item In the ReAct framework, we expand the agent's action space by incorporating a Language Model (LLM), denoted as $A' = A \cup L$ (with $L$ representing the language space).
+
+\item The environment is conceptualized as a toolkit, consisting of diverse interfaces that the agent can leverage.
+
+ \item These interfaces take various forms, including API calls and Python functions (such as a search engine, calculator, or web scraper).
+
+ \item At each step, the agent consults the LLM (using chain of thought prompting) to determine its next action, considering the available tools. 
+
+ 
     \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{ReAct: Synergizing Reasoning + Acting}
+\scriptsize
+    \begin{itemize}
+
+\item This action, denoted as $a'_t \in L$ within the language space, is termed a ``thought''.
+
+\item The context is dynamically updated as $c_{t+1} = (c_t, a'_t)$ for subsequent reasoning or action.
+
+\item The agent then executes one of the available tools to perform the action, incorporating the result as a new observation in the next prompt sent to the model.
+
+\item This iterative process continues until the task is successfully solved.     
+
+\item Problem: if the model starts to hallucinate or to repeat itself, we can easily follow a trajectory of actions that takes us nowhere or end up in a loop.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{ReAct Agents}
+\scriptsize
+      \begin{figure}[h]
+	\includegraphics[scale = 0.3]{pics/react.png}
+\end{figure}
+Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-autogpt-langchain-and-all-that/}
 \end{frame}
 
 % Patterms can be combined: Gorilla, LLama2 fine-tuned to be good at API calls and then used in agents.

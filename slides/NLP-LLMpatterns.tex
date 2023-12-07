@@ -359,6 +359,8 @@ source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
 \end{scriptsize}
 \end{frame}
 
+% Self-instruct https://arxiv.org/pdf/2212.10560.pdf
+
 \begin{frame}{Considerations for Instruction Tuning}
 \scriptsize
 
@@ -451,7 +453,7 @@ source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
         \item Quantization: Process of discretizing input from high-bit representation to low-bit representation.
       \item To ensure that the entire range of the low-bit data type is used, the input data type is commonly rescaled into the target data type range through normalization by the absolute maximum of the input elements.
         \item Example: quantizing a 32-bit Floating Point (FP32) tensor into a Int8 tensor with range $[-127, 127]$:
-        \[X_{\text{Int8}} = \text{round}\left(\frac{127}{\text{absmax}(X_{\text{FP32}})} \cdot X_{\text{FP32}}\right) = \text{round}\left(c_{\text{FP32}} \cdot X_{\text{FP32}}\right)\]
+        \[X_{\text{Int8}} = \text{round}_{\text{digits}(0)}\left(\frac{127}{\text{absmax}(X_{\text{FP32}})} \cdot X_{\text{FP32}}\right) = \text{round}_{\text{digits}(0)}\left(c_{\text{FP32}} \cdot X_{\text{FP32}}\right)\]
         where $c$ is the quantization constant or quantization scale.
         \item Dequantization:
     \[\text{dequant}(c_{\text{FP32}}, X_{\text{Int8}}) = \frac{X_{\text{Int8}}}{ c_{\text{FP32}}} = X_{\text{FP32}}\]
@@ -511,13 +513,44 @@ source: \url{https://huggingface.co/blog/hf-bitsandbytes-integration}
 % https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-autogpt-langchain-and-all-that/
 \begin{scriptsize}
 \begin{itemize}
+\item Autonomous agents lie at the heart of classical AI.
+\item Agents are programs that interact autonomously with an environment and perform actions to achieve specific goals.
+\item The REACT pattern \cite{yao2022react} aims uses LLMs to generate both reasoning traces and task-specific actions in an interleaved manner for agents.
+
+
 \item Agents are a special kind of LLMs application in which the LLM serves as the reasoning and planning component of the software.
-\item agent in the sense of perceiving an environment and taking actions to achieve goals. 
 \end{itemize}
 \end{scriptsize}
 \end{frame}
 
 
+\begin{frame}{Agents}
+\scriptsize
+    \begin{itemize}
+        \item General setup: Agent interacting with an environment.
+        \item At time step $t$, agent receives observation $o_t \in O$ and  takes action $a_t \in A$ following policy $\pi(a_t | c_t)$ where context $c_t = (o_1, a_1, \ldots, o_{t-1}, a_{t-1}, o_t)$.
+        \item Implicit mapping $c_t \mapsto a_t$ with extensive computation.
+        \item Example: Agent in Figure 1(1c) unable to generate correct final action (Act 4).
+        \item Example: Agent in Figure 1(2a) fails to comprehend context, producing hallucinating actions.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The ReAct Approach}
+\scriptsize
+\begin{itemize}
+        \item Augment agent's action space: $\hat{A} = A \cup L$, where $L$ is the language space.
+        \item $\hat{a}_t \in L$ is a thought or reasoning trace, not affecting the environment.
+        \item Thought aims to compose useful information by reasoning over the context $c_t$.
+        \item Update context: $c_{t+1} = (c_t, \hat{a}_t)$ for future reasoning or acting.
+        \item Decomposing task goals and creating action plans (2b, Act 1; 1d, Thought 1).
+        \item Injecting commonsense knowledge relevant to task solving (2b, Act 1).
+        \item Extracting important parts from observations (1d, Thought 2, 4).
+        \item Tracking progress and transiting action plans (2b, Act 8).
+        \item Handling exceptions and adjusting action plans (1d, Thought 3).
+    \end{itemize}
+\end{frame}
+
+% Patterms can be combined: Gorilla, LLama2 fine-tuned to be good at API calls and then used in agents.
 
 
 \section{Evaluation Patterns}

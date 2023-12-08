@@ -599,19 +599,71 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 % Patterms can be combined: Gorilla, LLama2 fine-tuned to be good at API calls and then used in agents.
 
 
+%https://arxiv.org/pdf/2306.05685.pdf
+%MT-bench is a series of open-ended questions that evaluate a chatbot’s multi-turn conversational and instruction-following ability – two critical elements for human preference. MT-bench is also carefully constructed to differentiate chatbots based on their core capabilities, such as reasoning and math. In addition, we develop Chatbot Arena, a crowdsourced platform featuring anonymous battles between chatbots in real-world scenarios – Users engage in conversations with two chatbots at the same time and rate their responses based on personal preferences.
+
 \section{Evaluation Patterns}
 \begin{frame}{LLMBench and LLm Arena}
 \begin{scriptsize}
 \begin{itemize}
-\item Standard NLP evaluation: human annotated gold-labels and metrics.
-\item LLMS are intrinsically multi-task and not easily evaluated with this approach.
+\item How standard mono-task evaluated systems are usually evaluated?
+\item There is a gold-standard evaluation dataset not used during training on which predictions can be compared against gold labels using tasks-specific metrics (e.g., F1, BLEU).
+\item LLMS are intrinsically multi-task and open-ended.
+\item Hence, cannot easily be evaluated with this approach.
+\item Another caveat is that aligned LLM
 \item Machines evaluating machines??
-\item MT-bench (categories)
+\item MT-bench (categories): a multi-turn question set,
 \item HuggingFace Open LLM Leaderboard
-\item LLM Arena
+\item Chatbot Arena: a crowdsourced battle platform between LLMs.
+\item Evaluation pattern: LLM-as-a-judge
 \end{itemize}
 \end{scriptsize}
 \end{frame}
+
+
+
+\begin{frame}[fragile]{Testing Setup}
+  \begin{itemize}
+    \item'The Vicuna Team' for evaluating Vicuña and FastChat-T5 models used 80 questions covering various language models (Alpaca, Llama, Vicuña, GPT3.5).
+    \item Questions span topics like code generation, general knowledge, common sense, counterfactuals, and mathematical reasoning.
+    \item GPT-4 used for comparison and scoring.
+    \item Specific prompts assigned to assess responses.
+    \item Example prompt for evaluating general knowledge responses.
+    \begin{scriptsize}
+    \begin{verbatim}
+    {"prompt_id": 1, "system_prompt": "You are a helpful and
+    precise assistant for checking the quality of the answer.",
+    ...
+    \end{verbatim}
+    \end{scriptsize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{LLM Leaderboard by HuggingFace}
+  \begin{itemize}
+    \item Responding to the surge in LLMs and chatbots, HuggingFace introduces the LLM Leaderboard.
+    \item Open for community members to submit their transformer-type models for evaluation.
+    \item Two evaluation forms: LLM Benchmarks and Human/GPT Evaluations.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{LLM Benchmarks}
+  \begin{itemize}
+    \item Evaluation based on 4 key benchmarks from Eleuther AI Language Model Evaluation Harness.
+      \begin{scriptsize}
+      \begin{itemize}
+        \item AI2 Reasoning Challenge (25-shot)
+        \item HellaSwag (10-shot)
+        \item MMLU (5-shot)
+        \item TruthfulQA (0-shot)
+      \end{itemize}
+      \end{scriptsize}
+    \item Models tested on tasks covering science, common sense inference, multitasking accuracy, and truthfulness.
+  \end{itemize}
+\end{frame}
+
+
+
 
 \begin{frame}
 \frametitle{Questions?}

@@ -212,7 +212,7 @@ Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``a
 
 \begin{scriptsize}
 \begin{itemize}
-\item Chain-of-thought prompting is a simple mechanism for eliciting multi-step reasoning behavior in large language models.
+\item Chain-of-thought prompting is a mechanism for eliciting multi-step reasoning behavior in large language models.
 \item  This method involves augmenting each exemplar in a few-shot prompt with a connected sequence of thoughts, creating a structured chain of logical steps. \cite{wei2022chain}
 \end{itemize}
 \end{scriptsize}
@@ -602,11 +602,16 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 %https://arxiv.org/pdf/2306.05685.pdf
 %MT-bench is a series of open-ended questions that evaluate a chatbot’s multi-turn conversational and instruction-following ability – two critical elements for human preference. MT-bench is also carefully constructed to differentiate chatbots based on their core capabilities, such as reasoning and math. In addition, we develop Chatbot Arena, a crowdsourced platform featuring anonymous battles between chatbots in real-world scenarios – Users engage in conversations with two chatbots at the same time and rate their responses based on personal preferences.
 
+
+%Meta-Evaluation. To effectively assess the quality of LLM-based evaluators, meta-evaluation benchmarks have been introduced, for gauging the agreement with human  preferences and the fairness of the evaluations made by LLMs [647, 727, 893, 897, 898]. As a representative benchmark, MT-Bench [727] evaluates the agreement between LLMs and human judgments, demonstrating that GPT-4 aligns closely with human preferences in no-tie compar-isons on 80 multi-turn questions.
+
+%https://arxiv.org/pdf/2303.18223.pdf  Cap 7
+
 \section{Evaluation Patterns}
 \begin{frame}{LLMBench and LLm Arena}
 \begin{scriptsize}
 \begin{itemize}
-\item How standard mono-task evaluated systems are usually evaluated?
+\item How standard mono-task NLP systems are usually evaluated?
 \item There is a gold-standard evaluation dataset not used during training on which predictions can be compared against gold labels using tasks-specific metrics (e.g., F1, BLEU).
 \item LLMS are intrinsically multi-task and open-ended.
 \item Hence, cannot easily be evaluated with this approach.
@@ -624,8 +629,7 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 
 \begin{frame}[fragile]{Testing Setup}
   \begin{itemize}
-    \item'The Vicuna Team' for evaluating Vicuña and FastChat-T5 models used 80 questions covering various language models (Alpaca, Llama, Vicuña, GPT3.5).
-    \item Questions span topics like code generation, general knowledge, common sense, counterfactuals, and mathematical reasoning.
+    \item'The Vicuna Team' for evaluating Vicuña and FastChat-T5 models used 80 questions spanning topics like code generation, general knowledge, common sense, counterfactuals, and mathematical reasoning.
     \item GPT-4 used for comparison and scoring.
     \item Specific prompts assigned to assess responses.
     \item Example prompt for evaluating general knowledge responses.
@@ -662,7 +666,68 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
   \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}[t]
+  \frametitle{Overview of Base LLM Evaluation}
+  \begin{itemize}
+    \item Typical benchmarks for base LLMs involve close-ended problems, such as multiple-choice questions.
+    \item Two main categories: knowledge-oriented and reasoning-oriented benchmarks.
+    \item Recent benchmarks (e.g., OpenCompass) combine both types for comprehensive evaluation.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{Knowledge-Oriented Benchmarks}
+  \begin{itemize}
+    \item Examples: MMLU [364] and C-Eval [711].
+    \item Evaluate the capacity of world knowledge.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Reasoning-Oriented Benchmarks}
+  \begin{itemize}
+    \item Examples: GSM8K [643], BBH [365], and MATH [364].
+    \item Focus on evaluating the capability of solving complex reasoning tasks.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Combined Benchmarks}
+  \begin{itemize}
+    \item Example: OpenCompass [713].
+    \item Comprehensive comparison by combining both knowledge-oriented and reasoning-oriented aspects.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{Benchmark-Based Evaluation Procedure}
+  \begin{itemize}
+    \item Format each problem into a prompt for LLMs to generate the result text.
+    \item Parse the generated result text using human-written rules to obtain the predicted answer.
+    \item Calculate LLMs' performance automatically using standard metrics like accuracy by comparing with the ground-truth answer.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Few-Shot or Zero-Shot Setting}
+  \begin{itemize}
+    \item Evaluation can be conducted in either the few-shot or zero-shot setting.
+    \item Few-shot setting is often more suitable for base LLMs due to their weak task generalization ability.
+    \item CoT prompts might be necessary for complex reasoning tasks to fully exhibit capacity during evaluation.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Application to Fine-Tuned LLMs}
+  \begin{itemize}
+    \item This evaluation approach can be applied to assess the abilities of fine-tuned LLMs.
+    \item Leaderboards (e.g., Open LLM Leaderboard [707]) use this approach to evaluate both base and fine-tuned LLMs.
+  \end{itemize}
+\end{frame}
 
 
 \begin{frame}

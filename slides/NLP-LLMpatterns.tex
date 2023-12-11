@@ -84,7 +84,7 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \begin{frame}{Recap: What is an LLM}
 \begin{scriptsize}
 \begin{itemize}
-\item  Large Language Model: An autoregressive language model trained with a Transformer neural network on a large corpus (hundreds of bullions of tokens) and a large parameter space (billions) to predict the next word.
+\item  Large Language Model: An autoregressive language model trained with a Transformer neural network on a large corpus (hundreds of billions of tokens) and a large parameter space (billions) to predict the next word.
 \item It is usually later aligned to work as a user assistant using techniques such as Reinforcement Learning From Human Feedback  \cite{ouyang2022training} or supervised fine-tuning.
 \item Some are private (access via API or web browser): Google Bard, ChatGPT, etc.
 \item Others are open (model's weights can be downloaded): Llama, LLama2, Falcon, etc.
@@ -141,8 +141,9 @@ This means that they can learn new tasks without large amounts of human-annotate
 \column{0.5\textwidth}
 \begin{block}{Evaluation Patterns}
 \begin{itemize}
-\item MTBench
-\item LLM Arena
+\item Multi-task benchmarks
+\item Multi-turn benchmarks
+\item LLM-as-a-judge
 \end{itemize}
 \end{block}
 
@@ -250,7 +251,7 @@ Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``a
 
 \begin{frame}{Usage Pattern 2.1: Retrieval-Augmented Generation}
 \begin{scriptsize}
-Idea: Incorporate domain-specific knowledge into the query using information retrieval and document embeddings (i.e., densely encoded vectors that capture the semantic information of the document). \cite{lewis2021retrievalaugmented}.
+Idea: Incorporate domain-specific knowledge into the prompts using information retrieval and document embeddings (i.e., densely encoded vectors that capture the semantic information of the document). \cite{lewis2021retrievalaugmented}.
 
 \end{scriptsize}
 
@@ -608,127 +609,125 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 %https://arxiv.org/pdf/2303.18223.pdf  Cap 7
 
 \section{Evaluation Patterns}
-\begin{frame}{LLMBench and LLm Arena}
+\begin{frame}{Evaluation Pattern 1: Multi-task benchmarks }
 \begin{scriptsize}
 \begin{itemize}
-\item How standard mono-task NLP systems are usually evaluated?
-\item There is a gold-standard evaluation dataset not used during training on which predictions can be compared against gold labels using tasks-specific metrics (e.g., F1, BLEU).
-\item LLMS are intrinsically multi-task and open-ended.
-\item Hence, cannot easily be evaluated with this approach.
-\item Another caveat is that aligned LLM
-\item Machines evaluating machines??
-\item MT-bench (categories): a multi-turn question set,
-\item HuggingFace Open LLM Leaderboard
-\item Chatbot Arena: a crowdsourced battle platform between LLMs.
-\item Evaluation pattern: LLM-as-a-judge
+\item How are standard single-task NLP systems typically evaluated?
+\item There is a gold standard evaluation dataset that is not used during training, on which predictions can be compared against gold labels using task specific metrics (e.g., F1, BLEU).
+\item When first-generation LLMS (e.g., BERT) were developed, the idea of multi-task evaluation took on greater importance.
+\item Multi-task benchmarks such as GLUE and SuperGlue emerged from this perspective.
+\item Classic NLP tasks included: classification, question answering, word sense disambiguation, etc. 
 \end{itemize}
+\end{scriptsize}
+      \begin{figure}[h]
+	\includegraphics[scale = 0.3]{pics/superglue.png}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Evaluation Pattern 1: Multi-task benchmarks }
+\begin{scriptsize}
+\begin{itemize}
+\item A second generation of benchmarks later emerged for tasks involving science, reasoning, multitasking accuracy, and truthfulness.
+\item They typically require LLMs to generate a short, specific answer to close-ended problems that can be automatically validated (e.g., multiple-choice questions).
+\item Two main categories: knowledge-based and reasoning-based benchmarks.
+\item  Examples: AI2 Reasoning Challenge (25-shot), MMLU (5-shot), TruthfulQA (0-shot), and HellaSwag (10-shot).
+
+\end{itemize}
+\end{scriptsize}
+      \begin{figure}[h]
+	\includegraphics[scale = 0.5]{pics/MMLU.png}
+\end{figure}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Evaluation Pattern 1: Multi-task benchmarks}
+\begin{scriptsize}
+Most of these benchmarks are combined in the HuggingFace Open LLM Leaderboard: \url{https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard}
+\end{scriptsize}
+      \begin{figure}[h]
+	\includegraphics[scale = 0.18]{pics/openLLMbenchmark.png}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Evaluation Pattern 2: Multi-turn benchmarks}
+\begin{scriptsize}
+\begin{itemize}
+\item Modern LLMs apart from being multi-task are open-ended and multi-turn assist users in multi-turn dialogues.
+\item This capacity be evaluated by the above benchmarks (closed-ended questions with short responses).
+\item MT-bench: 80 high-quality multi-turn questions in 8 categories: writing, roleplay, extraction, reasoning, math, coding, knowledge I (STEM), and knowledge II (humanities/social science).
+\end{itemize}
+
+      \begin{figure}[h]
+	\includegraphics[scale = 0.23]{pics/mtbenchex1.png}
+\end{figure}
+
+
 \end{scriptsize}
 \end{frame}
 
 
+\begin{frame}{Evaluation Pattern 2: Multi-turn benchmarks}
+\begin{scriptsize}
+\begin{itemize}
+\item Limitation of multi-turn evaluation: needs to be evaluated by humans which is expensive to evaluate.
+\item Chatbot Arena: a crowdsourcing platform that allows users to engage in conversations with two anonymous chat LLMs and report pairwise comparison results.
+\end{itemize}
 
-\begin{frame}[fragile]{Testing Setup}
-  \begin{itemize}
-    \item'The Vicuna Team' for evaluating Vicuña and FastChat-T5 models used 80 questions spanning topics like code generation, general knowledge, common sense, counterfactuals, and mathematical reasoning.
-    \item GPT-4 used for comparison and scoring.
-    \item Specific prompts assigned to assess responses.
-    \item Example prompt for evaluating general knowledge responses.
-    \begin{scriptsize}
-    \begin{verbatim}
-    {"prompt_id": 1, "system_prompt": "You are a helpful and
-    precise assistant for checking the quality of the answer.",
-    ...
-    \end{verbatim}
-    \end{scriptsize}
-  \end{itemize}
-\end{frame}
+      \begin{figure}[h]
+	\includegraphics[scale = 0.3]{pics/mtbench.png}
+\end{figure}
 
-\begin{frame}{LLM Leaderboard by HuggingFace}
-  \begin{itemize}
-    \item Responding to the surge in LLMs and chatbots, HuggingFace introduces the LLM Leaderboard.
-    \item Open for community members to submit their transformer-type models for evaluation.
-    \item Two evaluation forms: LLM Benchmarks and Human/GPT Evaluations.
-  \end{itemize}
-\end{frame}
 
-\begin{frame}{LLM Benchmarks}
-  \begin{itemize}
-    \item Evaluation based on 4 key benchmarks from Eleuther AI Language Model Evaluation Harness.
-      \begin{scriptsize}
-      \begin{itemize}
-        \item AI2 Reasoning Challenge (25-shot)
-        \item HellaSwag (10-shot)
-        \item MMLU (5-shot)
-        \item TruthfulQA (0-shot)
-      \end{itemize}
-      \end{scriptsize}
-    \item Models tested on tasks covering science, common sense inference, multitasking accuracy, and truthfulness.
-  \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[t]
-  \frametitle{Overview of Base LLM Evaluation}
-  \begin{itemize}
-    \item Typical benchmarks for base LLMs involve close-ended problems, such as multiple-choice questions.
-    \item Two main categories: knowledge-oriented and reasoning-oriented benchmarks.
-    \item Recent benchmarks (e.g., OpenCompass) combine both types for comprehensive evaluation.
-  \end{itemize}
+\end{scriptsize}
 \end{frame}
 
 
-\begin{frame}[t]
-  \frametitle{Knowledge-Oriented Benchmarks}
-  \begin{itemize}
-    \item Examples: MMLU [364] and C-Eval [711].
-    \item Evaluate the capacity of world knowledge.
-  \end{itemize}
-\end{frame}
+\begin{frame}{Evaluation Pattern 3: LLM-as-a-judge}
+\begin{scriptsize}
+\begin{itemize}
+\item LLM-as-a-judge: use a state-of-the-art LLM (e.g., GPT-4) to evaluate other LLMs.
+\item Results reveal that GPT-4 can match both controlled and crowdsourced human preferences well achieving over 80\% agreement, the same level of agreement between humans.
+\end{itemize}
+\end{scriptsize}
 
-\begin{frame}[t]
-  \frametitle{Reasoning-Oriented Benchmarks}
-  \begin{itemize}
-    \item Examples: GSM8K [643], BBH [365], and MATH [364].
-    \item Focus on evaluating the capability of solving complex reasoning tasks.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[t]
-  \frametitle{Combined Benchmarks}
-  \begin{itemize}
-    \item Example: OpenCompass [713].
-    \item Comprehensive comparison by combining both knowledge-oriented and reasoning-oriented aspects.
-  \end{itemize}
+     \begin{figure}[h]
+	\includegraphics[scale = 0.28]{pics/mtbenchex2.png}
+\end{figure}
 \end{frame}
 
 
-\begin{frame}[t]
-  \frametitle{Benchmark-Based Evaluation Procedure}
-  \begin{itemize}
-    \item Format each problem into a prompt for LLMs to generate the result text.
-    \item Parse the generated result text using human-written rules to obtain the predicted answer.
-    \item Calculate LLMs' performance automatically using standard metrics like accuracy by comparing with the ground-truth answer.
-  \end{itemize}
+
+
+\begin{frame}{LLM Evaluation Approaches}
+\tiny
+      \begin{figure}[h]
+       	\includegraphics[scale = 0.23]{pics/LLMbenchmarks.png}
+      \end{figure}
+
+Source: \cite{zhao2023survey}
 \end{frame}
 
-\begin{frame}[t]
-  \frametitle{Few-Shot or Zero-Shot Setting}
-  \begin{itemize}
-    \item Evaluation can be conducted in either the few-shot or zero-shot setting.
-    \item Few-shot setting is often more suitable for base LLMs due to their weak task generalization ability.
-    \item CoT prompts might be necessary for complex reasoning tasks to fully exhibit capacity during evaluation.
-  \end{itemize}
-\end{frame}
 
-\begin{frame}[t]
-  \frametitle{Application to Fine-Tuned LLMs}
-  \begin{itemize}
-    \item This evaluation approach can be applied to assess the abilities of fine-tuned LLMs.
-    \item Leaderboards (e.g., Open LLM Leaderboard [707]) use this approach to evaluate both base and fine-tuned LLMs.
-  \end{itemize}
-\end{frame}
 
+\begin{frame}{Conclusions}
+\begin{scriptsize}
+\begin{itemize}
+ \item We visited several emerging patterns of use and evaluation of LLMs.
+ \item LLMs are not an isolated technology, but interact with many other disciplines: Information Retrieval, Autonomous Agents, Software Engineering.
+ \item Their reasoning and planning capabilities, despite their limitations, have the potential to impact more general areas of AI (beyond NLP).
+ \item The open-ended aspect of this technology challenges standard NLP evaluation approaches.
+ \item The idea of a machine emulating other machines would be unthinkable in the PLN standard.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
 
 \begin{frame}
 \frametitle{Questions?}

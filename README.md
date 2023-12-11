@@ -38,6 +38,7 @@ The course material draws from various sources. In many instances, sentences fro
 12. [Sequence to Sequence Models and Attention](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/OpKxRjISqmM), [video 2](https://youtu.be/WQ7ihm5voB0)
 13. [Transformer Architecture](slides/NLP-transformer.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/8RE23Uq8rU0)
 14. [Contextualized Embeddings and Large Language Models](slides/NLP-LLM.pdf), [video 1](https://youtu.be/sSGbgZpHymI), [video 2](https://youtu.be/C-QfzWU6eUE), [video 3](https://youtu.be/5j4Mgl3GuVY)
+15. [Large Language Models Usage and Evaluation Patterns](slides/NLP-LLMpatterns.pdf)
 
 
 ## NLP Libraries and Tools

@@ -84,7 +84,7 @@ Source: \url{https://www.masayume.it/img/masayume/Large-Language-Models.jpg}
 \begin{frame}{Recap: What is an LLM}
 \begin{scriptsize}
 \begin{itemize}
-\item  Large Language Model: An autoregressive language model trained with a Transformer neural network on a large corpus (hundreds of billions of tokens) and a large parameter space (billions) to predict the next word.
+\item  Large Language Model: An autoregressive Transformer neural network trained on a large corpus (hundreds of billions of tokens) and a large parameter space (billions) to predict the next word from a fixed-size context.
 \item It is usually later aligned to work as a user assistant using techniques such as Reinforcement Learning From Human Feedback  \cite{ouyang2022training} or supervised fine-tuning.
 \item Some are private (access via API or web browser): Google Bard, ChatGPT, etc.
 \item Others are open (model's weights can be downloaded): Llama, LLama2, Falcon, etc.
@@ -140,11 +140,11 @@ This means that they can learn new tasks without large amounts of human-annotate
 
 \column{0.5\textwidth}
 \begin{block}{Evaluation Patterns}
-\begin{itemize}
+\begin{enumerate}
 \item Multi-task benchmarks
 \item Multi-turn benchmarks
 \item LLM-as-a-judge
-\end{itemize}
+\end{enumerate}
 \end{block}
 
 \end{columns}
@@ -187,7 +187,7 @@ LLMs can solve many tasks with this pattern:
 \begin{itemize}
 \item Textual: Language understanding and common sense (e.g., rewriting, summarizing, translating, answering questions)
 \item Arithmetic: Mathematical reasoning  (it can fail in many cases though)
-\item Visual: Multimodal reasoning involving pictures (GPT-4, Llava)
+\item Visual: Multimodal reasoning involving pictures (GPT-4, Llava, Gemini)
 \item Symbolic: Structured input such as programming languages
 \end{itemize}
 Source: \url{https://twitter.com/IntuitMachine/status/1727079666001870877}.
@@ -197,13 +197,13 @@ Source: \url{https://twitter.com/IntuitMachine/status/1727079666001870877}.
 
 \begin{frame}{Prompt Engineering: Guiding the Language Model}
 \begin{scriptsize}
-Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``art'' of crafting effective prompts to guide the Language Model (LM) towards generating accurate responses. Some common prompting guidelines: \vspace{0.5cm}
+Prompt engineering, often referred to as ``Prompting,'' is the discipline of crafting effective prompts to guide the Language Model (LM) towards generating accurate responses. Some common prompting guidelines: \vspace{0.5cm}
 
 \begin{itemize}
-\item \textbf{Clarity and Conciseness}: Clearly articulate the prompt to minimize ambiguity and ensure the LM understands the task at hand.
-\item \textbf{Use of Specific Examples}: Provide concrete examples within the prompt to offer the LM context.
-\item \textbf{Role-based Prompts}: incorporating roles into the prompts (e.g., a tour guide, a teacher, a doctor, a sales person).
-\item \textbf{Desired Output Specification}: Clearly define the desired format of the output (e.g, JSON, HTML, csv, markdown, latex).
+\item \textbf{Clarity and Conciseness}: Clearly articulate the prompt to minimize ambiguity and ensure that the LM understands the task at hand.
+\item \textbf{Use of Specific Examples}: Provide specific examples within the prompt to give the LM context.
+\item \textbf{Role-Based Prompts}: Incorporate roles into prompts (e.g., a tour guide, a teacher, a doctor, a salesperson).
+\item \textbf{Desired Output Specification}: Specify the desired output format (e.g., JSON, HTML, csv, markdown, latex).
 \end{itemize}
 \end{scriptsize}
 \end{frame}
@@ -213,8 +213,8 @@ Prompt engineering, often referred to as ``Prompting,'' is the discipline or ``a
 
 \begin{scriptsize}
 \begin{itemize}
-\item Chain-of-thought prompting is a mechanism for eliciting multi-step reasoning behavior in large language models.
-\item  This method involves augmenting each exemplar in a few-shot prompt with a connected sequence of thoughts, creating a structured chain of logical steps. \cite{wei2022chain}
+\item Chain-of-thought prompting is a mechanism for inducing multi-step reasoning behavior in large language models.
+\item In this method, each exemplar in a few-shot prompt is augmented with a connected sequence of thoughts, creating a structured chain of logical steps. \cite{wei2022chain}
 \end{itemize}
 \end{scriptsize}
 
@@ -411,7 +411,7 @@ source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
           \end{itemize}
 
       \begin{figure}[h]
-	\includegraphics[scale = 0.35]{pics/lora.png}
+	\includegraphics[scale = 0.25]{pics/lora.png}
 \end{figure}
 
 \end{scriptsize}
@@ -438,9 +438,10 @@ source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
 \begin{scriptsize}
 \begin{itemize}
 \item QLoRA is an even more memory efficient version of LoRA where the pretrained model is loaded to GPU memory as \textbf{quantized} 4-bit weights.
-\item QLoRA dequantizes weights from the storage data type to the computation data type to perform the forward and backward passes.
-\item It only computes weight gradients for the LoRA parameters which use 16-bit bfloat.
-\item QLORA reduces the average memory requirements of finetuning a 65B parameter model from $>780GB$ of GPU memory to $<48GB$.
+\item The quantized LLM is then finetuned using LoRA.
+\item  During the forward pass and backpropagation, the quantized weights are dequantized back to full precision.
+\item The dequantized weights are used in the computations, but they are stored in memory in their 4-bit quantized form.
+\item QLoRA reduces the average memory requirements of finetuning a 65B parameter model from $>780GB$ of GPU memory to $<48GB$.
 \end{itemize}
 \end{scriptsize}
      \begin{figure}[h]
@@ -661,9 +662,9 @@ Most of these benchmarks are combined in the HuggingFace Open LLM Leaderboard: \
 \begin{frame}{Evaluation Pattern 2: Multi-turn benchmarks}
 \begin{scriptsize}
 \begin{itemize}
-\item Modern LLMs apart from being multi-task are open-ended and multi-turn assist users in multi-turn dialogues.
-\item This capacity be evaluated by the above benchmarks (closed-ended questions with short responses).
-\item MT-bench: 80 high-quality multi-turn questions in 8 categories: writing, roleplay, extraction, reasoning, math, coding, knowledge I (STEM), and knowledge II (humanities/social science).
+\item Modern LLMs, in addition to being multi-task models, assist users in multi-turn open-ended dialogues.
+\item This ability cannot be evaluated by the above benchmarks because there isn't always a clear correct answer.
+\item MT Bench: 80 high-quality multi-turn questions in 8 categories: Writing, Role Play, Extraction, Reasoning, Math, Coding, Knowledge I (STEM), and Knowledge II (Humanities/Social Sciences).
 \end{itemize}
 
       \begin{figure}[h]
@@ -725,7 +726,6 @@ Source: \cite{zhao2023survey}
  \item LLMs are not an isolated technology, but interact with many other disciplines: Information Retrieval, Autonomous Agents, Software Engineering.
  \item Their reasoning and planning capabilities, despite their limitations, have the potential to impact more general areas of AI (beyond NLP).
  \item The open-ended aspect of this technology challenges standard NLP evaluation approaches.
- \item The idea of a machine emulating other machines would be unthinkable in the PLN standard.
 \end{itemize}
 \end{scriptsize}
 \end{frame}

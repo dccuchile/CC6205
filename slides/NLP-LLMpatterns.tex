@@ -142,6 +142,7 @@ This means that they can learn new tasks without large amounts of human-annotate
 \begin{block}{Evaluation Patterns}
 \begin{enumerate}
 \item Multi-task benchmarks
+\item World-knowledge benchmarks
 \item Multi-turn benchmarks
 \item LLM-as-a-judge
 \end{enumerate}
@@ -439,8 +440,8 @@ source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
 \begin{itemize}
 \item QLoRA is an even more memory efficient version of LoRA where the pretrained model is loaded to GPU memory as \textbf{quantized} 4-bit weights.
 \item The quantized LLM is then finetuned using LoRA.
-\item  During the forward pass and backpropagation, the quantized weights are dequantized back to full precision.
-\item The dequantized weights are used in the computations, but they are stored in memory in their 4-bit quantized form.
+\item The LoRA adapter weights will be FP32, as all of the training will happen on these weights.
+\item Once all the training is done, the original weights will be de-quantized.
 \item QLoRA reduces the average memory requirements of finetuning a 65B parameter model from $>780GB$ of GPU memory to $<48GB$.
 \end{itemize}
 \end{scriptsize}
@@ -476,7 +477,7 @@ source: \url{https://huggingface.co/blog/hf-bitsandbytes-integration}
 \begin{itemize}
 \item  4-bit NormalFloat, an information theoretically optimal quantization data type for normally distributed data\footnote{pretrained neural network weights usually have a zero-centered normal distribution with standard deviation $\sigma$}  that yields better empirical results than 4-bit Integers and 4-bit Floats.
 \item Double Quantization, a method that quantizes the quantization constants, saving an average of about 0.37 bits per parameter (approximately 3 GB for a 65B model).
-\item Paged Optimizers, using NVIDIA unified memory to avoid the gradient checkpointing memory spikes that occur when processing a mini-batch with a long sequence length.
+\item Paged Optimizers help prevent memory spikes when dealing with long sequences by using NVIDIA unified memory. This enables smooth transfers between GPU and CPU when the GPU is low on memory. 
 \end{itemize}
 \end{scriptsize}
 
@@ -599,6 +600,14 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-autogpt-langchain-and-all-that/}
 \end{frame}
 
+
+\begin{frame}{LangChain Example}
+\scriptsize
+      \begin{figure}[h]
+	\includegraphics[scale = 0.3]{pics/agentexample.png}
+\end{figure}
+\end{frame}
+
 % Patterms can be combined: Gorilla, LLama2 fine-tuned to be good at API calls and then used in agents.
 
 
@@ -619,6 +628,7 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 \item When first-generation LLMS (e.g., BERT) were developed, the idea of multi-task evaluation took on greater importance.
 \item Multi-task benchmarks such as GLUE and SuperGlue emerged from this perspective.
 \item Classic NLP tasks included: classification, question answering, word sense disambiguation, etc. 
+\item These benchmarks are still designed for a fine-tuning supervised-learning setting.
 \end{itemize}
 \end{scriptsize}
       \begin{figure}[h]
@@ -628,10 +638,11 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 \end{frame}
 
 
-\begin{frame}{Evaluation Pattern 1: Multi-task benchmarks }
+\begin{frame}{Evaluation Pattern 2: World-knowledge benchmarks}
 \begin{scriptsize}
 \begin{itemize}
 \item A second generation of benchmarks later emerged for tasks involving science, reasoning, multitasking accuracy, and truthfulness.
+\item To attain high accuracy on this test, models must possess extensive world knowledge and problem solving ability
 \item They typically require LLMs to generate a short, specific answer to close-ended problems that can be automatically validated (e.g., multiple-choice questions).
 \item Two main categories: knowledge-based and reasoning-based benchmarks.
 \item  Examples: AI2 Reasoning Challenge (25-shot), MMLU (5-shot), TruthfulQA (0-shot), and HellaSwag (10-shot).
@@ -639,7 +650,7 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 \end{itemize}
 \end{scriptsize}
       \begin{figure}[h]
-	\includegraphics[scale = 0.5]{pics/MMLU.png}
+	\includegraphics[scale = 0.4]{pics/MMLU.png}
 \end{figure}
 
 \end{frame}
@@ -647,7 +658,7 @@ Source: \url{https://leftasexercise.com/2023/06/17/autonomous-agents-and-llms-au
 
 
 
-\begin{frame}{Evaluation Pattern 1: Multi-task benchmarks}
+\begin{frame}{Evaluation Pattern 2: World-knowledge benchmarks}
 \begin{scriptsize}
 Most of these benchmarks are combined in the HuggingFace Open LLM Leaderboard: \url{https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard}
 \end{scriptsize}
@@ -659,7 +670,7 @@ Most of these benchmarks are combined in the HuggingFace Open LLM Leaderboard: \
 
 
 
-\begin{frame}{Evaluation Pattern 2: Multi-turn benchmarks}
+\begin{frame}{Evaluation Pattern 3: Multi-turn benchmarks}
 \begin{scriptsize}
 \begin{itemize}
 \item Modern LLMs, in addition to being multi-task models, assist users in multi-turn open-ended dialogues.
@@ -676,7 +687,7 @@ Most of these benchmarks are combined in the HuggingFace Open LLM Leaderboard: \
 \end{frame}
 
 
-\begin{frame}{Evaluation Pattern 2: Multi-turn benchmarks}
+\begin{frame}{Evaluation Pattern 3: Multi-turn benchmarks}
 \begin{scriptsize}
 \begin{itemize}
 \item Limitation of multi-turn evaluation: needs to be evaluated by humans which is expensive to evaluate.
@@ -692,7 +703,7 @@ Most of these benchmarks are combined in the HuggingFace Open LLM Leaderboard: \
 \end{frame}
 
 
-\begin{frame}{Evaluation Pattern 3: LLM-as-a-judge}
+\begin{frame}{Evaluation Pattern 4: LLM-as-a-judge}
 \begin{scriptsize}
 \begin{itemize}
 \item LLM-as-a-judge: use a state-of-the-art LLM (e.g., GPT-4) to evaluate other LLMs.

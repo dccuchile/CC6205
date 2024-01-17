@@ -426,7 +426,7 @@ source: \url{https://nlpnewsletter.substack.com/p/instruction-tuning-vol-2}
     \item LoRA uses two adjustable low-rank decomposition matrices of predefined rank $r$, \(B \in \mathbb{R}^{d \times r}\) and \(A \in \mathbb{R}^{r \times k}\).
     \item The resulting fine-tuned network $W_L$ is obtained as follows:
       \begin{equation}
-    W_L = W_0 + \Delta W = W_0 + BA, \quad B \in \mathbb{R}^{d \times r}, \quad A \in \mathbb{R}^{r \times d}
+    W_L = W_0 + \Delta W = W_0 + BA, \quad B \in \mathbb{R}^{d \times r}, \quad A \in \mathbb{R}^{r \times k}
   \end{equation}
  \item During training, \(W_0\) remains frozen, and only \(B\) and \(A\) receive gradient updates.
  \item The lower the value of $r$, the fewer parameters will be trained during fine-tuning (there is a trade-off between performance and computation costs).

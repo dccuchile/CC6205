@@ -9,12 +9,12 @@ Semana | Fecha | Tema | Asíncrono (Revisar en casa) | Síncrono (En clase) | Ev
 3 | Martes 26/03 | Naive Bayes | [Video 1](https://www.youtube.com/watch?v=kG9BK9Oy1hU) [Video 2](https://www.youtube.com/watch?v=Iqte5kKHvzE) [Video 3](https://www.youtube.com/watch?v=TSJg0_X3Abk) [Diapos](slides/NLP-NB.pdf) |        Clase resumen presencial         | Tarea 1 
 3 | Jueves 28/03 | Feriado |                                                              | Auxiliar 1 |
 4 | Martes 02/03 | Linear Models | [Video 1](https://www.youtube.com/watch?v=zhBxDsNLZEA) [Video 2](https://www.youtube.com/watch?v=Fooua_uaWSE) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-linear.pdf) | Clase resumen presencial |            
-          | Jueves 04/04 | Linear Models | |  |
+    4     | Jueves 04/04 | Linear Models | |  |
 5 | Martes 09/04 | Linear Models | [Video 3](https://www.youtube.com/watch?v=DqbzhdQa1eQ) [Video 4](https://www.youtube.com/watch?v=1nfWWXqfAzA) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-linear.pdf) | Clase resumen presencial |
 5 | Jueves 11/04 | Neural Networks | [Video 1](https://www.youtube.com/watch?v=oHZHA8h2xN0) [Video 2](https://www.youtube.com/watch?v=2lXank0W6G4) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-neural.pdf) | Control 1 |
-6 | Martes 16/04 | Neural Networks | [Video 3](https://www.youtube.com/watch?v=BUDIi9qItzY) [Video 4](https://www.youtube.com/watch?v=KKN2Ipy-vGk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-neural.pdf) | Clase resumen presencial |
+6 | Martes 16/04 | Neural Networks | [Video 3](https://www.youtube.com/watch?v=BUDIi9qItzY) [Video 4](https://www.youtube.com/watch?v=KKN2Ipy-vGk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-neural.pdf) | Clase resumen presencial |Tarea 2
 6 | Jueves 18/04 | Word Embeddings | [Video 1](https://www.youtube.com/watch?v=wtwUsJMC9CA) [Video 2](https://www.youtube.com/watch?v=XDxzQ7JU95U) [Video 3](https://www.youtube.com/watch?v=Ikyc3DRVodk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-wordvectors.pdf) | Auxiliar 2 |
-7 | Martes 23/04 | Ponerse al día | |        Clase resumen presencial        | Tarea 2 
+7 | Martes 23/04 | Ponerse al día | |        Clase resumen presencial        |  
 7 | Jueves 25/04 | Sequence Labeling - HMM | [Video 1](https://www.youtube.com/watch?v=-ngfOZz8yK0) [Video 2](https://www.youtube.com/watch?v=Tjgb-yQOg54) [Video 3](https://www.youtube.com/watch?v=aaa5Qoi8Vco) [Video 4](https://www.youtube.com/watch?v=4pKWIDkF_6Y) [Diapos](slides/NLP-HMM.pdf) |  |
 Receso |  | |  |  |
 8 | Martes 07/05 | MEMMs y CRFs | [Video 1](https://www.youtube.com/watch?v=qlI-4lSUDkg) [Video 2](https://www.youtube.com/watch?v=PLoLKQwkONw) [Video 3](https://www.youtube.com/watch?v=ZpUwDy6o28Y) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-CRF.pdf) | Clase resumen presencial |

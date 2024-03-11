@@ -2,7 +2,7 @@
 This is a course on natural language processing.
 
 * Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
-* TAs: [Gabriel Iturra-Bocaz](https://giturra.cl/), [Jorge Ortiz](https://www.ortizfuentes.com/), Consuelo Rojas, Sebastián Tinoco and [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/).
+* TAs:  [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/), Juan Pablo Herrera, Alan Contreras, Kevin Iturra, and Paula Ovalle. 
 
 * [Course Notes (in Spanish)](https://raw.githubusercontent.com/dccuchile/CC6205/master/apunte/apunte.pdf)
 
@@ -32,13 +32,13 @@ The course material draws from various sources. In many instances, sentences fro
 6. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex)), [video 1](https://youtu.be/oHZHA8h2xN0), [video 2](https://youtu.be/2lXank0W6G4), [video 3](https://youtu.be/BUDIi9qItzY), [video 4](https://youtu.be/KKN2Ipy-vGk)       
 7. [Word Vectors](slides/NLP-wordvectors.pdf) | ([tex source file](slides/NLP-wordvectors.tex)) [video 1](https://youtu.be/wtwUsJMC9CA), [video 2](https://youtu.be/XDxzQ7JU95U), [video 3](https://youtu.be/Ikyc3DRVodk)
 8. [Sequence Labeling and Hidden Markov Models ](slides/NLP-HMM.pdf) | ([tex source file](slides/NLP-HMM.tex)), [notes](http://www.cs.columbia.edu/~mcollins/hmms-spring2013.pdf), [video 1](https://youtu.be/-ngfOZz8yK0), [video 2](https://youtu.be/Tjgb-yQOg54), [video 3](https://youtu.be/aaa5Qoi8Vco), [video 4](https://youtu.be/4pKWIDkF_6Y)       
-9. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex)), [notes 1](http://www.cs.columbia.edu/~mcollins/crf.pdf), [notes 2](http://www.cs.columbia.edu/~mcollins/fb.pdf), [video 1](https://youtu.be/qlI-4lSUDkg), [video 2](https://youtu.be/PLoLKQwkONw), [video 3](https://youtu.be/ZpUwDy6o28Y)
+9. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex)), [notes 1](http://www.cs.columbia.edu/~mcollins/crf.pdf), [notes 2](http://www.cs.columbia.edu/~mcollins/fb.pdf), [video 1](https://youtu.be/qlI-4lSUDkg), [video 2](https://youtu.be/PLoLKQwkONw), [video 3](https://youtu.be/ZpUwDy6o28Y)    (optional)
 10. [Convolutional Neural Networks](slides/NLP-CNN.pdf) | ([tex source file](slides/NLP-CNN.tex)), [video](https://youtu.be/lLZW5Fn40r8)
-11. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex)), [video 1](https://youtu.be/BmhjUkzz3nk), [video 2](https://youtu.be/z43YFR1iIvk), [video 3](https://youtu.be/7L5JxQdwNJk)
+11. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex)), [video 1](https://youtu.be/BmhjUkzz3nk), [video 2](https://youtu.be/z43YFR1iIvk), 
 12. [Sequence to Sequence Models and Attention](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/OpKxRjISqmM), [video 2](https://youtu.be/WQ7ihm5voB0)
 13. [Transformer Architecture](slides/NLP-transformer.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/8RE23Uq8rU0)
 14. [Contextualized Embeddings and Large Language Models](slides/NLP-LLM.pdf), [video 1](https://youtu.be/sSGbgZpHymI), [video 2](https://youtu.be/C-QfzWU6eUE), [video 3](https://youtu.be/5j4Mgl3GuVY)
-15. [Large Language Models Usage and Evaluation Patterns](slides/NLP-LLMpatterns.pdf)
+15. [Large Language Models Usage and Evaluation Patterns](slides/NLP-LLMpatterns.pdf), [video](https://youtu.be/l2WpZC4dBAs?feature=shared)
 
 
 ## NLP Libraries and Tools

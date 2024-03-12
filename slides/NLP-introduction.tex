@@ -64,8 +64,12 @@
  \item  A significant part of the content presented in these slides is taken from other resources such as textbooks and publications.  
  \item  The neural network part of the course is heavily based on this book:
    \begin{figure}[h]
-        	\includegraphics[scale = 0.4]{pics/goldbergNLP.jpg}
+        	\includegraphics[scale = 0.2]{pics/goldbergNLP.jpg}
         \end{figure}
+        
+  \item Non-neural network topics, such as probabilistic language models, Naive Bayes, and HMM, are taken from Michael Collins' Columbia course \cite{collins2013language}.
+  \item Also from the draft of the third edition of Dan Jurafsky and James H. Martin's book \cite{JurafskyBook}.
+  \item In addition, some slides have been adapted from online tutorials and other courses, such as Christopher Manning's Stanford course\footnote{\url{ttp://web.stanford.edu/class/cs224n/}}. 
 \end{itemize}
 \end{scriptsize}
 
@@ -90,7 +94,6 @@
 \end{frame}
 
 
-
 \begin{frame}{Natural Language Processing}
 \begin{scriptsize}
 \begin{itemize}
@@ -103,13 +106,35 @@
         \end{figure}
 
         
-\item Human language is highly ambiguous: \emph{I ate pizza with friends} vs. \emph{I ate pizza with olives} vs. \emph{I ate pizza with a fork}.
+\item Example of NLP application: Chatbots like ChatGPT and Google Bard (or Gemini):
 
-\item It is also ever changing and evolving (e.g, Hashtags in Twitter). 
+ \begin{figure}[h]
+        	\includegraphics[scale = 0.4]{pics/gptllama.png}
+        \end{figure}
 
 \end{itemize}
 \end{scriptsize}
 \end{frame}
+
+
+
+\begin{frame}{5 Challenging Properties of Humnan Language}
+\begin{scriptsize}
+\begin{enumerate}        
+\item \textbf{Ambiguity}: Human language is highly ambiguous.
+\begin{itemize}\scriptsize
+ \item For example: \emph{I ate pizza with friends} vs. \emph{I ate pizza with olives} vs. \emph{I ate pizza with a fork}.
+\item All these sentences have similar grammatical properties, but differ radically in what the prepositional phrase modifies (1) the proponoun ``I'',2) the noun ``pizza'',3) the verb ``eat''). 
+\end{itemize}
+\item \textbf{Dynamism}: Language is ever changing and evolving (e.g, Hashtags in Twitter). 
+\item \textbf{Discreteness}: we cannot infer the relation between two words from the letters they are made of (e.g., hamburger and pizza). 
+\item \textbf{Compositionality}: the meaning of a sentence goes beyond the individual meaning of their words. 
+\item \textbf{Sparseness}: The way in which words
+(discrete symbols) can be combined to form meanings is practically infinite.
+\end{enumerate}
+\end{scriptsize}
+\end{frame}
+
 
 
 \begin{frame}{Natural Language Processing and Computational Linguistics}
@@ -310,18 +335,6 @@ Baghdad      NNP  I-NP  I-LOC
 
 \end{frame}
 
-
-\begin{frame}{Challenges of Language}
-\begin{scriptsize}
-\begin{itemize}
-\item Three challenging properties of language: discreteness , compositionality, and sparseness.
-\item \textbf{Discreteness}: we cannot infer the relation between two words from the letters they are made of (e.g., hamburger and pizza). 
-\item \textbf{Compositionality}: the meaning of a sentence goes beyond the individual meaning of their words. 
-\item \textbf{Sparseness}: The way in which words
-(discrete symbols) can be combined to form meanings is practically infinite.
-\end{itemize}
-\end{scriptsize}
-\end{frame}
 
 
 
@@ -591,6 +604,18 @@ of (shallow) machine learning and statistical models (e.g., Naive Bayes, HMMs, I
 \end{frame}
 
 
+\begin{frame}{A fourth wave??}
+\begin{scriptsize}
+
+\begin{itemize}
+\item Large Language Models (LLMs) like ChatGPT, GPT4, Llama and Bard are deep neural networks trained on large corpora (hundreds of billions of tokens) and a large parameter space (billions) to predict the next word from a fixed-size context.
+\item One of the most striking features of these models is their ability for few-shot, one-shot, and zero-shot learning, often referred to as ``in-context learning''.
+\item This implies their capacity to acquire new tasks with minimal human-annotated data, simply by providing the appropriate instruction or prompt.
+\item Thus, despite being rooted in the deep learning paradigm, they introduce a disruptive approach to NLP.
+\end{itemize}
+\end{scriptsize}
+\end{frame}
+
 
 \begin{frame}{Roadmap}
 In this course we will introduce modern concepts in natural language processing based on \textbf{statistical models} (second wave) and \textbf{neural networks} (third wave). The main concepts to be covered are listed below:
@@ -600,30 +625,21 @@ In this course we will introduce modern concepts in natural language processing 
 \item Linear Models.
 \item Naive Bayes.
 \item Hidden Markov Models.
-\item Maximum Entropy Markov Models (MEMMs) and Conditional Random Fields (CRFs).
 \item Neural Networks.
 \item Word embeddings.
 \item Convolutional Neural Networks (CNNs) 
 \item Recurrent Neural Networks: Elman, LSTMs, GRUs. 
 \item Attention.
 \item Sequence-to-Sequence Models.
-\item Parse Trees.
+\item Transformer
+\item Large Language Models.
 \end{enumerate} 
 \end{scriptsize}
 \end{frame}
 
 
 
-\begin{frame}{Important Websites}
 
-\begin{scriptsize}
-\begin{enumerate}
-\item Repository to track the progress in Natural Language Processing (NLP), including the datasets and the current state-of-the-art for the most common NLP task: \url{http://nlpprogress.com/}
-\item An open-source NLP research library, built on PyTorch: \url{https://allennlp.org/}
-\item The course's Website: \url{https://github.com/dccuchile/CC6205/}
-\end{enumerate} 
-\end{scriptsize}
-\end{frame}
 
 
 

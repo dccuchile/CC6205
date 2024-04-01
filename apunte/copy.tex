@@ -106,37 +106,95 @@ La evaluación juega un papel crucial en la construcción de sistemas de PLN bas
 
 
 \begin{example}
-Supongamos un problema de clasificación binaria, para la cual queremos comparar dos modelos de clasificación $m_1$ y $m_2$. Probamos los modelos sobre un conjunto de datos de prueba y obtenemos las siguientes predicciones.
+Supongamos un problema de clasificación binaria, para la cual queremos comparar dos modelos de clasificación $m_1$ y $m_2$. Probamos los modelos sobre un conjunto de datos de prueba y obtenemos las predicciones señaladas en la Tabla~\ref{tab:ej_sentimiento}.
 
- 
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Texto} & \textbf{Clase} & \textbf{m1} & \textbf{m2} \\
+\hline
+no estoy bien & negativo & negativo & positivo \\
+al fin! & positivo & positivo & negativo \\
+que pena & negativo & negativo & negativo \\
+feliz & positivo & positivo & positivo \\
+no quiero & negativo & positivo & negativo \\
+jamás! & negativo & negativo & negativo \\
+buena idea & positivo & positivo & negativo \\
+chao contigo & negativo & positivo & negativo \\
+\hline
+\end{tabular}
+\caption{Sentimiento de texto y predicciones realizadas por dos modelos distintos.}
+\label{tab:ej_sentimiento}
+\end{table}
+
+Se puede observar que tanto el modelo $m_1$ como el modelo $m_2$ presentan errores en sus predicciones al compararse con las categorías reales de los ejemplos (columna clase), también conocidas como ``gold labels'' o ``ground truth''. Sin embargo, ¿cómo determinamos cuál modelo es mejor? Para abordar esta pregunta, resulta conveniente calcular métricas de desempeño, las cuales se derivan al contrastar las predicciones de un modelo con sus salidas esperadas.
 \end{example}
 
+\subsection{Matriz de Confusión}
 
+La mayoría de las métricas de evaluación para problemas de clasificación se derivan de una matriz de confusión (véase Tabla~\ref{tab:matriz_confusion}), la cual representa una tabla de contingencia entre las predicciones de un modelo y las salidas esperadas en un conjunto de prueba. Para problemas de clasificación binaria, esta matriz consta de 4 componentes:
 
+\begin{enumerate}
+\item \textbf{Verdadero Positivo (VP)}: cuando el modelo predice correctamente la clase positiva, coincidiendo con la salida esperada.
+\item \textbf{Verdadero Negativo (VN)}: cuando el modelo predice correctamente la clase negativa, coincidiendo con la salida esperada.
+\item \textbf{Falso Negativo (FN)}: cuando el modelo predice incorrectamente la clase negativa, siendo la salida esperada positiva.
+\item \textbf{Falso Positivo (FP)}: cuando el modelo predice incorrectamente la clase positiva, siendo la salida esperada negativa.
+\end{enumerate}
 
+Es importante destacar que la definición de qué constituye la clase positiva es arbitraria en un problema de clasificación; generalmente se refiere a la clase que se desea detectar. En el caso de la clasificación de sentimientos, es una coincidencia que la clase positiva se asocie con el sentimiento ``positivo''. Esta consideración es fundamental, ya que el valor de algunas métricas de desempeño (como precisión, recall y $F_1$) depende de la elección de la clase positiva.
 
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
-\textbf{} & \textbf{Sistema Positivo} & \textbf{Sistema Negativo} \\
+\textbf{} & \textbf{Modelo Positivo} & \textbf{Modelo Negativo} \\
 \hline
-\textbf{Oro Positivo} & Verdadero Positivo (VP) & Falso Negativo (FN) \\
+\textbf{Real Positivo} & Verdadero Positivo (VP) & Falso Negativo (FN) \\
 \hline
-\textbf{Oro Negativo} & Falso Positivo (FP) & Verdadero Negativo (VN) \\
+\textbf{Real Negativo} & Falso Positivo (FP) & Verdadero Negativo (VN) \\
 \hline
 \end{tabular}
+\caption{Matriz de confusión para un problema de clasificación binaria.}
+\label{tab:matriz_confusion}
 \end{table}
 
-\textbf{Recall} (también conocido como \textbf{Sensibilidad} o \textbf{Tasa de Verdaderos Positivos}):
+\begin{example}
+Veamos como serían las matrices de confusión para los modelos $m_1$ y $m_2$ del ejemplo anterior. Primero procedemos a categorizar cada predicción de ambos modelos según una de las cuatro categorías señaladas (VP,VN,FP,FN). 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l||l|l||l|l|}
+\hline
+\textbf{Clase esperada} & \textbf{m1} & \textbf{Resultado m1} & \textbf{m2} & \textbf{Resultado m2} \\ \hline
+negativo & negativo & VN & positivo & FP \\ \hline
+positivo & positivo & VP & negativo & FN \\ \hline
+negativo & negativo & VN & negativo & VN \\ \hline
+positivo & positivo & VP & positivo & VP \\ \hline
+negativo & positivo & FP & negativo & VN \\ \hline
+negativo & negativo & VN & negativo & VN \\ \hline
+positivo & positivo & VP & negativo & FN \\ \hline
+negativo & positivo & FP & negativo & VN \\ \hline
+\end{tabular}
+\caption{Tipos de predicciones de $m_1$ y $m_2$.}
+\label{tab:matriz_confusion}
+\end{table}
+
+Luego, agregamos dichos conteos en una matriz de confusión para cada modelo.
+
+\end{example}
+
+
+\subsection{Métricas de Desempeño}
+
+\textbf{Recall} (exhaustividad) (también conocido como \textbf{Sensibilidad} o \textbf{Tasa de Verdaderos Positivos}):
 \[ \text{Recall} = \frac{VP}{VP + FN} \]
 
 \textbf{Precisión}:
 \[ \text{Precisión} = \frac{VP}{VP + FP} \]
 
-\textbf{Exactitud}:
-\[ \text{Exactitud} = \frac{VP + VN}{VP + FP + VN + FN} \]
+\textbf{Accuracy} (exactitud):
+\[ \text{Accuracy} = \frac{VP + VN}{VP + FP + VN + FN} \]
 
 
 ¿Por qué no usamos la exactitud como nuestra métrica?
@@ -224,18 +282,11 @@ F_1 = \frac{2PR}{P + R}
 
 \subsection{Validación Cruzada: Múltiples Divisiones}
 
-\begin{itemize}
-\item La validación cruzada nos permite utilizar todos nuestros datos para el entrenamiento y la prueba sin tener un conjunto de entrenamiento, conjunto de desarrollo y conjunto de prueba fijos.
-\item Elegimos un número $k$ y dividimos nuestros datos en $k$ subconjuntos disjuntos llamados pliegues.
-\item En cada iteración, uno de los pliegues se selecciona como conjunto de prueba mientras que los $k-1$ pliegues restantes se utilizan para entrenar el clasificador.
-\item Calculamos la tasa de error en el conjunto de prueba y repetimos este proceso $k$ veces.
-\item Finalmente, promediamos las tasas de error de estas $k$ ejecuciones para obtener una tasa de error promedio.
-\item Por ejemplo, la validación cruzada de 10 pliegues implica entrenar 10 modelos con el 90\% de los datos y probar cada modelo por separado.
-\item Las tasas de error resultantes se promedian para obtener la estimación final del rendimiento.
-\item Sin embargo, la validación cruzada requiere que todo el corpus sea ciego, lo que impide examinar los datos para sugerir características o comprender el comportamiento del sistema.
-\item Para abordar esto, se crea un conjunto de entrenamiento y un conjunto de prueba fijos, y se realiza la validación cruzada de 10 pliegues dentro del conjunto de entrenamiento.
-\item La tasa de error se calcula convencionalmente en el conjunto de prueba.
-\end{itemize}
+La validación cruzada nos permite utilizar todos nuestros datos para el entrenamiento y la prueba sin tener un conjunto de entrenamiento, conjunto de desarrollo y conjunto de prueba fijos.  Elegimos un número $k$ y dividimos nuestros datos en $k$ subconjuntos disjuntos llamados pliegues.  En cada iteración, uno de los pliegues se selecciona como conjunto de prueba mientras que los $k-1$ pliegues restantes se utilizan para entrenar el clasificador.
+
+Calculamos la tasa de error en el conjunto de prueba y repetimos este proceso $k$ veces.  Finalmente, promediamos las tasas de error de estas $k$ ejecuciones para obtener una tasa de error promedio.
+
+Por ejemplo, la validación cruzada de 10 pliegues implica entrenar 10 modelos con el 90\% de los datos y probar cada modelo por separado.  Las tasas de error resultantes se promedian para obtener la estimación final del rendimiento. Sin embargo, la validación cruzada requiere que todo el corpus sea ciego, lo que impide examinar los datos para sugerir características o comprender el comportamiento del sistema.  Para abordar esto, se crea un conjunto de entrenamiento y un conjunto de prueba fijos, y se realiza la validación cruzada de 10 pliegues dentro del conjunto de entrenamiento.  La tasa de error se calcula convencionalmente en el conjunto de prueba.
 
 
 \begin{center}

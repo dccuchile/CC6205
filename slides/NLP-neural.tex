@@ -1022,7 +1022,7 @@ addition , etc.).
 
 
 
-\begin{frame}{Forward Computation}
+\begin{frame}[fragile]{Forward Computation}
 \begin{scriptsize}
 \begin{itemize}
 
@@ -1034,14 +1034,26 @@ addition , etc.).
 
 \item The computation-graph forward pass computes the values $v(i)$ for all $i \in [1,N]$.
 
- \begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.35]{pics/forwardPass.png}
-\end{figure}
 
 \end{itemize}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\For{i = 1 \KwTo N}{
+    Let \( a_1, \ldots, a_m = \pi^{-1}(i) \) \\
+    \( v(i) \leftarrow f_i\left(v(a_1), \ldots, v(a_m)\right) \)
+}
+\caption{Computation graph forward pass}
+\end{algorithm}
+
+
+
+
+
 \end{scriptsize}
 \end{frame}
+
+
 
 
 
@@ -1060,12 +1072,19 @@ addition , etc.).
 
 \item The backward pass fills a table of values $d(1), \dots, d(N)$  as shown in the following algorithm.
 
- \begin{figure}[htb]
-	\centering
-	 \includegraphics[scale=0.35]{pics/backwardPass.png}
-\end{figure}
-
 \end{itemize}
+
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\( d(N) \leftarrow 1 \)\tcp*[r]{$\frac{\partial N}{\partial N}=1$} \;
+\For{i = N-1 \KwTo 1}{
+    \( d(i) = \sum_{j \in \pi(i)} d(j) \cdot \frac{\partial f_j}{\partial i} \)\tcp*[r]{$ \frac{\partial N}{\partial i} = \sum_{j \in \pi(i)}\frac{\partial N}{\partial j} \cdot \frac{\partial j}{\partial i}$} \;
+    
+}
+\caption{Computation graph backward pass (backpropagation)}
+\end{algorithm}
+
 \end{scriptsize}
 \end{frame}
 

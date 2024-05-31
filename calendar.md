@@ -23,16 +23,16 @@ Receso |  | |  |  |
 9 | Jueves 16/05 | Recurrent Neural Networks                           | [Video 2](https://www.youtube.com/watch?v=z43YFR1iIvk) [Video 3](https://youtu.be/7L5JxQdwNJk) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-RNN.pdf) | Auxiliar 3 |Tarea 3 publicación
 10 | Martes 21/05 | Feriado |  |  |
 10 | Jueves 23/05 | Ponerse al día                                      |                                                              |   |
-11 | Martes 28/05 | Sequence-to-Sequence + Attention                    | [Video 1](https://www.youtube.com/watch?v=OpKxRjISqmM&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=35)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Clase resumen presencial |
-11 | Jueves 30/05 | Ponerse al día                                      |                                                              |  |
-12 | Martes 04/06 | Transformer                                         | [Video 1](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-transformer.pdf) | Clase resumen presencial |
-12 | Jueves 06/06 |                                                     |                                                              |  |Control 2
-13 | Martes 11/06 | Contextualized Embeddings and Large Language Models | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-LLM.pdf) | Clase resumen presencial |Tarea 4 publicación
-13 | Jueves 13/06 | Contextualized Embeddings and Large Language Models | [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-LLM.pdf) |  Auxiliar 4 |
+11 | Martes 28/05 | Paro                                                |                                                              |                          |
+11 | Jueves 30/05 | Paro                                                |                                                              |  |
+12 | Martes 04/06 | Paro                                                |                                                              |                          |
+12 | Jueves 06/06 | Paro |                                                              |  |
+13 | Martes 11/06 | Sequence-to-Sequence + Attention                    | [Video 1](https://www.youtube.com/watch?v=OpKxRjISqmM&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=35)  [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-seq2seq.pdf) | Clase resumen presencial | Tarea 4 publicación 
+13 | Jueves 13/06 |                                                     |                                                              |                          |Control 2
 Receso |  | |  |  |
-14 | Martes 25/06 | Large Language Models Usage and Evaluation Patterns | [Diapos](slides/NLP-LLMpatterns.pdf),[Video](https://youtu.be/l2WpZC4dBAs?feature=shared) | Clase Resumen Presencial |
-14 | Jueves 27/06 | Large Language Models Usage and Evaluation Patterns | [Diapos](slides/NLP-LLMpatterns.pdf), [Video](https://youtu.be/l2WpZC4dBAs?feature=shared) | Auxiliar 5 |
-15 | Martes 02/07 |  | | Clase Resumen Presencial |
-15 | Jueves 04/07 |  | |  |Control 3
-Exámenes | | | |  |
+14 | Martes 25/06 | Transformer                                         | [Video 1](https://www.youtube.com/watch?v=8RE23Uq8rU0) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-transformer.pdf) | Clase resumen presencial |
+14 | Jueves 27/06 | Contextualized Embeddings and Large Language Models | [Video 1](https://www.youtube.com/watch?v=sSGbgZpHymI) [Video 2](https://www.youtube.com/watch?v=C-QfzWU6eUE)  [Video 3](https://www.youtube.com/watch?v=5j4Mgl3GuVY) [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-LLM.pdf) |                          |
+15 | Martes 02/07 | Large Language Models Usage and Evaluation Patterns | [Diapos](https://github.com/dccuchile/CC6205/blob/master/slides/NLP-LLMpatterns.pdf),[Video](https://youtu.be/l2WpZC4dBAs?feature=shared) | Clase Resumen Presencial |
+15 | Jueves 04/07 |  | |  |
+Exámenes | | | |  |Control 3
 

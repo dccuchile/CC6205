@@ -55,7 +55,7 @@ As we implement this new version of the course, we will upload all the new slide
 - **NP**: Group presentation of a paper of your choice (we will upload the list of papers soon)
 
 - **NF (final grade)**: (NC + NT + NP) / 3
-  - **Important**: NC, NT and NP should be >= 4.0
+  - **Important**: NC, NT and NP must be >= 4.0
 
 ## Slides from previous years
 

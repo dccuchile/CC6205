@@ -1,19 +1,16 @@
 # CC6205 - Natural Language Processing
+
 This is a course on natural language processing.
 
-* Lecturer: [Felipe Bravo-Marquez](https://felipebravom.com/)
-* TAs:  [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/), Juan Pablo Herrera, Alan Contreras, Kevin Iturra, and Paula Ovalle. 
-
-* [Course Notes (in Spanish)](https://raw.githubusercontent.com/dccuchile/CC6205/master/apunte/apunte.pdf)
-
-* Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00  
-
-* [Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing) (in Spanish)
-
-* [Course Calendar](calendar.md)
-
-* [Youtube Playlist with lectures](https://www.youtube.com/playlist?list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi)
-
+- Lecturer: [Juan José Alegría](https://www.linkedin.com/in/juanjo-alegr%C3%ADa/). Jorge Ortiz
+- Based on the work of [Felipe Bravo-Marquez](https://felipebravom.com/)
+- TAs: [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/), Juan Pablo Herrera
+- [Course Notes (in Spanish)](https://raw.githubusercontent.com/dccuchile/CC6205/master/apunte/apunte.pdf)
+- Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00
+- [Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing) (in Spanish)
+- [Course Calendar](calendar.md)
+- [2024 Course Calendar (just as a reference)](old_calendar.md)
+- [Youtube Playlist with lectures](https://www.youtube.com/playlist?list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi)
 
 ### Info
 
@@ -21,25 +18,62 @@ This course aims to provide a comprehensive introduction to Natural Language Pro
 
 The course material draws from various sources. In many instances, sentences from these sources are directly incorporated into the slides. The neural network topics primarily rely on the book [Neural Network Methods for Natural Language Processing](https://link.springer.com/book/10.1007/978-3-031-02165-7) by Goldberg. Non-neural network topics, such as Probabilistic Language Models, Naive Bayes, and HMMs, are sourced from [Michael Collins' course](http://www.cs.columbia.edu/~mcollins/) and [Dan Jurafsky's book](https://web.stanford.edu/~jurafsky/slp3/). Additionally, some slides are adapted from online tutorials and other courses, such as [Manning's Stanford course](http://web.stanford.edu/class/cs224n/).
 
+**2025 Update**: We are currently updating the course program to incorporate new capabilities of Large Language Models and explore interesting applications. As a result, we will omit some topics covered in previous iterations, such as Naive Bayes, Hidden Markov Models, and Convolutional Neural Networks. Additionally, we will assume a basic understanding of machine learning concepts, including train/test/validation splits, cross-validation, and fundamental models (SVM, Naive Bayes, and possibly Random Forest). However, the material from previous years remains available.
 
 ## Slides
+
+As we implement this new version of the course, we will upload all the new slides.
+
+### Unit 1: NLP fundamentals
+
+1. [Introduction to Natural Language Processing](slides_v2/NLP_Intro.pdf)
+2. Vector semantics
+3. Fundamental questions about language
+4. Probabilistic Language Models
+5. Linear Models
+
+### Unit 2: Neural networks and NLP
+
+6. Neural Networks
+7. Word Vectors
+8. Recurrent Neural Networks
+9. Sequence-to-sequence + Attention
+10. Transformers + BERT
+
+### Unit 3: Large Language Models: new paradigm and open questions
+
+11. GPT + Emergent Abilities in LLMs
+12. Retrieval Augmented Generation
+13. Interpretability
+14. Agents
+15. Ethics in NLP
+
+## Evaluation
+
+- **NC**: 2 tests (after Unit 1 and Unit 2)
+- **NT**: 3 group homework assignments
+- **NP**: Group presentation of a paper of your choice (we will upload the list of papers soon)
+
+- **NF (final grade)**: (NC + NT + NP) / 3
+  - **Important**: NC, NT and NP should be >= 4.0
+
+## Slides from previous years
 
 1. [Introduction to Natural Language Processing](slides/NLP-introduction.pdf) | ([tex source file](slides/NLP-introduction.tex)), [video 1](https://youtu.be/HEKTNOttGvU), [video 2](https://youtu.be/P8cwnI-f-Kg)
 2. [Vector Space Model and Information Retrieval](slides/NLP-IR.pdf) | ([tex source file](slides/NLP-IR.tex)), [video 1](https://www.youtube.com/watch?v=FXIVClF370w&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=2&t=0s), [video 2](https://www.youtube.com/watch?v=f8nG1EMmPZk&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=2)
 3. [Probabilistic Language Models](slides/NLP-PLM.pdf) | ([tex source file](slides/NLP-PLM.tex)), [notes](http://www.cs.columbia.edu/~mcollins/lm-spring2013.pdf), [video 1](https://www.youtube.com/watch?v=9E2jJ6kcb4Y&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=3), [video 2](https://www.youtube.com/watch?v=ZWqbEQXLra0&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=4), [video 3](https://www.youtube.com/watch?v=tsumFqwFlaA&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=5), [video 4](https://www.youtube.com/watch?v=s3TWdv4sqkg&list=PLppKo85eGXiXIh54H_qz48yHPHeNVJqBi&index=6)
 4. [Text Classification and Naive Bayes](slides/NLP-NB.pdf) | ([tex source file](slides/NLP-NB.tex)) , [notes](https://web.stanford.edu/~jurafsky/slp3/4.pdf), [video 1](https://youtu.be/kG9BK9Oy1hU), [video 2](https://youtu.be/Iqte5kKHvzE), [video 3](https://youtu.be/TSJg0_X3Abk)
 5. [Linear Models](slides/NLP-linear.pdf) | ([tex source file](slides/NLP-linear.tex)), [video 1](https://youtu.be/zhBxDsNLZEA), [video 2](https://youtu.be/Fooua_uaWSE), [video 3](https://youtu.be/DqbzhdQa1eQ), [video 4](https://youtu.be/1nfWWXqfAzA)
-6. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex)), [video 1](https://youtu.be/oHZHA8h2xN0), [video 2](https://youtu.be/2lXank0W6G4), [video 3](https://youtu.be/BUDIi9qItzY), [video 4](https://youtu.be/KKN2Ipy-vGk)       
+6. [Neural Networks](slides/NLP-neural.pdf) | ([tex source file](slides/NLP-neural.tex)), [video 1](https://youtu.be/oHZHA8h2xN0), [video 2](https://youtu.be/2lXank0W6G4), [video 3](https://youtu.be/BUDIi9qItzY), [video 4](https://youtu.be/KKN2Ipy-vGk)
 7. [Word Vectors](slides/NLP-wordvectors.pdf) | ([tex source file](slides/NLP-wordvectors.tex)) [video 1](https://youtu.be/wtwUsJMC9CA), [video 2](https://youtu.be/XDxzQ7JU95U), [video 3](https://youtu.be/Ikyc3DRVodk)
-8. [Sequence Labeling and Hidden Markov Models ](slides/NLP-HMM.pdf) | ([tex source file](slides/NLP-HMM.tex)), [notes](http://www.cs.columbia.edu/~mcollins/hmms-spring2013.pdf), [video 1](https://youtu.be/-ngfOZz8yK0), [video 2](https://youtu.be/Tjgb-yQOg54), [video 3](https://youtu.be/aaa5Qoi8Vco), [video 4](https://youtu.be/4pKWIDkF_6Y)       
-9. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex)), [notes 1](http://www.cs.columbia.edu/~mcollins/crf.pdf), [notes 2](http://www.cs.columbia.edu/~mcollins/fb.pdf), [video 1](https://youtu.be/qlI-4lSUDkg), [video 2](https://youtu.be/PLoLKQwkONw), [video 3](https://youtu.be/ZpUwDy6o28Y)    (optional)
+8. [Sequence Labeling and Hidden Markov Models ](slides/NLP-HMM.pdf) | ([tex source file](slides/NLP-HMM.tex)), [notes](http://www.cs.columbia.edu/~mcollins/hmms-spring2013.pdf), [video 1](https://youtu.be/-ngfOZz8yK0), [video 2](https://youtu.be/Tjgb-yQOg54), [video 3](https://youtu.be/aaa5Qoi8Vco), [video 4](https://youtu.be/4pKWIDkF_6Y)
+9. [MEMMs and CRFs](slides/NLP-CRF.pdf) | ([tex source file](slides/NLP-CRF.tex)), [notes 1](http://www.cs.columbia.edu/~mcollins/crf.pdf), [notes 2](http://www.cs.columbia.edu/~mcollins/fb.pdf), [video 1](https://youtu.be/qlI-4lSUDkg), [video 2](https://youtu.be/PLoLKQwkONw), [video 3](https://youtu.be/ZpUwDy6o28Y) (optional)
 10. [Convolutional Neural Networks](slides/NLP-CNN.pdf) | ([tex source file](slides/NLP-CNN.tex)), [video](https://youtu.be/lLZW5Fn40r8)
-11. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex)), [video 1](https://youtu.be/BmhjUkzz3nk), [video 2](https://youtu.be/z43YFR1iIvk), 
+11. [Recurrent Neural Networks](slides/NLP-RNN.pdf) | ([tex source file](slides/NLP-RNN.tex)), [video 1](https://youtu.be/BmhjUkzz3nk), [video 2](https://youtu.be/z43YFR1iIvk),
 12. [Sequence to Sequence Models and Attention](slides/NLP-seq2seq.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/OpKxRjISqmM), [video 2](https://youtu.be/WQ7ihm5voB0)
 13. [Transformer Architecture](slides/NLP-transformer.pdf) | ([tex source file](slides/NLP-seq2seq.tex)), [video 1](https://youtu.be/8RE23Uq8rU0)
 14. [Contextualized Embeddings and Large Language Models](slides/NLP-LLM.pdf), [video 1](https://youtu.be/sSGbgZpHymI), [video 2](https://youtu.be/C-QfzWU6eUE), [video 3](https://youtu.be/5j4Mgl3GuVY)
 15. [Large Language Models Usage and Evaluation Patterns](slides/NLP-LLMpatterns.pdf), [video](https://youtu.be/l2WpZC4dBAs?feature=shared)
-
 
 ## NLP Libraries and Tools
 
@@ -60,8 +94,8 @@ The course material draws from various sources. In many instances, sentences fro
 15. [Datasets: a lightweight library with one-line dataloaders for many public datasets in NLP](https://github.com/huggingface/datasets)
 16. [RiverText: A Python Library for Training and Evaluating Incremental Word Embeddings from Text Data Streams](https://dccuchile.github.io/rivertext/)
 
+## Notes and Books
 
-## Notes and Books 
 1. [Speech and Language Processing (3rd ed. draft) by Dan Jurafsky and James H. Martin](https://web.stanford.edu/~jurafsky/slp3/).
 2. [Michael Collins' NLP notes](http://www.cs.columbia.edu/~mcollins/).
 3. [A Primer on Neural Network Models for Natural Language Processing by Joav Goldberg](https://u.cs.biu.ac.il/~yogo/nnlp.pdf).
@@ -74,27 +108,27 @@ The course material draws from various sources. In many instances, sentences fro
 10. [Contextual Word Representations: A Contextual Introduction by Noah A. Smith](https://arxiv.org/pdf/1902.06006.pdf)
 
 ## Other NLP Courses
+
 1. [CS224n: Natural Language Processing with Deep Learning, Stanford course](http://web.stanford.edu/class/cs224n/)
 2. [Deep Learning in NLP: slides by Horacio Rodríguez](https://www.cs.upc.edu/~horacio/ahlt/DeepLearning02.pdf)
 3. [David Bamman NLP Slides @Berkley](http://people.ischool.berkeley.edu/~dbamman/nlp18.html)
 4. [CS 521: Statistical Natural Language Processing by Natalie Parde, University of Illinois](http://www.natalieparde.com/teaching/cs521_spring2020.html)
 5. [10 Free Top Notch Natural Language Processing Courses](https://www.kdnuggets.com/2019/10/10-free-top-notch-courses-natural-language-processing.html)
 
-
-### Videos 
+### Videos
 
 1. [Natural Language Processing MOOC videos by Dan Jurafsky and Chris Manning, 2012](https://www.youtube.com/playlist?list=PLoROMvodv4rOFZnDyrlW3-nI7tMLtmiJZ&disable_polymer=true)
 2. [Natural Language Processing MOOC videos by Michael Collins, 2013](https://www.youtube.com/channel/UCB_JX4jH3QQmp69rmkWpl1A/playlists?shelf_id=3&view=50&sort=dd)
 3. [Natural Language Processing with Deep Learning by Chris Manning and Richard Socher, 2017](https://www.youtube.com/playlist?list=PL3FW7Lu3i5Jsnh1rnUwq_TcylNr7EkRe6)
 4. [CS224N: Natural Language Processing with Deep Learning | Winter 2019](https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z)
-5. [Computational Linguistics I by Jordan Boyd-Graber  University of Maryland](https://www.youtube.com/playlist?list=PLegWUnz91WfuPebLI97-WueAP90JO-15i)  
-5. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)
-5. [BERT Research Series by  Chris McCormick](https://www.youtube.com/playlist?list=PLam9sigHPGwOBuH4_4fr-XvDbe5uneaf6)
-5. [Successes and Challenges in Neural Models for Speech and Language - Michael Collins](https://www.youtube.com/watch?v=jfwqRMdTmLo)
-5. [More on Transforemers: BERT and Friends by Jorge Pérez](https://tv.vera.com.uy/video/55388)
-
+5. [Computational Linguistics I by Jordan Boyd-Graber University of Maryland](https://www.youtube.com/playlist?list=PLegWUnz91WfuPebLI97-WueAP90JO-15i)
+6. [Visualizing and Understanding Recurrent Networks](https://skillsmatter.com/skillscasts/6611-visualizing-and-understanding-recurrent-networks)
+7. [BERT Research Series by Chris McCormick](https://www.youtube.com/playlist?list=PLam9sigHPGwOBuH4_4fr-XvDbe5uneaf6)
+8. [Successes and Challenges in Neural Models for Speech and Language - Michael Collins](https://www.youtube.com/watch?v=jfwqRMdTmLo)
+9. [More on Transforemers: BERT and Friends by Jorge Pérez](https://tv.vera.com.uy/video/55388)
 
 ## Other Resources
+
 1. [ACL Portal](https://www.aclweb.org/portal/)
 2. [Awesome-nlp: A curated list of resources dedicated to Natural Language Processing](https://github.com/keon/awesome-nlp)
 3. [NLP-progress: Repository to track the progress in Natural Language Processing (NLP)](http://nlpprogress.com/)
@@ -117,7 +151,7 @@ The course material draws from various sources. In many instances, sentences fro
 19. [From Word to Sense Embeddings:A Survey on Vector Representations of Meaning](https://arxiv.org/pdf/1805.04032.pdf)
 20. [10 ML & NLP Research Highlights of 2019 by Sebastian Ruder](https://ruder.io/research-highlights-2019/index.html)
 21. [Towards a Conversational Agent that Can Chat About…Anything](https://ai.googleblog.com/2020/01/towards-conversational-agent-that-can.html?m=1)
-22. [The Super Duper NLP Repo:  a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
+22. [The Super Duper NLP Repo: a collection of Colab notebooks covering a wide array of NLP task implementations](https://notebooks.quantumstat.com/)
 23. [The Big Bad NLP Database, a collection of nearly 300 well-organized, sortable, and searchable natural language processing datasets](https://datasets.quantumstat.com/)
 24. [A Primer in BERTology: What we know about how BERT works](https://arxiv.org/abs/2002.12327)
 25. [How Self-Attention with Relative Position Representations works](https://link.medium.com/wFxx3d96f7)
@@ -125,6 +159,3 @@ The course material draws from various sources. In many instances, sentences fro
 27. [Teaching NLP is quite depressing, and I don't know how to do it well by Yoav Goldberg](https://twitter.com/yoavgo/status/1318567498653061122)
 28. [The NLP index](https://index.quantumstat.com/)
 29. [100 Must-Read NLP Papers](https://github.com/amanchadha/100-nlp-papers)
-
-
-

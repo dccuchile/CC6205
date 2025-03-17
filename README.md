@@ -2,9 +2,9 @@
 
 This is a course on natural language processing.
 
-- Lecturer: [Juan José Alegría](https://www.linkedin.com/in/juanjo-alegr%C3%ADa/). Jorge Ortiz
+- Lecturers: [Juan José Alegría](https://www.linkedin.com/in/juanjo-alegr%C3%ADa/) and [Jorge Ortiz Fuentes](https://ortizfuentes.com)
 - Based on the work of [Felipe Bravo-Marquez](https://felipebravom.com/)
-- TAs: [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/), Juan Pablo Herrera
+- TAs: [Felipe Urrutia](http://www.dim.uchile.cl/~furrutia/) and Juan Pablo Herrera
 - [Course Notes (in Spanish)](https://raw.githubusercontent.com/dccuchile/CC6205/master/apunte/apunte.pdf)
 - Lectures: Tuesday 14:30 - 16:00, Thursday 14:30 - 16:00
 - [Course Program](https://docs.google.com/document/d/1DNja7nf0b26aRWF_gMNJf9L6SLtvtyFpucDhfcgG4d0/edit?usp=sharing) (in Spanish)
@@ -27,7 +27,7 @@ As we implement this new version of the course, we will upload all the new slide
 ### Unit 1: NLP fundamentals
 
 1. [Introduction to Natural Language Processing](slides_v2/NLP_Intro.pdf)
-2. [Vector semantics](slides_v2/vector_semantics.pdf)
+2. [Vector semantics (in Spanish)](slides_v2/vector_semantics.pdf)
 3. Fundamental questions about language
 4. Probabilistic Language Models
 5. Linear Models

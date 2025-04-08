@@ -30,7 +30,7 @@ As we implement this new version of the course, we will upload all the new slide
 2. [Vector semantics (in Spanish)](slides_v2/vector_semantics.pdf)
 3. [Fundamental questions about language](slides_v2/language_questions.pdf)
 4. [Probabilistic Language Models](slides_v2/NLP_PLM.pdf)
-5. [Linear Models](slides_v2/NLP_Linear.pdf)
+5. [Linear Models](slides_v2/NLP_Linear.pdf) | [Spreadsheet with toy example](https://docs.google.com/spreadsheets/d/1CC5V52oxvWCPk17-5J8GDAQz2zjLkNd_VY6fMW5btUg/edit?usp=drive_link)
 
 ### Unit 2: Neural networks and NLP
 

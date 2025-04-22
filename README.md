@@ -34,7 +34,7 @@ As we implement this new version of the course, we will upload all the new slide
 
 ### Unit 2: Neural networks and NLP
 
-6. Neural Networks
+6. [Neural Networks](slides_v2/NLP_Neural.pdf)
 7. Word Vectors
 8. Recurrent Neural Networks
 9. Sequence-to-sequence + Attention
@@ -106,6 +106,7 @@ As we implement this new version of the course, we will upload all the new slide
 8. [Embeddings in Natural Language Processing by Mohammad Taher Pilehvar and Jose Camacho-Collados](http://josecamachocollados.com/book_embNLP_draft.pdf)
 9. [Dive into Deep Learning Book](https://d2l.ai/)
 10. [Contextual Word Representations: A Contextual Introduction by Noah A. Smith](https://arxiv.org/pdf/1902.06006.pdf)
+11. [Neural Networks and Deep Learning by Michael Nielsen](http://neuralnetworksanddeeplearning.com/)
 
 ## Other NLP Courses
 

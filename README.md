@@ -36,7 +36,7 @@ As we implement this new version of the course, we will upload all the new slide
 
 6. [Neural Networks](slides_v2/NLP_Neural.pdf)
 7. [Word Vectors](slides_v2/word_vectors.pdf)
-8. Recurrent Neural Networks
+8. [Recurrent Neural Networks](slides_v2/NLP-RNN.pdf)
 9. Sequence-to-sequence + Attention
 10. Transformers + BERT
 

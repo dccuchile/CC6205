@@ -38,11 +38,11 @@ As we implement this new version of the course, we will upload all the new slide
 7. [Word Vectors](slides_v2/word_vectors.pdf)
 8. [Recurrent Neural Networks](slides_v2/NLP-RNN.pdf)
 9. [Sequence-to-sequence + Attention](slides_v2/NLP_Seq2Seq-Attention.pdf)
-10. [Transformers + BERT](slides_v2/NLP_Transformers.pdf)
+10. [Transformers](slides_v2/NLP_Transformers.pdf)
 
 ### Unit 3: Large Language Models: new paradigm and open questions
 
-11. GPT + Emergent Abilities in LLMs
+11. [BERT & GPT](slides_v2/NLP_Bert-GPT.pdf)
 12. Retrieval Augmented Generation
 13. Interpretability
 14. Agents

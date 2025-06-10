@@ -43,7 +43,7 @@ As we implement this new version of the course, we will upload all the new slide
 ### Unit 3: Large Language Models: new paradigm and open questions
 
 11. [BERT & GPT](slides_v2/NLP_Bert-GPT.pdf)
-12. Retrieval Augmented Generation
+12. [Retrieval Augmented Generation](slides_v2/rag.pdf)
 13. Interpretability
 14. Agents
 15. Ethics in NLP

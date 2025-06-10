@@ -1,0 +1,844 @@
+\documentclass[handout]{beamer}
+\usetheme{metropolis}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, decorations.pathreplacing, calc, external, shapes.misc}
+% \tikzexternalize[prefix=tikz/] % Descomentar para externalizar figuras TikZ y acelerar compilación
+\usepackage{booktabs} % Para tablas de calidad profesional
+\usepackage{multirow}
+\usepackage{fontspec}
+\usepackage{hyperref}
+
+% --- Configuración de fuentes (asegúrate de tenerlas instaladas) ---
+\setsansfont{Lato}
+\setmonofont{Inconsolata}
+
+% --- Configuración de Biblatex para APA ---
+\usepackage[backend=biber, style=apa, sorting=nyt, dateabbrev=false]{biblatex}
+\addbibresource{bio.bib} % Asegúrate de tener un archivo bio.bib en tu carpeta
+
+% --- Metadatos de la presentación ---
+\title{Retrieval Augmented Generation (RAG)}
+\author{Jorge Ortiz Fuentes}
+\date{\today}
+
+% --- Configuraciones adicionales de Metropolis y Beamer ---
+\metroset{block=fill} % Estilo de bloques llenos
+\setbeamertemplate{navigation symbols}{} % Ocultar símbolos de navegación
+\setbeamertemplate{caption}[numbered]    % Numerar captions de figuras/tablas
+
+% --- Pie de página personalizado ---
+\setbeamertemplate{footline}{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{frametitle}
+    \hfill\insertframenumber/\inserttotalframenumber\hspace{3mm}
+  \end{beamercolorbox}
+}
+
+% -------------------------------------------------------------------
+%   METADATOS / CONFIGURACIONES
+% -------------------------------------------------------------------
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{alerted text}{fg=red!80!black}
+\setbeamercolor{example text}{fg=green!50!black}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{footline}{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{frametitle}
+    \vspace{1pt}
+    \hfill \insertframenumber/\inserttotalframenumber \hspace{3mm}
+  \end{beamercolorbox}
+}
+\metroset{block=fill}
+% -------------------------------------------------------------------
+
+\begin{document}
+
+% --- Diapositiva de Título ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Diapositiva de Contenido (Índice) ---
+\begin{frame}{Contenido}
+  \tableofcontents[hideallsubsections] % Oculta subsecciones para un índice más limpio en la primera vista
+\end{frame}
+
+% ===================================================================
+\section{Introducción}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{¿Qué es RAG?}
+  \begin{block}{Definición}
+    \begin{itemize}
+      \item RAG (\textit{Retrieval-Augmented Generation}) combina LLMs preentrenados con recuperación de información externa
+      \item Los LLMs estándar se basan en conocimiento estático de su entrenamiento
+      \item RAG recupera fragmentos relevantes y los usa para enriquecer la respuesta \parencite{Lewis2020RAG}
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{Importancia}
+      Mejora la factualidad, la relevancia y permite citar fuentes
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Mejoras y problemas persistentes en LLMs}
+  \begin{block}{Avances recientes}
+    \begin{itemize}
+      \item \textit{Instruction tuning} 
+      \item \textit{Reinforcement learning from human feedback (RLHF)} 
+      \item \textit{Ingeniería de Prompting}
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{Desafíos actuales}
+    \begin{itemize}
+      \item \textit{Hallucination} (invención de información)
+      \item \textit{Attribution} (rastreo del origen de la información)
+      \item \textit{Staleness} (conocimiento desactualizado)
+      \item \textit{Revisions} y \textit{Customization} (actualización y adaptación)
+    \end{itemize}
+  \end{alertblock}
+  \begin{center}
+    RAG surge como una solución para estos desafíos
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Paradigmas del conocimiento en LM}
+  \begin{block}{Formas de conceptualizar el conocimiento}
+    \begin{itemize}
+      \item \textbf{\textit{Closed book} vs. \textit{Open book}} \parencite{Roberts2020Knowledge}:
+            \begin{itemize}
+                \item \textit{Closed book}: LM estándar memoriza conocimiento en sus parámetros
+                \item \textit{Open book}: RAG accede a una base de datos externa para obtener conocimiento
+            \end{itemize}
+      \item \textbf{\textit{Parametric} vs. \textit{Semi-parametric}} \parencite{Yogatama2021Adaptive}:
+            \begin{itemize}
+                \item \textit{Parametric}: Conocimiento reside enteramente en los parámetros del modelo
+                \item \textit{Semi-parametric}: RAG combina LLM (paramétrico) con un \textit{retriever} (no paramétrico)
+            \end{itemize}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ===================================================================
+\section{Orígenes y evolución del RAG}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{Formalización y antecedentes}
+  \begin{block}{Hito principal}
+    \begin{itemize}
+      \item RAG fue formalizado y popularizado por \textcite{Lewis2020RAG}
+      \item Demostraron superioridad en tareas intensivas en conocimiento
+      \item Tiene raíces en sistemas de QA anteriores
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Contexto: \textit{Open-Domain Question Answering} (ODQA)}
+  \begin{block}{El desafío de ODQA}
+    \begin{itemize}
+      \item Responder preguntas sobre una amplia gama de temas, basándose en un gran corpus de conocimiento (ej. Wikipedia)
+      \item Modelos pre-RAG enfrentaban limitaciones:
+        \begin{itemize}
+            \item Conocimiento estático (limitado a sus datos de entrenamiento)
+            \item Tendencia a alucinar (inventar respuestas)
+            \item Dificultad para actualizar conocimiento o incorporar información nueva
+            \item Poca interpretabilidad sobre el origen de la respuesta
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Novedades del trabajo de \textcite{Lewis2020RAG}}
+  \begin{block}{Arquitectura y contribuciones}
+    \begin{itemize}
+      \item Propusieron explícitamente la arquitectura RAG para tareas intensivas en conocimiento
+      \item Combinaron un \textit{retriever} no paramétrico con un generador paramétrico (\textit{seq2seq}, BART)
+      \item El \textit{retriever} busca información relevante en Wikipedia y el generador condiciona su respuesta
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{Impacto}
+    \begin{itemize}
+        \item Mejora significativa en la factualidad de las respuestas
+        \item Reducción de alucinaciones al basar la generación en evidencia explícita
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% ===================================================================
+\section{Arquitectura del RAG}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{Flujo habitual de RAG}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        scale=0.70,
+        transform shape,
+        font=\normalsize,
+        node distance=1cm, % General node distance
+        >=Stealth
+      ]
+
+      %% —— Bloque rojo (Docs → Doc Encoder → Retriever → Query Encoder) ——
+      \node[
+        draw, fill=red!20,
+        rounded corners,
+        text width=3em,
+        align=center,
+        minimum height=2em
+      ] (docs) {Docs};
+
+      \node[
+        draw, fill=red!20,
+        rounded corners,
+        text width=4em,
+        align=center,
+        minimum height=2em,
+        right=1cm of docs
+      ] (doc_encoder) {Doc Encoder};
+
+      \node[
+        cylinder, shape border rotate=90,
+        draw, fill=red!20,
+        aspect=0.5,
+        minimum height=2em,
+        minimum width=1.5em,
+        text centered,
+        right=1cm of doc_encoder
+      ] (retriever_db) {Retriever};
+
+      \node[
+        draw, fill=red!20,
+        rounded corners,
+        text width=4em,
+        align=center,
+        minimum height=2em,
+        above=0.5cm of retriever_db
+      ] (query_encoder) {Query Encoder};
+
+      \draw[->] (docs)        -- (doc_encoder);
+      \draw[->] (doc_encoder) -- (retriever_db);
+      \draw[->] (query_encoder) -- (retriever_db);
+
+      %% —— Bloque naranja (Input, Prompt, Context) a la derecha ——
+      \node[
+        draw, fill=orange!20,
+        rounded corners,
+        text width=3em,
+        align=center,
+        minimum height=2em,
+        % MODIFIED POSITIONING:
+        above right=0.4cm and 1.2cm of query_encoder
+      ] (input_gen) {Input};
+
+      \node[
+        draw, fill=orange!20,
+        rounded corners,
+        text width=3em,
+        align=center,
+        minimum height=2em,
+        below=0.3cm of input_gen
+      ] (prompt_gen) {Prompt};
+
+      \node[
+        draw, fill=orange!20,
+        rounded corners,
+        text width=3em,
+        align=center,
+        minimum height=2em,
+        below=0.3cm of prompt_gen
+      ] (context_gen) {Context};
+
+      %% —— Generator y Output ——
+      \node[
+        draw, fill=blue!20,
+        rounded corners,
+        text width=4em,
+        align=center,
+        minimum height=7.5em,
+        right=1.5cm of prompt_gen
+      ] (generator_gen) {Generator};
+
+      \node[
+        draw, fill=purple!20,
+        rounded corners,
+        text width=3em,
+        align=center,
+        minimum height=2em,
+        right=1cm of generator_gen
+      ] (output_gen) {Output};
+
+      %% —– Flechas internas ——
+      \draw[->] (input_gen)   -- (generator_gen);
+      \draw[->] (prompt_gen)  -- (generator_gen);
+      \draw[->] (context_gen) -- (generator_gen);
+      \draw[->] (generator_gen) -- (output_gen);
+
+      %% —— Conexiones cruzadas ——
+      % De Input a QueryEncoder (codo automático con “-|”)
+      \draw[->] (input_gen.west) -| (query_encoder.north);
+      % De Retriever a Context
+      \draw[->] (retriever_db.east) -| (context_gen.south);
+
+    \end{tikzpicture}
+    \caption{Arquitectura RAG (adaptada de clase de Stanford CS25 V3 sobre \textit{Retrieval Augmented Language Models})}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Componentes centrales de RAG}
+  \begin{block}{Recuperador (Retriever)}
+    \begin{itemize}
+      \item Codificación de documentos y consultas en vectores (embeddings).
+      \item Construcción de un índice \textit{Approximate Nearest Neighbor (ANN)} para permitir búsquedas eficientes.
+      \item Gestión de un datastore con pares clave-valor que asocia cada embedding con su fragmento de texto o documento completo.
+      \item Proceso de consulta: codificar la pregunta, realizar búsqueda ANN para obtener los \(k\) fragmentos más relevantes, y aplicar post-procesamiento (re-ranking, filtrado) si es necesario.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Componentes centrales de RAG}
+  \begin{block}{Generador (Generator)}
+  \begin{itemize}
+    \item LLM preentrenado, generalmente basado en la arquitectura Transformer.
+    \item Se encarga de generar la respuesta final basándose en la consulta y la información recuperada.
+    \item Los generadores se pueden clasificar en dos categorías:
+  \begin{itemize}
+    \item \textbf{Generadores por defecto:} La mayoría de los LLMs preentrenados, como los de las series GPT, Mistral y Gemini. 
+    \item \textbf{Generadores aumentados por recuperación (RA):} Modelos preentrenados que incluyen módulos específicos para fusionar la información recuperada, como RETRO \parencite{Borgeaud2021Improving}.
+  \end{itemize}
+  \end{itemize}
+  \end{block}
+\end{frame}
+
+% ===================================================================
+\section{Ventajas de RAG}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{Beneficios clave de RAG (I)}
+  \begin{block}{Conocimiento actualizado y específico}
+    \begin{itemize}
+        \item Acceso a información no presente en datos de entrenamiento (ej. datos recientes, de dominio específico)
+        \item No se requiere reentrenar (\textit{customization}, combate \textit{staleness})
+    \end{itemize}
+  \end{block}
+  \begin{block}{Reducción de alucinaciones}
+    \begin{itemize}
+      \item Fundamentar respuestas en evidencia recuperada disminuye significativamente la invención de información y reduce alucinaciones \parencite{Lewis2020RAG, Shuster2021Retrieval, Dai2024RetrievalAugmented}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Beneficios clave de RAG (II)}
+  \begin{block}{Transparencia y explicabilidad}
+    \begin{itemize}
+        \item Permite citar fuentes, facilitando la verificación y comprensión del origen de la información (\textit{attribution})
+        \item Aumenta la confianza e interpretabilidad
+    \end{itemize}
+  \end{block}
+  \begin{block}{Actualización y control}
+    \begin{itemize}
+        \item Actualizar la base de conocimiento externa es más económico y rápido que reentrenar un LLM (\textit{revisions})
+        \item Mayor control sobre la información utilizada, facilitando personalización
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ===================================================================
+\section{Desventajas y desafíos de RAG}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{Limitaciones y obstáculos}
+  \begin{alertblock}{Dependencia de la calidad de recuperación}
+    \begin{itemize}
+        \item La efectividad de RAG está ligada a la calidad del \textit{retriever}
+        \item Información irrelevante o incorrecta en la recuperación afecta la respuesta final \parencite{Dai2024RetrievalAugmented}
+    \end{itemize}
+  \end{alertblock}
+  \begin{block}{Latencia y complejidad}
+    \begin{itemize}
+        \item El proceso de recuperación introduce latencia adicional
+        \item Implementar y mantener pipelines RAG robustos puede ser complejo
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Otros desafíos importantes}
+  \begin{block}{Sesgos y costos}
+    \begin{itemize}
+        \item Posibilidad de heredar y amplificar sesgos de la base de conocimiento externa
+        \item Costos computacionales significativos (recuperación e inferencia con prompts grandes)
+    \end{itemize}
+  \end{block}
+   \begin{alertblock}{Manejo de información}
+    \begin{itemize}
+        \item Dificultad para manejar fragmentos recuperados que son irrelevantes, contradictorios o ruidosos
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% ===================================================================
+\section{Componentes clave y técnicas avanzadas}
+% ===================================================================
+\begin{frame}
+  \frametitle{Profundizando en los mecanismos de RAG}
+    \begin{block}{Áreas de optimización e investigación}
+        La efectividad de RAG depende de la sofisticación de sus componentes y las técnicas empleadas.
+        \begin{itemize}
+            \item El recuperador (\textit{retriever})
+            \item El generador (\textit{generator})
+            \item La ingeniería de \textit{prompts}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% -------------------------------------------------------------------
+\subsection{Recuperador (\textit{Retriever})}
+% -------------------------------------------------------------------
+\begin{frame}
+  \frametitle{\textit{Retriever}: tipos de \textit{embeddings} y técnicas (I)}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{block}{\textit{Sparse Retrieval}}
+        \begin{itemize}
+            \item Basados en conteo de palabras
+            \item Bueno para coincidencias exactas
+            \item Ejemplos: TF-IDF, BM25
+          \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{block}{\textit{Dense Retrieval}}
+        \begin{itemize}
+            \item Capturan similitud semántica
+            \item Puede fallar en palabras clave exactas
+            \item Ejemplos: Sentence Transformers, OpenAI Embeddings
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+  \begin{block}{\textit{Hybrid Search}}
+    Suele ser la mejor opción práctica, combinando fortalezas de \textit{sparse} y \textit{dense retrieval}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\textit{Retriever}: bases de datos vectoriales}
+  \begin{block}{Bases de datos vectoriales: almacenamiento y búsqueda}
+      \begin{itemize}
+        \item Una base de datos vectorial está diseñada para almacenar, gestionar y buscar datos codificados como vectores.
+        \item Se componen de tres elementos clave:
+            \begin{itemize}
+                \item \textbf{Chunking y Encoding:} Los documentos se dividen en fragmentos (\textit{chunks}) y se codifican como vectores.
+                \item \textbf{Indexing:} Se construye un índice especializado para acelerar la búsqueda, utilizando algoritmos de ANN (por ejemplo, IVFPQ, HNSW, Annoy).
+                \item \textbf{Datastore (base de datos vectorial):} Almacena los datos originales (ej. el texto de los \textit{chunks}) asociados a sus vectores, a menudo como pares clave-valor.
+            \end{itemize}
+      \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\textit{Retriever}: Bases de datos vectoriales (II)}
+  \begin{block}{Bases de datos vectoriales open source}
+    \begin{itemize}
+      \item \textbf{FAISS}:  
+      Biblioteca de Meta en C++/Python para búsquedas de similitud en vectores a gran escala, con soporte GPU.
+
+      \item \textbf{Annoy}:  
+      Biblioteca basada en árboles de partición aleatorios (random projection trees) en C++/Python, ligeros y mmap.
+
+      \item \textbf{Qdrant}:  
+      Base de datos con motor en Rust que ofrece búsqueda de similitud, cuantización y persistencia de vectores para entornos escalables.
+
+      \item \textbf{pgvector}:  
+      Extensión de PostgreSQL que añade un tipo vectorial y funciones ANN para RAG.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\textit{Retriever}: Re-ranking para mejorar la precisión}
+  \begin{block}{¿Qué es el re-ranking?}
+    Es una segunda etapa de filtrado que refina los resultados del Retrieval para asegurar que se seleccionen los documentos más relevantes.
+  \end{block}
+  \begin{block}{Proceso en dos fases}
+    \begin{enumerate}
+        \item \textbf{Recuperación inicial (\textit{Retriever})}:
+        Un modelo rápido recupera un conjunto amplio de documentos potencialmente relevantes (ej. los 20-100 mejores). Se prioriza la \textbf{exhaustividad (\textit{recall})}.
+        
+        \item \textbf{Re-clasificación (\textit{Re-ranker})}:
+        Un modelo más potente y lento evalúa la relevancia de cada documento recuperado con respecto a la consulta y los reordena. Se prioriza la \textbf{precisión} \parencite{humeau2020polyencoderstransformerarchitecturespretraining}.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Ejemplo de re-ranking}
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.45]{pics/rerank_cohere.png}
+    \caption{Ejemplo de re-ranking en RAG (extraído de post de Cohere sobre Rerank)}
+  \end{figure}
+\end{frame}
+
+% -------------------------------------------------------
+\subsection{Generador (\textit{Generator})}
+% -------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Generador: síntesis de Información}
+    \begin{block}{Rol del generador}
+        \begin{itemize}
+            \item Típicamente un LLM potente (GPT, Claude, Gemini, DeepSeek, etc.)
+            \item Sintetiza una respuesta coherente y precisa basada en la consulta original y la información recuperada
+            \item Capacidad de integrar y razonar sobre la información recuperada es crucial
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Ejemplo de prompt para RAG}
+  \begin{block}{Prompt ejemplo}
+    \footnotesize\ttfamily
+    You are an assistant for question-answering tasks. Use the following retrieved context to answer the question.\\
+    If you don’t know the answer, just say that you don’t know. Keep it under three sentences.\\[0.5em]
+    \textbf{Question:} \{question\}\\
+    \textbf{Context:} \{context\}\\
+    \textbf{Answer:}
+    \normalfont
+  \end{block}
+  \vspace{0.5em}
+  \raggedleft
+  \small{Fuente: \href{https://smith.langchain.com/hub/rlm/rag-prompt}{LangChain Prompt Hub}}
+\end{frame}
+
+
+% -------------------------------------------------------------------
+\subsection{Ingeniería de \textit{prompts} para RAG}
+% -------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Elaboración de \textit{Prompts} Efectivos}
+    \begin{block}{Impacto del \textit{prompt}}
+        \begin{itemize}
+            \item La estructura del \textit{prompt} (consulta + chunks recuperados) afecta significativamente la calidad de la respuesta
+            \item Un buen \textit{prompt} guía al LLM a enfocarse, citar fuentes, manejar contradicciones \parencite{Zhang2024Towards}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% ===================================================================
+\section{Panorama actual: discusiones y debates}
+% ===================================================================
+\begin{frame}
+    \frametitle{Estado del arte}
+    El campo de RAG está en evolución y desarrollo.
+\end{frame}
+
+% -------------------------------------------------------------------
+\subsection{RAG vs. Ventanas de Contexto Largas (LCWs)}
+% -------------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{RAG vs. Ventanas de Contexto Largas (LCWs)}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.15]{pics/gemini_lcw_meme.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{RAG vs. \textit{Long Context Windows} (LCWs)}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{block}{LCWs}
+        \begin{itemize}
+            \item Conceptualmente simples si el conocimiento cabe en el \textit{prompt}
+            \item Pueden sufrir de \textit{lost in the middle} \parencite{liu2023lostmiddlelanguagemodels}
+            \item Más costoso
+            \item No resuelven conocimiento dinámico o muy masivo
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{block}{RAG}
+        \begin{itemize}
+            \item Ventajoso para bases de conocimiento masivas y dinámicas
+            \item Mayor precisión en algunos casos
+            \item Control granular y eficiencia de costos
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+  \begin{center}
+    RAG y LCWs no son mutuamente excluyentes ya que se pueden combinar.
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{El problema de ``Lost in the Middle''}
+  \begin{columns}
+    \column{0.4\textwidth}
+    \begin{block}{Investigación de \textcite{liu2023lostmiddlelanguagemodels}}
+      \begin{itemize}
+          \item LLMs tienden a prestar más atención a la información al principio y al final del contexto largo
+          \item La información en el medio a menudo se ignora o se pierde
+      \end{itemize}
+    \end{block}
+
+    \column{0.6\textwidth}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[scale=0.8, transform shape]
+            \draw[->] (0,0) -- (6,0) node[right] {Posición};
+            \draw[->] (0,0) -- (0,4) node[above] {Precisión};
+            \draw[smooth, thick, blue] plot coordinates {(0.5,3.5) (1.5,3) (3,1.5) (4.5,2.8) (5.5,3.3)};
+            \node at (3, -0.5) {Inicio \hspace{2cm} Medio \hspace{2cm} Fin};
+            \node[text width=4.5cm, align=center] at (3,4.5) {\small Curva de rendimiento en forma de U};
+        \end{tikzpicture}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+% -------------------------------------------------------------------
+\subsection{Tipos de RAG}
+% -------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Taxonomía de Sistemas RAG}
+  \begin{block}{Niveles de implementación (basado en \textcite{Dai2024RetrievalAugmented})}
+    \begin{itemize}
+        \item \textbf{\textit{Naive RAG}}:
+            \begin{itemize}
+                \item Implementación básica: indexación, recuperación, generación
+                \item \textit{Chunking} simple, \textit{embeddings} genéricos
+            \end{itemize}
+        \item \textbf{\textit{Advanced RAG}}:
+            \begin{itemize}
+                \item Optimizaciones en pre/post-procesamiento y recuperación (ej. re-ranking)
+            \end{itemize}
+        \item \textbf{\textit{RAG modular y agéntico}}:
+            \begin{itemize}
+                \item Arquitecturas flexibles, módulos intercambiables (ej. Self-RAG \parencite{Asai2023SelfRAG})
+            \end{itemize}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+% ===================================================================
+\section{Evaluación de sistemas RAG}
+% ===================================================================
+\begin{frame}
+    \frametitle{Midiendo el rendimiento de RAG}
+    El RAG puede evaluarse tanto desde el \textit{retrieval} como desde la \textit{generación}.
+\end{frame}
+
+% -------------------------------------------------------------------
+\subsection{Métricas para el Retrieval}
+% -------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Recall@K}
+  \begin{block}{Definición}
+    \begin{itemize}
+        \item Mide la proporción de documentos relevantes que son recuperados entre los K primeros resultados
+        \item Es importante cuando se quiere asegurar que la mayoría de los documentos relevantes sean encontrados
+    \end{itemize}
+  \end{block}
+  \begin{block}{Fórmula}
+    \[ \text{Recall@K} = \frac{\text{N° de docs recuperados en el top K}}{\text{Número total de documentos relevantes}} \]
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Precision@K}
+  \begin{block}{Definición}
+    \begin{itemize}
+        \item Mide la proporción de documentos recuperados en los K primeros resultados que son realmente relevantes
+        \item Es crucial cuando la exactitud de los primeros resultados es prioritaria
+    \end{itemize}
+  \end{block}
+  \begin{block}{Fórmula}
+    \[ \text{Precision@K} = \frac{\text{N° de docs recuperados en el top K}}{\text{K}} \]
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hit Rate@K}
+  \begin{block}{Definición}
+    \begin{itemize}
+        \item Indica la proporción de consultas para las cuales al menos un documento relevante se encuentra entre los K primeros resultados recuperados
+        \item Es una métrica útil para entender si el sistema suele encontrar algo relevante rápidamente
+    \end{itemize}
+  \end{block}
+  \begin{block}{Fórmula}
+    \[ \text{Hit Rate@K} = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \mathbb{I}(\text{hit}_i@K) \]
+    Donde \(|Q|\) es el número total de consultas y \(\mathbb{I}(\text{hit}_i@K)\) es 1 si la consulta \(i\) tiene al menos un resultado relevante en el top K, y 0 en caso contrario.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Mean Reciprocal Rank (MRR)}
+  \begin{block}{Definición}
+    \begin{itemize}
+        \item Evalúa la calidad de un sistema de recuperación basándose en la posición del primer resultado relevante
+        \item Es el promedio de la inversa del rango del primer resultado correcto para un conjunto de consultas
+    \end{itemize}
+  \end{block}
+  \begin{block}{Fórmula}
+    \[ \text{MRR} = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \frac{1}{\text{rank}_i} \]
+    Donde \(|Q|\) es el número total de consultas y \(\text{rank}_i\) es la posición del primer documento relevante para la consulta \(i\). Si no hay documentos relevantes para una consulta, \(\frac{1}{\text{rank}_i}\) se considera 0 para esa consulta.
+  \end{block}
+\end{frame}
+
+% -------------------------------------------------------------------
+\subsection{Métricas para el Generator}
+% -------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Evaluación del componente de generación}
+    \begin{block}{Dimensiones de calidad}
+        \begin{itemize}
+            \item \textbf{Fidelidad/Veracidad (\textit{Faithfulness/Factuality})}: adhesión al contexto recuperado
+            \item \textbf{Relevancia de la respuesta (\textit{Answer Relevance})}: pertinencia a la consulta del usuario
+            \item \textbf{Coherencia y fluidez}: calidad lingüística de la respuesta
+            \item \textbf{No toxicidad / sesgos}: ausencia de lenguaje ofensivo o sesgos
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+% ===================================================================
+\section{RAG Multimodal (MM-RAG)}
+% ===================================================================
+\begin{frame}
+  \frametitle{Extendiendo RAG más allá del texto}
+    \begin{block}{Concepto de MM-RAG}
+        \begin{itemize}
+            \item El conocimiento humano es multimodal (texto, imágenes, audio, video)
+            \item MM-RAG busca extender el paradigma RAG para recuperar y razonar sobre información de múltiples modalidades
+        \end{itemize}
+    \end{block}
+    \begin{alertblock}{Desafíos significativos}
+        \begin{itemize}
+            \item Creación de \textit{embeddings} multimodales efectivos
+            \item Diseño de arquitecturas de recuperación para datos modales múltiples
+            \item Capacidad de LLMs para fusionar y generar desde información multimodal
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{Arquitectura de RAG Multimodal}
+El flujo de MM-RAG adapta el pipeline tradicional para manejar datos heterogéneos.
+
+\begin{enumerate}
+    \item \textbf{Consulta multimodal}: el usuario puede preguntar usando texto, una imagen, o una combinación de ambas.
+    \item \textbf{Recuperación multimodal}:
+    \begin{itemize}
+        \item Se usan \textbf{embeddings multimodales} para codificar la consulta y los documentos (imágenes, texto, audio) en un espacio semántico compartido.
+        \item Se buscan los fragmentos más relevantes en una base de datos vectorial multimodal.
+    \end{itemize}
+    \item \textbf{Generación multimodal}: un \textbf{LLM Multimodal (MLLM)} procesa la consulta y el contexto recuperado para generar una respuesta.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Componente clave: Embeddings Multimodales}
+\begin{block}{Definición}
+Son representaciones vectoriales que capturan la semántica de diferentes modalidades en un espacio compartido \parencite{radford2021learningtransferablevisualmodels}.
+\end{block}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{block}{¿Cómo se crean?}
+\begin{itemize}
+    \item Generalmente con aprendizaje contrastivo a gran escala.
+    \item Se entrena un modelo para maximizar la similitud entre pares correctos (ej. imagen y su leyenda) y minimizarla para pares incorrectos.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{block}{Modelos notables}
+\begin{itemize}
+    \item \textbf{CLIP} (OpenAI): Pionero en alinear texto e imágenes.
+    \item \textbf{ImageBind} (Meta): Unifica 6 modalidades (texto, imagen/video, audio, etc.) en un solo espacio.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Componente clave: LLMs Multimodales (MLLM)}
+\begin{block}{¿Qué son los MLLMs?}
+Son LLMs extendidos para procesar, comprender y generar contenido a partir de múltiples modalidades.
+\end{block}
+\begin{block}{Arquitectura y modelos líderes}
+\begin{itemize}
+    \item \textbf{Arquitectura}: usualmente, un codificador de modalidad (ej. un Vision Transformer) proyecta la información no textual a un espacio que el LLM puede entender.
+    \item \textbf{Empresas y modelos}:
+    \begin{itemize}
+        \item \textbf{OpenAI}: GPT-4V, GPT-4o y modelos en adelante
+        \item \textbf{Google}: Gemini 1.5 en adelante
+        \item \textbf{Meta}: Llama 3.2 (con capacidades multimodales)
+    \end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+% ===================================================================
+\section{Frameworks y herramientas}
+% ===================================================================
+\begin{frame}
+  \frametitle{Ecosistema para el desarrollo de RAG}
+    \begin{block}{Herramientas populares}
+        \begin{itemize}
+            \item \textbf{LangChain}: framework más popular para construir aplicaciones LLM, incluyendo pipelines RAG complejos
+            \item \textbf{LlamaIndex}: framework especializado la preparación e indexación de datos
+            \item \textbf{Haystack}: framework end‐to‐end listo para producción de RAG/búsqueda semántica con énfasis en escalabilidad y monitorización.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% ===================================================================
+\section{Direcciones futuras e investigación abierta}
+% ===================================================================
+\begin{frame}
+  \frametitle{Algunas lineas de investigación actuales (I)}
+        \begin{itemize}
+            \item \textbf{RAG Agéntico}: Combinar RAG con agentes LLM autónomos para problemas complejos (ej: Deep Research)
+            \item \textbf{GraphRAG}: Usar grafos de conocimiento como fuente externa para razonar sobre relaciones
+            \item \textbf{Auto-mejora y aprendizaje por retroalimentación}: Sistemas RAG que aprenden de errores (ej. \textcite{Asai2023SelfRAG})
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algunas lineas de investigación actuales (II)}
+        \begin{itemize}
+            \item Optimización de costos, latencia y escalabilidad para bases de conocimiento enormes
+            \item Uso de RAG para diferentes task de NLP
+            \item Mejoras en robustez y fiabilidad: manejo de información ruidosa, contradictoria o desactualizada
+        \end{itemize}
+\end{frame}
+
+
+% --- Diapositiva de Referencias ---
+\begin{frame}[allowframebreaks] 
+  \frametitle{Referencias}
+  \printbibliography
+\end{frame}
+
+\end{document}
+
+
+% TO DO: agregar prompt ejemplo de RAG y explicar métricas con más detalles

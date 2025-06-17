@@ -44,7 +44,7 @@ As we implement this new version of the course, we will upload all the new slide
 
 11. [BERT & GPT](slides_v2/NLP_Bert-GPT.pdf)
 12. [Retrieval Augmented Generation](slides_v2/rag.pdf)
-13. Interpretability
+13. [Interpretability](slides_v2/NLP_Interpretability.pdf)
 14. Agents
 15. Ethics in NLP
 

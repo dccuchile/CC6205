@@ -1,0 +1,829 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PREÁMBULO Y CONFIGURACIÓN DEL DOCUMENTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[handout]{beamer}
+
+% --- Tema y apariencia ---
+\usetheme[block=fill]{metropolis}
+\useoutertheme{metropolis}
+\useinnertheme{metropolis}
+\usecolortheme{default}
+
+% --- Paquetes Principales ---
+\usepackage[spanish,activeacute]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage{tabularx}
+
+% --- Fuentes (requiere LuaLaTeX o XeLaTeX) ---
+\setsansfont{Lato}
+\setmonofont{Inconsolata}
+
+% --- Configuración de TikZ para diagramas ---
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc, shapes.misc}
+
+% --- Configuración de Bibliografía con biblatex y biber ---
+\usepackage[backend=biber, style=apa, sorting=nyt, dateabbrev=false]{biblatex}
+
+% --- Archivo de bibliografía ---
+\begin{filecontents*}[overwrite]{bio.bib}
+@article{li2024survey,
+  title={A survey on LLM-based multi-agent systems: workflow, infrastructure, and challenges},
+  author={Li, Xinyi and Wang, Sai and Zeng, Siqi and Wu, Yu and Yang, Yi},
+  journal={Vicinagearth},
+  volume={1},
+  number={1},
+  pages={9},
+  year={2024},
+  publisher={Springer}
+}
+@article{wang2024survey,
+  title={A survey on large language model based autonomous agents},
+  author={Wang, Lei and Ma, Chen and Feng, Xueyang and Zhang, Zeyu and Yang, Hao and Zhang, Jingsen and Chen, Zhiyuan and Tang, Jiakai and Chen, Xu and Lin, Yankai and others},
+  journal={Frontiers of Computer Science},
+  volume={18},
+  number={6},
+  pages={186345},
+  year={2024},
+  publisher={Springer}
+}
+@misc{ferrag2025llmreasoningautonomousai,
+      title={From LLM Reasoning to Autonomous AI Agents: A Comprehensive Review}, 
+      author={Mohamed Amine Ferrag and Norbert Tihanyi and Merouane Debbah},
+      year={2025},
+      eprint={2504.19678},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{yehudai2025surveyevaluationllmbasedagents,
+      title={Survey on Evaluation of LLM-based Agents}, 
+      author={Asaf Yehudai and Lilach Eden and Alan Li and Guy Uziel and Yilun Zhao and Roy Bar-Haim and Arman Cohan and Michal Shmueli-Scheuer},
+      year={2025},
+      eprint={2503.16416},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{plaat2025agenticlargelanguagemodels,
+      title={Agentic Large Language Models, a survey}, 
+      author={Aske Plaat and Max van Duijn and Niki van Stein and Mike Preuss and Peter van der Putten and Kees Joost Batenburg},
+      year={2025},
+      eprint={2503.23037},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{xie2024largemultimodalagentssurvey,
+      title={Large Multimodal Agents: A Survey}, 
+      author={Junlin Xie and Zhihong Chen and Ruifei Zhang and Xiang Wan and Guanbin Li},
+      year={2024},
+      eprint={2402.15116},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+@misc{jeong2025studymcpxa2a,
+      title={A Study on the MCP x A2A Framework for Enhancing Interoperability of LLM-based Autonomous Agents}, 
+      author={Cheonsu Jeong},
+      year={2025},
+      eprint={2506.01804},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{yang2025surveyaiagentprotocols,
+      title={A Survey of AI Agent Protocols}, 
+      author={Yingxuan Yang and Huacan Chai and Yuanyi Song and Siyuan Qi and Muning Wen and Ning Li and Junwei Liao and Haoyi Hu and Jianghao Lin and Gaowei Chang and Weiwen Liu and Ying Wen and Yong Yu and Weinan Zhang},
+      year={2025},
+      eprint={2504.16736},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{huang2024understandingplanningllmagents,
+      title={Understanding the planning of LLM agents: A survey}, 
+      author={Xu Huang and Weiwen Liu and Xiaolong Chen and Xingmei Wang and Hao Wang and Defu Lian and Yasheng Wang and Ruiming Tang and Enhong Chen},
+      year={2024},
+      eprint={2402.02716},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{li2024personalllmagentsinsights,
+      title={Personal LLM Agents: Insights and Survey about the Capability, Efficiency and Security}, 
+      author={Yuanchun Li and Hao Wen and Weijun Wang and Xiangyu Li and Yizhen Yuan and Guohong Liu and Jiacheng Liu and Wenxing Xu and Xiang Wang and Yi Sun and Rui Kong and Yile Wang and Hanfei Geng and Jian Luan and Xuefeng Jin and Zilong Ye and Guanjing Xiong and Fan Zhang and Xiang Li and Mengwei Xu and Zhijun Li and Peng Li and Yang Liu and Ya-Qin Zhang and Yunxin Liu},
+      year={2024},
+      eprint={2401.05459},
+      archivePrefix={arXiv},
+      primaryClass={cs.HC}
+}
+@misc{ehtesham2025surveyagentinteroperabilityprotocols,
+      title={A survey of agent interoperability protocols: Model Context Protocol (MCP), Agent Communication Protocol (ACP), Agent-to-Agent Protocol (A2A), and Agent Network Protocol (ANP)}, 
+      author={Abul Ehtesham and Aditi Singh and Gaurav Kumar Gupta and Saket Kumar},
+      year={2025},
+      eprint={2505.02279},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{park2023generativeagentsinteractivesimulacra,
+      title={Generative Agents: Interactive Simulacra of Human Behavior}, 
+      author={Joon Sung Park and Joseph C. O'Brien and Carrie J. Cai and Meredith Ringel Morris and Percy Liang and Michael S. Bernstein},
+      year={2023},
+      eprint={2304.03442},
+      archivePrefix={arXiv},
+      primaryClass={cs.HC}
+}
+@misc{krishnan2025aiagentsevolutionarchitecture,
+      title={AI Agents: Evolution, Architecture, and Real-World Applications}, 
+      author={Naveen Krishnan},
+      year={2025},
+      eprint={2503.12687},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{wooldridge1995intelligent,
+  title={Intelligent agents: theory and practice},
+  author={Wooldridge, Michael and Jennings, Nicholas R},
+  journal={The knowledge engineering review},
+  volume={10},
+  number={2},
+  pages={115--152},
+  year={1995},
+  publisher={Cambridge University Press}
+}
+@book{russell1995artificial,
+  title={Artificial intelligence: a modern approach},
+  author={Russell, Stuart J and Norvig, Peter},
+  year={1995},
+  publisher={Prentice-Hall, Egnlewood Cliffs}
+}
+@misc{kapoor2024ai,
+  title={AI Agents That Matter},
+  author={Sayash Kapoor and Benedikt Stroebl and Zachary S. Siegel and Nitya Nadgir and Arvind Narayanan},
+  year={2024},
+  eprint={2407.01502},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI}
+}
+@misc{mialon2023gaia,
+      title={GAIA: a benchmark for General AI Assistants}, 
+      author={Grégoire Mialon and Clémentine Fourrier and Craig Swift and Thomas Wolf and Yann LeCun and Thomas Scialom},
+      year={2023},
+      eprint={2311.12983},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+@misc{jimenez2023swebench,
+      title={SWE-bench: Can Language Models Resolve Real-World GitHub Issues?}, 
+      author={Carlos E. Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik Narasimhan},
+      year={2023},
+      eprint={2310.06770},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE}
+}
+@misc{zhou2023webarena,
+      title={WebArena: A Realistic Web Environment for Building Autonomous Agents}, 
+      author={Shuyan Zhou and Frank F. Xu and Hao Zhu and Xuhui Zhou and Robert Lo and Abishek Sridhar and Xianyi Cheng and Yonatan Bisk and Daniel Fried and Uri Alon and Graham Neubig},
+      year={2023},
+      eprint={2307.13854},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+@misc{zhuge2024agentasajudge,
+      title={Agent-as-a-Judge: Evaluate Agents with Agents}, 
+      author={Mingchen Zhuge and Changsheng Zhao and Dylan Ashley and Wenyi Wang and Dmitrii Khizbullin and Yunyang Xiong and Zechun Liu and Ernie Chang and Raghuraman Krishnamoorthi and Yuandong Tian and Beibin Li and Chi Wang},
+      year={2024},
+      eprint={2410.10934},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+@misc{wei2022chain,
+  title={Chain-of-thought prompting elicits reasoning in large language models},
+  author={Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed and Le, Quoc and Zhou, Denny},
+  journal={Advances in Neural Information Processing Systems},
+  volume={35},
+  pages={24824--24837},
+  year={2022}
+}
+@misc{shinn2024re,
+  title={Reflexion: Language agents with verbal reinforcement learning},
+  author={Shinn, Noah and Cassano, Federico and Gopinath, Ashwin and Narasimhan, Karthik and Yao, Shunyu},
+  journal={Advances in Neural Information Processing Systems},
+  volume={36},
+  year={2024}
+}
+@misc{anthropic2024mcp,
+    author = {Anthropic},
+    title = {Introducing the Model Context Protocol},
+    year = {2024},
+    url = {https://www.anthropic.com/news/model-context-protocol}
+}
+@misc{google2025a2a,
+    author = {Google},
+    title = {Announcing the Agent2Agent Protocol (A2A)},
+    year = {2025},
+    url = {https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/}
+}
+@online{googleCloudAgents,
+  author  = {{Google Cloud}},
+  title   = {What are AI agents?},
+  url     = {https://cloud.google.com/discover/what-are-ai-agents},
+  urldate = {2025-06-23},
+  year = {2025}
+  }
+@misc{griciunas2025,
+  author       = {Aurimas Griciūnas},
+  title        = {MCP vs. A2A: Friends or Foes?},
+  year         = {2025},
+  url          = {https://www.newsletter.swirlai.com/p/mcp-vs-a2a-friends-or-foes},
+  urldate      = {2025-06-23},
+  note         = {En: Swirl AI Newsletter}
+}
+@pressrelease{linuxfoundation2025a2a,
+  author      = {{The Linux Foundation}},
+  title       = {Linux Foundation Launches the Agent2Agent Protocol Project to Enable Secure, Intelligent Communication Between AI Agents},
+  year        = {2025},
+  month       = {June},
+  day         = {23},
+  url         = {https://www.linuxfoundation.org/press/linux-foundation-launches-the-agent2agent-protocol-project-to-enable-secure-intelligent-communication-between-ai-agents},
+  urldate     = {2025-06-23}
+}
+\end{filecontents*}
+\addbibresource{bio.bib}
+
+% --- Metadatos de la presentación ---
+\title{Agentes}
+\subtitle{Evolución, arquitectura, evaluación, protocolos y futuro}
+\author{Jorge Ortiz Fuentes}
+\date{\today}
+
+% --- Configuraciones adicionales de Metropolis y Beamer ---
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+\metroset{block=fill}
+
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{alerted text}{fg=red!80!black}
+\setbeamercolor{example text}{fg=green!50!black}
+
+\setbeamertemplate{footline}{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{frametitle}
+    \hfill\insertframenumber/\inserttotalframenumber\hspace{3mm}
+  \end{beamercolorbox}
+}
+% -------------------------------------------------------------------
+
+\begin{document}
+
+% --- Diapositiva de Título ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Diapositiva de Contenido (Índice) ---
+\begin{frame}{Contenido}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+% ===================================================================
+\section{Contexto histórico}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{Las raíces del concepto de agente}
+  \begin{block}{Orígenes en la IA simbólica}
+    El concepto de agente no es nuevo. Sus fundamentos teóricos se remontan a la investigación en \textbf{Inteligencia Artificial Distribuida} de los años 70 y 80, mucho antes de la era de los LLM \parencite{krishnan2025aiagentsevolutionarchitecture}.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{La era del PC: El software de reconocimiento de voz}
+    \begin{block}{De la investigación al consumidor}
+     En los años 90, la tecnología de agentes comenzó a salir de los laboratorios para integrarse en el software comercial.
+     \begin{itemize}
+         \item \textbf{1990:} Se lanza ``Dragon Dictate'', el primer software de reconocimiento de voz para consumidores, marcando un hito en la interacción humano-computadora \parencite{li2024personalllmagentsinsights}.
+         \medskip
+         \item \textbf{1993:} Apple introduce ``Speakable Items'', que permite a los usuarios controlar su ordenador mediante comandos de voz en lenguaje natural, integrando la agencia a nivel de sistema operativo \parencite{li2024personalllmagentsinsights}.
+     \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{La era de Internet: La integración con aplicaciones}
+    \begin{block}{Hacia agentes más funcionales}
+    A finales de los 90 y en los 2000, los agentes comenzaron a especializarse y a conectarse con servicios externos.
+     \begin{itemize}
+         \item \textbf{1996:} IBM lanza ``MedSpeak'', un software de reconocimiento de voz continuo diseñado específicamente para radiólogos, demostrando el potencial de los agentes en dominios especializados \parencite{li2024personalllmagentsinsights}.
+         \medskip
+         \item \textbf{2008:} Google añade la búsqueda por voz a su aplicación móvil, sentando las bases para los asistentes modernos al conectar el reconocimiento de voz con un servicio de información masivo \parencite{li2024personalllmagentsinsights}.
+     \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{El concepto de Asistente Personal Inteligente (IPA)}
+    \begin{block}{Definición de IPA}
+    Los Asistentes Personales Inteligentes (IPAs) son agentes de software diseñados para ayudar a individuos a realizar tareas y obtener información de manera eficiente.
+    \end{block}
+    \begin{exampleblock}{Evolución a la era móvil}
+     La proliferación de dispositivos personales (smartphones, etc.) expandió  las fronteras funcionales de los IPAs y se transformaron de simples comandos de voz a servicios siempre conectados e integrados con nuestros datos personales \parencite{li2024personalllmagentsinsights}.
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{La era móvil: Nacen los asistentes virtuales modernos}
+  \begin{exampleblock}{Los IPAs basados en plantillas}
+    \begin{itemize}
+        \item Asistentes como Siri (2011), Google Assistant y Alexa representan la primera generación de agentes comerciales masivos.
+        \item Funcionaban principalmente con un enfoque basado en \textbf{plantillas y reglas predefinidas}.
+        \item Los desarrolladores debían especificar explícitamente las funciones, los disparadores y los pasos de ejecución para cada tarea \parencite{li2024personalllmagentsinsights}.
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Limitaciones de los agentes pre-LLM}
+    \begin{alertblock}{El problema de la escalabilidad y la flexibilidad}
+    Los sistemas basados en plantillas, aunque fiables, sufrían de problemas críticos:
+    \begin{itemize}
+        \item \textbf{Escalabilidad limitada:} Soportar nuevas tareas requería un costo enorme de tiempo y trabajo manual, lo que restringía su utilidad.
+        \item \textbf{Falta de flexibilidad:} Los agentes no podían comprender ni ejecutar tareas que estuvieran fuera de sus plantillas predefinidas.
+        \item \textbf{Experiencia de usuario frágil:} Los usuarios abandonaban fácilmente el uso de los IPAs tras varios intentos fallidos \parencite{li2024personalllmagentsinsights}.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{La llegada de los LLM: Un cambio de paradigma}
+  \begin{alertblock}{La solución a los problemas de escalabilidad}
+    La aparición de los modelos de lenguaje grandes (LLMs) ha brindado nuevas oportunidades para superar los desafíos históricos:
+    \begin{itemize}
+        \item Gracias a sus capacidades de \textbf{razonamiento de sentido común} y \textbf{generalización zero-shot}, los LLM pueden planificar y ejecutar tareas complejas sin necesidad de plantillas predefinidas o entrenamiento específico para cada tarea.
+        \item Esto marca la transición de sistemas rígidos y limitados a los \textbf{agentes autónomos y flexibles} que estudiamos hoy.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+
+% ===================================================================
+\section{Introducción y evolución de los agentes}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{Perspectiva 1: la definición clásica}
+  \begin{block}{Definición fundamental}
+    Un agente es una entidad computacional que percibe su entorno a través de sensores y actúa sobre él mediante actuadores \parencite[citado en][]{russell1995artificial, krishnan2025aiagentsevolutionarchitecture}. A diferencia de un LLM, que es principalmente reactivo, un agente posee propiedades clave que le otorgan un comportamiento autónomo y dirigido.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Propiedades clave de la agencia}
+  \begin{alertblock}{}
+    \begin{itemize}
+        \item \textbf{Autonomía:} opera sin intervención humana directa.
+        \item \textbf{Reactividad:} responde a cambios en el entorno.
+        \item \textbf{Proactividad:} exhibe comportamiento dirigido por objetivos.
+        \item \textbf{Habilidad social:} interactúa con otros agentes y humanos.
+    \end{itemize}
+    \raggedleft\footnotesize{\parencite[citado en][]{wooldridge1995intelligent, krishnan2025aiagentsevolutionarchitecture}}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Perspectiva 2: la definición funcional}
+    \begin{block}{Un agente razona, actúa e interactúa}
+    Define a los agentes según las tres funciones principales que realizan para lograr sus objetivos \parencite{plaat2025agenticlargelanguagemodels}.
+    \end{block}
+    
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[
+            scale=0.6, transform shape,
+            node distance=2.2cm,
+            circ_node/.style={circle, draw, fill=blue!20, text centered, minimum size=2.2cm},
+            arrow/.style={-Latex, thick, shorten >=1pt, bend left=25},
+            label/.style={midway, fill=white, inner sep=1pt, font=\small}
+        ]
+            \node[circ_node] (reason) {1. Razonar};
+            \node[circ_node, below left=1.8cm and 1.2cm of reason] (interact) {3. Interactuar};
+            \node[circ_node, below right=1.8cm and 1.2cm of reason] (act) {2. Actuar};
+            
+            \draw[arrow] (reason) to node[label, sloped, above] {Genera un plan} (act);
+            \draw[arrow] (act) to node[label, sloped, below] {Genera un cambio de estado} (interact);
+            \draw[arrow] (interact) to node[label, sloped, above] {Genera feedback} (reason);
+        \end{tikzpicture}
+        \caption{El ciclo funcional de un agente de IA.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Múltiples perspectivas de un agente}
+    \begin{alertblock}{En resumen}
+    No existe una única definición de ``agente''. El énfasis depende de sus:
+    \begin{itemize}
+        \item \textbf{Propiedades} (autonomía, reactividad)
+        \item \textbf{Funciones} (razonar, actuar, interactuar)
+        \item \textbf{Comportamientos} (simulados)
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Diferencias clave: Agente vs. Asistente vs. Bot}
+  
+  \scriptsize 
+  \renewcommand{\arraystretch}{1.4}
+
+  \begin{tabularx}{\textwidth}{@{} >{\bfseries}l X X X @{}}
+    \toprule
+    & \textbf{Agente de IA} 
+    & \textbf{\begin{tabular}{@{}c@{}}Asistente de IA\end{tabular}} 
+    & \textbf{Bot} \\
+    \midrule
+    Objetivo    & Realizar tareas de forma autónoma y proactiva & Ayuda a los usuarios con las tareas & Automatización de tareas o conversaciones simples \\
+    \addlinespace
+    Funciones   & Puede realizar acciones complejas de varios pasos, aprende, se adapta y puede tomar decisiones de forma independiente & Responde a solicitudes o instrucciones, proporciona información y completa tareas simples & Sigue reglas predefinidas; aprendizaje limitado; interacciones básicas \\
+    \addlinespace
+    Interacción & Proactivo y orientado a los objetivos & Reactiva; responde a las solicitudes de los usuarios & Reactivo; responde a activadores o comandos \\
+    \bottomrule
+  \end{tabularx}
+  
+  \vspace{0.2cm}
+  \scriptsize\raggedleft Adaptado de Google Cloud \textcite{googleCloudAgents}.
+\end{frame}
+% ===================================================================
+\section{Arquitectura y mecanismos de razonamiento}
+% ===================================================================
+
+\subsection{Arquitectura central}
+\begin{frame}
+  \frametitle{Componentes centrales del agente}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        scale=0.65, transform shape,
+        font=\small,
+        node distance=1.2cm and 2cm,
+        comp/.style={rectangle, draw, fill=blue!20, rounded corners, minimum width=3.5cm, minimum height=1.2cm, text centered},
+        llm/.style={ellipse, draw, fill=red!20, minimum height=1.5cm, minimum width=2.5cm, text centered},
+        arrow/.style={-Latex, thick, rounded corners=5pt}
+    ]
+        \node[llm] (llm) {\textbf{LLM} (Cerebro)};
+        \node[comp, above=of llm] (percep) {Percepción};
+        \node[comp, left=of llm] (mem) {Memoria};
+        \node[comp, right=of llm] (action) {Acción};
+        \node[comp, below=of llm] (plan) {Planificación};
+        
+        \node[left=0.5cm of percep, text width=2.5cm] (in) {};
+        \node[right=0.5cm of action, text width=2.5cm] (out) {Ejecución};
+        
+        \draw[arrow] (in) -- (percep);
+        \draw[arrow] (percep) -- (llm);
+        \draw[arrow] (llm) -- (action);
+        \draw[arrow] (action) -- (out);
+        \draw[arrow] (llm) -- (plan);
+        \draw[arrow] (plan.west) -- ++(-0.5,0) -| (mem.south);
+        \draw[arrow] (mem.north) -| ++(-0.5,0) |- (percep.west);
+        
+        \node[draw, dashed, rounded corners, fit=(llm)(percep)(mem)(action)(plan), label={[yshift=0.2cm, font=\bfseries]above:Arquitectura de un agente}] {};
+    \end{tikzpicture}
+    \caption{Arquitectura modular de un agente de IA, donde el LLM se coordina con los componentes de percepción, planificación , memoria, y acción \parencite{xie2024largemultimodalagentssurvey, huang2024understandingplanningllmagents, park2023generativeagentsinteractivesimulacra, plaat2025agenticlargelanguagemodels}.}
+  \end{figure}
+\end{frame}
+
+\subsection{Mecanismos de razonamiento}
+\begin{frame}
+  \frametitle{Razonamiento por Cadena de Pensamiento (CoT)}
+  \begin{block}{Definición}
+    Para resolver problemas complejos, los humanos suelen descomponerlos en pasos intermedios. \textit{Chain-of-Thought} (CoT) es una técnica de \textit{prompting} que induce a los LLM a emular este proceso, generando una secuencia de razonamiento explícita paso a paso \parencite{wei2022chain}.
+  \end{block}
+  \begin{exampleblock}{Impacto}
+    Un simple \textit{prompt} como ``Let's think step-by-step'' puede mejorar significativamente el rendimiento en tareas aritméticas, de sentido común y de razonamiento simbólico, ya que fuerza al modelo a no tomar atajos y a construir una respuesta lógica \parencite[citado en][]{plaat2025agenticlargelanguagemodels}.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Razonamiento por autorreflexión (Self-reflection)}
+    \begin{block}{Definición}
+    Los agentes pueden mejorar sus resultados al reflexionar sobre sus fallos y recibir retroalimentación. La autorreflexión es el mecanismo que permite a un agente evaluar su propio rendimiento y corregir errores de forma iterativa.
+    \end{block}
+    \begin{alertblock}{Framework \textit{Reflexion}}
+    Este proceso se puede dividir entre múltiples instancias de un LLM \parencite{shinn2024re}:
+    \begin{enumerate}
+        \item Un \textbf{Actor} genera el texto y las acciones iniciales.
+        \item Un \textbf{Evaluador} califica los resultados del actor, identificando fallos.
+        \item Un \textbf{Autorreflector} genera retroalimentación verbal para guiar al actor en la siguiente iteración.
+    \end{enumerate}
+    Este ciclo de retroalimentación verbal permite al agente aprender y adaptarse de forma autónoma.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Mecanismos clave: Memoria}
+  \begin{alertblock}{Memoria: la base de la coherencia}
+  \begin{itemize}
+    \item El \textbf{\textit{memory stream}} es un registro completo de las experiencias del agente, almacenado en lenguaje natural. Este es el componente que le otorga persistencia y contexto a largo plazo.
+    \item La recuperación de recuerdos se basa en una combinación de:
+    \begin{itemize}
+        \item \textbf{Recencia}: ¿Cuán reciente es el recuerdo?
+        \item \textbf{Importancia}: ¿Qué tan significativo fue el evento?
+        \item \textbf{Relevancia}: ¿Cómo se relaciona con la situación actual?
+    \end{itemize}
+    \item Este mecanismo imita la memoria asociativa humana y permite al agente mantener una identidad y un comportamiento coherentes \parencite{park2023generativeagentsinteractivesimulacra}.
+  \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% ===================================================================
+\section{Interoperabilidad y colaboración}
+% ===================================================================
+\subsection{El desafío de la interoperabilidad}
+\begin{frame}
+  \frametitle{\insertsubsectionhead}
+  \begin{block}{La necesidad de un estándar}
+    \begin{itemize}
+        \item Así como TCP/IP fue clave para crear una internet abierta y conectada, los agentes necesitan \textbf{protocolos estandarizados} para comunicarse entre sí y con herramientas externas \parencite{yang2025surveyaiagentprotocols}.
+        \item Sin un estándar, se crean ``silos de inteligencia'', donde agentes de diferentes ecosistemas (OpenAI, Google, Anthropic, etc.) no pueden colaborar eficazmente, limitando su potencial \parencite{ehtesham2025surveyagentinteroperabilityprotocols}.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\subsection{Protocolos de comunicación}
+\begin{frame}
+    \frametitle{Protocolo de Contexto: MCP}
+  \begin{exampleblock}{Model Context Protocol (MCP)}
+    \begin{itemize}
+        \item \textbf{Propósito:} Estandarizar la comunicación entre \textbf{agentes y herramientas externas} (APIs, bases de datos).
+        \item \textbf{Funcionamiento:} Proporciona un framework estructurado de entrada/salida para que los agentes soliciten y reciban contexto de manera segura \parencite{jeong2025studymcpxa2a}.
+        \item \textbf{Característica clave:} Utiliza JSON Schema para definir claramente los tipos de entrada y salida de cada herramienta, garantizando la seguridad de los tipos y reduciendo errores de integración \parencite[citado en][]{jeong2025studymcpxa2a}.
+    \end{itemize}
+    \raggedleft\footnotesize{Propuesto por Anthropic \parencite{anthropic2024mcp}}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Funciones clave del MCP}
+    \begin{block}{¿Cómo funciona MCP?}
+        \begin{itemize}
+            \item \textbf{Descubrimiento de herramientas:} El protocolo permite a un agente descubrir dinámicamente qué herramientas están disponibles y cómo usarlas a través de descripciones basadas en JSON Schema.
+            \item \textbf{Llamada a funciones:} Estandariza el mecanismo para que un agente invoque funciones de herramientas externas y reciba sus resultados de manera estructurada.
+            \item \textbf{Gestión de contexto:} Mantiene la información de estado durante el uso de la herramienta, lo que permite interacciones complejas de varios pasos \parencite{jeong2025studymcpxa2a}.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Protocolo entre Agentes: A2A}
+  \begin{exampleblock}{Agent-to-Agent Protocol (A2A)}
+    \begin{itemize}
+        \item \textbf{Propósito:} Estandarizar la comunicación y colaboración \textbf{entre múltiples agentes} autónomos.
+        \item \textbf{Funcionamiento:} Permite a los agentes descubrir las capacidades de otros, delegar tareas y gestionar el estado de dichas tareas.
+    \end{itemize}
+\raggedleft\footnotesize{Propuesto por Google y ahora bajo el gobierno de la Linux Foundation \parencite{google2025a2a, linuxfoundation2025a2a}}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Componentes y funciones clave de A2A}
+    \begin{block}{¿Cómo funciona A2A?}
+        \begin{itemize}
+            \item \textbf{Agent Card:} Una ``tarjeta de presentación'' en formato JSON que un agente publica para describir sus funciones, roles y capacidades. Funciona como un registro de servicios para el descubrimiento dinámico.
+            \item \textbf{Task Management:} Un modelo de comunicación basado en tareas, que permite rastrear el estado (`created`, `in-progress`, `completed`), el progreso y los resultados (artefactos) de una solicitud.
+            \item \textbf{Colaboración segura:} Incluye mecanismos de autenticación y autorización de nivel empresarial para el intercambio seguro de contexto y directivas \parencite{jeong2025studymcpxa2a}.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{A2A: de iniciativa corporativa a estándar abierto}
+  \begin{block}{A2A se une a la Linux Foundation}
+    En junio de 2025, se anunció que el protocolo A2A pasaría a ser un proyecto oficial de la \textbf{Linux Foundation}, el hogar de proyectos de código abierto críticos como Linux y Kubernetes \parencite{linuxfoundation2025a2a}.
+  \end{block}
+  \begin{exampleblock}{¿Por qué es importante este cambio?}
+    \begin{itemize}
+        \item \textbf{Neutralidad:} al salir del control de una sola empresa, se fomenta una adopción más amplia y se evita el riesgo de \textit{vendor lock-in}.
+        \medskip
+        \item \textbf{Gobernanza abierta:} asegura que el desarrollo del protocolo sea colaborativo, transparente y guiado por las necesidades de la comunidad.
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Consolidación de un estándar industrial}
+    \begin{alertblock}{Un ecosistema unificado}
+        La transición a la Linux Foundation formaliza el A2A como un esfuerzo para crear un estándar industrial abierto, con el respaldo de actores clave del ecosistema tecnológico.
+    \end{alertblock}
+    \begin{block}{Respaldo de la industria}
+        El proyecto cuenta con el apoyo y las contribuciones de líderes tecnológicos, tales como:
+        \begin{itemize}
+            \item Google Cloud, AWS, Microsoft Azure
+            \item Salesforce, SAP, ServiceNow
+            \item Cisco (a través de Outshift)
+        \end{itemize}
+        El respaldo masivo permite lograr una verdadera interoperabilidad \parencite{linuxfoundation2025a2a}.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Complemento entre MCP y A2A}
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.40]{pics/a2a+mcp2025.png}
+    \caption{Extraído de Swirl AI Newsletter \parencite{griciunas2025}.}
+  \end{figure}
+\end{frame}
+
+% ===================================================================
+\section{Aplicaciones y casos de estudio}
+% ===================================================================
+\begin{frame}
+  \frametitle{Aplicaciones empresariales: automatización}
+    \begin{block}{Customer Service and Support}
+        Los agentes pueden gestionar consultas, resolver problemas comunes y escalar casos complejos, actuando sobre la base de enormes cantidades de información de productos \parencite{krishnan2025aiagentsevolutionarchitecture}.
+    \end{block}
+    \begin{exampleblock}{Business Process Automation}
+        A diferencia de la automatización tradicional, los agentes pueden adaptarse a variaciones, gestionar excepciones y optimizar flujos de trabajo sobre la marcha \parencite[citado en][]{jeong2025studymcpxa2a}.
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Aplicaciones en dominios especializados: código}
+    \begin{block}{Ingeniería de Software}
+        Agentes como \texttt{SWE-Agent} pueden resolver de forma autónoma problemas reales de repositorios de GitHub, interactuando directamente con el sistema de archivos para editar y ejecutar código \parencite{jimenez2023swebench}.
+    \end{block}
+    \begin{exampleblock}{Capacidades clave}
+        \begin{itemize}
+            \item Comprensión de bases de código existentes.
+            \item Planificación y ejecución de cambios en múltiples archivos.
+            \item Validación de las soluciones mediante la ejecución de pruebas.
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Caso de uso: sistema multiagente para reclutamiento}
+    \begin{block}{Automatización del proceso de reclutamiento}
+        Un sistema multiagente puede automatizar todo el flujo de trabajo, donde cada agente se especializa en una tarea y colabora con los demás:
+        \begin{itemize}
+            \item Un \textbf{agente de análisis} revisa currículums (usando MCP para conectarse a una base de datos).
+            \item Un \textbf{agente coordinador} gestiona entrevistas (usando MCP para interactuar con APIs de calendario).
+            \item Un \textbf{agente de preparación} genera preguntas personalizadas (recibiendo contexto del primer agente vía A2A).
+        \end{itemize}
+        \raggedleft\footnotesize{\parencite{jeong2025studymcpxa2a}}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Caso de estudio: Agentes Generativos en ``Smallville''}
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.15]{pics/smallville2023.png}
+    \caption{Una simulación con 25 agentes, cada uno con su propia personalidad y memoria, para estudiar la emergencia de dinámicas sociales complejas que no fueron explícitamente programadas \parencite{park2023generativeagentsinteractivesimulacra}.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Comportamiento social emergente en ``Smallville''}
+  \begin{alertblock}{Comportamientos emergentes (no programados)}
+    \begin{itemize}
+        \item \textbf{Difusión de información:} La noticia de una candidatura a la alcaldía se propagó orgánicamente.
+        \item \textbf{Formación de relaciones:} Los agentes recordaron interacciones pasadas y formaron nuevas amistades.
+        \item \textbf{Coordinación de actividades:} Un agente organizó una fiesta, y los invitados recordaron y asistieron de forma coordinada.
+    \end{itemize}
+    \raggedleft\footnotesize{\parencite{park2023generativeagentsinteractivesimulacra}}
+  \end{alertblock}
+\end{frame}
+
+
+% ===================================================================
+\section{Ventajas y desafíos}
+% ===================================================================
+\begin{frame}
+  \frametitle{Ventajas clave de los agentes de IA}
+    \begin{block}{Autonomía y aprendizaje}
+        \begin{itemize}
+            \item Automatizan tareas complejas de varios pasos sin intervención humana constante \parencite{ferrag2025llmreasoningautonomousai}.
+            \item Aprenden de la experiencia a través de la memoria y la autorreflexión, adaptándose a entornos dinámicos \parencite{plaat2025agenticlargelanguagemodels, krishnan2025aiagentsevolutionarchitecture}.
+        \end{itemize}
+    \end{block}
+    \pause
+    \begin{alertblock}{Escalabilidad y colaboración}
+    Los sistemas multiagente permiten descomponer problemas grandes y aprovechar la inteligencia colectiva, logrando resultados que un solo agente no podría alcanzar \parencite{li2024survey}.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Desafíos de calidad}
+    \begin{alertblock}{Dependencia de la calidad del LLM}
+        \begin{itemize}
+            \item Los agentes heredan las limitaciones de los LLM, como las alucinaciones y los sesgos \parencite{krishnan2025aiagentsevolutionarchitecture}.
+            \item Un razonamiento erróneo en un paso puede afectar toda la cadena de planificación \parencite{huang2024understandingplanningllmagents}.
+        \end{itemize}
+    \end{alertblock}
+    \pause
+    \begin{block}{Seguridad y control}
+        \begin{itemize}
+            \item Riesgo de \textit{prompt injection} y manipulación por actores maliciosos.
+            \item Dificultad para garantizar que las acciones del agente sean siempre seguras y alineadas con la intención del usuario \parencite{li2024personalllmagentsinsights}.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Desafíos: costo y latencia}
+    \begin{block}{Costo y latencia}
+        \begin{itemize}
+            \item Las arquitecturas complejas, especialmente las multiagente, pueden tener un alto costo computacional debido a que son intensivas en tokens \parencite{li2024survey}.
+            \item El proceso de percepción, razonamiento y acción introduce una latencia que puede no ser aceptable para todas las aplicaciones.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% ===================================================================
+\section{Evaluación de sistemas de agentes}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{El problema de la evaluación}
+  \begin{alertblock}{¿Cómo sabemos si un agente es ``bueno''?}
+    Las métricas tradicionales como la tasa de éxito de la tarea son insuficientes y a menudo engañosas. Omiten aspectos críticos como:
+    \begin{itemize}
+        \item \textbf{Costo y eficiencia:} ¿cuántos tokens o llamadas a API consumió el agente?
+        \item \textbf{Robustez:} ¿el agente falla ante entradas inesperadas o cambios en el entorno?
+        \item \textbf{Seguridad y alineación:} ¿el agente cumple las restricciones y evita comportamientos dañinos?
+    \end{itemize}
+     \raggedleft\footnotesize{\parencite{kapoor2024ai, yehudai2025surveyevaluationllmbasedagents}}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Benchmarks: Hacia una evaluación más realista}
+  \begin{block}{}
+    La tendencia actual es crear entornos de prueba que simulen la complejidad y el dinamismo del mundo real, midiendo capacidades específicas más allá de la simple precisión.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ejemplo de Benchmark: \texttt{SWE-bench}}
+    \begin{exampleblock}{Propósito}
+    Evaluar agentes en la resolución de problemas de ingeniería de software \textbf{reales}, extraídos directamente de incidencias de repositorios de GitHub.
+    \end{exampleblock}
+    \begin{itemize}
+        \item Mide la capacidad del agente para comprender bases de código complejas, planificar cambios y ejecutar ediciones en múltiples archivos.
+        \item Es una prueba de fuego para la aplicabilidad de los agentes en el desarrollo de software práctico.
+    \end{itemize}
+    \raggedleft\footnotesize{\parencite{jimenez2023swebench, yehudai2025surveyevaluationllmbasedagents}}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ejemplo de Benchmark: \texttt{WebArena}}
+     \begin{exampleblock}{Propósito}
+    Mide la capacidad de los agentes para navegar e interactuar con \textbf{sitios web realistas y dinámicos} para completar tareas complejas.
+    \end{exampleblock}
+    \begin{itemize}
+        \item Las tareas incluyen reservar un vuelo, comprar productos o gestionar un calendario en sitios web funcionales.
+        \item Evalúa la comprensión visual (con VisualWebArena) y la capacidad de interactuar con elementos de una GUI.
+    \end{itemize}
+    \raggedleft\footnotesize{\parencite{zhou2023webarena, yehudai2025surveyevaluationllmbasedagents}}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ejemplo de Benchmark: \texttt{GAIA}}
+     \begin{exampleblock}{Propósito}
+    Presenta un conjunto de preguntas de razonamiento general que son \textbf{fáciles para los humanos pero extremadamente difíciles para la IA}.
+    \end{exampleblock}
+    \begin{itemize}
+        \item Requiere capacidades fundamentales como el razonamiento en varios pasos, el manejo de información multimodal y el uso de herramientas (navegación web, manipulación de archivos).
+        \item Diseñado para medir el progreso hacia una inteligencia artificial más general y robusta.
+    \end{itemize}
+    \raggedleft\footnotesize{\parencite{mialon2023gaia}; citado en \textcite{yehudai2025surveyevaluationllmbasedagents}}
+\end{frame}
+
+\begin{frame}
+    \frametitle{El futuro de la evaluación}
+    \begin{alertblock}{Agentes que evalúan agentes}
+    El uso de LLMs como ``jueces'' para evaluar las trayectorias y decisiones de otros agentes está ganando terreno como una solución escalable y rentable para la evaluación \parencite{zhuge2024agentasajudge}.
+  \end{alertblock}
+\end{frame}
+
+% ===================================================================
+\section{Direcciones futuras e investigación abierta}
+% ===================================================================
+
+\begin{frame}
+  \frametitle{El futuro: hacia una inteligencia colectiva}
+  \begin{block}{El ``Internet de los agentes''}
+   Una red global y descentralizada donde miles de millones de agentes interactúan, colaboran y negocian para resolver problemas a una escala sin precedentes \parencite{yang2025surveyaiagentprotocols}.
+  \end{block}
+   \begin{exampleblock}{La IA como colaborador ubicuo}
+   La visión a largo plazo es la de agentes que funcionan como socios personalizados en el aprendizaje, la creatividad y la resolución de problemas a lo largo de toda la vida humana \parencite{krishnan2025aiagentsevolutionarchitecture}.
+   \end{exampleblock}
+\end{frame}
+
+
+% --- Diapositiva de Referencias ---
+\begin{frame}[allowframebreaks] 
+  \frametitle{Referencias}
+  \printbibliography
+\end{frame}
+
+\end{document}
